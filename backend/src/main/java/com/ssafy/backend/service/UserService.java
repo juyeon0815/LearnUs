@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public interface userService {
+public interface UserService {
     public void insert(MultipartFile excelFile) throws IOException;
     public void updateList(MultipartFile excelFile) throws IOException;
     public void updateUser(User updateUser);
