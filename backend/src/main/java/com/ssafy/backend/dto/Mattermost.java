@@ -22,5 +22,5 @@ public class Mattermost {
 
     private String webhook;
     private String name;
-    private String urlName;
+    private String pathName;
 }
