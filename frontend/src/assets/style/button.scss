@@ -1,0 +1,9 @@
+@import "./_color.scss";
+
+.btn-black {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: $black;
+  color: $white;
+}
