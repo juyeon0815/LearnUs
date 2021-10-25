@@ -1,12 +1,16 @@
 <template>
   <div class="index">
-    안녕하세요
+    <OnAirList/>
   </div>
 </template>
 
 <script>
-
+import './index.scss'
+import OnAirList from '@/components/index/OnAirList'
 export default {
   name: 'Index',
+  components: {
+    OnAirList
+  }
 }
 </script>
