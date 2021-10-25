@@ -1,5 +1,7 @@
 <template>
-  <router-view/>
+  <div id="app" class="dark">
+    <router-view/>
+  </div>
 </template>
 
 <script>
