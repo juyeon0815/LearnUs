@@ -50,10 +50,10 @@ public class ScheduleController {
         return new ResponseEntity<List<Schedule>>(scheduleService.getScheduleAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{todayDate}")
-    @ApiOperation(value = "오늘 Schedule 조회. 날짜 형식 : yyyy-MM-dd")
-    public ResponseEntity<Schedule> getScheduleCurrent(@PathVariable("todayDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date todayDate) {
-        Schedule schedule = scheduleService.getScheduleCurrent(todayDate);
+    @GetMapping
+    @ApiOperation(value = "오늘 Schedule 조회")
+    public ResponseEntity<Schedule> getScheduleCurrent() {
+        Schedule schedule = scheduleService.getScheduleCurrent();
         if (schedule != null) return new ResponseEntity<Schedule>(schedule, HttpStatus.OK);
         return new ResponseEntity<Schedule>(schedule, HttpStatus.NO_CONTENT);
 

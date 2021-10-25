@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ScheduleDao extends JpaRepository<Schedule, String> {
     Schedule findScheduleByScheduleId(int scheduleId);
-    Schedule findScheduleByScheduleDate(Date todayDate);
+    Schedule findScheduleByStartDate(Date startDate);
+    Schedule findScheduleByExpireDate(Date expireDate);
 }
