@@ -10,5 +10,5 @@ public interface ScheduleService {
     public void update(Schedule schedule);
     public void delete(int scheduleId);
     public List<Schedule> getScheduleAll();
-    public Schedule getScheduleCurrent(Date todayDate);
+    public Schedule getScheduleCurrent();
 }
