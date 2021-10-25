@@ -1,19 +1,12 @@
 <template>
   <div class="index">
-    <SideBar/>
-    <TopBar/>
+    안녕하세요
   </div>
 </template>
 
 <script>
-import SideBar from '@/components/common/SideBar'
-import TopBar from '@/components/common/TopBar'
 
 export default {
   name: 'Index',
-  components: {
-    SideBar,
-    TopBar,
-  }
 }
 </script>

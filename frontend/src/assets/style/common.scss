@@ -1,4 +1,5 @@
 @import "./_color.scss";
+@import "./_mixin.scss";
 
 #app {
   min-width: 100vw;
@@ -12,9 +13,25 @@
   * {
     box-sizing: border-box;
   }
+
+  router-view {
+    padding: 50px;
+  }
 }
 
 .dark {
   background-color: $grey;
   color: $white;
+}
+
+.space-left {
+  padding-left: 250px;
+}
+@include sm {
+  .space-left {
+    padding-left: 100px;
+  }
+}
+.space-top {
+  padding-top: 100px;
 }
