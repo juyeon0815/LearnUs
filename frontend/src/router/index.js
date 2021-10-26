@@ -9,7 +9,7 @@ const routes = [
     component: Index
   },
   {
-    path: '/account',
+    path: '/account/:page',
     name: 'Account',
     component: Account
   }

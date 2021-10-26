@@ -43,9 +43,15 @@
       </button>
       <!-- 페이지 이동 텍스트 -->
       <div class="direct-box">
-        <span>계정 찾기</span>
+        <span 
+          @click="$router.push({ name: 'Account', params: {page: 'find-email'}})"
+          class="direct-text"
+        >계정 찾기</span>
         <span class="dot-space">⬝</span>
-        <span>비밀번호 찾기</span>
+        <span 
+          @click="$router.push({ name: 'Account', params: {page: 'find-password'}})"
+          class="direct-text"
+        >비밀번호 찾기</span>
       </div>
     </div>
   </div>

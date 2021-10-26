@@ -77,7 +77,7 @@
       ~label {
         position: absolute;
         color: $orange;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-style: italic;
         left: 20px;
         top: 20px;
@@ -123,6 +123,9 @@
     font-weight: 1rem;
     .dot-space {
       margin: 0 5px;
+    }
+    .direct-text {
+      cursor: pointer;
     }
   }
 }
