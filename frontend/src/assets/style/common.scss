@@ -1,12 +1,37 @@
 @import "./_color.scss";
+@import "./_mixin.scss";
 
 #app {
   min-width: 100vw;
   min-height: 100vh;
   width: 100%;
   height: 100%;
+
+  font-family: 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  * {
+    box-sizing: border-box;
+  }
+
+  router-view {
+    padding: 50px;
+  }
 }
+
 .dark {
   background-color: $grey;
   color: $white;
+}
+
+.space-left {
+  padding-left: 250px;
+}
+@include sm {
+  .space-left {
+    padding-left: 100px;
+  }
+}
+.space-top {
+  padding-top: 100px;
 }

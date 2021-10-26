@@ -1,16 +1,16 @@
 <template>
   <div class="index">
-    <SideBar/>
+    <OnAirList/>
   </div>
 </template>
 
 <script>
-import SideBar from '@/components/common/SideBar'
-
+import './index.scss'
+import OnAirList from '@/components/index/OnAirList'
 export default {
   name: 'Index',
   components: {
-    SideBar,
+    OnAirList
   }
 }
 </script>
