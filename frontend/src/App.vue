@@ -25,9 +25,15 @@ export default {
   },
   computed: {
     needSideBar () {
+      if (this.$route.name === "Account") {
+        return false
+      }
       return true
     },
     needTopBar () {
+      if (this.$route.name === "Account") {
+        return false
+      }
       return true
     }
   }

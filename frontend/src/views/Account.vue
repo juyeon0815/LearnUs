@@ -1,10 +1,13 @@
 <template>
   <div class="account">
-    <LoginForm/>
+    <div class="user-form">
+      <LoginForm/>
+    </div>
   </div>
 </template>
 
 <script>
+import './account.scss'
 import LoginForm from '@/components/account/LoginFrom'
 
 export default {
