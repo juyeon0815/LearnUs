@@ -20,6 +20,9 @@
 <script>
 export default {
   name: 'OnAirListItem',
+  props: {
+    idx: Number
+  },
   data () {
     return {
       test: {
