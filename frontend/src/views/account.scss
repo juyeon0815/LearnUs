@@ -19,6 +19,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      margin-bottom: 5rem;
       font-family: 'Montserrat', sans-serif;
       .heading-box {
         position: relative;
@@ -89,6 +90,7 @@
       color: $yellow;
       font-size: 1rem;
       font-weight: 200;
+      font-family: 'Noto Sans KR', sans-serif;
     }
   }
   .btn-submit {
@@ -117,6 +119,7 @@
   .direct-box {
     display: flex;
     justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
     font-weight: 1rem;
     .dot-space {
       margin: 0 5px;
