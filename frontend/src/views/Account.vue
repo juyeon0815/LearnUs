@@ -43,7 +43,7 @@ export default {
   },
   created() {
     const page = this.$route.params.page
-    if (page === 'login' || page === 'find-email' || page === 'find-password') {
+    if (page === 'login' || page === 'find-email' || page === 'find-password' || page === 'reset-password') {
       this.current = page
     } else {
       this.$router.push('/404')

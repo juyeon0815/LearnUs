@@ -36,7 +36,7 @@
         <label>Phone Number</label>
         <div class="error-text" v-if="error.phoneNumber">{{error.phoneNumber}}</div>
       </div>
-      <!-- 로그인 버튼 -->
+      <!-- 제출 버튼 -->
       <button
         :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
         Check Account
