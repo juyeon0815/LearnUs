@@ -4,7 +4,7 @@
 #app {
   min-width: 100vw;
   min-height: 100vh;
-  width: 100%;
+  width: fit-content;
   height: 100%;
 
   font-family: 'Noto Sans KR', sans-serif;
@@ -14,14 +14,14 @@
     box-sizing: border-box;
   }
 
-  router-view {
-    padding: 50px;
-  }
 }
 
 .dark {
   background-color: $grey;
   color: $white;
+}
+.space {
+  padding: 30px 50px;
 }
 
 .space-left {
@@ -33,5 +33,5 @@
   }
 }
 .space-top {
-  padding-top: 100px;
+  padding-top: 50px;
 }
