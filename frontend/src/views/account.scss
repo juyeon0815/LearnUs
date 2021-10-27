@@ -16,6 +16,8 @@
     align-items: center;
     .login-form {
       display: flex;
+      position: absolute;
+      top: 3rem;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -23,6 +25,7 @@
       .heading-box {
         position: relative;
         display: flex;
+        pointer-events: none;
         .heading {
           font-size: 4rem;
           font-weight: 900;
@@ -47,6 +50,44 @@
         font-style: italic;
         font-size: 1rem;
         margin-top: 10px;
+        pointer-events: none;
+      }
+    }
+    .other-forms {
+      display: flex;
+      position: absolute;
+      top: 3rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      .heading-box {
+        position: relative;
+        display: flex;
+        pointer-events: none;
+        .heading {
+          font-size: 4rem;
+          font-weight: 900;
+          font-style: italic;
+          color: $orange;
+          z-index: 2;
+          .colon {
+            color: white;
+          }
+        }
+        .spectrum {
+          position: absolute;
+          right: 3px;
+          top: 2px;
+          color: $blue;
+          z-index: 0;
+        }
+      }
+      .sub-heading {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1rem;
+        margin-top: 10px;
+        pointer-events: none;
       }
     }
   }
@@ -76,7 +117,7 @@
       ~label {
         position: absolute;
         color: $orange;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-style: italic;
         left: 20px;
         top: 20px;
@@ -89,6 +130,7 @@
       color: $yellow;
       font-size: 1rem;
       font-weight: 200;
+      font-family: 'Noto Sans KR', sans-serif;
     }
   }
   .btn-submit {
@@ -117,9 +159,13 @@
   .direct-box {
     display: flex;
     justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
     font-weight: 1rem;
     .dot-space {
       margin: 0 5px;
+    }
+    .direct-text {
+      cursor: pointer;
     }
   }
 }

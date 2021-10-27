@@ -43,9 +43,15 @@
       </button>
       <!-- 페이지 이동 텍스트 -->
       <div class="direct-box">
-        <span>계정 찾기</span>
+        <span 
+          @click="$router.push({ name: 'Account', params: {page: 'find-email'}})"
+          class="direct-text"
+        >계정 찾기</span>
         <span class="dot-space">⬝</span>
-        <span>비밀번호 찾기</span>
+        <span 
+          @click="$router.push({ name: 'Account', params: {page: 'find-password'}})"
+          class="direct-text"
+        >비밀번호 찾기</span>
       </div>
     </div>
   </div>
@@ -73,13 +79,13 @@ export default {
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
-      if (this.email.length >= 0 && !EmailValidator.validate(this.email)) {
+      if (this.email.length > 0 && !EmailValidator.validate(this.email)) {
         this.error.email = "이메일 형식이 아닙니다."
       } else {
         this.error.email = false
       }
       // 비밀번호 형식 검증
-      if (this.password.length >= 0 && 
+      if (this.password.length > 0 && 
       !this.passwordSchema.validate(this.password)
       ) {
         this.error.password = "영문, 숫자 포함 8자 이상이어야 합니다."
@@ -91,6 +97,9 @@ export default {
       Object.values(this.error).map(v => {
         if (v) isSubmit = false;
       })
+      if (this.email === '' || this.password === '') {
+        isSubmit = false;
+      }
       this.isSubmit = isSubmit;
     }
   },
