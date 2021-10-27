@@ -5,7 +5,7 @@
   min-width: 100vw;
   min-height: 100vh;
   width: fit-content;
-  height: fit-content;
+  height: 100%;
 
   font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,18 +14,16 @@
     box-sizing: border-box;
   }
 
-  router-view {
-    padding: 100px;
-  }
 }
 
 .dark {
   background-color: $grey;
   color: $white;
+  padding: 30px 50px;
 }
 
 .space-left {
-  padding-left: 300px;
+  padding-left: 250px;
 }
 @include sm {
   .space-left {
@@ -33,5 +31,5 @@
   }
 }
 .space-top {
-  padding-top: 80px;
+  padding-top: 50px;
 }
