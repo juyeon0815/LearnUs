@@ -138,6 +138,16 @@
     }
   }
 }
+.top-logo {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  img {
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+  }
+}
 
 @include sm {
   .side-bar {
