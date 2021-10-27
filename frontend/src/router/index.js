@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '@/views/Index.vue'
 import Account from '@/views/Account.vue'
+import Profile from '@/views/Profile.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/account/:page',
     name: 'Account',
     component: Account
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   }
 ]
 
