@@ -1,19 +1,16 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.User;
-import com.ssafy.backend.jwt.JwtTokenProvider;
 import com.ssafy.backend.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +32,7 @@ public class UserController {
         ResponseEntity<Map<String, Object>> entity = null;
 
         Map<String, Object> resultMap = userService.login(email, password, res);
-        if (resultMap.containsKey("message")) entity = ResponseEntity.badRequest().body(resultMap);
+        if (resultMap.containsKey("msg")) entity = ResponseEntity.badRequest().body(resultMap);
         else {
             Object token = resultMap.get("token");
             entity = ResponseEntity.accepted().body(resultMap);
@@ -80,7 +77,7 @@ public class UserController {
 
     @GetMapping(value = "/all")
     @ApiOperation(value = "모든 교육생 정보 넘겨줌")
-    public ResponseEntity<Map<Integer, List<User>>> getUserAll() {
+    public ResponseEntity<Map<Integer, List<User>>> getUserAll(HttpServletResponse response) {
         return new ResponseEntity<Map<Integer, List<User>>>(userService.getUserAll(), HttpStatus.OK);
     }
 

@@ -1,6 +1,6 @@
 package com.ssafy.backend.interceptor;
 
-import com.ssafy.backend.jwt.JwtTokenProvider;
+import com.ssafy.backend.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,26 +8,36 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Slf4j
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        Map<String, Object> map = new HashMap<>();
         if (request.getMethod().equals("OPTIONS")) return true;
         else {
-            String token = request.getHeader("access-token");
-            if (token != null && token.length() > 0) {
-                if (jwtTokenProvider.validateToken(token)) return true;
-                else throw new RuntimeException("토큰이 만료 됐습니다.");
-            } else {
-                throw new RuntimeException("인증 토큰이 없습니다.");
-            }
+            String accessToken = request.getHeader("accessToken");
+            System.out.println("accessToken : "+accessToken);
+            map = jwtService.validAccessToken(accessToken);
         }
+
+        response.setStatus((int) map.get("status"));
+        response.setHeader("msg", (String) map.get("msg"));
+
+        if ((int) map.get("status") == 200) return true;
+        else if ((int) map.get("status") == 201) {
+            response.setHeader("updateAccessToken", (String) map.get("accessToken"));
+            return true;
+        }
+
+        return false;
     }
 }

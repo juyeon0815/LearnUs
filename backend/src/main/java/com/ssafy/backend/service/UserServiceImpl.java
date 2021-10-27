@@ -6,7 +6,6 @@ import com.ssafy.backend.dao.UserDao;
 import com.ssafy.backend.dto.Track;
 import com.ssafy.backend.dto.TrackSetting;
 import com.ssafy.backend.dto.User;
-import com.ssafy.backend.jwt.JwtTokenProvider;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,13 +13,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtServiceImpl jwtTokenProvider;
 
     public static Sheet excel(MultipartFile excelFile) throws IOException{
         String extension = FilenameUtils.getExtension(excelFile.getOriginalFilename());
@@ -71,19 +66,19 @@ public class UserServiceImpl implements UserService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
             if (loginUser != null && encoder.matches(password, loginUser.getPassword())) {
-                String token = jwtTokenProvider.createToken(loginUser);
+                String token = jwtTokenProvider.createToken(loginUser.getUserId());
 
-                res.setHeader("access-token", token);
+                res.setHeader("accessToken", token);
 
                 resultMap.putAll(jwtTokenProvider.getInfo(token));
 
-                resultMap.put("status", true);
+                resultMap.put("status", 200);
 
             } else {
-                resultMap.put("message", "로그인 실패");
+                resultMap.put("msg", "Login failed");
             }
         } catch (RuntimeException e) {
-            resultMap.put("message", e.getMessage());
+            resultMap.put("msg", e.getMessage());
         }
         return resultMap;
     }
@@ -195,7 +190,6 @@ public class UserServiceImpl implements UserService {
             List<User> userList = userDao.findUserByOrdinalNo(nowOrdinalNo);
             map.put(nowOrdinalNo, userList);
         }
-
         return map;
     }
 
