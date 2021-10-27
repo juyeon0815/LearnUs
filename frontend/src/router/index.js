@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '@/views/Index.vue'
-import OnAir from '@/views/OnAir.vue'
+import OnAir from '@/views/onAir/OnAir.vue'
 import Account from '@/views/Account.vue'
 import Profile from '@/views/Profile.vue'
 

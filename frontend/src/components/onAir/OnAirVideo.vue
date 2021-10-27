@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import OnAirVideoPlayer from './OnAirVideoPlayer.vue'
-import OnAirVideoInfo from './OnAirVideoInfo.vue'
+import OnAirVideoPlayer from './video/OnAirVideoPlayer.vue'
+import OnAirVideoInfo from './video/OnAirVideoInfo.vue'
 
 export default {
   name: 'OnAirVideo',
