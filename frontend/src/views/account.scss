@@ -17,7 +17,7 @@
     .login-form {
       display: flex;
       position: absolute;
-      top: 4rem;
+      top: 3rem;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -56,7 +56,7 @@
     .other-forms {
       display: flex;
       position: absolute;
-      top: 4rem;
+      top: 3rem;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -88,41 +88,6 @@
         font-size: 1rem;
         margin-top: 10px;
         pointer-events: none;
-      }
-    }
-    .other-forms {
-      display: flex;
-      position: absolute;
-      top: 4rem;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Montserrat', sans-serif;
-      .heading-box {
-        position: relative;
-        display: flex;
-        .heading {
-          font-size: 4rem;
-          font-weight: 900;
-          font-style: italic;
-          color: $orange;
-          z-index: 2;
-          .colon {
-            color: white;
-          }
-        }
-        .spectrum {
-          position: absolute;
-          right: 3px;
-          top: 2px;
-          color: $blue;
-          z-index: 0;
-        }
-      }
-      .sub-heading {
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 1rem;
-        margin-top: 10px;
       }
     }
   }

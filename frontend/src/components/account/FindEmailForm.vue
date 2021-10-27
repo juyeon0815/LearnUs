@@ -62,14 +62,14 @@ export default {
   methods: {
     // 형식 검증 method
     checkForm() {
-      // 이메일 형식 검증
-      if (this.studentId.length >= 0 && this.studentId.length < 7) {
+      // 학번 형식 검증
+      if (this.studentId.length >=0 && this.studentId.length < 7) {
         this.error.studentId = "학번은 7자리 숫자이어야 합니다."
       } else {
         this.error.studentId = false
       }
-      // 비밀번호 형식 검증
-      if (this.phoneNumber.length != 13) {
+      // 전화번호 형식 검증
+      if (this.phoneNumber.length > 0 && this.phoneNumber.length != 13) {
         this.error.phoneNumber = "'-'를 제외한 휴대폰 번호를 입력해 주세요."
       } else {
         this.error.phoneNumber = false
@@ -79,6 +79,9 @@ export default {
       Object.values(this.error).map(v => {
         if (v) isSubmit = false;
       })
+      if (this.studentId === '' || this.phoneNumber === '') {
+        isSubmit = false;
+      }
       this.isSubmit = isSubmit;
     },
     autoHypenPhone (str) {
