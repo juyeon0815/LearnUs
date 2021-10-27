@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="dark">
+  <div id="app" :class="[ !isAccount ? 'space' : '', 'dark' ]">
     <SideBar
       v-if="needSideBar"
     />
@@ -24,6 +24,9 @@ export default {
     TopBar,
   },
   computed: {
+    isAccount () {
+      return this.$route.name === "Account"
+    },
     needSideBar () {
       if (this.$route.name === "Account") {
         return false
