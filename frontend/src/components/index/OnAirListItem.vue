@@ -7,7 +7,7 @@
         <div class="title">{{ shorten(test.title) }}</div>
         <div class="viewers">
           <i class="fi fi-sr-flame"></i>
-          <span>{{ test.viewers }}명이 시청 중</span>
+          <span>{{ idx }}명이 시청 중</span>
         </div>
       </div>
       <div class="dropdown">
