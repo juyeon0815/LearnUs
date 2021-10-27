@@ -1,0 +1,7 @@
+$breakpoint: 576px;
+
+@mixin sm {
+  @media (max-width: #{$breakpoint}) {
+    @content;
+  }
+}

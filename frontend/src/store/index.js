@@ -1,12 +1,15 @@
 import { createStore } from 'vuex'
+import account from './modules/account'
+import live from './modules/live'
+import createPersistedState from "vuex-persistedstate";
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+const store = createStore({
+  plugins: [createPersistedState()],
   modules: {
+    account,
+    live
   }
 })
+
+export default store
+
