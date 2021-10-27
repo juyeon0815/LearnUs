@@ -1,6 +1,25 @@
+@import '@/assets/style/_color.scss';
+
 .profile {
   .profile-box {
-
+    .heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      font-style: italic;
+      .colon {
+        color: $orange
+      }
+    }
+    .light-box {
+      background: $light;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      padding: 50px 30px;
+      color: black
+    }
   }
 }
 

@@ -1,9 +1,11 @@
 <template>
   <div class="profile-box">
-    <p>ProfileBox</p>
-    <ProfileHead/>
-    <ProfileInfo/>
-    <ProfilePassword/>
+    <span class="heading">My<span class="colon">:</span>Profile</span>
+    <div class="light-box">
+      <ProfileHead/>
+      <ProfileInfo/>
+      <ProfilePassword/>
+    </div>
   </div>
 </template>
 
