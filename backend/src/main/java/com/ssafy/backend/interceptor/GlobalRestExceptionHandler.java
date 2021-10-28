@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalRestExceptionHandler {
     @ExceptionHandler(value = {RuntimeException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> internalSrverError(Exception e){
+    public Map<String, Object> internalServerError(Exception e){
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("msg", e.getMessage());
         return resultMap;

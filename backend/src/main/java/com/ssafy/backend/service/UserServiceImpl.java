@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private JwtServiceImpl jwtTokenProvider;
+    private JwtService jwtService;
 
     public static Sheet excel(MultipartFile excelFile) throws IOException{
         String extension = FilenameUtils.getExtension(excelFile.getOriginalFilename());
@@ -66,11 +66,9 @@ public class UserServiceImpl implements UserService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
             if (loginUser != null && encoder.matches(password, loginUser.getPassword())) {
-                String token = jwtTokenProvider.createToken(loginUser.getUserId());
+                String token = jwtService.createToken(loginUser.getUserId());
 
                 res.setHeader("accessToken", token);
-
-                resultMap.putAll(jwtTokenProvider.getInfo(token));
 
                 resultMap.put("status", 200);
 
