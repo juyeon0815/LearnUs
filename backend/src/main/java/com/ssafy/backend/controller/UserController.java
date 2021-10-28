@@ -30,7 +30,6 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation(value = "로그인")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Password login, HttpServletResponse res) {
-        System.out.println("login : "+login);
 
         ResponseEntity<Map<String, Object>> entity = null;
 
@@ -38,7 +37,7 @@ public class UserController {
         if (resultMap.containsKey("msg")) entity = ResponseEntity.badRequest().body(resultMap);
         else {
             Object token = resultMap.get("token");
-            entity = ResponseEntity.accepted().body(resultMap);
+            entity = ResponseEntity.ok().body(resultMap);
         }
 
         return entity;
