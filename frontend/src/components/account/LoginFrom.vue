@@ -38,7 +38,8 @@
       </div>
       <!-- 로그인 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onLogin(userData)">
         LOGIN
       </button>
       <!-- 페이지 이동 텍스트 -->
@@ -60,6 +61,7 @@
 <script>
 import * as EmailValidator from "email-validator"
 import PV from "password-validator"
+import { mapActions } from 'vuex'
 
 export default {
   name: 'LoginForm',
@@ -76,6 +78,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('account', ['onLogin']),
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
@@ -109,6 +112,14 @@ export default {
     },
     password: function() {
       this.checkForm();
+    }
+  },
+  computed: {
+    userData: function () {
+      return {
+        'email': this.email,
+        'password': this.password
+      }
     }
   },
   created() {
