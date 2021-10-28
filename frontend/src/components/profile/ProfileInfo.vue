@@ -13,7 +13,7 @@
       <div class="info-input-box">
         <input 
           type="text"
-          class="info-input"
+          class="info-input margin-between"
         />
         <label>Nickname</label>
       </div>

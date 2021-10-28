@@ -2,6 +2,7 @@
 
 .profile {
   .profile-box {
+    width: 850px;
     .heading {
       font-family: 'Montserrat', sans-serif;
       font-size: 3rem;
@@ -19,6 +20,9 @@
       margin-top: 30px;
       padding: 30px 80px;
       color: black
+    }
+    .margin-end {
+      margin-bottom: 50px;
     }
   }
 }
@@ -87,8 +91,7 @@
 .profile-info {
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
-  width: 100%;
+  margin-top: 40px;
   .title-button-box {
     display: flex;
     justify-content: space-between;
@@ -114,13 +117,9 @@
   }
 }
 
-.profile-password {
-
-}
-
 .info-inputs {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   .info-input-box {
     position: relative;
     .info-input {
@@ -148,6 +147,9 @@
         top: 25px;
         pointer-events:none;
       }
+    }
+    .margin-between {
+      margin-right: 50px;
     }
     .error-text {
       margin-top: 3px;
