@@ -12,6 +12,10 @@
 
   ![image-20211025181401125](README.assets/image-20211025181401125.png)
 
+- [2021-10-27] INDEX UI 완료
+
+  ![image-20211027144059380](README.assets/image-20211027144059380.png)
+
 
 
 ## Project setup

@@ -1,8 +1,8 @@
 <template>
   <div class="side-bar">
     <div class="logo">
-      <i class="fi fi-rr-mountains"></i>
-      <span>LOGO</span>
+      <img v-if="vw <= 576" class="logo-sm" src="@/assets/image/logo/logo-sm.svg" alt="">
+      <img v-else class="logo-lg" src="@/assets/image/logo/logo-ko.svg" alt="">
     </div>
     <div class="menu">
       <div 
@@ -42,7 +42,18 @@
 
 <script>
 export default {
-  name: 'SideBar'
+  name: 'SideBar',
+  data () {
+    return {
+      vw: 0
+    }
+  },
+  created () {
+    this.vw = window.innerWidth
+    window.addEventListener('resize', () => {
+      this.vw = window.innerWidth
+    })
+  }
 }
 </script>
 

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '@/views/Index.vue'
+import OnAir from '@/views/onAir/OnAir.vue'
 import Account from '@/views/Account.vue'
 import Profile from '@/views/Profile.vue'
 
@@ -8,6 +9,11 @@ const routes = [
     path: '/',
     name: 'Index',
     component: Index
+  },
+  {
+    path: '/on-air/:id',
+    name: 'OnAir',
+    component: OnAir
   },
   {
     path: '/account/:page',

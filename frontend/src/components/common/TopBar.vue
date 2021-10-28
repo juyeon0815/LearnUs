@@ -21,7 +21,7 @@
       <div class="dropdown">
         <i class="dropdown-btn fi fi-rr-caret-down"></i>
         <ul class="dropdown-content">
-          <li>계정 관리</li>
+          <li @click="$router.push({ name: 'Profile' })">계정 관리</li>
           <li>정보 수정</li>
           <li>로그아웃</li>
         </ul>
