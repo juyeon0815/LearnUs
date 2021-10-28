@@ -71,7 +71,6 @@ public class JwtServiceImpl implements JwtService {
     public String decodeToken(String token) {
         try {
             Claims claims = Jwts.parser().setSigningKey(salt.getBytes()).parseClaimsJws(token).getBody();
-            System.out.println("decodeToken : "+claims);
             return "valid";
         } catch (ExpiredJwtException expireE) {
             return "expire";
