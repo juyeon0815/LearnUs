@@ -25,7 +25,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS")) return true;
         else {
             String accessToken = request.getHeader("accessToken");
-            System.out.println("accessToken : "+accessToken);
             map = jwtService.validAccessToken(accessToken);
         }
 
@@ -34,7 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if ((int) map.get("status") == 200) return true;
         else if ((int) map.get("status") == 201) {
-            response.setHeader("updateAccessToken", (String) map.get("accessToken"));
+            response.setHeader("accessToken", (String) map.get("accessToken"));
             return true;
         }
 
