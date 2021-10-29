@@ -69,8 +69,7 @@ public class UserServiceImpl implements UserService {
                 String token = jwtService.createToken(loginUser.getUserId());
 
                 res.setHeader("accessToken", token);
-
-                resultMap.put("status", 200);
+                resultMap.put("userId", loginUser.getUserId());
 
             } else {
                 resultMap.put("msg", "Login failed");
