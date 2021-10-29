@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import './onAirVideo.scss'
 import OnAirVideoPlayer from './video/OnAirVideoPlayer.vue'
 import OnAirVideoInfo from './video/OnAirVideoInfo.vue'
 
