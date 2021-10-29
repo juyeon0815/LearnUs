@@ -1,5 +1,6 @@
 package com.ssafy.backend.controller;
 
+import com.ssafy.backend.dto.Password;
 import com.ssafy.backend.dto.User;
 import com.ssafy.backend.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -7,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,22 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    @ApiOperation(value = "로그인")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Password login, HttpServletResponse res) {
+
+        ResponseEntity<Map<String, Object>> entity = null;
+
+        Map<String, Object> resultMap = userService.login(login.getEmail(), login.getPassword(), res);
+        if (resultMap.containsKey("msg")) entity = ResponseEntity.badRequest().body(resultMap);
+        else {
+            Object token = resultMap.get("token");
+            entity = ResponseEntity.ok().body(resultMap);
+        }
+
+        return entity;
+    }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "교육생 추가")
@@ -47,8 +66,8 @@ public class UserController {
 
     @PatchMapping(value = "/pw")
     @ApiOperation(value = "비밀번호 수정")
-    public ResponseEntity<String> updatePW(@RequestParam("userId") int userId, @RequestParam("originPW") String originPW, @RequestParam("newPW") String newPW) {
-        if(userService.updatePW(userId, originPW, newPW)) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<String> updatePW(@RequestParam Password updatePW) {
+        if(userService.updatePW(updatePW.getUserId(), updatePW.getOriginPW(), updatePW.getNewPW())) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
@@ -60,7 +79,7 @@ public class UserController {
 
     @GetMapping(value = "/all")
     @ApiOperation(value = "모든 교육생 정보 넘겨줌")
-    public ResponseEntity<Map<Integer, List<User>>> getUserAll() {
+    public ResponseEntity<Map<Integer, List<User>>> getUserAll(HttpServletResponse response) {
         return new ResponseEntity<Map<Integer, List<User>>>(userService.getUserAll(), HttpStatus.OK);
     }
 
@@ -89,8 +108,8 @@ public class UserController {
 
     @PatchMapping(value = "/resetPW")
     @ApiOperation(value = "비밀번호 초기화")
-    public ResponseEntity<String> resetPW(@RequestParam("userId") int userId, @RequestParam("newPW") String newPW) {
-        if (userService.resetPW(userId, newPW)) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<String> resetPW(@RequestBody Password resetPW) {
+        if (userService.resetPW(resetPW.getUserId(), resetPW.getNewPW())) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 }

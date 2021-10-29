@@ -3,11 +3,13 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dto.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface UserService {
+    public Map<String, Object> login(String email, String password, HttpServletResponse res);
     public void insert(MultipartFile excelFile) throws IOException;
     public void updateList(MultipartFile excelFile) throws IOException;
     public void updateUser(User updateUser);
