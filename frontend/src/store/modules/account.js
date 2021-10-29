@@ -20,12 +20,19 @@ const actions = {
     commit('SET_ACCESS_TOKEN', null)
     router.push('/account/login')
   },
+  onFindEmail ({ commit }, userData) {
+    accountApi.findEmail(userData)
+    .then((res) => {
+      console.log(res)
+      console.log(commit)
+    })
+  },
   getUserInfo({ commit }, userId) {
     accountApi.getUserInfo(userId)
       .then((res) => {
         commit('SET_USER_INFO', res.data)
       })
-  }
+  },
 }
 
 const mutations = {

@@ -13,5 +13,11 @@ export default {
       url: `user/id/${userId}`,
       method: 'get',
     })
+  },
+  findEmail(userData) {
+    return _axios({
+      url: `user/searchId/${userData.userId}/${userData.phoneNumber}`,
+      method: 'get'
+    })
   }
 }
