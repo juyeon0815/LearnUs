@@ -1,19 +1,33 @@
 <template>
   <div id="chat-list" class="chat-list">
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
-    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas sunt harum iste voluptate consequatur accusantium, doloremque, natus excepturi deleniti in illum dicta nihil nisi, similique adipisci expedita repellat corporis nesciunt!</div>
+    <OnAirChatListItem
+      v-for="(chat, idx) in chatList"
+      :key="idx"
+      :chat=chat
+    />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import OnAirChatListItem from './OnAirChatListItem'
+
 export default {
   name: 'OnAirChatList',
-
+  components: {
+    OnAirChatListItem,
+  },
+  computed: {
+    ...mapState('chat', ['chatList'])
+  },
+  methods: {
+    autoscroll () {
+      const target = document.getElementById('chat-list')
+      if (target.scrollTop + target.clientHeight != target.scrollHeight) {
+        target.scrollTop = target.scrollHeight
+      }
+    }
+  },
 }
 </script>
 

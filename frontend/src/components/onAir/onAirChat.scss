@@ -56,3 +56,23 @@
     }
   }
 }
+
+.chat-item {
+  display: flex;
+  margin-bottom: .3rem;
+  gap: .7rem;
+  .profile {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 100%;
+    background: #000;
+  }
+  .chat-content {
+    flex: 1;
+    font-size: .8rem;
+    .user {
+      color: rgba($light, 0.8);
+      margin-right: .5rem;
+    }
+  }
+}

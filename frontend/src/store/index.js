@@ -1,12 +1,14 @@
 import { createStore } from 'vuex'
-import account from './modules/account'
-import live from './modules/live'
 import createPersistedState from "vuex-persistedstate";
+import account from './modules/account'
+import chat from './modules/chat'
+import live from './modules/live'
 
 const store = createStore({
   plugins: [createPersistedState()],
   modules: {
     account,
+    chat,
     live
   }
 })

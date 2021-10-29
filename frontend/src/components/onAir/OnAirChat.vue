@@ -1,6 +1,6 @@
 <template>
   <div id="chat-box" class="on-air-chat">
-    <AttendCheck/>
+    <AttendCheck v-if="attend"/>
     <OnAirChatList/>
     <OnAirChatInput @autosize="autosizeList"/>
   </div>
@@ -18,13 +18,18 @@ export default {
     OnAirChatList,
     AttendCheck
   },
+  data () {
+    return {
+      attend: false,
+    }
+  },
   methods: {
     autosizeList () {
       const chat = document.getElementById('chat-box')
       const chatList = document.getElementById('chat-list')
       const chatInput = document.getElementById('chat-input')
-      console.log(chatInput.offsetHeight)
       chatList.style.height = (chat.offsetHeight - chatInput.offsetHeight) + "px"
+      chatList.scrollTop = chatList.scrollHeight
     }
   },
   mounted () {
