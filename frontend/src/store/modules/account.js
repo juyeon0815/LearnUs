@@ -4,6 +4,7 @@ import accountApi from '@/api/account'
 const state = {
   accessToken: null,
   userInfo: null,
+  searchedEmail: null,
 }
 
 const actions = {
@@ -23,8 +24,11 @@ const actions = {
   onFindEmail ({ commit }, userData) {
     accountApi.findEmail(userData)
     .then((res) => {
-      console.log(res)
-      console.log(commit)
+      commit('SET_SEARCHED_EMAIL', res.data)
+      router.push('/account/login')
+    })
+    .then((err) => {
+      console.log(err)
     })
   },
   getUserInfo({ commit }, userId) {
@@ -42,6 +46,9 @@ const mutations = {
   SET_USER_INFO (state, userData) {
     state.userInfo = userData
     router.push('/')
+  },
+  SET_SEARCHED_EMAIL (state, email) {
+    state.searchedEmail = email
   }
 }
 

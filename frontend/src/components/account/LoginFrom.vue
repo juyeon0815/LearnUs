@@ -61,7 +61,7 @@
 <script>
 import * as EmailValidator from "email-validator"
 import PV from "password-validator"
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'LoginForm',
@@ -79,6 +79,7 @@ export default {
   },
   methods: {
     ...mapActions('account', ['onLogin']),
+    ...mapMutations('account', ['SET_SEARCHED_EMAIL']),
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
@@ -133,6 +134,12 @@ export default {
       .digits()
       .has()
       .letters()
+    // 이메일 찾기에서 돌아왔을 때
+    if (this.$store.state.account.searchedEmail) {
+      console.log(this.$store.state.account.searchedEmail)
+      this.email = this.$store.state.account.searchedEmail
+      this.SET_SEARCHED_EMAIL(null)
+    }
   }
 }
 </script>

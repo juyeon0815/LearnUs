@@ -1,6 +1,9 @@
 <template>
   <div class="account">
     <div class="user-form">
+      <i class="fi fi-rr-arrow-small-left direct-back"
+      @click="$router.push({ name: 'Account', params: {page: 'login'}})"
+      v-if='showBack'></i>
       <LoginForm v-if="current === 'login'"/>
       <FindEmailForm v-if="current === 'find-email'"/>
       <FindPasswordForm v-if="current === 'find-password'"/>
@@ -26,7 +29,8 @@ export default {
   },
   data () {
     return {
-      current: ''
+      current: '',
+      showBack: false,
     }
   },
   watch: {
@@ -38,6 +42,11 @@ export default {
         } else {
           this.$router.push('/404')
         }
+        if (page === 'find-email' || page === 'find-password' || page === 'reset-password') {
+          this.showBack = true;
+        } else {
+          this.showBack = false;
+    }
       }
     }
   },
@@ -47,6 +56,11 @@ export default {
       this.current = page
     } else {
       this.$router.push('/404')
+    }
+    if (page === 'find-email' || page === 'find-password' || page === 'reset-password') {
+      this.showBack = true;
+    } else {
+      this.showBack = false;
     }
   }
 }

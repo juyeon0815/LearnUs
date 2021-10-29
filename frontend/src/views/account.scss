@@ -90,11 +90,19 @@
         pointer-events: none;
       }
     }
+    .direct-back {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 40px;
+      cursor: pointer;
+      color: #F1F1F1;
+    }
   }
 }
 
 .account-inputs {
-  margin-top: 40px;
+  margin-top: 20px;
   .account-input-box {
     position: relative;
     .account-input {
