@@ -2,6 +2,7 @@
   <div id="chat-box" class="on-air-chat">
     <AttendCheck v-if="attend"/>
     <AttendResult v-if="attendResult"/>
+    <QuizResult v-if="quizResult"/>
     <SolvingQuiz v-if="quiz"/>
     <OnAirChatList/>
     <OnAirChatInput @autosize="autosizeList"/>
@@ -12,23 +13,27 @@
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
 import AttendResult from './chat/AttendResult.vue'
-import SolvingQuiz from './chat/SolvingQuiz.vue'
 import OnAirChatInput from './chat/OnAirChatInput.vue'
 import OnAirChatList from './chat/OnAirChatList.vue'
+import QuizResult from './chat/QuizResult.vue'
+import SolvingQuiz from './chat/SolvingQuiz.vue'
 export default {
   name: 'OnAirChat',
   components: {
     OnAirChatInput,
     OnAirChatList,
+    // popup
     AttendCheck,
     AttendResult,
+    QuizResult,
     SolvingQuiz
   },
   data () {
     return {
       attend: false,
-      attendResult: true,
+      attendResult: false,
       quiz: false,
+      quizResult: false,
     }
   },
   methods: {
