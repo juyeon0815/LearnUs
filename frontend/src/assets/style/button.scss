@@ -1,9 +1,23 @@
 @import "./_color.scss";
 
-.btn-black {
+.btn {
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: $black;
-  color: $white;
+  &.black {
+    background-color: $black;
+    color: $white;
+  }
+  &.dark-yellow {
+    background-color: $dark;
+    color: $yellow;
+  }
+  &.dark-orange {
+    background-color: $dark;
+    color: $orange;
+  }
+  &.purple {
+    background-color: $purple;
+    color: $white;
+  }
 }
