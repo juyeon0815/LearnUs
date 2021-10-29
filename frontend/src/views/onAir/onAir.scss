@@ -1,8 +1,11 @@
 @import "@/assets/style/_color.scss";
+@import "@/assets/style/_mixin.scss";
 
 .on-air {
+  height: 90vh;
   .content {
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -27,22 +30,127 @@
     flex: 0 0 auto;
     width: 25%;
     min-width: 250px;
-    background: $dark;
+    height: 100%;
     position: relative;
     border-radius: 10px;
     .chat-list {
-      height: 100%;
+      position: relative;
+      overflow-y: scroll;
       background: $dark;
       border-radius: 10px;
-      margin-bottom: 90px;
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($orange, 0.5);
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $black;
+        border-radius: 10px;
+      }
     }
     .chat-input {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 80px;
+      height: fit-content;
       background: $black;
       border-radius: 0 0 10px 10px;
+    }
+  }
+  .attend-check {
+    position: absolute;
+    top: .5rem;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%);
+    background: rgba($yellow, 0.95);
+    filter: drop-shadow(0 2px 2px rgba($black, 0.4));
+    width: 95%;
+    height: fit-content;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem;
+    .title-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+      width: 90%;
+      height: 2.4rem;
+      border-radius: 1.2rem;
+      background-color: $light;
+      position: relative;
+      padding-left: 3rem;
+      filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+      .deco {
+        position: absolute;
+        left: -.5rem;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 100%;
+        background-color: $grey;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+      }
+      .title {
+        font-weight: 900;
+        font-size: 1.5rem;
+        color: $grey;
+      }
+      .date {
+        font-size: .7rem;
+        color: $white;
+        padding: .1rem .5rem;
+        width: fit-content;
+        height: fit-content;
+        border-radius: 1rem;
+        background: $orange;
+        display: none;
+      }
+    }
+    
+    .timer {
+      color: $dark;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+      font-family: 'Montserrat', sans-serif;
+      .btn-attend {
+        font-family: 'Montserrat', sans-serif;
+        filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+        font-size: 1.2rem;
+        font-weight: 700;
+        padding: .5rem 1rem;
+        height: fit-content;
+        width: fit-content;
+        border-radius: 2rem;
+      }
+      .rest {
+        font-weight: 700;
+        font-size: 2rem;
+      }
+    }
+  }
+  
+  @include xxl {
+    .attend-check {
+      .title-box {
+        .date {
+          display: inline-block;
+        }
+      }
     }
   }
 }
