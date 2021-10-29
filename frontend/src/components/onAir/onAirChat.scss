@@ -1,0 +1,58 @@
+@import "@/assets/style/_color.scss";
+
+.chat-input {
+  .input-box {
+    display: flex;
+    justify-content: center;
+    padding:  1rem .5rem;
+    gap: 1rem;
+    .profile {
+      flex: 0 0 auto;
+      width: 20%;
+      max-width: 2.5rem;
+      max-height: 2.5rem;
+      border-radius: 100%;
+      background-color: $light;
+    }
+    .input {
+      flex: 0 0 auto;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      .user-info {
+        font-size: .9rem;
+        font-weight: 700;
+        color: $light;
+      }
+      textarea {
+        // Size
+        width: 100%;
+        height: 28px;
+        resize: none;
+        padding: 0 .3rem;
+        // initial
+        border: none;
+        outline: none;
+        // color
+        color: #fff;
+        background: none;
+        // background: rgba(#fff, .05);
+        border-bottom: 1px solid rgba(#fff, .5);
+        // font
+        font-size: .875rem;
+        letter-spacing: 1px;
+        word-wrap: break-word;
+        &:focus {
+          border-bottom: 2px solid $orange;
+        }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      i {
+        align-self: flex-end;
+      }
+    }
+  }
+}
