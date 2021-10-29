@@ -1,6 +1,7 @@
 <template>
   <div id="chat-box" class="on-air-chat">
     <AttendCheck v-if="attend"/>
+    <AttendResult v-if="attendResult"/>
     <OnAirChatList/>
     <OnAirChatInput @autosize="autosizeList"/>
   </div>
@@ -9,6 +10,7 @@
 <script>
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
+import AttendResult from './chat/AttendResult.vue'
 import OnAirChatInput from './chat/OnAirChatInput.vue'
 import OnAirChatList from './chat/OnAirChatList.vue'
 export default {
@@ -16,11 +18,13 @@ export default {
   components: {
     OnAirChatInput,
     OnAirChatList,
-    AttendCheck
+    AttendCheck,
+    AttendResult
   },
   data () {
     return {
       attend: false,
+      attendResult: false
     }
   },
   methods: {
