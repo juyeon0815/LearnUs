@@ -46,6 +46,20 @@ const actions = {
       console.log(err)
     })
   },
+  onResetPassword ({ commit, state }, password) {
+    const userData = {
+      userId: state.instantUserId,
+      newPW: password
+    }
+    accountApi.resetPassword(userData)
+    .then(() => {
+      router.push('/account/login')
+      commit('SET_INSTANT_USER_ID', null)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },
   getUserInfo({ commit }, userId) {
     accountApi.getUserInfo(userId)
       .then((res) => {

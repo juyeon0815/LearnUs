@@ -25,5 +25,12 @@ export default {
       url: `user/searchPW/${userData.email}/${userData.userId}/${userData.phoneNumber}`,
       method: 'get'
     })
+  },
+  resetPassword(userData) {
+    return _axios({
+      url: 'user/resetPW',
+      method: 'patch',
+      data: userData
+    })
   }
 }
