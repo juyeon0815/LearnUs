@@ -120,6 +120,33 @@
     }
   }
 }
+.solving-quiz {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: fit-content;
+  background: rgba($purple, 0.95);
+  border-radius: 10px 10px 0 0;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  .question {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    span {
+      flex: 1;
+      text-shadow: 1px 0 2px rgba($dark, 0.4);
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      filter: drop-shadow(1px 0 2px rgba($dark, 0.4));
+    }
+  }
+}
 
 @include xxl {
   .attend-check {
