@@ -20,12 +20,8 @@ _axios.interceptors.request.use(
 _axios.interceptors.response.use(
   function (response) {
     // 응답 헤더에 acToken이 오는지 확인 > 있으면 state 저장
-    if (response.headers.accessToken) {
-      store.commit('account/SET_ACCESS_TOKEN', response.headers.accessToken)
-    }
-    // 응답 헤더에 갱신된 acToken이 오는지 확인 > 있으면 state 저장
-    if (response.headers.updateAccessToken) {
-      store.commit('account/SET_ACCESS_TOKEN', response.headers.updateAccessToken)
+    if (response.headers.accesstoken) {
+      store.commit('account/SET_ACCESS_TOKEN', response.headers.accesstoken)
     }
     return response;
   },

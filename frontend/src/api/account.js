@@ -8,4 +8,10 @@ export default {
       data: userData,
     })
   },
+  getUserInfo(userId) {
+    return _axios({
+      url: `user/id/${userId}`,
+      method: 'get',
+    })
+  }
 }
