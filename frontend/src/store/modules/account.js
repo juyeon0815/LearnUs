@@ -5,6 +5,7 @@ const state = {
   accessToken: null,
   userInfo: null,
   searchedEmail: null,
+  instantUserId: null,
 }
 
 const actions = {
@@ -27,7 +28,21 @@ const actions = {
       commit('SET_SEARCHED_EMAIL', res.data)
       router.push('/account/login')
     })
-    .then((err) => {
+    .catch((err) => {
+      console.log(err)
+    })
+  },
+  onFindPassword ({ commit }, userData) {
+    accountApi.findPassword(userData)
+    .then((res) => {
+      if (res.status === 200) {
+        commit('SET_INSTANT_USER_ID', userData.userId)
+        router.push('/account/reset-password')
+      } else {
+        console.log(res)
+      }
+    })
+    .catch((err) => {
       console.log(err)
     })
   },
@@ -49,6 +64,9 @@ const mutations = {
   },
   SET_SEARCHED_EMAIL (state, email) {
     state.searchedEmail = email
+  },
+  SET_INSTANT_USER_ID (state, userId) {
+    state.instantUserId = userId
   }
 }
 

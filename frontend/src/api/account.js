@@ -19,5 +19,11 @@ export default {
       url: `user/searchId/${userData.userId}/${userData.phoneNumber}`,
       method: 'get'
     })
+  },
+  findPassword(userData) {
+    return _axios({
+      url: `user/searchPW/${userData.email}/${userData.userId}/${userData.phoneNumber}`,
+      method: 'get'
+    })
   }
 }

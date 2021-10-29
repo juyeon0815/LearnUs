@@ -52,7 +52,8 @@
       </div>
       <!-- 제출 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onFindPassword(userData)">
         Check Account
       </button>
     </div>
@@ -61,6 +62,7 @@
 
 <script>
 import * as EmailValidator from "email-validator"
+import { mapActions } from 'vuex'
 
 export default {
   name: 'FindPasswordForm',
@@ -70,7 +72,7 @@ export default {
       studentId: '',
       phoneNumber: '',
       error: {
-        email: '',
+        email: false,
         studentId: false,
         phoneNumber: false,
       },
@@ -78,6 +80,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('account', ['onFindPassword']),
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
@@ -134,6 +137,15 @@ export default {
         return tmp;
       }
     },
+  },
+  computed: {
+    userData() {
+      return {
+        email: this.email,
+        userId: this.studentId,
+        phoneNumber: this.phoneNumber
+      }
+    }
   },
   watch: {
     email: function() {
