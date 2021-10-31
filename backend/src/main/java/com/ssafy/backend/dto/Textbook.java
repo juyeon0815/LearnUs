@@ -2,12 +2,14 @@ package com.ssafy.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +19,10 @@ public class Textbook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int textbookId;
 
+    private String name;
     private String textbookUrl;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "broadcastId")
     private Broadcast broadcast;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "mattermostId")
-    private Mattermost mattermost;
 }

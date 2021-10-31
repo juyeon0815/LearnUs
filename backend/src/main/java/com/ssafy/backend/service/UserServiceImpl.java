@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
             user.setNickname(nickName);
             user.setTrack(nowTrack);
             user.setType(1);
-            user.setStatusYn("Y");
+            user.setStatusCode("Y");
 
             userDao.save(user);
         }
@@ -215,6 +215,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findUserByUserId(userId);
         if (user == null) return false;
         user.setPassword(passwordEncoder.encode(newPW));
+        userDao.save(user);
         return true;
     }
 }

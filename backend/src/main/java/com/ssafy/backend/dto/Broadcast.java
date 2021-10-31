@@ -2,8 +2,10 @@ package com.ssafy.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,11 +26,11 @@ public class Broadcast {
 
     private String streamingKey;
     private String thumbnailUrl;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime broadcastDate;
-    private String name;
+    private String title;
     private String teacher;
     private String description;
     private String autoUploadYn;
-    private String liveYn;
     private int chatCount;
 }
