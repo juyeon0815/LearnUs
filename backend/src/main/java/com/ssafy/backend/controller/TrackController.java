@@ -24,33 +24,33 @@ public class TrackController {
     @ApiOperation(value = "Track 추가. semester : 학기, name : 트랙 이름, subject : 트랙 주제(2학기만)")
     public ResponseEntity<String> insert(@RequestParam("semester") int semester, @RequestParam("name") String name, @RequestParam(value = "subject", required = false, defaultValue = "") String subject) {
         trackService.insert(semester, name, subject);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "Track 수정")
     public ResponseEntity<String> update(@RequestBody Track track) {
         trackService.update(track);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{trackId}")
     @ApiOperation(value = "Track 삭제")
     public ResponseEntity<String> delete(@PathVariable("trackId") int trackId) {
         trackService.delete(trackId);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "Track 전체 조회")
     public ResponseEntity<List<Track>> getTrackAll() {
-        return new ResponseEntity<List<Track>>(trackService.getTrackAll(), HttpStatus.OK);
+        return new ResponseEntity<>(trackService.getTrackAll(), HttpStatus.OK);
     }
 
     @GetMapping
     @ApiOperation(value = "현재 트랙 주제 조회. 현재 트랙 주제가 공통이라면 공통에 관련된 트랙들만 보여줌")
     public ResponseEntity<List<Track>> getTrackCurrent() {
-        return new ResponseEntity<List<Track>>(trackService.getTrackCurrent(), HttpStatus.OK);
+        return new ResponseEntity<>(trackService.getTrackCurrent(), HttpStatus.OK);
     }
 }
 
