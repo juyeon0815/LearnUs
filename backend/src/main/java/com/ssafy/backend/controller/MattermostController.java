@@ -24,26 +24,26 @@ public class MattermostController {
     @ApiOperation(value = "MM 채널 추가")
     public ResponseEntity<String> insert(@RequestBody Mattermost mattermost) {
         mattermostService.insert(mattermost);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "MM 채널 수정")
     public ResponseEntity<String> update(@RequestBody Mattermost mattermost) {
         mattermostService.update(mattermost);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{mattermostId}")
     @ApiOperation(value = "MM 채널 삭제")
     public ResponseEntity<String> delete(@PathVariable("mattermostId") int mattermostId) {
         if (mattermostService.delete(mattermostId)) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "MM 채널 조회")
     public ResponseEntity<List<Mattermost>> getMattermostAll() {
-        return new ResponseEntity<List<Mattermost>>(mattermostService.getMattermostAll(), HttpStatus.OK);
+        return new ResponseEntity<>(mattermostService.getMattermostAll(), HttpStatus.OK);
     }
 }

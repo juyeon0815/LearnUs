@@ -2,31 +2,26 @@ package com.ssafy.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class BroadcastTrack {
     @Id
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int broadcastTrackId;
 
-    private String name;
-    private String email;
-    private String password;
-    private int ordinalNo;
-    private String region;
-    private int classNo;
-    private String profileUrl;
-    private String nickname;
-    private String phone;
-    private int type;
-    private String statusCode;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "broadcastId")
+    private Broadcast broadcast;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "trackId")
