@@ -49,6 +49,7 @@ public class BroadcastController {
     }
 
     @GetMapping("/attendance/{broadcastId}")
+    @ApiOperation(value = "참석 명단 가져오기")
     public ResponseEntity<List<Attendance>> getAttendance(@PathVariable("broadcastId") int broadcastId) {
         return new ResponseEntity<>(broadcastService.getAttendance(broadcastId), HttpStatus.OK);
     }
