@@ -14,13 +14,10 @@ public class JwtServiceImpl implements JwtService {
 
     @Autowired
     private RedisService redisService;
-
     @Value("${jwt.salt}")
     private String salt;
-
     @Value("${jwt.accExpmin}")
     private Long accExpmin;
-
     @Value("${jwt.refExpmin}")
     private Long refExpmin;
 
