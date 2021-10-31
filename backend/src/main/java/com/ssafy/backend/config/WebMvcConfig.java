@@ -16,8 +16,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor).addPathPatterns(Arrays.asList("/user/**", "/mattermost/**", "/schedule/**", "/track/**"))
-                .excludePathPatterns(Arrays.asList("/user/**", "/broadcast/**", "/user/searchId/{userId}/{phone}", "/user/searchPW/{email}/{userId}/{phone}", "/user/resetPW"));
+        registry.addInterceptor(jwtInterceptor).addPathPatterns(Arrays.asList("/user/**", "broadcast/**", "/mattermost/**", "/schedule/**", "/track/**"))
+                .excludePathPatterns(Arrays.asList("/user/login", "/user/searchId/{userId}/{phone}", "/user/searchPW/{email}/{userId}/{phone}", "/user/resetPW"));
     }
 
     @Override
