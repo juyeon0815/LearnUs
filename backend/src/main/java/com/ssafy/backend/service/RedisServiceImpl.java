@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisServiceImpl implements RedisService {
+
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-
 
     @Override
     public void setListValue(String key, List<String> value, Long expireMin) {
