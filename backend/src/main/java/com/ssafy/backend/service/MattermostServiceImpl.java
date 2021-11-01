@@ -3,10 +3,8 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dao.MattermostDao;
 import com.ssafy.backend.dao.MattermostTrackDao;
 import com.ssafy.backend.dao.TrackDao;
-import com.ssafy.backend.dto.Mattermost;
-import com.ssafy.backend.dto.MattermostInfo;
-import com.ssafy.backend.dto.MattermostTrack;
-import com.ssafy.backend.dto.Track;
+import com.ssafy.backend.dao.TrackSettingDao;
+import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +19,26 @@ public class MattermostServiceImpl implements MattermostService{
     private MattermostTrackDao mattermostTrackDao;
     @Autowired
     private TrackDao trackDao;
+    @Autowired
+    private TrackSettingDao trackSettingDao;
 
 
     @Override
+    public List<Integer> selectOrdinalNo() {
+        List<TrackSetting> trackSettingList = trackSettingDao.findAll();
+
+        List<Integer> ordinalNoList = new ArrayList<>();
+        for (int i=1;i<trackSettingList.size();i++) {
+            ordinalNoList.add(trackSettingList.get(i).getOrdinalNo());
+        }
+        return ordinalNoList;
+    }
+
+    @Override
     public void insert(MattermostInfo mattermostInfo) {
+        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(mattermostInfo.getOrdinalNo());
         Mattermost mattermost = Mattermost.builder().webhook(mattermostInfo.getWebhook())
-                .name(mattermostInfo.getName()).pathName(mattermostInfo.getPathName()).build();
+                .name(mattermostInfo.getName()).pathName(mattermostInfo.getPathName()).trackSetting(trackSetting).build();
 
         mattermostDao.save(mattermost);
 
@@ -44,6 +56,8 @@ public class MattermostServiceImpl implements MattermostService{
         mattermost.setWebhook(mattermost.getWebhook());
         mattermost.setName(mattermostInfo.getName());
         mattermost.setPathName(mattermost.getPathName());
+        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(mattermostInfo.getOrdinalNo());
+        mattermost.setTrackSetting(trackSetting);
         mattermostDao.save(mattermost);
 
         // 트랙 수정 있을 때만 수정
