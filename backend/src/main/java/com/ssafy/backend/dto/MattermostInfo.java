@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MattermostInfo {
     private int mattermostId;
+    private int ordinalNo;
     private String webhook;
     private String name;
     private String pathName;

@@ -21,6 +21,12 @@ public class MattermostController {
     @Autowired
     private MattermostService mattermostService;
 
+    @GetMapping("/select")
+    @ApiOperation(value = "프로 채널 시 기수 선택")
+    public ResponseEntity<List<Integer>> selectOrdinalNo() {
+        return new ResponseEntity<>(mattermostService.selectOrdinalNo(), HttpStatus.OK);
+    }
+
     @PostMapping
     @ApiOperation(value = "MM 채널 추가")
     public ResponseEntity<String> insert(@RequestBody MattermostInfo mattermostInfo) {
