@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
     private TrackSettingDao trackSettingDao;
     @Autowired
     private TrackDao trackDao;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired

@@ -1,6 +1,7 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Mattermost;
+import com.ssafy.backend.dto.MattermostInfo;
 import com.ssafy.backend.service.MattermostService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +23,28 @@ public class MattermostController {
 
     @PostMapping
     @ApiOperation(value = "MM 채널 추가")
-    public ResponseEntity<String> insert(@RequestBody Mattermost mattermost) {
-        mattermostService.insert(mattermost);
+    public ResponseEntity<String> insert(@RequestBody MattermostInfo mattermostInfo) {
+        mattermostService.insert(mattermostInfo);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "MM 채널 수정")
-    public ResponseEntity<String> update(@RequestBody Mattermost mattermost) {
-        mattermostService.update(mattermost);
+    public ResponseEntity<String> update(@RequestBody MattermostInfo mattermostInfo) {
+        mattermostService.update(mattermostInfo);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{mattermostId}")
     @ApiOperation(value = "MM 채널 삭제")
     public ResponseEntity<String> delete(@PathVariable("mattermostId") int mattermostId) {
-        if (mattermostService.delete(mattermostId)) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        if (mattermostService.delete(mattermostId)) return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
         return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "MM 채널 조회")
-    public ResponseEntity<List<Mattermost>> getMattermostAll() {
+    public ResponseEntity<List<MattermostInfo>> getMattermostAll() {
         return new ResponseEntity<>(mattermostService.getMattermostAll(), HttpStatus.OK);
     }
 }
