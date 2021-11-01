@@ -28,6 +28,8 @@ public class BroadcastServiceImpl implements BroadcastService{
     private MattermostTrackDao mattermostTrackDao;
     @Autowired
     private MattermostMessageService mattermostMessageService;
+    @Autowired
+    private MattermostDao mattermostDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -224,6 +226,23 @@ public class BroadcastServiceImpl implements BroadcastService{
     public void endAttendance(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
+        // 메시지 보낼 MM 선정
+        List<Mattermost> mattermostList = new ArrayList<>(); // 메시지 보낼 MM list
+        Set<TrackSetting> trackSettingSet = new HashSet<>(); // 기수 저장할 set
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSetting();
+            if (!trackSettingSet.contains(trackSetting)) trackSettingSet.add(trackSetting);
+        }
+        Iterator<TrackSetting> iterator = trackSettingSet.iterator();
+        while(iterator.hasNext()) {
+            TrackSetting trackSetting = iterator.next();
+            Mattermost mattermost = mattermostDao.findMattermostByTrackSetting(trackSetting);
+            if (mattermost != null) mattermostList.add(mattermost);
+        }
+
+        // 미참석자 명단 가져오기
         List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
         StringBuilder sb = new StringBuilder();
         // 날짜 format
@@ -239,6 +258,11 @@ public class BroadcastServiceImpl implements BroadcastService{
                     .append(user.getRegion()).append("|")
                     .append(user.getClassNo()).append("|").append("\n");
         }
-        mattermostMessageService.send(sb.toString(), "demo", "https://meeting.ssafy.com/hooks/dintef7c77dqtemopibekjw15c");
+
+        // 메시지 전송
+        for (int i=0;i<mattermostList.size();i++) {
+            Mattermost mattermost = mattermostList.get(i);
+            mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
+        }
     }
 }
