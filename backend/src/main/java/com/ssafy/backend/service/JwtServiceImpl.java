@@ -26,6 +26,7 @@ public class JwtServiceImpl implements JwtService {
     public String createToken(int userId) {
         String accessToken = createAccessToken(userId);
         String refreshToken = createRefreshToken();
+
         List<String> refreshInfo = new ArrayList<>();
         refreshInfo.add(String.valueOf(userId));
         refreshInfo.add(refreshToken);
