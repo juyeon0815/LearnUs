@@ -3,9 +3,10 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,6 +32,8 @@ public class BroadcastServiceImpl implements BroadcastService{
     private MattermostMessageService mattermostMessageService;
     @Autowired
     private MattermostDao mattermostDao;
+    @Autowired
+    private ExcelService excelService;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -52,7 +55,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             List<User> userList = userDao.findUserByTrack(track);
             for (int j=0;j<userList.size();j++) {
                 User user = userList.get(j);
-                Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).build();
+                Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").build();
                 attendanceDao.save(attendance);
             }
         }
@@ -106,7 +109,7 @@ public class BroadcastServiceImpl implements BroadcastService{
                     List<User> userList = userDao.findUserByTrack(track);
                     for (int j=0;j<userList.size();j++) {
                         User user = userList.get(j);
-                        Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).build();
+                        Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").build();
                         attendanceDao.save(attendance);
                     }
                 }
@@ -262,11 +265,12 @@ public class BroadcastServiceImpl implements BroadcastService{
         String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
         sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 미참석 명단\n")
-                .append("|학번|이름|지역|반\n").append("|------|-----|----|---|\n");
+                .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
 
         for (int i=0;i<attendanceList.size();i++) {
             User user = attendanceList.get(i).getUser();
-            sb.append("|").append(user.getUserId()).append("|")
+            sb.append("|").append(user.getOrdinalNo()).append("|")
+                    .append(user.getUserId()).append("|")
                     .append(user.getName()).append("|")
                     .append(user.getRegion()).append("|")
                     .append(user.getClassNo()).append("|").append("\n");
@@ -277,5 +281,13 @@ public class BroadcastServiceImpl implements BroadcastService{
             Mattermost mattermost = mattermostList.get(i);
             mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
         }
+    }
+
+    @Override
+    public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
+        excelService.createExcelAttendance(broadcast, attendanceList, response);
     }
 }

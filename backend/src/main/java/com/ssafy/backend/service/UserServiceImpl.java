@@ -38,22 +38,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
-
-    public static Sheet excel(MultipartFile excelFile) throws IOException{
-        String extension = FilenameUtils.getExtension(excelFile.getOriginalFilename());
-
-        if (!extension.equals("xlsx") && !extension.equals("xls")) throw new IOException("엑셀 파일만 업로드 가능");
-
-        Workbook workbook = null;
-
-        if (extension.equals("xlsx")) {
-            workbook = new XSSFWorkbook(excelFile.getInputStream());
-        } else if (extension.equals("xls")) {
-            workbook = new HSSFWorkbook(excelFile.getInputStream());
-        }
-
-        return workbook.getSheetAt(0);
-    }
+    @Autowired
+    private ExcelService excelService;
 
     @Override
     public Map<String, Object> login(String email, String password, HttpServletResponse res) {
@@ -80,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insert(MultipartFile excelFile) throws IOException{
-        Sheet worksheet = excel(excelFile);
+        Sheet worksheet = excelService.excelCheck(excelFile);
 
         // 기존에 존재하는 기수들이 있다면 +1씩
         List<User> userList = userDao.findAll();
@@ -119,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateList(MultipartFile excelFile) throws IOException {
-        Sheet worksheet = excel(excelFile);
+        Sheet worksheet = excelService.excelCheck(excelFile);
 
         for (int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {
             Row row = worksheet.getRow(i);

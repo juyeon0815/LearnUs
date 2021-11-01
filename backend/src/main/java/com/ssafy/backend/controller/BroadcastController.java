@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -71,8 +73,15 @@ public class BroadcastController {
 
     @PostMapping("/end/attendance")
     @ApiOperation(value = "방송 종료 -> 미참석 명단 전송")
-    public ResponseEntity<String>  endAttendance(@RequestParam("broadcastId") int broadcastId) {
+    public ResponseEntity<String> endAttendance(@RequestParam("broadcastId") int broadcastId) {
         broadcastService.endAttendance(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/attendance/download")
+    @ApiOperation(value = "방송 종료 -> 미참석 명단 엑셀 파일 다운로드")
+    public ResponseEntity<String> endAttendanceDownload(@RequestParam("broadcastId") int broadcastId, HttpServletResponse response) throws IOException {
+        broadcastService.endAttendanceDownload(broadcastId, response);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 }
