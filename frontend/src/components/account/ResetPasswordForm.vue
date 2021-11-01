@@ -36,7 +36,8 @@
       </div>
       <!-- 비밀번호 재설정 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onResetPassword(password)">
         Reset Password
       </button>
     </div>
@@ -45,6 +46,7 @@
 
 <script>
 import PV from "password-validator"
+import { mapActions } from 'vuex'
 
 export default {
   name: 'ResetPasswordForm',
@@ -61,6 +63,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('account', ['onResetPassword']),
     // 형식 검증 method
     checkForm() {
       // 비밀번호 형식 검증

@@ -38,7 +38,8 @@
       </div>
       <!-- 제출 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onFindEmail(userData)">
         Check Account
       </button>
     </div>
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'FindEmailForm',
   data: () => {
@@ -60,6 +63,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('account', ['onFindEmail']),
     // 형식 검증 method
     checkForm() {
       // 학번 형식 검증
@@ -110,6 +114,14 @@ export default {
         return tmp;
       }
     },
+  },
+  computed: {
+    userData() {
+      return {
+        userId: this.studentId,
+        phoneNumber: this.phoneNumber,
+      }
+    }
   },
   watch: {
     studentId: function() {

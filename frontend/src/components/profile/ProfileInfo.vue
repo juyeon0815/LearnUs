@@ -14,6 +14,8 @@
         <input 
           type="text"
           class="info-input margin-between"
+          :value="$store.state.account.userInfo.nickname"
+          disabled
         />
         <label>Nickname</label>
       </div>
@@ -22,8 +24,11 @@
         <input 
           type="text"
           class="info-input"
+          v-model="phoneNumber"
+          maxlength="13"
         />
         <label>Phone Number</label>
+        <div class="error-text" v-if="error.phoneNumber">{{error.phoneNumber}}</div>
       </div>
     </div>
   </div>
@@ -31,6 +36,63 @@
 
 <script>
 export default {
-  name: 'ProfileInfo'
+  name: 'ProfileInfo',
+  data: () => {
+    return {
+      phoneNumber: '',
+      originalNumber: '',
+      error: {
+        phoneNumber: false
+      },
+      isSubmit: false,
+    }
+  },
+  methods: {
+    // 형식 검증 method
+    checkForm() {
+      // 전화번호 형식 검증
+      if (this.phoneNumber.length > 0 && this.phoneNumber.length != 13) {
+        this.error.phoneNumber = "'-'를 제외한 휴대폰 번호를 입력해 주세요."
+      } else {
+        this.error.phoneNumber = false
+      }
+    },
+    autoHypenPhone (str) {
+      str = str.replace(/[^0-9]/g, '');
+      var tmp = '';
+      if (str.length < 4) {
+        return str;
+      } else if (str.length < 7) {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+      } else if(str.length < 11){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 3);
+        tmp += '-';
+        tmp += str.substr(6);
+        return tmp;
+      } else{              
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+      }
+    },
+  },
+  watch: {
+    phoneNumber: function() {
+      this.phoneNumber = this.autoHypenPhone(this.phoneNumber)
+      this.checkForm();
+    }
+  },
+  created() {
+    this.phoneNumber = this.$store.state.account.userInfo.phone
+    this.originalNumber = this.phoneNumber
+  },
 }
 </script>
