@@ -11,22 +11,24 @@
       <SearchBar/>
     </div>
     <StudentTable/>
+    <StudentUpdate/>
   </div>
 </template>
 
 <script>
 import './admin.scss'
 import StudentTable from '@/components/admin/StudentTable'
+import StudentUpdate from '@/components/admin/StudentUpdate'
 import SearchBar from '@/components/admin/SearchBar'
 export default {
   name: 'ManageStudent',
   components: {
     SearchBar,
     StudentTable,
+    StudentUpdate
+  },
+  created () {
+    // this.$store.dispatch('admin/getStudents')
   }
 }
 </script>
-
-<style>
-
-</style>
