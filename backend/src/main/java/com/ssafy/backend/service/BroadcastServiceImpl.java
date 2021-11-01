@@ -3,9 +3,13 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -23,6 +27,8 @@ public class BroadcastServiceImpl implements BroadcastService{
     private AttendanceDao attendanceDao;
     @Autowired
     private TextbookDao textbookDao;
+    @Autowired
+    private MattermostTrackDao mattermostTrackDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -180,5 +186,41 @@ public class BroadcastServiceImpl implements BroadcastService{
         LocalDateTime localDateTime = LocalDateTime.now();
         attendance.setAttendanceDate(localDateTime);
         attendanceDao.save(attendance);
+    }
+
+    @Override
+    public void start(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+        // 해당 방송과 연관된 트랙 가져오기
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+        Set<Mattermost> mattermostSet = new HashSet<>();
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            Track track = broadcastTrackList.get(i).getTrack();
+            // 트랙들과 연관된 매터모스트 가져오기
+            List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
+            for (int j=0;j<mattermostTrackList.size();j++) {
+                Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
+                // 중복 방지
+                if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
+            }
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        StringBuilder sb = new StringBuilder();
+        // 날짜 format
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH시 mm분"));
+        // 메시지 작성
+        sb.append("### ").append(formatDate).append(" 방송 안내\n")
+                .append(broadcast.getBroadcastDate().getHour()+"시 라이브 방송 [").append(broadcast.getTitle()+"]")
+                .append("가 곧 시작합니다!\n모두 접속해주세요~ :ssafyface:");
+
+        Iterator<Mattermost> iterator = mattermostSet.iterator();
+        while(iterator.hasNext()) {
+            Mattermost mattermost = iterator.next();
+            Map<String, Object> request = new HashMap<>();
+            request.put("text", sb);
+            request.put("channel", "#"+mattermost.getPathName());
+            HttpEntity<Map<String,Object>> entity = new HttpEntity<>(request);
+            restTemplate.exchange(mattermost.getWebhook(), HttpMethod.POST, entity, String.class);
+        }
     }
 }

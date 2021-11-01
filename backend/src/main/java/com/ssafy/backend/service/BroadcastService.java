@@ -12,4 +12,5 @@ public interface BroadcastService {
     public void attend(int broadcastId, int userId);
     public List<Attendance> getAttendance(int broadcastId);
     public List<BroadcastInfo> getBroadcastAll();
+    public void start(int broadcastId);
 }

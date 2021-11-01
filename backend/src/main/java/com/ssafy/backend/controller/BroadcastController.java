@@ -60,4 +60,11 @@ public class BroadcastController {
         broadcastService.attend(broadcastId, userId);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @PostMapping("/start")
+    @ApiOperation(value = "방송 시작 -> 관련 MM에 메시지 전송")
+    public ResponseEntity<String> broadcastStart(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.start(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
 }
