@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
 
         try {
             User loginUser = userDao.findUserByEmail(email);
-
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
             if (loginUser != null && encoder.matches(password, loginUser.getPassword())) {
@@ -97,25 +96,22 @@ public class UserServiceImpl implements UserService {
         for (int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {
             Row row = worksheet.getRow(i);
 
-            User user = new User();
-            user.setOrdinalNo((int) row.getCell(0).getNumericCellValue());
-            user.setUserId((int) row.getCell(1).getNumericCellValue());
-            user.setName(row.getCell(2).getStringCellValue());
-            user.setEmail(row.getCell(3).getStringCellValue());
-            user.setRegion(row.getCell(5).getStringCellValue());
-            user.setClassNo((int) row.getCell(6).getNumericCellValue());
-            user.setPhone(row.getCell(7).getStringCellValue());
-
-            user.setProfileUrl("");
             Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
+
+            User user = User.builder().ordinalNo((int) row.getCell(0).getNumericCellValue())
+                    .userId((int) row.getCell(1).getNumericCellValue())
+                    .name(row.getCell(2).getStringCellValue())
+                    .email(row.getCell(3).getStringCellValue())
+                    .region(row.getCell(5).getStringCellValue())
+                    .classNo((int) row.getCell(6).getNumericCellValue())
+                    .phone(row.getCell(7).getStringCellValue())
+                    .profileUrl("").type(1).statusCode("Y").track(nowTrack)
+                    .build();
 
             String pw = "S" + user.getEmail() + user.getOrdinalNo();
             user.setPassword(passwordEncoder.encode(pw));
             String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
-            user.setTrack(nowTrack);
-            user.setType(1);
-            user.setStatusCode("Y");
 
             userDao.save(user);
         }
