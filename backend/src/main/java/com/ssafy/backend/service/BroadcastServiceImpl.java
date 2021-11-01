@@ -3,6 +3,7 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -174,9 +175,21 @@ public class BroadcastServiceImpl implements BroadcastService{
     }
 
     @Override
-    public List<Attendance> getAttendance(int broadcastId) {
+    public Map<String, List<Attendance>> getAttendance(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        return attendanceDao.findAttendancesByBroadcast(broadcast);
+        Map<String, List<Attendance>> map = new HashMap<>();
+
+        List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
+        for (int i=0;i<attendanceList.size();i++) {
+            List<Attendance> saveAttendanceList = new ArrayList<>();
+            User user = attendanceList.get(i).getUser();
+            String region_class = user.getRegion()+"_"+user.getClassNo()+"반";
+            if (map.containsKey(region_class)) saveAttendanceList = map.get(region_class);
+            saveAttendanceList.add(attendanceList.get(i));
+            map.put(region_class, saveAttendanceList);
+        }
+
+        return map;
     }
 
     @Override

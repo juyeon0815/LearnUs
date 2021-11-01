@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/broadcast")
@@ -50,7 +51,7 @@ public class BroadcastController {
 
     @GetMapping("/attendance/{broadcastId}")
     @ApiOperation(value = "참석 명단 가져오기")
-    public ResponseEntity<List<Attendance>> getAttendance(@PathVariable("broadcastId") int broadcastId) {
+    public ResponseEntity<Map<String, List<Attendance>>> getAttendance(@PathVariable("broadcastId") int broadcastId) {
         return new ResponseEntity<>(broadcastService.getAttendance(broadcastId), HttpStatus.OK);
     }
 
