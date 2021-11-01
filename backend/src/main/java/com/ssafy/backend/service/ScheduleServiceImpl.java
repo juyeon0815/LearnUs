@@ -1,16 +1,11 @@
 package com.ssafy.backend.service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.backend.dao.ScheduleDao;
 import com.ssafy.backend.dto.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
