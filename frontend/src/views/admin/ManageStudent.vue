@@ -5,17 +5,21 @@
         <div class="chapter">ADMIN<span class="t-orange">:</span></div>
         <span class="subtitle">
           교육생 관리
-          <button class="btn">+</button>
+          <button 
+            class="btn"
+            @click="onUpdate = true"
+          >+</button>
         </span>
       </header>
       <SearchBar/>
     </div>
     <StudentTable/>
-    <StudentUpdate/>
+    <StudentUpdate v-if="onUpdate"/>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import './admin.scss'
 import StudentTable from '@/components/admin/StudentTable'
 import StudentUpdate from '@/components/admin/StudentUpdate'
@@ -27,8 +31,16 @@ export default {
     StudentTable,
     StudentUpdate
   },
+  data () {
+    return {
+      onUpdate: false,
+    }
+  },
+  computed: {
+    ...mapState('admin', ['students']),
+  },
   created () {
-    // this.$store.dispatch('admin/getStudents')
+    this.$store.dispatch('admin/getStudents')
   }
 }
 </script>

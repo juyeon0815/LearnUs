@@ -19,7 +19,7 @@
         />
       </tbody>
     </table>
-    <div v-if="!test.length" class="empty">
+    <div v-if="!currentResult.length" class="empty">
       검색 결과가 없습니다.
     </div>
 
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import StudentTableRow from './StudentTableRow.vue'
 export default {
   name: 'StudentTable',
@@ -54,168 +55,6 @@ export default {
   data () {
     return {
       currentPage: 1,
-      test: [
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-        {
-          name: '김싸피',
-          id: '0512345',
-          region: '서울',
-          class: '3반',
-          track: '인공지능',
-          phoneNum: '010-1234-5678'
-        },
-      ]
     }
   },
   methods: {
@@ -224,13 +63,17 @@ export default {
     },
   },
   computed: {
+    ...mapState('admin', ['students', 'selectedOrd', 'searchWord']),
+    currentResult () {
+      return this.students[this.selectedOrd]
+    },
     paginatedArea () {
       let start = (this.currentPage - 1) * 10
       let end = this.currentPage * 10
-      return this.test.slice(start, end)
+      return this.currentResult.slice(start, end)
     },
     totalPage () {
-      const total = this.test.length
+      const total = this.currentResult.length
       return Math.ceil(total/10)
     },
   }
