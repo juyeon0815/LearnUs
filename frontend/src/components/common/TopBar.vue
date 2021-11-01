@@ -1,13 +1,13 @@
 <template>
   <div class="top-bar">
     <div class="btn-group">
-      <button class="btn-black">
+      <button class="btn black">
         <div class="btn-content">
           <i class="fi fi-rr-video-camera"></i>
           <span>라이브 방송 생성</span>
         </div>
       </button>
-      <button class="btn-black">
+      <button class="btn black">
         <div class="btn-content">
           <i class="fi fi-rr-calendar"></i>
           <span>주간 일정 보기</span>

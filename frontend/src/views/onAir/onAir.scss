@@ -1,8 +1,10 @@
 @import "@/assets/style/_color.scss";
 
 .on-air {
+  height: 90vh;
   .content {
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -26,21 +28,34 @@
   .on-air-chat {
     flex: 0 0 auto;
     width: 25%;
-    min-width: 250px;
+    min-width: 300px;
+    height: 100%;
     background: $dark;
     position: relative;
     border-radius: 10px;
     .chat-list {
-      height: 100%;
+      position: relative;
+      overflow-y: scroll;
       background: $dark;
       border-radius: 10px;
-      margin-bottom: 90px;
+      padding: 1rem;
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($orange, 0.5);
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $black;
+        border-radius: 10px;
+      }
     }
     .chat-input {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 80px;
+      height: fit-content;
       background: $black;
       border-radius: 0 0 10px 10px;
     }

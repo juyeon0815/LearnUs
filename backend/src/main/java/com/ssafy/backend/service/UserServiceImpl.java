@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
 
     public static Sheet excel(MultipartFile excelFile) throws IOException{
         String extension = FilenameUtils.getExtension(excelFile.getOriginalFilename());
@@ -54,12 +57,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Map<String, Object> login(String email, String password, HttpServletResponse res) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            User loginUser = userDao.findUserByEmail(email);
+
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            if (loginUser != null && encoder.matches(password, loginUser.getPassword())) {
+                String token = jwtService.createToken(loginUser.getUserId());
+
+                res.setHeader("accessToken", token);
+                resultMap.put("userId", loginUser.getUserId());
+
+            } else {
+                resultMap.put("msg", "Login failed");
+            }
+        } catch (RuntimeException e) {
+            resultMap.put("msg", e.getMessage());
+        }
+        return resultMap;
+    }
+
+    @Override
     public void insert(MultipartFile excelFile) throws IOException{
         Sheet worksheet = excel(excelFile);
 
         // 기존에 존재하는 기수들이 있다면 +1씩
         List<User> userList = userDao.findAll();
-        if (userList.size()>5) {
+        if (userList.size()>100) {
             List<TrackSetting> trackSettingList = trackSettingDao.findAll();
             for (int i=1;i<trackSettingList.size();i++) {
                 TrackSetting now = trackSettingList.get(i);
@@ -83,15 +110,13 @@ public class UserServiceImpl implements UserService {
             user.setProfileUrl("");
             Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
 
-            String pw = "S" + user.getEmail() + nowTrack.getTrackSetting().getOrdinalNo();
+            String pw = "S" + user.getEmail() + user.getOrdinalNo();
             user.setPassword(passwordEncoder.encode(pw));
             String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
             user.setTrack(nowTrack);
             user.setType(1);
-            user.setStatusYn("Y");
-
-            System.out.println("user : "+user);
+            user.setStatusCode("Y");
 
             userDao.save(user);
         }
@@ -162,7 +187,6 @@ public class UserServiceImpl implements UserService {
             List<User> userList = userDao.findUserByOrdinalNo(nowOrdinalNo);
             map.put(nowOrdinalNo, userList);
         }
-
         return map;
     }
 
@@ -191,6 +215,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findUserByUserId(userId);
         if (user == null) return false;
         user.setPassword(passwordEncoder.encode(newPW));
+        userDao.save(user);
         return true;
     }
 }

@@ -1,19 +1,22 @@
 <template>
   <div class="side-bar">
     <div class="logo">
-      <img v-if="vw <= 576" class="logo-sm" src="@/assets/image/logo/logo-sm.svg" alt="">
-      <img v-else class="logo-lg" src="@/assets/image/logo/logo-ko.svg" alt="">
+      <img class="logo-sm" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
+      <span v-if="vw > 576" class="logo-text">LearnUs</span>
     </div>
     <div class="menu">
       <div 
         class="menu-item"
         @click="$router.push('/')"
       >
-        <i class="fi fi-sr-home"></i>
+        <i class="fi fi-rr-home"></i>
         <span>HOME</span>
       </div>
-      <div class="menu-item">
-        <i class="fi fi-sr-play-alt"></i>
+      <div 
+        class="menu-item"
+        @click="$router.push({ name: 'OnAir' })"
+      >
+        <i class="fi fi-rr-play-alt"></i>
         <span>ON<span class="t-orange">:</span>AIR</span>
       </div>
       

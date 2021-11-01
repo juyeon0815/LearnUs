@@ -1,6 +1,6 @@
 <template>
   <div class="video-player">
-    <video ref="videoPlayer" class="video-js vjs-16-9"></video>
+    <video ref="videoPlayer" class="video-js vjs-fluid"></video>
   </div>
 </template>
 
@@ -21,25 +21,16 @@ export default {
       return {
 				autoplay: true,
 				controls: true,
+        fluid: true,
+        playbackRates: [0.5, 1, 1.5, 2],
 				sources: [
 					{
 						src: require('@/assets/image/test/test.mp4'),
 						type: "video/mp4"
 					}
 				],
-        width: this.videoWidth
 			}
     },
-  },
-  methods: {
-    calWidth () {
-      const fullWidth = document.getElementById('on-air').offsetWidth
-      if ( fullWidth * 0.7 < 750) {
-        this.videoWidth = 750
-      } else {
-        this.videoWidth = fullWidth * 0.7
-      }
-    }
   },
   mounted() {
     this.player = videojs(
@@ -49,10 +40,7 @@ export default {
         console.log('onPlayerReady', this);
       }
     )
-    this.calWidth()
-    window.addEventListener('resize', () => {
-      this.calWidth()
-    })
+    this.player.removeChild('BigPlayButton');
   },
   beforeUnmount() {
     if (this.player) {

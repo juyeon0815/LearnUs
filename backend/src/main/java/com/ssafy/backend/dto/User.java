@@ -26,7 +26,7 @@ public class User {
     private String nickname;
     private String phone;
     private int type;
-    private String statusYn;
+    private String statusCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "trackId")

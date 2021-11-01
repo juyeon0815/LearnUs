@@ -1,10 +1,7 @@
 <template>
-  <div class="top-logo">
-    <img 
-      src="@/assets/image/logo/logo-ko.svg" 
-      alt=""
-      @click="$router.push('/')"
-    >
+  <div class="top-logo" @click="$router.push('/')">
+    <img class="logo" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
+    <span class="logo-text">LearnUs</span>
   </div>
 </template>
 
