@@ -12,12 +12,12 @@
     <!-- 이름, 학번 및 소속 -->
     <div class="student-info">
       <div>
-        <span class="student-name">우만승</span>
-        <span class="student-id">0545052</span>
+        <span class="student-name">{{ userInfo.name }}</span>
+        <span class="student-id">0{{ userInfo.userId }}</span>
       </div>
       <div class="department">
-        <span class="grade">SSAFY 5기 교육생</span>
-        <span class="region-class">(서울 3반)</span>
+        <span class="grade">SSAFY {{ userInfo.track.trackSetting.ordinalNo }}기 교육생</span>
+        <span class="region-class">({{ userInfo.region }} {{ userInfo.classNo }}반)</span>
       </div>
     </div>
   </div>
@@ -25,6 +25,14 @@
 
 <script>
 export default {
-  name: 'ProfileHead'
+  name: 'ProfileHead',
+  data: () => {
+    return {
+      userInfo: null,
+    }
+  },
+  created() {
+    this.userInfo = this.$store.state.account.userInfo
+  }
 }
 </script>
