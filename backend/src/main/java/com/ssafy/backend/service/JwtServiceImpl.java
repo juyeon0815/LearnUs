@@ -32,7 +32,6 @@ public class JwtServiceImpl implements JwtService {
         refreshInfo.add(refreshToken);
 
         redisService.setListValue(accessToken, refreshInfo, refExpmin);
-
         return accessToken;
     }
 
