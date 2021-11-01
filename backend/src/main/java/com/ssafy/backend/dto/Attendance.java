@@ -23,6 +23,7 @@ public class Attendance {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime attendanceDate;
+    private String attend;
     private int quizScore;
     private int chatScore;
 

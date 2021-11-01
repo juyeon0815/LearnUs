@@ -13,4 +13,5 @@ public interface BroadcastService {
     public List<Attendance> getAttendance(int broadcastId);
     public List<BroadcastInfo> getBroadcastAll();
     public void start(int broadcastId);
+    public void endAttendance(int broadcastId);
 }

@@ -67,4 +67,11 @@ public class BroadcastController {
         broadcastService.start(broadcastId);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @PostMapping("/end/attendance")
+    @ApiOperation(value = "방송 종료 -> 미참석 명단 전송")
+    public ResponseEntity<String>  endAttendance(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.endAttendance(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
 }
