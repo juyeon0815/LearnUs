@@ -5,7 +5,10 @@ import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -23,6 +26,16 @@ public class BroadcastServiceImpl implements BroadcastService{
     private AttendanceDao attendanceDao;
     @Autowired
     private TextbookDao textbookDao;
+    @Autowired
+    private MattermostTrackDao mattermostTrackDao;
+    @Autowired
+    private MattermostMessageService mattermostMessageService;
+    @Autowired
+    private MattermostDao mattermostDao;
+    @Autowired
+    private ExcelService excelService;
+    @Autowired
+    private GifticonDao gifticonDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -44,7 +57,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             List<User> userList = userDao.findUserByTrack(track);
             for (int j=0;j<userList.size();j++) {
                 User user = userList.get(j);
-                Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).build();
+                Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").build();
                 attendanceDao.save(attendance);
             }
         }
@@ -98,7 +111,7 @@ public class BroadcastServiceImpl implements BroadcastService{
                     List<User> userList = userDao.findUserByTrack(track);
                     for (int j=0;j<userList.size();j++) {
                         User user = userList.get(j);
-                        Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).build();
+                        Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").build();
                         attendanceDao.save(attendance);
                     }
                 }
@@ -167,9 +180,21 @@ public class BroadcastServiceImpl implements BroadcastService{
     }
 
     @Override
-    public List<Attendance> getAttendance(int broadcastId) {
+    public Map<String, List<Attendance>> getAttendance(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        return attendanceDao.findAttendancesByBroadcast(broadcast);
+        Map<String, List<Attendance>> map = new HashMap<>();
+
+        List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
+        for (int i=0;i<attendanceList.size();i++) {
+            List<Attendance> saveAttendanceList = new ArrayList<>();
+            User user = attendanceList.get(i).getUser();
+            String region_class = user.getRegion()+"_"+user.getClassNo()+"반";
+            if (map.containsKey(region_class)) saveAttendanceList = map.get(region_class);
+            saveAttendanceList.add(attendanceList.get(i));
+            map.put(region_class, saveAttendanceList);
+        }
+
+        return map;
     }
 
     @Override
@@ -179,6 +204,145 @@ public class BroadcastServiceImpl implements BroadcastService{
         Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
         LocalDateTime localDateTime = LocalDateTime.now();
         attendance.setAttendanceDate(localDateTime);
+        attendance.setAttend("Y");
         attendanceDao.save(attendance);
+    }
+
+    @Override
+    public void start(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        // 해당 방송과 연관된 트랙 가져오기
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+        Set<Mattermost> mattermostSet = new HashSet<>();
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            Track track = broadcastTrackList.get(i).getTrack();
+            // 트랙들과 연관된 매터모스트 가져오기
+            List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
+            for (int j=0;j<mattermostTrackList.size();j++) {
+                Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
+                // 중복 방지
+                if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        // 날짜 format
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+        // 메시지 작성
+        sb.append("### ").append(formatDate).append(" 방송 안내\n")
+                .append(broadcast.getBroadcastDate().getHour()+"시 라이브 방송 [").append(broadcast.getTitle()+"]")
+                .append("가 곧 시작합니다!\n모두 접속해주세요~ :ssafyface:");
+
+        Iterator<Mattermost> iterator = mattermostSet.iterator();
+        while(iterator.hasNext()) {
+            Mattermost mattermost = iterator.next();
+            mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
+        }
+    }
+
+    @Override
+    public void endAttendance(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        // 메시지 보낼 MM 선정
+        List<Mattermost> mattermostList = new ArrayList<>(); // 메시지 보낼 MM list
+        Set<TrackSetting> trackSettingSet = new HashSet<>(); // 기수 저장할 set
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSetting();
+            if (!trackSettingSet.contains(trackSetting)) trackSettingSet.add(trackSetting);
+        }
+        Iterator<TrackSetting> iterator = trackSettingSet.iterator();
+        while(iterator.hasNext()) {
+            TrackSetting trackSetting = iterator.next();
+            Mattermost mattermost = mattermostDao.findMattermostByTrackSetting(trackSetting);
+            if (mattermost != null) mattermostList.add(mattermost);
+        }
+
+        // 미참석자 명단 가져오기
+        List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
+        StringBuilder sb = new StringBuilder();
+        // 날짜 format
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+
+        sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 미참석 명단\n")
+                .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
+
+        for (int i=0;i<attendanceList.size();i++) {
+            User user = attendanceList.get(i).getUser();
+            sb.append("|").append(user.getOrdinalNo()).append("|")
+                    .append(user.getUserId()).append("|")
+                    .append(user.getName()).append("|")
+                    .append(user.getRegion()).append("|")
+                    .append(user.getClassNo()).append("|").append("\n");
+        }
+
+        // 메시지 전송
+        for (int i=0;i<mattermostList.size();i++) {
+            Mattermost mattermost = mattermostList.get(i);
+            mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
+        }
+    }
+
+    @Override
+    public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
+        excelService.createExcelAttendance(broadcast, attendanceList, response);
+    }
+
+    @Override
+    public void endGifticon(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        // 해당 방송과 연관된 트랙 가져오기
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+        Set<Mattermost> mattermostSet = new HashSet<>();
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            Track track = broadcastTrackList.get(i).getTrack();
+            // 트랙들과 연관된 매터모스트 가져오기
+            List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
+            for (int j=0;j<mattermostTrackList.size();j++) {
+                Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
+                // 중복 방지
+                if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
+            }
+        }
+
+        // 기프티콘 명단 가져오기
+        List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+
+        StringBuilder sb = new StringBuilder();
+        // 날짜 format
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+
+        sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 기프티콘 당첨자 명단\n")
+                .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
+
+        for (int i=0;i<gifticonList.size();i++) {
+            User user = gifticonList.get(i).getUser();
+            sb.append("|").append(user.getOrdinalNo()).append("|")
+                    .append(user.getUserId()).append("|")
+                    .append(user.getName()).append("|")
+                    .append(user.getRegion()).append("|")
+                    .append(user.getClassNo()).append("|").append("\n");
+        }
+
+        Iterator<Mattermost> iterator = mattermostSet.iterator();
+        while(iterator.hasNext()) {
+            Mattermost mattermost = iterator.next();
+            mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
+        }
+    }
+
+    @Override
+    public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+        excelService.createExcelGifticon(broadcast, gifticonList, response);
     }
 }

@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -16,16 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Attendance {
+public class Gifticon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int attendanceId;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime attendanceDate;
-    private String attend;
-    private int quizScore;
-    private int chatScore;
+    private int gifticonId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
@@ -34,9 +26,4 @@ public class Attendance {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "broadcastId")
     private Broadcast broadcast;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "broadcastTrackId")
-    private BroadcastTrack broadcastTrack;
-
 }

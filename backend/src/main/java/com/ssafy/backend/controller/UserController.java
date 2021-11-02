@@ -84,7 +84,10 @@ public class UserController {
     @ApiOperation(value = "교육생 1명 조회 type : id (학번), type : name (이름)")
     public ResponseEntity<User> getUser(@PathVariable("type") String type, @PathVariable("search") String search) {
         User user = userService.getUser(type, search);
-        if (user!=null) return new ResponseEntity<>(user, HttpStatus.OK);
+        if (user!=null) {
+            user.setPassword("");
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
         return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
     }
 
