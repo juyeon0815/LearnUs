@@ -60,6 +60,19 @@ const actions = {
       console.log(err)
     })
   },
+  onChangePassword ({ state }, passwordData) {
+    const userData = {
+      ...passwordData,
+      userId: state.userInfo.userId
+    }
+    accountApi.changePassword(userData)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   getUserInfo({ commit }, userId) {
     accountApi.getUserInfo(userId)
       .then((res) => {

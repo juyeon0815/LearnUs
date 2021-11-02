@@ -32,5 +32,12 @@ export default {
       method: 'patch',
       data: userData
     })
+  },
+  changePassword(userData) {
+    return _axios({
+      url: 'user/pw',
+      method: 'patch',
+      data: userData
+    })
   }
 }
