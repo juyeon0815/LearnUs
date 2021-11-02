@@ -149,9 +149,9 @@ public class UserServiceImpl implements UserService {
         String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
         user.setNickname(nickName);
         Track track = trackDao.findTRACKByName(updateUser.getTrack().getName());
-        user.setTrack(track);
+        if (track != null) user.setTrack(track);
 
-        userDao.save(updateUser);
+        userDao.save(user);
     }
 
     @Override
