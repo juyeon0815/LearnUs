@@ -2,6 +2,7 @@ package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Track;
 import com.ssafy.backend.service.TrackService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,10 +48,16 @@ public class TrackController {
         return new ResponseEntity<>(trackService.getTrackAll(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/2")
     @ApiOperation(value = "현재 트랙 주제 조회. 현재 트랙 주제가 공통이라면 공통에 관련된 트랙들만 보여줌")
-    public ResponseEntity<List<Track>> getTrackCurrent() {
-        return new ResponseEntity<>(trackService.getTrackCurrent(), HttpStatus.OK);
+    public ResponseEntity<List<Track>> getTrackCurrent2() {
+        return new ResponseEntity<>(trackService.getTrackCurrent2(), HttpStatus.OK);
+    }
+
+    @GetMapping("/1")
+    @ApiOperation(value = "1학기 과정 트랙 조회")
+    public ResponseEntity<List<Track>> getTrackCurrent1() {
+        return new ResponseEntity<>(trackService.getTrackCurrent1(), HttpStatus.OK);
     }
 }
 

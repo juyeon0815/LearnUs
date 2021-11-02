@@ -47,7 +47,14 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getTrackCurrent() {
+    public List<Track> getTrackCurrent1() {
+        TrackSetting trackSetting = trackSettingDao.findTrackSettingBySemester(1);
+        List<Track> trackList = trackDao.findTracksByTrackSetting(trackSetting);
+        return trackList;
+    }
+
+    @Override
+    public List<Track> getTrackCurrent2() {
         // 현재 트랙 주제 가져오기
         Track track = trackDao.findTrackByTrackId(1);
         String nowSubject = track.getSubject();
