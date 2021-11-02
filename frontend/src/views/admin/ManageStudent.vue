@@ -24,9 +24,9 @@
 <script>
 import { mapState } from 'vuex'
 import './admin.scss'
-import StudentTable from '@/components/admin/StudentTable'
-import StudentUpdate from '@/components/admin/StudentUpdate'
-import SearchBar from '@/components/admin/SearchBar'
+import StudentTable from '@/components/admin/manageStudent/StudentTable'
+import StudentUpdate from '@/components/admin/manageStudent/StudentUpdate'
+import SearchBar from '@/components/admin/manageStudent/SearchBar'
 export default {
   name: 'ManageStudent',
   components: {
