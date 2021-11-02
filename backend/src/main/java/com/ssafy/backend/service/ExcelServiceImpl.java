@@ -2,6 +2,7 @@ package com.ssafy.backend.service;
 
 import com.ssafy.backend.dto.Attendance;
 import com.ssafy.backend.dto.Broadcast;
+import com.ssafy.backend.dto.Gifticon;
 import com.ssafy.backend.dto.User;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -81,7 +82,50 @@ public class ExcelServiceImpl implements ExcelService{
         // 타입과 파일명 지정
         String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
         response.setContentType("ms-vnd/excel");
-        response.setHeader("content-disposition", "attachment;filename="+ broadcast.getTitle() + " (" + formatDate + ").xlsx");
+        response.setHeader("content-disposition", "attachment;filename=["+ broadcast.getTitle() + "] attendance (" + formatDate + ").xlsx");
+
+        // file output
+        workbook.write(response.getOutputStream());
+        response.getOutputStream().close();
+    }
+
+    @Override
+    public void createExcelGifticon(Broadcast broadcast, List<Gifticon> gifticonList, HttpServletResponse response) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("기프티콘 당첨자 명단");
+        Row row = null;
+        Cell cell = null;
+        int rowNum = 0;
+
+        // Header
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue("번호");
+        cell = row.createCell(1);
+        cell.setCellValue("학번");
+        cell = row.createCell(2);;
+        cell.setCellValue("이름");
+        cell = row.createCell(3);
+        cell.setCellValue("번호");
+
+        // Body
+        for (int i=0;i<gifticonList.size();i++) {
+            User user = gifticonList.get(i).getUser();
+            row = sheet.createRow(rowNum++);
+            cell = row.createCell(0);
+            cell.setCellValue(i+1);
+            cell = row.createCell(1);
+            cell.setCellValue(user.getUserId());
+            cell = row.createCell(2);
+            cell.setCellValue(user.getName());
+            cell = row.createCell(3);
+            cell.setCellValue(user.getPhone());
+        }
+
+        // 타입과 파일명 지정
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+        response.setContentType("ms-vnd/excel");
+        response.setHeader("content-disposition", "attachment;filename=["+ broadcast.getTitle() + "] gifticon (" + formatDate + ").xlsx");
 
         // file output
         workbook.write(response.getOutputStream());

@@ -18,4 +18,6 @@ public interface BroadcastService {
     public void start(int broadcastId);
     public void endAttendance(int broadcastId);
     public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    public void endGifticon(int broadcastId);
+    public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
 }

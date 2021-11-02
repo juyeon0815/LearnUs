@@ -34,6 +34,8 @@ public class BroadcastServiceImpl implements BroadcastService{
     private MattermostDao mattermostDao;
     @Autowired
     private ExcelService excelService;
+    @Autowired
+    private GifticonDao gifticonDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -209,6 +211,7 @@ public class BroadcastServiceImpl implements BroadcastService{
     @Override
     public void start(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
         // 해당 방송과 연관된 트랙 가져오기
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
         Set<Mattermost> mattermostSet = new HashSet<>();
@@ -289,5 +292,57 @@ public class BroadcastServiceImpl implements BroadcastService{
 
         List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
         excelService.createExcelAttendance(broadcast, attendanceList, response);
+    }
+
+    @Override
+    public void endGifticon(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        // 해당 방송과 연관된 트랙 가져오기
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+        Set<Mattermost> mattermostSet = new HashSet<>();
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            Track track = broadcastTrackList.get(i).getTrack();
+            // 트랙들과 연관된 매터모스트 가져오기
+            List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
+            for (int j=0;j<mattermostTrackList.size();j++) {
+                Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
+                // 중복 방지
+                if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
+            }
+        }
+
+        // 기프티콘 명단 가져오기
+        List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+
+        StringBuilder sb = new StringBuilder();
+        // 날짜 format
+        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+
+        sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 기프티콘 당첨자 명단\n")
+                .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
+
+        for (int i=0;i<gifticonList.size();i++) {
+            User user = gifticonList.get(i).getUser();
+            sb.append("|").append(user.getOrdinalNo()).append("|")
+                    .append(user.getUserId()).append("|")
+                    .append(user.getName()).append("|")
+                    .append(user.getRegion()).append("|")
+                    .append(user.getClassNo()).append("|").append("\n");
+        }
+
+        Iterator<Mattermost> iterator = mattermostSet.iterator();
+        while(iterator.hasNext()) {
+            Mattermost mattermost = iterator.next();
+            mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
+        }
+    }
+
+    @Override
+    public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+        excelService.createExcelGifticon(broadcast, gifticonList, response);
     }
 }

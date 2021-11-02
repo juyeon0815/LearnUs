@@ -84,4 +84,18 @@ public class BroadcastController {
         broadcastService.endAttendanceDownload(broadcastId, response);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @PostMapping("/end/gifticon")
+    @ApiOperation(value = "방송 종료 -> 기프티콘 명단 전송")
+    public ResponseEntity<String> endGifticon(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.endGifticon(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/gifticon/download")
+    @ApiOperation(value = "방송 종료 -> 기프티콘 명단 엑셀 파일 다운로드")
+    public ResponseEntity<String> endGifticonDownload(@RequestParam("broadcastId") int broadcastId, HttpServletResponse response) throws IOException {
+        broadcastService.endGifticonDownload(broadcastId, response);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
 }
