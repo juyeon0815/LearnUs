@@ -11,6 +11,17 @@ const actions = {
     const response = await adminApi.getStudents()
     console.log(response)
     commit('SET_STUDENTS', response.data)
+  },
+  // 방송 스케줄
+  getBroadcastList({ commit }) {
+    adminApi.getBroadcastList()
+      .then((res) => {
+        console.log(res)
+        console.log(commit)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
