@@ -33,7 +33,7 @@
         <i class="fi fi-rr-sunrise"></i>
         <span><span class="t-orange">:</span>ADMIN</span>
         <div class="category">
-          <span>‣ 교육생 관리</span>
+          <span @click="$router.push({name: 'ManageStudent'})">‣ 교육생 관리</span>
           <span>‣ 교육 영상 관리</span>
           <span>‣ 라이브 생성</span>
           <span>‣ 교육생 관리</span>
