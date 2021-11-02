@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             Row row = worksheet.getRow(i);
 
             if (i==1) {
-                int newOrdinalNo = Integer.parseInt(row.getCell(0).getStringCellValue());
+                int newOrdinalNo = (int) row.getCell(0).getNumericCellValue();
                 // 현재 1학기 기수보다 더 높은 기수가 들어오면 새로운 기수
                 if (newOrdinalNo > originOrdinalNo) {
                     List<TrackSetting> trackSettingList = trackSettingDao.findAll();
@@ -92,12 +92,12 @@ public class UserServiceImpl implements UserService {
 
             User user = new User();
 
-            user.setOrdinalNo(Integer.parseInt(row.getCell(0).getStringCellValue()));
+            user.setOrdinalNo((int) row.getCell(0).getNumericCellValue());
             user.setUserId(Integer.parseInt(row.getCell(1).getStringCellValue()));
             user.setName(row.getCell(2).getStringCellValue());
             user.setEmail(row.getCell(3).getStringCellValue());
             user.setRegion(row.getCell(5).getStringCellValue());
-            user.setClassNo(Integer.parseInt(row.getCell(6).getStringCellValue()));
+            user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
             user.setProfileUrl("");
             user.setType(1);
@@ -121,9 +121,8 @@ public class UserServiceImpl implements UserService {
             Row row = worksheet.getRow(i);
 
             User user = userDao.findUserByUserId(Integer.parseInt(row.getCell(1).getStringCellValue()));
-
             user.setRegion(row.getCell(5).getStringCellValue());
-            user.setClassNo(Integer.parseInt(row.getCell(6).getStringCellValue()));
+            user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
 
             Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());

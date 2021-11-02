@@ -63,8 +63,8 @@ public class UserController {
 
     @PatchMapping(value = "/pw")
     @ApiOperation(value = "비밀번호 수정")
-    public ResponseEntity<String> updatePW(@RequestParam Password updatePW) {
-        if(userService.updatePW(updatePW.getUserId(), updatePW.getOriginPW(), updatePW.getNewPW())) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<String> updatePW(@RequestBody Password updatePW) {
+        if (userService.updatePW(updatePW.getUserId(), updatePW.getOriginPW(), updatePW.getNewPW())) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
     }
 
