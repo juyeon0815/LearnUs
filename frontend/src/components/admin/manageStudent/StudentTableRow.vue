@@ -2,9 +2,9 @@
   <tr>
     <td>{{ idx + 1 }}</td>
     <td>{{ student.name }}</td>
-    <td>{{ student.id }}</td>
-    <td>{{ student.region }} {{ student.class }} ({{ student.track }})</td>
-    <td>{{ student.phoneNum }}</td>
+    <td>{{ student.userId }}</td>
+    <td>{{ student.region }} {{ student.classNo }}반 ({{ student.track.name }})</td>
+    <td>{{ student.phone }}</td>
   </tr>
 </template>
 

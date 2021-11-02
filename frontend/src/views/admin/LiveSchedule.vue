@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ScheduleList from '@/components/schedule/ScheduleList'
+import ScheduleList from '@/components/admin/schedule/ScheduleList'
 import { mapActions } from 'vuex'
 
 export default {
