@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -75,10 +76,14 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     // 토큰의 유효성 + 만료일자 확인
     @Override
     public Map<String, Object> validAccessToken(String accessToken) {
         Map<String, Object> resultMap = new HashMap<>();
+        System.out.println("만료 시간 : "+redisTemplate.getExpire(accessToken));
 
         String validAccessToken = decodeToken(accessToken);
         if (validAccessToken.equals("invalid")) {
@@ -88,14 +93,15 @@ public class JwtServiceImpl implements JwtService {
             resultMap.put("status", 200);
             resultMap.put("msg", "AccessToken Valid.");
         } else { // 만료 시
-            resultMap = validRefreshToken(redisService.getStringValue(accessToken));
+            resultMap = validRefreshToken(accessToken);
         }
 
         return resultMap;
     }
 
     @Override
-    public Map<String, Object> validRefreshToken(List<String> refreshInfo) {
+    public Map<String, Object> validRefreshToken(String accessToken) {
+        List<String> refreshInfo = redisService.getValue(accessToken);
         Map<String, Object> resultMap = new HashMap<>();
 
         // refreshToken size = 0 -> refreshToken 만료
@@ -104,15 +110,18 @@ public class JwtServiceImpl implements JwtService {
             resultMap.put("msg", "RefreshToken has been expired");
         } else {
             String validRefreshToken = decodeToken(refreshInfo.get(1));
+            System.out.println("validRefreshToken : "+validRefreshToken);
 
             if (validRefreshToken.equals("invalid")) {
                 resultMap.put("status", 403);
                 resultMap.put("msg", "RefreshToken Not Valid");
             } else if (validRefreshToken.equals("valid")) {
                 // accessToken 새로 발급
+                String newToken = createAccessToken(Integer.parseInt(refreshInfo.get(0)));
                 resultMap.put("status", 201);
                 resultMap.put("msg", "AccessToken Updated");
-                resultMap.put("accessToken", createAccessToken(Integer.parseInt(refreshInfo.get(0))));
+                resultMap.put("accessToken", newToken);
+                redisService.update(accessToken, newToken);
             }
         }
 

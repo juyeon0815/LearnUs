@@ -146,11 +146,13 @@ public class BroadcastServiceImpl implements BroadcastService{
     @Override
     public List<BroadcastInfo> getBroadcastAll() {
         List<Broadcast> broadcastList = broadcastDao.findAll();
-        Map<String, String> textbookMap = new HashMap<>();
-        List<String> trackList = new ArrayList<>();
+
         List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
         for (int i=0;i<broadcastList.size();i++) {
             Broadcast broadcast = broadcastList.get(i);
+
+            Map<String, String> textbookMap = new HashMap<>();
+            List<String> trackList = new ArrayList<>();
 
             List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
             List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
@@ -168,7 +170,8 @@ public class BroadcastServiceImpl implements BroadcastService{
             }
 
             // BroadcastInfo 객체에 정보 넣어서 보내주기
-            BroadcastInfo broadcastInfo = BroadcastInfo.builder().streamingKey(broadcast.getStreamingKey())
+            BroadcastInfo broadcastInfo = BroadcastInfo.builder().broadcastId(broadcast.getBroadcastId())
+                    .streamingKey(broadcast.getStreamingKey())
                     .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
                     .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
                     .textbook(textbookMap).trackList(trackList).build();

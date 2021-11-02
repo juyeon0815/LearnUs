@@ -8,6 +8,7 @@ import com.ssafy.backend.dto.TrackSetting;
 import com.ssafy.backend.dto.User;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -68,31 +69,40 @@ public class UserServiceImpl implements UserService {
     public void insert(MultipartFile excelFile) throws IOException{
         Sheet worksheet = excelService.excelCheck(excelFile);
 
-        // 기존에 존재하는 기수들이 있다면 +1씩
-        List<User> userList = userDao.findAll();
-        if (userList.size()>100) {
-            List<TrackSetting> trackSettingList = trackSettingDao.findAll();
-            for (int i=1;i<trackSettingList.size();i++) {
-                TrackSetting now = trackSettingList.get(i);
-                now.setOrdinalNo(now.getOrdinalNo()+1);
-                trackSettingDao.save(now);
-            }
-        }
+        // 기존 2학기 기수 가져오기
+        int originOrdinalNo = trackSettingDao.findTrackSettingBySemester(1).getOrdinalNo();
 
         for (int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {
             Row row = worksheet.getRow(i);
 
+            if (i==1) {
+                int newOrdinalNo = Integer.parseInt(row.getCell(0).getStringCellValue());
+                // 현재 1학기 기수보다 더 높은 기수가 들어오면 새로운 기수
+                if (newOrdinalNo > originOrdinalNo) {
+                    List<TrackSetting> trackSettingList = trackSettingDao.findAll();
+                    for (int j=1;j<trackSettingList.size();j++) {
+                        TrackSetting now = trackSettingList.get(j);
+                        now.setOrdinalNo(now.getOrdinalNo()+1);
+                        trackSettingDao.save(now);
+                    }
+                }
+            }
+
             Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
 
-            User user = User.builder().ordinalNo((int) row.getCell(0).getNumericCellValue())
-                    .userId((int) row.getCell(1).getNumericCellValue())
-                    .name(row.getCell(2).getStringCellValue())
-                    .email(row.getCell(3).getStringCellValue())
-                    .region(row.getCell(5).getStringCellValue())
-                    .classNo((int) row.getCell(6).getNumericCellValue())
-                    .phone(row.getCell(7).getStringCellValue())
-                    .profileUrl("").type(1).statusCode("Y").track(nowTrack)
-                    .build();
+            User user = new User();
+
+            user.setOrdinalNo(Integer.parseInt(row.getCell(0).getStringCellValue()));
+            user.setUserId(Integer.parseInt(row.getCell(1).getStringCellValue()));
+            user.setName(row.getCell(2).getStringCellValue());
+            user.setEmail(row.getCell(3).getStringCellValue());
+            user.setRegion(row.getCell(5).getStringCellValue());
+            user.setClassNo(Integer.parseInt(row.getCell(6).getStringCellValue()));
+            user.setPhone(row.getCell(7).getStringCellValue());
+            user.setProfileUrl("");
+            user.setType(1);
+            user.setStatusCode("Y");
+            user.setTrack(nowTrack);
 
             String pw = "S" + user.getEmail() + user.getOrdinalNo();
             user.setPassword(passwordEncoder.encode(pw));
@@ -110,13 +120,13 @@ public class UserServiceImpl implements UserService {
         for (int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {
             Row row = worksheet.getRow(i);
 
-            User user = userDao.findUserByUserId((int) row.getCell(0).getNumericCellValue());
+            User user = userDao.findUserByUserId(Integer.parseInt(row.getCell(1).getStringCellValue()));
 
-            user.setRegion(row.getCell(4).getStringCellValue());
-            user.setClassNo((int) row.getCell(5).getNumericCellValue());
-            user.setPhone(row.getCell(6).getStringCellValue());
+            user.setRegion(row.getCell(5).getStringCellValue());
+            user.setClassNo(Integer.parseInt(row.getCell(6).getStringCellValue()));
+            user.setPhone(row.getCell(7).getStringCellValue());
 
-            Track nowTrack = trackDao.findTRACKByName(row.getCell(3).getStringCellValue());
+            Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
 
             String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
@@ -128,6 +138,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User updateUser) {
+        User user = userDao.findUserByUserId(updateUser.getUserId());
+        user.setName(updateUser.getName());
+        user.setOrdinalNo(updateUser.getOrdinalNo());
+        user.setRegion(updateUser.getRegion());
+        user.setClassNo(updateUser.getClassNo());
+        user.setProfileUrl(updateUser.getProfileUrl());
+        user.setPhone(updateUser.getPhone());
+        user.setTrack(updateUser.getTrack());
+        user.setStatusCode(updateUser.getStatusCode());
+        String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
+        user.setNickname(nickName);
+        Track track = trackDao.findTRACKByName(updateUser.getTrack().getName());
+        user.setTrack(track);
+
         userDao.save(updateUser);
     }
 
