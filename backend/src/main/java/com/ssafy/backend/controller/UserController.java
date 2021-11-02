@@ -65,7 +65,7 @@ public class UserController {
     @ApiOperation(value = "비밀번호 수정")
     public ResponseEntity<String> updatePW(@RequestBody Password updatePW) {
         if (userService.updatePW(updatePW.getUserId(), updatePW.getOriginPW(), updatePW.getNewPW())) return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
     }
 
     @GetMapping
@@ -88,7 +88,7 @@ public class UserController {
             user.setPassword("");
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
     }
 
     @GetMapping(value = "/searchId/{userId}/{phone}")
@@ -96,20 +96,20 @@ public class UserController {
     public ResponseEntity<String> getEmail(@PathVariable("userId") int userId, @PathVariable("phone") String phone) {
         String email = userService.getEmail(userId, phone);
         if (email != null) return new ResponseEntity<>(email, HttpStatus.OK);
-        return new ResponseEntity<>(email, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
     }
 
     @GetMapping(value = "/searchPW/{email}/{userId}/{phone}")
     @ApiOperation(value = "비밀번호 찾기. 이메일, 학번, 전화번호를 입력하면 비밀번호 초기화 가능")
     public ResponseEntity<String> getPwCheck(@PathVariable("email") String email, @PathVariable("userId") int userId, @PathVariable("phone") String phone) {
         if (userService.getPwCheck(email, userId, phone)) return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
     }
 
     @PatchMapping(value = "/resetPW")
     @ApiOperation(value = "비밀번호 초기화")
     public ResponseEntity<String> resetPW(@RequestBody Password resetPW) {
         if (userService.resetPW(resetPW.getUserId(), resetPW.getNewPW())) return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
     }
 }

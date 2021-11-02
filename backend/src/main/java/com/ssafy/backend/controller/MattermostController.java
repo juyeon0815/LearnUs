@@ -45,7 +45,7 @@ public class MattermostController {
     @ApiOperation(value = "MM 채널 삭제")
     public ResponseEntity<String> delete(@PathVariable("mattermostId") int mattermostId) {
         if (mattermostService.delete(mattermostId)) return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
     }
 
     @GetMapping("/all")
