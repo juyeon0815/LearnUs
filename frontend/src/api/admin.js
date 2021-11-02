@@ -6,5 +6,15 @@ export default {
       url: 'user/all',
       method: 'get',
     })
-  }
+  },
+  registerStudents (data) {
+    return _axios({
+      url: 'user',
+      method: 'post',
+      data: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+  },
 }
