@@ -65,7 +65,21 @@ export default {
   computed: {
     ...mapState('admin', ['students', 'selectedOrd', 'searchWord']),
     currentResult () {
-      return this.students[this.selectedOrd]
+      const entire = this.students[this.selectedOrd]
+      if (this.searchWord.length) {
+        const result = entire.filter(student => {
+          let { name, userId, region, classNo, phone } = student
+          let track = student.track.name
+          let data = [
+            name, String(userId).padStart(7, '0'),
+            region, classNo + '반',
+            track, phone
+          ]
+          return data.join(' ').includes(this.searchWord)
+        })
+        return result
+      }
+      return entire
     },
     paginatedArea () {
       let start = (this.currentPage - 1) * 10

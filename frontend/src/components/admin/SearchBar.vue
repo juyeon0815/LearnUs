@@ -47,6 +47,7 @@ export default {
     if (!this.selectedOrd) {
       this.$store.commit('admin/SET_ORD', this.ordinal[0])
     }
+    this.$store.commit('admin/SET_SEARCH_WORD', '')
   },
   beforeUnmount () {
     this.$store.commit('admin/SET_SEARCH_WORD', '')

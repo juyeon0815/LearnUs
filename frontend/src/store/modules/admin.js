@@ -10,9 +10,12 @@ const state = {
 const actions = {
   // 교육생 관리
   async getStudents({ commit }) {
-    const response = await adminApi.getStudents()
-    // console.log(response)
-    commit('SET_STUDENTS', response.data)
+    try {
+      const response = await adminApi.getStudents()
+      commit('SET_STUDENTS', response.data)
+    } catch (err) {
+      console.log(err.response)
+    }
   }
 }
 

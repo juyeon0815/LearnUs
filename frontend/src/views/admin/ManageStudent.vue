@@ -14,7 +14,10 @@
       <SearchBar/>
     </div>
     <StudentTable/>
-    <StudentUpdate v-if="onUpdate"/>
+    <StudentUpdate
+      v-if="onUpdate"
+      @close="onUpdate=false"
+    />
   </div>
 </template>
 
