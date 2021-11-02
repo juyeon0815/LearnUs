@@ -4,6 +4,7 @@ import OnAir from '@/views/onAir/OnAir.vue'
 import ManageStudent from '@/views/admin/ManageStudent.vue'
 import Account from '@/views/Account.vue'
 import Profile from '@/views/Profile.vue'
+import LiveSchedule from '@/views/admin/LiveSchedule.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/live-schedule',
+    name: 'LiveSchedule',
+    component: LiveSchedule
   }
 ]
 
