@@ -9,5 +9,6 @@ public interface TrackService {
     public void update(Track track);
     public void delete(int trackId);
     public List<Track> getTrackAll();
-    public List<Track> getTrackCurrent();
+    public List<Track> getTrackCurrent1();
+    public List<Track> getTrackCurrent2();
 }
