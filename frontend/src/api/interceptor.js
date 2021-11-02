@@ -28,8 +28,9 @@ _axios.interceptors.response.use(
 
   async function (error) {
     // rfToken 만료될 경우, 로그아웃 처리
-    if (error.response.status === 401 && error.response.data.msg === 'RefreshToken has been expired') {
-      store.dispatch('user/onLogout')
+    if (error.response.status === 401 && error.response.headers.msg === 'RefreshToken has been expired') {
+      store.dispatch('account/onLogout')
+      alert('로그인 유효 시간이 만료되었습니다. 다시 로그인해주세요!')
     }
     // 500 error 처리
     // if (error.response.status >= 500) {
