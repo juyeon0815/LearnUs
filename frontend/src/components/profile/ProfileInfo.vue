@@ -4,7 +4,9 @@
       <div class="title">
         <span>My Info</span>
       </div>
-      <button class="change-info-btn">
+      <button 
+        :class="[isSubmit ? 'change-info-btn' : 'change-btn-disabled']"
+        @click="onChangeUserPhone">
         정보수정
       </button>
     </div>
@@ -56,6 +58,15 @@ export default {
       } else {
         this.error.phoneNumber = false
       }
+      // submit 가능 여부 확인
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      })
+      if (this.phoneNumber === '' || this.phoneNumber === this.originalNumber) {
+        isSubmit = false;
+      }
+      this.isSubmit = isSubmit;
     },
     autoHypenPhone (str) {
       str = str.replace(/[^0-9]/g, '');
@@ -83,6 +94,12 @@ export default {
         return tmp;
       }
     },
+    // 휴대전화 정보 수정
+    async onChangeUserPhone() {
+      await this.$store.dispatch('account/onChangeUserPhone', this.phoneNumber)
+      this.originalNumber = this.$store.state.account.userInfo.phone
+      this.checkForm()
+    }
   },
   watch: {
     phoneNumber: function() {
@@ -91,8 +108,8 @@ export default {
     }
   },
   created() {
-    this.phoneNumber = this.$store.state.account.userInfo.phone
-    this.originalNumber = this.phoneNumber
+    this.originalNumber = this.$store.state.account.userInfo.phone
+    this.phoneNumber = this.originalNumber
   },
 }
 </script>

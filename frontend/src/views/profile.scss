@@ -114,6 +114,13 @@
         color: white;
       }
     }
+    .change-btn-disabled {
+      font-weight: 700;
+      pointer-events: none;
+      border: solid $black;
+      border-radius: 25px;
+      padding: 3px 15px;
+    }
   }
 }
 

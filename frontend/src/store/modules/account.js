@@ -20,6 +20,7 @@ const actions = {
   },
   onLogout ({ commit }) {
     commit('SET_ACCESS_TOKEN', null)
+    commit('SET_USER_INFO', null)
     router.push('/account/login')
   },
   onFindEmail ({ commit }, userData) {
@@ -60,6 +61,32 @@ const actions = {
       console.log(err)
     })
   },
+  onChangePassword ({ state }, passwordData) {
+    const userData = {
+      ...passwordData,
+      userId: state.userInfo.userId
+    }
+    accountApi.changePassword(userData)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  onChangeUserPhone({ state, commit }, newPhoneNumber) {
+    const userData = state.userInfo
+    userData.phone = newPhoneNumber
+    accountApi.changeUserPhone(userData)
+      .then((res) => {
+        if (res.status === 200) {
+          commit('CHANGE_USER_PHONE', newPhoneNumber)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   getUserInfo({ commit }, userId) {
     accountApi.getUserInfo(userId)
       .then((res) => {
@@ -81,6 +108,9 @@ const mutations = {
   },
   SET_INSTANT_USER_ID (state, userId) {
     state.instantUserId = userId
+  },
+  CHANGE_USER_PHONE (state, newPhoneNumber) {
+    state.userInfo.phone = newPhoneNumber
   }
 }
 

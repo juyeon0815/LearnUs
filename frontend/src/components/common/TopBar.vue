@@ -23,7 +23,7 @@
         <ul class="dropdown-content">
           <li @click="$router.push({ name: 'Profile' })">계정 관리</li>
           <li>정보 수정</li>
-          <li>로그아웃</li>
+          <li @click="onLogout()">로그아웃</li>
         </ul>
       </div>
     </div>
@@ -31,8 +31,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'TopBar',
+  methods: {
+    ...mapActions('account', ['onLogout'])
+  }
 }
 </script>
 
