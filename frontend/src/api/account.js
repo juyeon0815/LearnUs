@@ -39,5 +39,12 @@ export default {
       method: 'patch',
       data: userData
     })
+  },
+  changeUserPhone(userData) {
+    return _axios({
+      url: 'user',
+      method: 'patch',
+      data: userData
+    })
   }
 }
