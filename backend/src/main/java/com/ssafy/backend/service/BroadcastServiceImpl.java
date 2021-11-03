@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-public class BroadcastServiceImpl implements BroadcastService{
+public class BroadcastServiceImpl implements BroadcastService {
 
     @Autowired
     private BroadcastDao broadcastDao;
@@ -36,6 +36,8 @@ public class BroadcastServiceImpl implements BroadcastService{
     private ExcelService excelService;
     @Autowired
     private GifticonDao gifticonDao;
+    @Autowired
+    private BroadcastReplayDao broadcastReplayDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -49,13 +51,13 @@ public class BroadcastServiceImpl implements BroadcastService{
         broadcastDao.save(broadcast);
 
         // 참석 명단 생성 및 트랙 목록 생성
-        for (int i=0;i<broadcastInfo.getTrackList().size();i++) {
+        for (int i = 0; i < broadcastInfo.getTrackList().size(); i++) {
             String trackName = broadcastInfo.getTrackList().get(i);
             Track track = trackDao.findTRACKByTrackName(trackName);
             BroadcastTrack broadcastTrack = BroadcastTrack.builder().broadcast(broadcast).track(track).build();
             broadcastTrackDao.save(broadcastTrack);
             List<User> userList = userDao.findUserByTrack(track);
-            for (int j=0;j<userList.size();j++) {
+            for (int j = 0; j < userList.size(); j++) {
                 User user = userList.get(j);
                 Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").build();
                 attendanceDao.save(attendance);
@@ -64,7 +66,7 @@ public class BroadcastServiceImpl implements BroadcastService{
 
         // 교재 생성
         Iterator<String> keys = broadcastInfo.getTextbook().keySet().iterator();
-        while(keys.hasNext()) {
+        while (keys.hasNext()) {
             String key = keys.next();
             String value = broadcastInfo.getTextbook().get(key);
             Textbook textbook = Textbook.builder().name(key).textbookUrl(value).broadcast(broadcast).build();
@@ -84,12 +86,12 @@ public class BroadcastServiceImpl implements BroadcastService{
         broadcastDao.save(broadcast);
 
         // 트랙 수정이 있을 때만 수정
-        if (broadcastInfo.getTrackList().size()>0) {
+        if (broadcastInfo.getTrackList().size() > 0) {
             // 참석 명단 및 트랙 목록 변경 ( 방송 객체로 가지고 있는거 가져와서 일치하지 않으면 삭제, 일치하면 냅두기 )
             List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
 
             // 기존 트랙 목록과 비교 ( 수정된 트랙 목록에 기존에 있는 트랙이 없다면 삭제 )
-            for (int i=0;i<broadcastTrackList.size();i++) {
+            for (int i = 0; i < broadcastTrackList.size(); i++) {
                 // 수정된 트랙 목록 ( 트랙 이름만 존재 ) 와 기존의 트랙 목록 이름과 비교하여 일치하지 않다면 -> 삭제
                 if (!broadcastInfo.getTrackList().contains(broadcastTrackList.get(i).getTrack().getTrackName())) {
                     broadcastTrackDao.delete(broadcastTrackList.get(i)); // 방송 트랙 삭제 시 참석 명단도 함께 삭제됨
@@ -97,7 +99,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             }
 
             // 수정된 트랙 목록과 비교 ( 기존 트랙 목록에 수정된 트랙이 없다면 추가 )
-            for (int i=0;i<broadcastInfo.getTrackList().size();i++) {
+            for (int i = 0; i < broadcastInfo.getTrackList().size(); i++) {
                 // 트랙 리스트 이름과 일치하는 트랙 객체 구하기
                 Track track = trackDao.findTRACKByTrackName(broadcastInfo.getTrackList().get(i));
                 // 해당 방송 객체와 트랙 객체와 일치하는 방송 트랙 객체 구하기
@@ -109,7 +111,7 @@ public class BroadcastServiceImpl implements BroadcastService{
                     broadcastTrackDao.save(saveBroadcastTrack);
                     // 참가 명단 추가
                     List<User> userList = userDao.findUserByTrack(track);
-                    for (int j=0;j<userList.size();j++) {
+                    for (int j = 0; j < userList.size(); j++) {
                         User user = userList.get(j);
                         Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").build();
                         attendanceDao.save(attendance);
@@ -119,16 +121,16 @@ public class BroadcastServiceImpl implements BroadcastService{
         }
 
         // 교재 변경 있을 때만 수정 ( 교재 전체 삭제 후 새로 추가 )
-        if (broadcastInfo.getTextbook().size()>0) {
+        if (broadcastInfo.getTextbook().size() > 0) {
             // 교재 전체 삭제
             List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
-            for (int i=0;i<textbookList.size();i++) {
+            for (int i = 0; i < textbookList.size(); i++) {
                 textbookDao.delete(textbookList.get(i));
             }
 
             // 교재 새로 추가
             Iterator<String> keys = broadcastInfo.getTextbook().keySet().iterator();
-            while(keys.hasNext()) {
+            while (keys.hasNext()) {
                 String key = keys.next();
                 String value = broadcastInfo.getTextbook().get(key);
                 Textbook textbook = Textbook.builder().name(key).textbookUrl(value).broadcast(broadcast).build();
@@ -148,7 +150,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         List<Broadcast> broadcastList = broadcastDao.findAll();
 
         List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
-        for (int i=0;i<broadcastList.size();i++) {
+        for (int i = 0; i < broadcastList.size(); i++) {
             Broadcast broadcast = broadcastList.get(i);
 
             Map<String, String> textbookMap = new HashMap<>();
@@ -158,13 +160,13 @@ public class BroadcastServiceImpl implements BroadcastService{
             List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
 
             // Broadcast에 해당하는 교재 정보 가져오기
-            for (int j=0;j<textbookList.size();j++) {
+            for (int j = 0; j < textbookList.size(); j++) {
                 Textbook textbook = textbookList.get(j);
                 textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
             }
 
             // Broadcast에 해당하는 트랙 정보 가져오기
-            for (int j=0;j<broadcastTrackList.size();j++) {
+            for (int j = 0; j < broadcastTrackList.size(); j++) {
                 BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
                 trackList.add(broadcastTrack.getTrack().getTrackName());
             }
@@ -188,10 +190,10 @@ public class BroadcastServiceImpl implements BroadcastService{
         Map<String, List<Attendance>> map = new HashMap<>();
 
         List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
-        for (int i=0;i<attendanceList.size();i++) {
+        for (int i = 0; i < attendanceList.size(); i++) {
             List<Attendance> saveAttendanceList = new ArrayList<>();
             User user = attendanceList.get(i).getUser();
-            String region_class = user.getRegion()+"_"+user.getClassNo()+"반";
+            String region_class = user.getRegion() + "_" + user.getClassNo() + "반";
             if (map.containsKey(region_class)) saveAttendanceList = map.get(region_class);
             saveAttendanceList.add(attendanceList.get(i));
             map.put(region_class, saveAttendanceList);
@@ -218,11 +220,11 @@ public class BroadcastServiceImpl implements BroadcastService{
         // 해당 방송과 연관된 트랙 가져오기
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
         Set<Mattermost> mattermostSet = new HashSet<>();
-        for (int i=0;i<broadcastTrackList.size();i++) {
+        for (int i = 0; i < broadcastTrackList.size(); i++) {
             Track track = broadcastTrackList.get(i).getTrack();
             // 트랙들과 연관된 매터모스트 가져오기
             List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
-            for (int j=0;j<mattermostTrackList.size();j++) {
+            for (int j = 0; j < mattermostTrackList.size(); j++) {
                 Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
                 // 중복 방지
                 if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
@@ -234,11 +236,11 @@ public class BroadcastServiceImpl implements BroadcastService{
         String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
         // 메시지 작성
         sb.append("### ").append(formatDate).append(" 방송 안내\n")
-                .append(broadcast.getBroadcastDate().getHour()+"시 라이브 방송 [").append(broadcast.getTitle()+"]")
+                .append(broadcast.getBroadcastDate().getHour() + "시 라이브 방송 [").append(broadcast.getTitle() + "]")
                 .append("가 곧 시작합니다!\n모두 접속해주세요~ :ssafyface:");
 
         Iterator<Mattermost> iterator = mattermostSet.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Mattermost mattermost = iterator.next();
             mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
         }
@@ -253,12 +255,12 @@ public class BroadcastServiceImpl implements BroadcastService{
         Set<TrackSetting> trackSettingSet = new HashSet<>(); // 기수 저장할 set
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
 
-        for (int i=0;i<broadcastTrackList.size();i++) {
+        for (int i = 0; i < broadcastTrackList.size(); i++) {
             TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSubject().getTrackSetting();
             if (!trackSettingSet.contains(trackSetting)) trackSettingSet.add(trackSetting);
         }
         Iterator<TrackSetting> iterator = trackSettingSet.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             TrackSetting trackSetting = iterator.next();
             Mattermost mattermost = mattermostDao.findMattermostByTrackSetting(trackSetting);
             if (mattermost != null) mattermostList.add(mattermost);
@@ -273,7 +275,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 미참석 명단\n")
                 .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
 
-        for (int i=0;i<attendanceList.size();i++) {
+        for (int i = 0; i < attendanceList.size(); i++) {
             User user = attendanceList.get(i).getUser();
             sb.append("|").append(user.getOrdinalNo()).append("|")
                     .append(user.getUserId()).append("|")
@@ -283,7 +285,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         }
 
         // 메시지 전송
-        for (int i=0;i<mattermostList.size();i++) {
+        for (int i = 0; i < mattermostList.size(); i++) {
             Mattermost mattermost = mattermostList.get(i);
             mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
         }
@@ -304,11 +306,11 @@ public class BroadcastServiceImpl implements BroadcastService{
         // 해당 방송과 연관된 트랙 가져오기
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
         Set<Mattermost> mattermostSet = new HashSet<>();
-        for (int i=0;i<broadcastTrackList.size();i++) {
+        for (int i = 0; i < broadcastTrackList.size(); i++) {
             Track track = broadcastTrackList.get(i).getTrack();
             // 트랙들과 연관된 매터모스트 가져오기
             List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByTrack(track);
-            for (int j=0;j<mattermostTrackList.size();j++) {
+            for (int j = 0; j < mattermostTrackList.size(); j++) {
                 Mattermost mattermost = mattermostTrackList.get(j).getMattermost();
                 // 중복 방지
                 if (!mattermostSet.contains(mattermost)) mattermostSet.add(mattermost);
@@ -325,7 +327,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 기프티콘 당첨자 명단\n")
                 .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
 
-        for (int i=0;i<gifticonList.size();i++) {
+        for (int i = 0; i < gifticonList.size(); i++) {
             User user = gifticonList.get(i).getUser();
             sb.append("|").append(user.getOrdinalNo()).append("|")
                     .append(user.getUserId()).append("|")
@@ -335,7 +337,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         }
 
         Iterator<Mattermost> iterator = mattermostSet.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Mattermost mattermost = iterator.next();
             mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
         }
@@ -347,5 +349,20 @@ public class BroadcastServiceImpl implements BroadcastService{
 
         List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
         excelService.createExcelGifticon(broadcast, gifticonList, response);
+    }
+
+    //다시보기 데이터 생성
+    @Override
+    public void endReplayAutoUpload(int broadcastId, String autoUploadYn) throws IOException {
+        //방송 객체를 불러와 스트림키를 확인한다.
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        //스트림키로 cdn url를 생성한다
+        String broadcastUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + "/index.m3u8";
+
+        //생성한 uri를 기반으로 다시보기 객체 생성후 삽입
+        BroadcastReplay broadcastReplay = new BroadcastReplay(broadcastUrl, autoUploadYn);
+
+        broadcastReplayDao.save(broadcastReplay);
     }
 }

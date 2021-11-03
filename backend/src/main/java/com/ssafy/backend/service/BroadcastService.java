@@ -20,4 +20,5 @@ public interface BroadcastService {
     public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
     public void endGifticon(int broadcastId);
     public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    public void endReplayAutoUpload(int broadcastId, String autoUploadYn)throws IOException;
 }

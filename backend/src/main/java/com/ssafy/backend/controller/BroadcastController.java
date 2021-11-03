@@ -98,4 +98,11 @@ public class BroadcastController {
         broadcastService.endGifticonDownload(broadcastId, response);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @PostMapping("/end/replay")
+    @ApiOperation(value = "방송 종료 -> 다시보기 정보 생성, 공개 비공개 여부로 제공")
+    public ResponseEntity<String> endReplayAutoUpload(@RequestParam("broadcastId") int broadcastId, @RequestParam("autoUploadYn") String autoUploadYn) throws IOException {
+        broadcastService.endReplayAutoUpload(broadcastId, autoUploadYn);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
 }
