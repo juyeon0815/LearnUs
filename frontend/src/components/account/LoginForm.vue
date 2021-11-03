@@ -31,6 +31,7 @@
           v-model="password"
           type="password"
           placeholder="비밀번호를 입력해 주세요."
+          @keyup.enter="onLogin"
           required
         />
         <label>Password</label>
@@ -39,7 +40,7 @@
       <!-- 로그인 버튼 -->
       <button
         :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
-        @click="onLogin(userData)">
+        @click="onLogin">
         LOGIN
       </button>
       <!-- 페이지 이동 텍스트 -->
@@ -61,7 +62,7 @@
 <script>
 import * as EmailValidator from "email-validator"
 import PV from "password-validator"
-import { mapActions, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'LoginForm',
@@ -78,8 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('account', ['onLogin']),
-    ...mapMutations('account', ['SET_SEARCHED_EMAIL']),
+    ...mapMutations('account', ['SET_SEARCHED_EMAIL', 'SET_HTTP_STATUS']),
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
@@ -105,6 +105,24 @@ export default {
         isSubmit = false;
       }
       this.isSubmit = isSubmit;
+    },
+    async onLogin() {
+      await this.$store.dispatch('account/onLogin', this.userData)
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 400) {
+          alertInfo.message = '잘못된 이메일 혹은 비밀번호입니다.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
     }
   },
   watch: {
@@ -136,10 +154,10 @@ export default {
       .letters()
     // 이메일 찾기에서 돌아왔을 때
     if (this.$store.state.account.searchedEmail) {
-      console.log(this.$store.state.account.searchedEmail)
       this.email = this.$store.state.account.searchedEmail
       this.SET_SEARCHED_EMAIL(null)
     }
+    this.SET_HTTP_STATUS(null)
   }
 }
 </script>

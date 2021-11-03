@@ -6,16 +6,18 @@ const state = {
   userInfo: null,
   searchedEmail: null,
   instantUserId: null,
+  httpStatus: null,
 }
 
 const actions = {
-  onLogin({ dispatch }, userData) {
-    accountApi.login(userData)
+  async onLogin({ dispatch, commit }, userData) {
+    await accountApi.login(userData)
       .then((res) => {
         dispatch('getUserInfo', res.data.userId)
+        commit('SET_HTTP_STATUS', null)
       })
       .catch((err) => {
-        console.log(err)
+        commit('SET_HTTP_STATUS', err.response.status)
       })
   },
   onLogout ({ commit }) {
@@ -23,43 +25,46 @@ const actions = {
     commit('SET_USER_INFO', null)
     router.push('/account/login')
   },
-  onFindEmail ({ commit }, userData) {
-    accountApi.findEmail(userData)
-    .then((res) => {
-      commit('SET_SEARCHED_EMAIL', res.data)
-      router.push('/account/login')
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  async onFindEmail ({ commit }, userData) {
+    await accountApi.findEmail(userData)
+      .then((res) => {
+        commit('SET_HTTP_STATUS', res.status)
+        commit('SET_SEARCHED_EMAIL', res.data)
+        router.push('/account/login')
+      })
+      .catch((err) => {
+        commit('SET_HTTP_STATUS', err.response.status)
+      })
   },
-  onFindPassword ({ commit }, userData) {
-    accountApi.findPassword(userData)
-    .then((res) => {
-      if (res.status === 200) {
-        commit('SET_INSTANT_USER_ID', userData.userId)
-        router.push('/account/reset-password')
-      } else {
-        console.log(res)
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  async onFindPassword ({ commit }, userData) {
+    await accountApi.findPassword(userData)
+      .then((res) => {
+        if (res.status === 200) {
+          commit('SET_INSTANT_USER_ID', userData.userId)
+          commit('SET_HTTP_STATUS', res.status)
+          router.push('/account/reset-password')
+        } else {
+          console.log(res)
+        }
+      })
+      .catch((err) => {
+        commit('SET_HTTP_STATUS', err.response.status)
+      })
   },
-  onResetPassword ({ commit, state }, password) {
+  async onResetPassword ({ commit, state }, password) {
     const userData = {
       userId: state.instantUserId,
       newPW: password
     }
-    accountApi.resetPassword(userData)
-    .then(() => {
-      router.push('/account/login')
-      commit('SET_INSTANT_USER_ID', null)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    await accountApi.resetPassword(userData)
+      .then((res) => {
+        router.push('/account/login')
+        commit('SET_HTTP_STATUS', res.status)
+        commit('SET_INSTANT_USER_ID', null)
+      })
+      .catch((err) => {
+        commit('SET_HTTP_STATUS', err.response.status)
+      })
   },
   onChangePassword ({ state }, passwordData) {
     const userData = {
@@ -111,6 +116,9 @@ const mutations = {
   },
   CHANGE_USER_PHONE (state, newPhoneNumber) {
     state.userInfo.phone = newPhoneNumber
+  },
+  SET_HTTP_STATUS (state, status) {
+    state.httpStatus = status
   }
 }
 
