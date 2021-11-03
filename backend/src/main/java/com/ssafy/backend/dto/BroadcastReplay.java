@@ -24,13 +24,7 @@ public class BroadcastReplay {
     private String replayUrl;
     private String openYn;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "broadcastId")
     private Broadcast broadcast;
-
-    public BroadcastReplay(String replayUrl, String openYn) {
-//        this.broadcastId = broadcastId;
-        this.replayUrl = replayUrl;
-        this.openYn = openYn;
-    }
 }

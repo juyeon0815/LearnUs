@@ -47,6 +47,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                 .broadcastDate(broadcastInfo.getBroadcastDate())
                 .title(broadcastInfo.getTitle())
                 .teacher(broadcastInfo.getTeacher())
+                .liveYn("Y")
                 .description(broadcastInfo.getDescription()).build();
         broadcastDao.save(broadcast);
 
@@ -147,7 +148,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     @Override
     public List<BroadcastInfo> getBroadcastAll() {
-        List<Broadcast> broadcastList = broadcastDao.findAll();
+        List<Broadcast> broadcastList = broadcastDao.findBroadcastsByLiveYn("Y");
 
         List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
         for (int i = 0; i < broadcastList.size(); i++) {
@@ -353,15 +354,19 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     //다시보기 데이터 생성
     @Override
-    public void endReplayAutoUpload(int broadcastId, String autoUploadYn) throws IOException {
+    public void endReplayInsert(int broadcastId, String autoUploadYn) {
         //방송 객체를 불러와 스트림키를 확인한다.
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
-        //스트림키로 cdn url를 생성한다
-        String broadcastUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + "/index.m3u8";
+        broadcast.setLiveYn("N");
+        broadcastDao.save(broadcast);
 
-        //생성한 uri를 기반으로 다시보기 객체 생성후 삽입
-        BroadcastReplay broadcastReplay = new BroadcastReplay(broadcastUrl, autoUploadYn);
+        //스트림키로 cdn url를 생성한다
+        String broadcastReplyUrl = "";
+        if (autoUploadYn.equals("Y")) broadcastReplyUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + "/index.m3u8";
+
+        BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplyUrl).openYn(autoUploadYn)
+                        .broadcast(broadcast).build();
 
         broadcastReplayDao.save(broadcastReplay);
     }

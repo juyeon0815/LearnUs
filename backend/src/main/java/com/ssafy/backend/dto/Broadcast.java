@@ -28,10 +28,6 @@ public class Broadcast {
     private String title;
     private String teacher;
     private String description;
-    private String autoUploadYn;
+    private String liveYn;
     private int chatCount;
-
-//    @OneToOne
-//    @JoinColumn(name = "broadcastId")
-//    private BroadcastReplay broadcastReplay;
 }

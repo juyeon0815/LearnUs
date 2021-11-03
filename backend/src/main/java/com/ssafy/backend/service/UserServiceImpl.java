@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public void insert(MultipartFile excelFile) throws IOException{
         Sheet worksheet = excelService.excelCheck(excelFile);
 
-        // 기존 2학기 기수 가져오기
+        // 기존 1학기 기수 가져오기
         int originOrdinalNo = trackSettingDao.findTrackSettingBySemester(1).getOrdinalNo();
 
         for (int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {

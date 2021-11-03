@@ -5,10 +5,6 @@ import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -18,88 +14,128 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     private BroadcastDao broadcastDao;
     @Autowired
     private BroadcastReplayDao broadcastReplayDao;
-
-//    public void endReplayAutoUpload(int broadcastId, char autoUploadYn) throws IOException {
-//        //방송 객체를 불러와 스트림키를 확인한다.
-//        Broadcast broadcast = broadcastReplayDao.findBroadcastByBroadcastId(broadcastId);
-//
-//        //스트림키로 cdn url를 생성한다
-//        String broadcastUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + "/index.m3u8";
-//
-//        //생성한 uri를 기반으로 다시보기 객체 생성후 삽입
-//        BroadcastReplay broadcastReplay = new BroadcastReplay(broadcast.getBroadcastId(), broadcastUrl, autoUploadYn);
-//
-//
-//        broadcastReplayDao.save(broadcastReplay);
-//    }
+    @Autowired
+    private TextbookDao textbookDao;
+    @Autowired
+    private BroadcastTrackDao broadcastTrackDao;
 
     @Override
-    public void switchOpenYn(int broadcastId) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
-        char switchOpenYn = broadcastReplay.getOpenYn() == 'Y' ? 'N' : 'Y';
+    public boolean insert(BroadcastReplayInfo broadcastReplayInfo) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastReplayInfo.getBroadcastId());
+        if (broadcast == null) return false;
 
-        broadcastReplay.setOpenYn(switchOpenYn);
+        broadcast.setLiveYn("N");
+        broadcastDao.save(broadcast);
 
+        BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplayInfo.getReplayUrl())
+                .openYn(broadcastReplayInfo.getOpenYn()).broadcast(broadcast).build();
         broadcastReplayDao.save(broadcastReplay);
+        return true;
     }
 
     @Override
-    public void updateReplayUrl(int broadcastId, String replayUrl) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
-        broadcastReplay.setReplayUrl(replayUrl);
+    public boolean update(BroadcastReplayInfo broadcastReplayInfo) {
+        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayInfo.getBroadcastReplyId());
+        if (broadcastReplay == null) return false;
+
+        broadcastReplay.setReplayUrl(broadcastReplayInfo.getReplayUrl());
+        broadcastReplay.setOpenYn(broadcastReplayInfo.getOpenYn());
+
         broadcastReplayDao.save(broadcastReplay);
+        return true;
     }
 
     @Override
-    public void deleteReplayUrl(int broadcastId) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
-        broadcastReplay.setReplayUrl("");
-        broadcastReplay.setOpenYn('N');
-        broadcastReplayDao.save(broadcastReplay);
+    public boolean delete(int broadcastReplayId) {
+        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
+        if (broadcastReplay == null) return false;
+
+        broadcastReplayDao.delete(broadcastReplay);
+        return true;
     }
 
     @Override
     public List<BroadcastReplayInfo> getBroadcastReplayAll() {
-        //반환해야하는 정보
-        // 제목, 강사, 대상교육생, 방송시간
-        List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findAll();
         List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+        List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findAll();
 
-        for(int i=0; i<broadcastReplayList.size(); i++){
-            //현재 다시보기 객체 기억
+        for (int i=0;i<broadcastReplayList.size();i++) {
             BroadcastReplay broadcastReplay = broadcastReplayList.get(i);
-
-            // 현재 다시보기 아이디
-//            int broadcastReplayId = broadcastReplay.getBroadcastReplayId();
-
-            //방송아이디로 방송객체 조회
             Broadcast broadcast = broadcastReplay.getBroadcast();
-//                    broadcastDao.findBroadcastByBroadcastId(broadcastReplayId);
-
-            //반환용 리스트의 아이템 생성
-            BroadcastReplayInfo broadcastReplayInfo = new BroadcastReplayInfo();
-            broadcastReplayInfo.setBroadcast(broadcast);
-//            broadcastReplayInfo.setBroadcastReplay(broadcastReplay);
-
+            List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+            Map<String, String> textbookMap = new HashMap<>();
+            // 교재 저장
+            for (int j=0;j<textbookList.size();j++) {
+                Textbook textbook = textbookList.get(j);
+                textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+            }
+            BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplay.getBroadcastReplayId())
+                    .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
+                    .broadcast(broadcast).textbook(textbookMap).build();
             broadcastReplayInfoList.add(broadcastReplayInfo);
-
-            System.out.println(broadcastReplayInfo);
         }
+
         return broadcastReplayInfoList;
     }
 
     @Override
-    public List<BroadcastReplayInfo> getBroadcastReplayByTrack() {
-        return null;
+    public List<BroadcastReplayInfo> getBroadcastReplayTrack(String trackName) {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+        List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findAll();
+
+        for (int i=0;i<broadcastReplayList.size();i++) {
+            Boolean flag = false;
+            BroadcastReplay broadcastReplay = broadcastReplayList.get(i);
+            Broadcast broadcast = broadcastReplay.getBroadcast();
+
+            // 방송과 관련된 트랙 정보 가져오기
+            List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+            for (int j=0;j<broadcastTrackList.size();j++) {
+                BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
+                // 방송과 관련된 트랙 이름과 일치하면 객체 넣기
+                if (broadcastTrack.getTrack().getTrackName().equals(trackName)) flag = true;
+            }
+
+            if (flag) {
+                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                Map<String, String> textbookMap = new HashMap<>();
+
+                // 방송 관련 교재 가져오기
+                for (int j=0;j<textbookList.size();j++) {
+                    Textbook textbook = textbookList.get(j);
+                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                }
+
+                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplay.getBroadcastReplayId())
+                        .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                        .textbook(textbookMap).broadcast(broadcast).build();
+
+                broadcastReplayInfoList.add(broadcastReplayInfo);
+            }
+        }
+
+        return broadcastReplayInfoList;
     }
 
     @Override
     public BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId) {
-        return null;
+        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
+        Broadcast broadcast = broadcastReplay.getBroadcast();
+        if (broadcastReplay == null || broadcast == null) return null;
+
+        List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+        Map<String, String> textbookMap = new HashMap<>();
+
+        for (int i=0;i<textbookList.size();i++) {
+            Textbook textbook = textbookList.get(i);
+            textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+        }
+        System.out.println("textbookMap : "+textbookMap);
+
+        BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplayId)
+                .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                .textbook(textbookMap).broadcast(broadcast).build();
+
+        return broadcastReplayInfo;
     }
-
-
 }
