@@ -14,14 +14,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Track {
+public class TrackSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int trackId;
+    private int trackSubjectId;
 
-    private String trackName;
+    private String subjectName;
+    private String nowSubject;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trackSubjectId")
-    private TrackSubject trackSubject;
+    @JoinColumn(name = "trackSettingId")
+    private TrackSetting trackSetting;
 }

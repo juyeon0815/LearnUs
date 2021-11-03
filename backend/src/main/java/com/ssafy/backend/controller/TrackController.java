@@ -1,6 +1,7 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Track;
+import com.ssafy.backend.dto.TrackInfo;
 import com.ssafy.backend.service.TrackService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/track")
@@ -22,23 +25,23 @@ public class TrackController {
     private TrackService trackService;
 
     @PostMapping
-    @ApiOperation(value = "Track 추가. semester : 학기, name : 트랙 이름, subject : 트랙 주제(2학기만)")
-    public ResponseEntity<String> insert(@RequestParam("semester") int semester, @RequestParam("name") String name, @RequestParam(value = "subject", required = false, defaultValue = "") String subject) {
-        trackService.insert(semester, name, subject);
+    @ApiOperation(value = "Track 추가")
+    public ResponseEntity<String> insert(@RequestBody TrackInfo trackInfo) {
+        if (!trackService.insert(trackInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "Track 수정")
-    public ResponseEntity<String> update(@RequestBody Track track) {
-        trackService.update(track);
+    public ResponseEntity<String> update(@RequestBody TrackInfo trackInfo) {
+        if (!trackService.update(trackInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{trackId}")
     @ApiOperation(value = "Track 삭제")
     public ResponseEntity<String> delete(@PathVariable("trackId") int trackId) {
-        trackService.delete(trackId);
+        if (!trackService.delete(trackId)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
@@ -48,16 +51,20 @@ public class TrackController {
         return new ResponseEntity<>(trackService.getTrackAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/2")
-    @ApiOperation(value = "현재 트랙 주제 조회. 현재 트랙 주제가 공통이라면 공통에 관련된 트랙들만 보여줌")
-    public ResponseEntity<List<Track>> getTrackCurrent2() {
-        return new ResponseEntity<>(trackService.getTrackCurrent2(), HttpStatus.OK);
+    @GetMapping("/{subjectName}")
+    @ApiOperation(value = "TrackSubject별 Track 조회")
+    public ResponseEntity<List<Track>> getTrackSubject(@PathVariable("subjectName") String subjectName) {
+        List<Track> trackList = trackService.getTrackSubject(subjectName);
+        if (trackList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(trackList, HttpStatus.OK);
     }
 
-    @GetMapping("/1")
-    @ApiOperation(value = "1학기 과정 트랙 조회")
-    public ResponseEntity<List<Track>> getTrackCurrent1() {
-        return new ResponseEntity<>(trackService.getTrackCurrent1(), HttpStatus.OK);
+    @GetMapping("/current")
+    @ApiOperation(value = "현재 TrackSubject 관련 Track 조회")
+    public ResponseEntity<List<Track>> getCurrentTrackSubject() {
+        List<Track> trackList = trackService.getCurrentTrackSubject();
+        if (trackList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(trackList, HttpStatus.OK);
     }
 }
 

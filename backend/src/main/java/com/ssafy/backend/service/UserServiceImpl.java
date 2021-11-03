@@ -6,13 +6,8 @@ import com.ssafy.backend.dao.UserDao;
 import com.ssafy.backend.dto.Track;
 import com.ssafy.backend.dto.TrackSetting;
 import com.ssafy.backend.dto.User;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -88,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
 
-            Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
+            Track nowTrack = trackDao.findTRACKByTrackName(row.getCell(4).getStringCellValue());
 
             User user = new User();
 
@@ -125,7 +120,7 @@ public class UserServiceImpl implements UserService {
             user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
 
-            Track nowTrack = trackDao.findTRACKByName(row.getCell(4).getStringCellValue());
+            Track nowTrack = trackDao.findTRACKByTrackName(row.getCell(4).getStringCellValue());
 
             String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
@@ -148,7 +143,7 @@ public class UserServiceImpl implements UserService {
         user.setStatusCode(updateUser.getStatusCode());
         String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
         user.setNickname(nickName);
-        Track track = trackDao.findTRACKByName(updateUser.getTrack().getName());
+        Track track = trackDao.findTRACKByTrackName(updateUser.getTrack().getTrackName());
         if (track != null) user.setTrack(track);
 
         userDao.save(user);
@@ -171,7 +166,7 @@ public class UserServiceImpl implements UserService {
         Map<String, List<User>> map = new HashMap<>();
         List<User> userList = new ArrayList<>();
         for (int i=0;i<trackList.size();i++) {
-            Track trackNow = trackDao.findTRACKByName(trackList.get(i));
+            Track trackNow = trackDao.findTRACKByTrackName(trackList.get(i));
             // 현재 트랙에 해당되는 학생들 뽑기
             userList = userDao.findUserByTrack(trackNow);
             map.put(trackList.get(i), userList);

@@ -43,7 +43,7 @@ public class MattermostServiceImpl implements MattermostService{
         mattermostDao.save(mattermost);
 
         for (int i=0;i<mattermostInfo.getTrackList().size();i++) {
-            Track track = trackDao.findTRACKByName(mattermostInfo.getTrackList().get(i));
+            Track track = trackDao.findTRACKByTrackName(mattermostInfo.getTrackList().get(i));
             MattermostTrack mattermostTrack = MattermostTrack.builder().mattermost(mattermost).track(track).build();
             mattermostTrackDao.save(mattermostTrack);
         }
@@ -67,14 +67,14 @@ public class MattermostServiceImpl implements MattermostService{
             // 기존 트랙 목록과 비교
             for (int i=0;i<mattermostTrackList.size();i++) {
                 // 수정된 트랙 목록과 기존의 트랙 목록 이름 비교하여 일치하지 않다면 -> 삭제
-                if (!mattermostInfo.getTrackList().contains(mattermostTrackList.get(i).getTrack().getName())) {
+                if (!mattermostInfo.getTrackList().contains(mattermostTrackList.get(i).getTrack().getTrackName())) {
                     mattermostTrackDao.delete(mattermostTrackList.get(i));
                 }
             }
 
             // 수정된 트랙 목록과 비교
             for (int i=0;i<mattermostInfo.getTrackList().size();i++) {
-                Track track = trackDao.findTRACKByName(mattermostInfo.getTrackList().get(i));
+                Track track = trackDao.findTRACKByTrackName(mattermostInfo.getTrackList().get(i));
                 MattermostTrack mattermostTrack = mattermostTrackDao.findMattermostTrackByMattermostAndTrack(mattermost, track);
                 // 기존 트랙에 존재하지 않다면 -> 추가
                 if (mattermostTrack == null) {
@@ -106,9 +106,9 @@ public class MattermostServiceImpl implements MattermostService{
             List<MattermostTrack> mattermostTrackList = mattermostTrackDao.findMattermostTracksByMattermost(mattermost);
             for (int j=0;j<mattermostTrackList.size();j++) {
                 Track track = mattermostTrackList.get(j).getTrack();
-                trackList.add(track.getName());
+                trackList.add(track.getTrackName());
             }
-            MattermostInfo mattermostInfo = MattermostInfo.builder().webhook(mattermost.getWebhook())
+            MattermostInfo mattermostInfo = MattermostInfo.builder().mattermostId(mattermost.getMattermostId()).webhook(mattermost.getWebhook())
                     .name(mattermost.getName()).pathName(mattermost.getPathName()).trackList(trackList).build();
             mattermostInfoList.add(mattermostInfo);
             trackList = new ArrayList<>(); // 초기화

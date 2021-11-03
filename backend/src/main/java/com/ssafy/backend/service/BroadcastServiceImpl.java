@@ -51,7 +51,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         // 참석 명단 생성 및 트랙 목록 생성
         for (int i=0;i<broadcastInfo.getTrackList().size();i++) {
             String trackName = broadcastInfo.getTrackList().get(i);
-            Track track = trackDao.findTRACKByName(trackName);
+            Track track = trackDao.findTRACKByTrackName(trackName);
             BroadcastTrack broadcastTrack = BroadcastTrack.builder().broadcast(broadcast).track(track).build();
             broadcastTrackDao.save(broadcastTrack);
             List<User> userList = userDao.findUserByTrack(track);
@@ -91,7 +91,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             // 기존 트랙 목록과 비교 ( 수정된 트랙 목록에 기존에 있는 트랙이 없다면 삭제 )
             for (int i=0;i<broadcastTrackList.size();i++) {
                 // 수정된 트랙 목록 ( 트랙 이름만 존재 ) 와 기존의 트랙 목록 이름과 비교하여 일치하지 않다면 -> 삭제
-                if (!broadcastInfo.getTrackList().contains(broadcastTrackList.get(i).getTrack().getName())) {
+                if (!broadcastInfo.getTrackList().contains(broadcastTrackList.get(i).getTrack().getTrackName())) {
                     broadcastTrackDao.delete(broadcastTrackList.get(i)); // 방송 트랙 삭제 시 참석 명단도 함께 삭제됨
                 }
             }
@@ -99,7 +99,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             // 수정된 트랙 목록과 비교 ( 기존 트랙 목록에 수정된 트랙이 없다면 추가 )
             for (int i=0;i<broadcastInfo.getTrackList().size();i++) {
                 // 트랙 리스트 이름과 일치하는 트랙 객체 구하기
-                Track track = trackDao.findTRACKByName(broadcastInfo.getTrackList().get(i));
+                Track track = trackDao.findTRACKByTrackName(broadcastInfo.getTrackList().get(i));
                 // 해당 방송 객체와 트랙 객체와 일치하는 방송 트랙 객체 구하기
                 BroadcastTrack broadcastTrack = broadcastTrackDao.findBroadcastTracksByBroadcastAndTrack(broadcast, track);
                 // 기존의 방송 트랙에 존재하지 않다면 -> 새로 추가해줘야됨
@@ -166,7 +166,7 @@ public class BroadcastServiceImpl implements BroadcastService{
             // Broadcast에 해당하는 트랙 정보 가져오기
             for (int j=0;j<broadcastTrackList.size();j++) {
                 BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
-                trackList.add(broadcastTrack.getTrack().getName());
+                trackList.add(broadcastTrack.getTrack().getTrackName());
             }
 
             // BroadcastInfo 객체에 정보 넣어서 보내주기
@@ -254,7 +254,7 @@ public class BroadcastServiceImpl implements BroadcastService{
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
 
         for (int i=0;i<broadcastTrackList.size();i++) {
-            TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSetting();
+            TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSubject().getTrackSetting();
             if (!trackSettingSet.contains(trackSetting)) trackSettingSet.add(trackSetting);
         }
         Iterator<TrackSetting> iterator = trackSettingSet.iterator();
