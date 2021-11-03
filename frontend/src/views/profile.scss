@@ -2,6 +2,7 @@
 
 .profile {
   .profile-box {
+    width: 850px;
     .heading {
       font-family: 'Montserrat', sans-serif;
       font-size: 3rem;
@@ -15,22 +16,155 @@
       background: $light;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       margin-top: 30px;
-      padding: 50px 30px;
+      padding: 30px 80px;
       color: black
+    }
+    .margin-end {
+      margin-bottom: 50px;
     }
   }
 }
 
 .profile-head {
-
+  display: flex;
+  .student-photo {
+    margin-right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .photo-circle {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      background: $light-grey;
+    }
+    .photo-update {
+      margin-top: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: $orange;
+      .dot-space {
+        margin: 0 3px;
+      }
+      .text-btn {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .student-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    .student-name {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .student-id {
+      background: $orange;
+      margin: 0 10px;
+      padding: 2px 12px;
+      border-radius: 20px;
+      color: $white;
+      font-family: 'Montserrat', sans-serif;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .department {
+      font-weight: 400;
+      color: $light-grey;
+      .grade {
+        font-size: 1rem;
+      }
+      .region-class {
+        font-size: 0.7rem;
+        margin-left: 5px;
+      }
+    }
+  }
 }
 
 .profile-info {
-
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  .title-button-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 2rem;
+      border-bottom: 4px solid $orange;
+      padding: 0 30px 3px 10px;
+    }
+    .change-info-btn {
+      font-weight: 700;
+      border: solid $orange;
+      border-radius: 25px;
+      padding: 3px 15px;
+      &:hover {
+        background: $orange;
+        color: white;
+      }
+    }
+    .change-btn-disabled {
+      font-weight: 700;
+      pointer-events: none;
+      border: solid $black;
+      border-radius: 25px;
+      padding: 3px 15px;
+    }
+  }
 }
 
-.profile-password {
-
+.info-inputs {
+  display: flex;
+  justify-content: flex-start;
+  .info-input-box {
+    position: relative;
+    .info-input {
+      width: 300px !important;
+      height: 35px;
+      margin-top: 50px;
+      background-color: $blank-grey;
+      color: #212121;
+      box-shadow: none;
+      box-shadow:inset 0px 3px 3px rgba(0, 0, 0, .3);
+      border: none;
+      outline: none;
+      padding-left: 20px;
+      padding-right: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 30px !important;
+      transition: none;
+      ~label {
+        position: absolute;
+        color: $orange;
+        font-style: italic;
+        left: 20px;
+        top: 25px;
+        pointer-events:none;
+      }
+    }
+    .margin-between {
+      margin-right: 50px;
+    }
+    .error-text {
+      margin-top: 3px;
+      padding-left: 20px;
+      color: $orange;
+      font-size: 1rem;
+      font-weight: 200;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  }
 }

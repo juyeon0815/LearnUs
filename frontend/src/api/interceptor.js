@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store/index.js'
 
 const _axios = axios.create({
   baseURL: process.env.VUE_APP_SERVER_URL,
@@ -7,8 +8,10 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use(
   function (config) {
+    // 요청 헤더에 acToken 추가
+    config.headers.accessToken = store.state.account.accessToken
     return config;
-  }, 
+  },
   function (error) {
     return Promise.reject(error)
   }
@@ -16,11 +19,19 @@ _axios.interceptors.request.use(
 
 _axios.interceptors.response.use(
   function (response) {
+    // 응답 헤더에 acToken이 오는지 확인 > 있으면 state 저장
+    if (response.headers.accesstoken) {
+      store.commit('account/SET_ACCESS_TOKEN', response.headers.accesstoken)
+    }
     return response;
   },
 
   async function (error) {
-    
+    // rfToken 만료될 경우, 로그아웃 처리
+    if (error.response.status === 401 && error.response.headers.msg === 'RefreshToken has been expired') {
+      store.dispatch('account/onLogout')
+      alert('로그인 유효 시간이 만료되었습니다. 다시 로그인해주세요!')
+    }
     // 500 error 처리
     // if (error.response.status >= 500) {
     //   router.push({ name: 'ServerError'})

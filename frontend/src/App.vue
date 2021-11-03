@@ -6,6 +6,9 @@
     <TopBar
       v-if="needTopBar"
     />
+    <TopLogo
+      v-if="needTopLogo"
+    />
     <router-view
       :class="{ 'space-left': needSideBar, 'space-top': needTopBar }"
     />
@@ -16,19 +19,23 @@
 import "@/assets/style/index.scss";
 import SideBar from '@/components/common/SideBar'
 import TopBar from '@/components/common/TopBar'
+import TopLogo from '@/components/common/TopLogo'
 
 export default {
   name: 'App',
   components: {
     SideBar,
     TopBar,
+    TopLogo
   },
   computed: {
     isAccount () {
       return this.$route.name === "Account"
     },
     needSideBar () {
-      if (this.$route.name === "Account") {
+      if (this.$route.name === "Account" ||
+          this.$route.name === "OnAir"
+      ) {
         return false
       }
       return true
@@ -38,6 +45,12 @@ export default {
         return false
       }
       return true
+    },
+    needTopLogo () {
+      if (this.$route.name === "OnAir") {
+        return true
+      }
+      return false
     }
   }
 }

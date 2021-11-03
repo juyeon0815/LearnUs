@@ -1,7 +1,13 @@
-$breakpoint: 576px;
+$breakpoint-sm: 576px;
+$breakpoint-xxl: 1400px;
 
 @mixin sm {
-  @media (max-width: #{$breakpoint}) {
+  @media (max-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+@mixin xxl {
+  @media (min-width: #{$breakpoint-xxl}) {
     @content;
   }
 }

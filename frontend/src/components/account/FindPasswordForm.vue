@@ -31,6 +31,7 @@
           type="text"
           maxlength="7"
           placeholder="SSAFY 학번을 입력해 주세요."
+          @click="onFindPassword"
           required
         />
         <label>student ID</label>
@@ -52,7 +53,8 @@
       </div>
       <!-- 제출 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onFindPassword">
         Check Account
       </button>
     </div>
@@ -60,6 +62,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import * as EmailValidator from "email-validator"
 
 export default {
@@ -70,7 +73,7 @@ export default {
       studentId: '',
       phoneNumber: '',
       error: {
-        email: '',
+        email: false,
         studentId: false,
         phoneNumber: false,
       },
@@ -78,6 +81,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('account', ['SET_HTTP_STATUS']),
     // 형식 검증 method
     checkForm() {
       // 이메일 형식 검증
@@ -134,6 +138,36 @@ export default {
         return tmp;
       }
     },
+    async onFindPassword() {
+      await this.$store.dispatch('account/onFindPassword', this.userData)
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '회원정보 확인에 성공했습니다.'
+        } else if (httpStatus === 400) {
+          alertInfo.message = '잘못된 이메일, 학번 또는 전화번호입니다.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
+    }
+  },
+  computed: {
+    userData() {
+      return {
+        email: this.email,
+        userId: this.studentId,
+        phoneNumber: this.phoneNumber
+      }
+    }
   },
   watch: {
     email: function() {
@@ -147,6 +181,9 @@ export default {
       this.checkForm();
     },
   },
+  created() {
+    this.SET_HTTP_STATUS(null)
+  }
 }
 </script>
 

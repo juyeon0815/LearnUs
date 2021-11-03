@@ -36,7 +36,8 @@
       </div>
       <!-- 비밀번호 재설정 버튼 -->
       <button
-        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']">
+        :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
+        @click="onResetPassword">
         Reset Password
       </button>
     </div>
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import PV from "password-validator"
 
 export default {
@@ -61,6 +63,7 @@ export default {
     }
   },
   methods: {
+        ...mapMutations('account', ['SET_HTTP_STATUS']),
     // 형식 검증 method
     checkForm() {
       // 비밀번호 형식 검증
@@ -86,7 +89,28 @@ export default {
         isSubmit = false;
       }
       this.isSubmit = isSubmit;
-    },  
+    },
+    async onResetPassword() {
+      await this.$store.dispatch('account/onResetPassword', this.password)
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '비밀번호 설정이 완료되었습니다.'
+        } else if (httpStatus === 400) {
+          alertInfo.message = '잘못된 비밀번호입니다.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
+    }
   },
   watch: {
     password: function() {
@@ -107,6 +131,7 @@ export default {
       .digits()
       .has()
       .letters()
+    this.SET_HTTP_STATUS(null)
   }
 }
 </script>

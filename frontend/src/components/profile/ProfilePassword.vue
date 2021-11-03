@@ -1,11 +1,145 @@
 <template>
-  <div class="profile-password">
-    <p>ProfilePassword</p>
+  <div class="profile-info margin-end">
+    <div class="title-button-box">
+      <div class="title">
+        <span>Password</span>
+      </div>
+      <button 
+        :class="[isSubmit ? 'change-info-btn' : 'change-btn-disabled']"
+        @click="onChangePassword(passwordData)">
+        비밀번호 변경
+      </button>
+    </div>
+    <div class="info-inputs">
+      <!-- 기존 비밀번호 input -->
+      <div class="info-input-box">
+        <input 
+          type="password"
+          class="info-input"
+          placeholder="기존 비밀번호를 입력하세요"
+          v-model="originPW"
+          required
+        />
+        <label>Old Password</label>
+        <div class="error-text" v-if="error.originPW">{{error.originPW}}</div>
+      </div>
+    </div>
+    <div class="info-inputs">
+      <!-- 새 비밀번호 input -->
+      <div class="info-input-box">
+        <input 
+          type="password"
+          class="info-input margin-between"
+          placeholder="새로운 비밀번호를 입력하세요"
+          v-model="newPW"
+          required
+        />
+        <label>New Password</label>
+        <div class="error-text" v-if="error.newPW">{{error.newPW}}</div>
+      </div>
+      <!-- 새 비밀번호 확인 input -->
+      <div class="info-input-box">
+        <input 
+          type="password"
+          class="info-input"
+          placeholder="비밀번호를 한 번 더 입력하세요"
+          v-model="passwordConfirm"
+          required
+        />
+        <label>New Password Confirm</label>
+        <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import PV from "password-validator"
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'ProfilePassword'
+  name: 'ProfilePassword',
+  data: () => {
+    return {
+      originPW: '',
+      newPW: '',
+      passwordConfirm: '',
+      passwordSchema: new PV(),
+      error: {
+        originPW: false,
+        newPW: false,
+        passwordConfirm: false,
+      },
+      isSubmit: false,
+    }
+  },
+  methods: {
+    ...mapActions('account', ['onChangePassword']),
+    // 형식 검증 method
+    checkForm() {
+      // 기존 비밀번호 형식 검증
+      if (this.originPW.length > 0 && 
+      !this.passwordSchema.validate(this.originPW)
+      ) {
+        this.error.originPW = "영문, 숫자 포함 8자 이상이어야 합니다."
+      } else {
+        this.error.originPW = false
+      }
+      // 새 비밀번호 형식 검증
+      if (this.newPW.length > 0 && 
+      !this.passwordSchema.validate(this.newPW)
+      ) {
+        this.error.newPW = "영문, 숫자 포함 8자 이상이어야 합니다."
+      } else {
+        this.error.newPW = false
+      }
+      // 비밀번호 확인 형식 검증
+      if (this.passwordConfirm.length > 0 && this.newPW !== this.passwordConfirm) {
+        this.error.passwordConfirm = "입력하신 비밀번호와 일치하지 않습니다."
+      } else {
+        this.error.passwordConfirm = false;
+      }
+      // submit 가능 여부 확인
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      })
+      if (this.originPW === '' || this.newPW === '' ||this.passwordConfirm === '') {
+        isSubmit = false;
+      }
+      this.isSubmit = isSubmit;
+    }, 
+  },
+  watch: {
+    originPW: function() {
+      this.checkForm()
+    },
+    newPW: function() {
+      this.checkForm()
+    },
+    passwordConfirm() {
+      this.checkForm()
+    }
+  },
+  computed: {
+    passwordData() {
+      return {
+        originPW: this.originPW,
+        newPW: this.newPW,
+      }
+    }
+  },
+  created() {
+    // 비밀번호 규칙 생성
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(100)
+      .has()
+      .digits()
+      .has()
+      .letters()
+  }
 }
 </script>
