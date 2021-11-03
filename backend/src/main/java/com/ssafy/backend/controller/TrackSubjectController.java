@@ -23,7 +23,7 @@ public class TrackSubjectController {
 
     @GetMapping("/ordinalNo")
     @ApiOperation(value = "현재 기수 조회")
-    public ResponseEntity<List<String>> getOrdinalNo() {
+    public ResponseEntity<List<Integer>> getOrdinalNo() {
         return new ResponseEntity<>(trackSubjectService.getOrdinalNo(), HttpStatus.OK);
     }
 

@@ -20,11 +20,11 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     private TrackSubjectDao trackSubjectDao;
 
     @Override
-    public List<String> getOrdinalNo() {
+    public List<Integer> getOrdinalNo() {
         List<TrackSetting> trackSettingList = trackSettingDao.findAll();
-        List<String> ordinalNoList = new ArrayList<>();
+        List<Integer> ordinalNoList = new ArrayList<>();
         for (int i=1;i<trackSettingList.size();i++) {
-            ordinalNoList.add(trackSettingList.get(i).getOrdinalNo()+"기");
+            ordinalNoList.add(trackSettingList.get(i).getOrdinalNo());
         }
         return ordinalNoList;
     }

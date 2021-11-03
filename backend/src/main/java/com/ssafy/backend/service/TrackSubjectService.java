@@ -6,7 +6,7 @@ import com.ssafy.backend.dto.TrackSubjectInfo;
 import java.util.List;
 
 public interface TrackSubjectService {
-    public List<String> getOrdinalNo();
+    public List<Integer> getOrdinalNo();
     public boolean insert(TrackSubjectInfo trackSubjectInfo);
     public boolean update(TrackSubjectInfo trackSubjectInfo);
     public boolean delete(int trackSubjectId);
