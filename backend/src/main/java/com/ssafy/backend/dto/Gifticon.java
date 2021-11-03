@@ -14,17 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Quiz {
+public class Gifticon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int quizId;
+    private int gifticonId;
 
-    private String type;
-    private String question;
-    private String answer;
-    private String useYn;
-    private int attendCount;
-    private int answerCount;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "broadcastId")

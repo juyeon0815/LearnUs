@@ -2,12 +2,14 @@ package com.ssafy.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +19,9 @@ public class Track {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trackId;
 
-    private String name;
-    private String subject;
+    private String trackName;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trackSettingId")
-    private TrackSetting trackSetting;
+    @JoinColumn(name = "trackSubjectId")
+    private TrackSubject trackSubject;
 }
