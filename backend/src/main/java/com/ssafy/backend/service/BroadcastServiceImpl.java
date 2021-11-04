@@ -186,6 +186,38 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
+    public BroadcastInfo getBroadcast(int broadcastId) {
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastIdAndLiveYn(broadcastId, "Y");
+        if (broadcast == null) return null;
+
+        Map<String, String> textbookMap = new HashMap<>();
+        List<String> trackList = new ArrayList<>();
+
+        List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+
+        // Broadcast에 해당하는 교재 정보 가져오기
+        for (int i=0;i<textbookList.size();i++) {
+            Textbook textbook = textbookList.get(i);
+            textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+        }
+
+        // Broadcast에 해당하는 트랙 정보 가져오기
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
+            trackList.add(broadcastTrack.getTrack().getTrackName());
+        }
+
+        BroadcastInfo broadcastInfo = BroadcastInfo.builder().broadcastId(broadcastId)
+                .streamingKey(broadcast.getStreamingKey())
+                .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
+                .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
+                .textbook(textbookMap).trackList(trackList).build();
+
+        return broadcastInfo;
+    }
+
+    @Override
     public Map<String, List<Attendance>> getAttendance(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
         Map<String, List<Attendance>> map = new HashMap<>();
