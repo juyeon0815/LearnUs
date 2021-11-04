@@ -99,6 +99,22 @@ export default {
       await this.$store.dispatch('account/onChangeUserPhone', this.phoneNumber)
       this.originalNumber = this.$store.state.account.userInfo.phone
       this.checkForm()
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '등록된 전화번호가 변경되었습니다.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
     }
   },
   watch: {
