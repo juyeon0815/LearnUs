@@ -53,8 +53,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
         // 참석 명단 생성 및 트랙 목록 생성
         for (int i = 0; i < broadcastInfo.getTrackList().size(); i++) {
-            String trackName = broadcastInfo.getTrackList().get(i);
-            Track track = trackDao.findTRACKByTrackName(trackName);
+            Track track = broadcastInfo.getTrackList().get(i);
             BroadcastTrack broadcastTrack = BroadcastTrack.builder().broadcast(broadcast).track(track).build();
             broadcastTrackDao.save(broadcastTrack);
             List<User> userList = userDao.findUserByTrack(track);
@@ -102,7 +101,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             // 수정된 트랙 목록과 비교 ( 기존 트랙 목록에 수정된 트랙이 없다면 추가 )
             for (int i = 0; i < broadcastInfo.getTrackList().size(); i++) {
                 // 트랙 리스트 이름과 일치하는 트랙 객체 구하기
-                Track track = trackDao.findTRACKByTrackName(broadcastInfo.getTrackList().get(i));
+                Track track = broadcastInfo.getTrackList().get(i);
                 // 해당 방송 객체와 트랙 객체와 일치하는 방송 트랙 객체 구하기
                 BroadcastTrack broadcastTrack = broadcastTrackDao.findBroadcastTracksByBroadcastAndTrack(broadcast, track);
                 // 기존의 방송 트랙에 존재하지 않다면 -> 새로 추가해줘야됨
@@ -155,7 +154,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             Broadcast broadcast = broadcastList.get(i);
 
             Map<String, String> textbookMap = new HashMap<>();
-            List<String> trackList = new ArrayList<>();
+            List<Track> trackList = new ArrayList<>();
 
             List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
             List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
@@ -169,7 +168,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             // Broadcast에 해당하는 트랙 정보 가져오기
             for (int j = 0; j < broadcastTrackList.size(); j++) {
                 BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
-                trackList.add(broadcastTrack.getTrack().getTrackName());
+                trackList.add(broadcastTrack.getTrack());
             }
 
             // BroadcastInfo 객체에 정보 넣어서 보내주기
@@ -191,7 +190,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         if (broadcast == null) return null;
 
         Map<String, String> textbookMap = new HashMap<>();
-        List<String> trackList = new ArrayList<>();
+        List<Track> trackList = new ArrayList<>();
 
         List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
@@ -205,7 +204,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         // Broadcast에 해당하는 트랙 정보 가져오기
         for (int i=0;i<broadcastTrackList.size();i++) {
             BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
-            trackList.add(broadcastTrack.getTrack().getTrackName());
+            trackList.add(broadcastTrack.getTrack());
         }
 
         BroadcastInfo broadcastInfo = BroadcastInfo.builder().broadcastId(broadcastId)

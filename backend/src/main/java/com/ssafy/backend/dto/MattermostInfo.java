@@ -17,5 +17,5 @@ public class MattermostInfo {
     private String webhook;
     private String name;
     private String pathName;
-    private List<String> trackList;
+    private List<Track> trackList;
 }
