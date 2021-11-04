@@ -14,6 +14,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .alert {
+      position: absolute;
+      top: 30px;
+      padding: .5rem 2rem;
+      width: 90%;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      z-index: 3;
+      box-shadow: 0 2px 3px rgba($dark, .4);
+      &.blue {
+        color: $light;
+        background-color: rgba($blue, .9);
+        border: 1px solid $blue;
+      }
+      &.yellow {
+        color: $dark;
+        background-color: rgba($yellow, .9);
+        border: 1px solid $yellow;
+      }
+    }
     .login-form {
       display: flex;
       position: absolute;

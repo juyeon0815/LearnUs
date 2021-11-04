@@ -1,12 +1,13 @@
 package com.ssafy.backend.dao;
 
 import com.ssafy.backend.dto.Track;
+import com.ssafy.backend.dto.TrackSubject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface TrackDao extends JpaRepository<Track, String> {
-    Track findTRACKByName(String Name);
+    Track findTRACKByTrackName(String trackName);
     Track findTrackByTrackId(int trackId);
-    List<Track> findTracksBySubject(String subject);
+    List<Track> findTracksByTrackSubject(TrackSubject trackSubject);
 }

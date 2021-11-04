@@ -39,7 +39,7 @@
       <!-- 제출 버튼 -->
       <button
         :class="[isSubmit ? 'btn-orange' : 'btn-disabled', 'btn-submit']"
-        @click="onFindEmail(userData)">
+        @click="onFindEmail">
         Check Account
       </button>
     </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'FindEmailForm',
@@ -63,7 +63,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('account', ['onFindEmail']),
+    ...mapMutations('account', ['SET_HTTP_STATUS']),
     // 형식 검증 method
     checkForm() {
       // 학번 형식 검증
@@ -114,6 +114,27 @@ export default {
         return tmp;
       }
     },
+    async onFindEmail() {
+      await this.$store.dispatch('account/onFindEmail', this.userData)
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '이메일 찾기에 성공했습니다.'
+        } else if (httpStatus === 400) {
+          alertInfo.message = '잘못된 학번 또는 전화번호입니다.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
+    }
   },
   computed: {
     userData() {
@@ -132,6 +153,9 @@ export default {
       this.checkForm();
     },
   },
+  created() {
+    this.SET_HTTP_STATUS(null)
+  }
 }
 </script>
 

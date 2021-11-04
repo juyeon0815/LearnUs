@@ -52,7 +52,7 @@ public class ScheduleController {
     public ResponseEntity<Schedule> getScheduleCurrent() {
         Schedule schedule = scheduleService.getScheduleCurrent();
         if (schedule != null) return new ResponseEntity<>(schedule, HttpStatus.OK);
-        return new ResponseEntity<>(schedule, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
 
     }
 }

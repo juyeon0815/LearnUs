@@ -39,10 +39,10 @@ const routes = [
     component: Profile
   },
   {
-    path: '/live-schedule',
+    path: '/admin/live-schedule',
     name: 'LiveSchedule',
     component: LiveSchedule
-  }
+  },
 ]
 
 const router = createRouter({

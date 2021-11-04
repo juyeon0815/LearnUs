@@ -9,5 +9,5 @@ public interface JwtService {
     public String createRefreshToken();
     public String decodeToken(String token);
     public Map<String, Object> validAccessToken(String accessToken);
-    public Map<String, Object> validRefreshToken(List<String> refreshInfo);
+    public Map<String, Object> validRefreshToken(String accessToken);
 }

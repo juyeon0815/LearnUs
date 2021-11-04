@@ -4,17 +4,18 @@
       <i class="fi fi-rr-arrow-small-left direct-back"
       @click="$router.push({ name: 'Account', params: {page: 'login'}})"
       v-if='showBack'></i>
-      <LoginForm v-if="current === 'login'"/>
-      <FindEmailForm v-if="current === 'find-email'"/>
-      <FindPasswordForm v-if="current === 'find-password'"/>
-      <ResetPasswordForm v-if="current === 'reset-password'"/>
+      <LoginForm v-if="current === 'login'" @alert="onAlert"/>
+      <FindEmailForm v-if="current === 'find-email'" @alert="onAlert"/>
+      <FindPasswordForm v-if="current === 'find-password'" @alert="onAlert"/>
+      <ResetPasswordForm v-if="current === 'reset-password'" @alert="onAlert"/>
+      <div :class="[alertInfo.type === 'fail' ? 'yellow' : 'blue' ,'alert']" v-if="showAlert">{{ alertInfo.message }}</div>
     </div>
   </div>
 </template>
 
 <script>
 import './account.scss'
-import LoginForm from '@/components/account/LoginFrom'
+import LoginForm from '@/components/account/LoginForm'
 import FindEmailForm from '@/components/account/FindEmailForm'
 import FindPasswordForm from '@/components/account/FindPasswordForm'
 import ResetPasswordForm from '@/components/account/ResetPasswordForm'
@@ -31,6 +32,22 @@ export default {
     return {
       current: '',
       showBack: false,
+      showAlert: false,
+      alertInfo: {
+        type: null,
+        message: '',
+      }
+    }
+  },
+  methods: {
+    onAlert(alertInfo) {
+      this.alertInfo = alertInfo
+      this.showAlert = true
+      setTimeout(() => {
+        this.showAlert = false
+        this.alertInfo.type = null
+        this.alertInfo.message = ''
+      }, 2000)
     }
   },
   watch: {
@@ -62,6 +79,6 @@ export default {
     } else {
       this.showBack = false;
     }
-  }
+  },
 }
 </script>

@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/broadcast")
@@ -50,7 +53,7 @@ public class BroadcastController {
 
     @GetMapping("/attendance/{broadcastId}")
     @ApiOperation(value = "참석 명단 가져오기")
-    public ResponseEntity<List<Attendance>> getAttendance(@PathVariable("broadcastId") int broadcastId) {
+    public ResponseEntity<Map<String, List<Attendance>>> getAttendance(@PathVariable("broadcastId") int broadcastId) {
         return new ResponseEntity<>(broadcastService.getAttendance(broadcastId), HttpStatus.OK);
     }
 
@@ -58,6 +61,48 @@ public class BroadcastController {
     @ApiOperation(value = "출석 체크")
     public ResponseEntity<String> attend(@PathVariable("broadcastId") int broadcastId, @PathVariable("userId") int userId) {
         broadcastService.attend(broadcastId, userId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/start")
+    @ApiOperation(value = "방송 시작 -> 관련 MM에 메시지 전송")
+    public ResponseEntity<String> broadcastStart(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.start(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/attendance")
+    @ApiOperation(value = "방송 종료 -> 미참석 명단 전송")
+    public ResponseEntity<String> endAttendance(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.endAttendance(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/attendance/download")
+    @ApiOperation(value = "방송 종료 -> 미참석 명단 엑셀 파일 다운로드")
+    public ResponseEntity<String> endAttendanceDownload(@RequestParam("broadcastId") int broadcastId, HttpServletResponse response) throws IOException {
+        broadcastService.endAttendanceDownload(broadcastId, response);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/gifticon")
+    @ApiOperation(value = "방송 종료 -> 기프티콘 명단 전송")
+    public ResponseEntity<String> endGifticon(@RequestParam("broadcastId") int broadcastId) {
+        broadcastService.endGifticon(broadcastId);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/gifticon/download")
+    @ApiOperation(value = "방송 종료 -> 기프티콘 명단 엑셀 파일 다운로드")
+    public ResponseEntity<String> endGifticonDownload(@RequestParam("broadcastId") int broadcastId, HttpServletResponse response) throws IOException {
+        broadcastService.endGifticonDownload(broadcastId, response);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/replay")
+    @ApiOperation(value = "방송 종료 -> 다시보기 정보 생성, 공개 비공개 여부로 제공")
+    public ResponseEntity<String> endReplayInsert(@RequestParam("broadcastId") int broadcastId, @RequestParam("autoUploadYn") String autoUploadYn) throws IOException {
+        broadcastService.endReplayInsert(broadcastId, autoUploadYn);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 }
