@@ -1,5 +1,5 @@
 <template>
-  <div class="track-item">
+  <div class="track-item" v-if="subjects && tracks">
     <header>
       SSAFY <span>{{ ordinal }}</span>th
     </header>
