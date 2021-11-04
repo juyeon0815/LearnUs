@@ -1,9 +1,8 @@
 <template>
   <div class="profile-head">
     <!-- 사진 관리 -->
-    <img src="" alt="">
     <div class="student-photo">
-      <div class="photo-circle"></div>
+      <img :key="photoKey" :src="profileUrl" alt="profile image" class="photo-circle">
       <div class="photo-update">
         <span class="text-btn" @click="showCropper">변경</span>
         <span class="dot-space">⬝</span>
@@ -37,7 +36,8 @@ export default {
   data: () => {
     return {
       userInfo: null,
-      isCropperShow: false
+      isCropperShow: false,
+      photoKey: 0,
     }
   },
   methods: {
@@ -55,6 +55,7 @@ export default {
         if (httpStatus === 200) {
           alertInfo.type = 'success'
           alertInfo.message = '사진 변경이 완료되었습니다.'
+          this.photoKey += 1
         } else if (httpStatus === 500) {
           alertInfo.message = '서버 오류입니다.'
         } else {
@@ -62,6 +63,11 @@ export default {
         }
         this.$emit('alert', alertInfo)
       }
+    }
+  },
+  computed: {
+    profileUrl() {
+      return this.$store.state.account.userInfo.profileUrl
     }
   },
   created() {
