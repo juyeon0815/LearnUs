@@ -5,7 +5,7 @@ const state = {
   students: null,
   selectedOrd: null,
   searchWord: '',
-<<<<<<< HEAD
+  singleStudent: null,
   // 트랙 관리
   ordinalNo: null,
   subjects: null,
@@ -13,9 +13,6 @@ const state = {
   activeTrack: null,
   // MM 관리
   MMList: null,
-=======
-  singleStudent: null,
->>>>>>> 5ba927b63e27d15d09a1d3476cc67a6e2ebbc552
 }
 
 const actions = {
