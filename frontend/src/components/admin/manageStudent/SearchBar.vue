@@ -2,7 +2,7 @@
   <div class="search-bar">
     <select 
       class="ordinal-select" 
-      v-model="selectedOrd"
+      v-model="ord"
       @change="changeOrdinal"
     >
       <option 
@@ -46,6 +46,9 @@ export default {
   mounted () {
     if (!this.selectedOrd) {
       this.$store.commit('admin/SET_ORD', this.ordinal[0])
+      this.ord = this.ordinal[0]
+    } else {
+      this.ord = this.selectedOrd
     }
     this.$store.commit('admin/SET_SEARCH_WORD', '')
   },

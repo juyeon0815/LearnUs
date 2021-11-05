@@ -70,7 +70,7 @@ export default {
       if (this.searchWord.length) {
         const result = entire.filter(student => {
           let { name, userId, region, classNo, phone } = student
-          let track = student.track.name
+          let track = student.track.trackName
           let data = [
             name, String(userId).padStart(7, '0'),
             region, classNo + '반',
