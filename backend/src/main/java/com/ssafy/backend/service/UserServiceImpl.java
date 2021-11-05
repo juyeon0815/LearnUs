@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
             user.setRegion(row.getCell(5).getStringCellValue());
             user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
-            user.setProfileUrl("");
+            user.setProfileUrl("https://mann-goofy.s3.ap-northeast-2.amazonaws.com/profiles/default.jpg");
             user.setType(1);
             user.setStatusCode("Y");
             user.setTrack(nowTrack);
