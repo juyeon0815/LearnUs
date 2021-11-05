@@ -106,6 +106,26 @@ export default {
       method: 'get',
     })
   },
+  addMatterMost (data) {
+    return _axios({
+      url: 'mattermost',
+      method: 'post',
+      data: data
+    })
+  },
+  editMatterMost (data) {
+    return _axios({
+      url: 'mattermost',
+      method: 'put',
+      data: data
+    })
+  },
+  deleteMatterMost (id) {
+    return _axios({
+      url: `mattermost/${id}`,
+      method: 'delete'
+    })
+  },
 
   // 방송 스케줄 관련
   getBroadcastList () {
