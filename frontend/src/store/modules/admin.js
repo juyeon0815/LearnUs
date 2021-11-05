@@ -25,8 +25,8 @@ const actions = {
       console.log(err.response)
     }
   },
-  getSingleStudent({ commit }, id) {
-    adminApi.getSingleStudent(id)
+  async getSingleStudent({ commit }, id) {
+    await adminApi.getSingleStudent(id)
       .then((res) => {
         commit('SET_SINGLE_STUDENT', res.data)
       })

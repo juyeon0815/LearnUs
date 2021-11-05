@@ -1,14 +1,68 @@
 .student-detail {
   .student-info {
     display: flex;
+    margin-top: 1rem;
     .profile-photo {
       width: 150px;
       height: 150px;
+      margin-right: 2rem;
       border-radius: 50%;
+    }     
+  }
+}
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  .box-division {
+    display: flex;
+    margin-bottom: 3rem;
+    .info-input-box {
+      position: relative;
+      .info-input {
+        width: 250px;
+        height: 30px;
+        background-color: $dark;
+        color: $white;
+        border: none;
+        outline: none;
+        padding-left: 20px;
+        padding-right: 10px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 30px !important;
+        transition: none;
+        margin-right: 2rem;
+
+        &.small {
+          width: 120px;
+        }
+        
+        ~label {
+          position: absolute;
+          color: $orange;
+          left: 20px;
+          top: -25px;
+          pointer-events:none;
+        }
+      }
     }
-    .info-box {
-      display: flex;
-      flex-direction: column;
+    .submit-btn {
+      height: 40px;
+      width: 120px;
+      border-radius: 30px;
+      margin-right: 2rem;
+      color: $light-grey;
+      font-size: 1.2rem;
+      font-weight: 700;
+      &.update-btn {
+        background: $orange;
+      }
+      &.expel-btn {
+        background: $blank-grey;
+      }
     }
   }
 }
