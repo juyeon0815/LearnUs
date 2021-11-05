@@ -7,6 +7,7 @@ import Account from '@/views/Account.vue'
 import Profile from '@/views/Profile.vue'
 import LiveSchedule from '@/views/admin/LiveSchedule.vue'
 import StudentDetail from '@/views/admin/StudentDetail.vue'
+import CreateLive from '@/views/admin/CreateLive.vue'
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
     path: '/admin/settings',
     name: 'ManageSettings',
     component: ManageSettings
+  },
+  {
+    path: '/admin/create-live',
+    name: 'CreateLive',
+    component: CreateLive
   },
   {
     path: '/account/:page',
