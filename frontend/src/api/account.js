@@ -40,7 +40,7 @@ export default {
       data: userData
     })
   },
-  changeUserPhone(userData) {
+  changeUserInfo(userData) {
     return _axios({
       url: 'user',
       method: 'patch',

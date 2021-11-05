@@ -2,6 +2,7 @@
 
 .profile {
   .profile-box {
+    position: relative;
     width: 850px;
     .heading {
       font-family: 'Montserrat', sans-serif;
@@ -23,6 +24,27 @@
     }
     .margin-end {
       margin-bottom: 50px;
+    }
+    .alert {
+      position: absolute;
+      top: 250px;
+      left: 212.5px;;
+      padding: .5rem 2rem;
+      width: 50%;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 2px 3px rgba($dark, .4);
+      &.blue {
+        color: $light;
+        background-color: rgba($blue, .9);
+        border: 1px solid $blue;
+      }
+      &.yellow {
+        color: $dark;
+        background-color: rgba($yellow, .9);
+        border: 1px solid $yellow;
+      }
     }
   }
 }
@@ -83,6 +105,95 @@
       .region-class {
         font-size: 0.7rem;
         margin-left: 5px;
+      }
+    }
+  }
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,.5);
+    .popup-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%;
+      min-width: 600px;
+      height: fit-content;
+      border-radius: 10px;
+      background-color: $light;
+      color: $dark;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
+      padding: 2rem 1rem 3rem;
+      overflow: hidden;
+      .exit-btn {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        font-size: 2rem;
+        font-style: italic;
+        color: $grey;
+        padding: 0 .7rem;
+        border-bottom: 5px solid $orange;
+        margin-bottom: 1rem;
+      }
+      
+      .cropper-btn {
+        font-weight: 700;
+        border: solid $orange;
+        border-radius: 25px;
+        padding: 3px 15px;
+        cursor: pointer;
+        &:hover {
+          background: $orange;
+          color: white;
+        }
+      }
+      .input-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .original-img {
+          width: 300px;
+          margin: 1rem;
+        }
+        .file-input {
+          display: none;
+        }
+      }
+      .cropper-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .cropper {
+          height: 300px;
+          width: 500px;
+          margin-bottom: 1rem;
+          background: #DDD;
+        }
+      }
+      .cropped-image-box{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+        .cropped-image {
+          width: 100%;
+          margin-bottom: 1rem;
+        }
       }
     }
   }

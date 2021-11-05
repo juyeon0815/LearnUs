@@ -7,6 +7,7 @@
           <th>이름</th>
           <th>학번</th>
           <th>분반</th>
+          <th>트랙</th>
           <th>연락처</th>
         </tr>
       </thead>
