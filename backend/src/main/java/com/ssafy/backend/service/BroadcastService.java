@@ -15,9 +15,11 @@ public interface BroadcastService {
     public void attend(int broadcastId, int userId);
     public Map<String, List<Attendance>> getAttendance(int broadcastId);
     public List<BroadcastInfo> getBroadcastAll();
+    public BroadcastInfo getBroadcast(int broadcastId);
     public void start(int broadcastId);
     public void endAttendance(int broadcastId);
     public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
     public void endGifticon(int broadcastId);
     public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    public void endReplayInsert(int broadcastId, String autoUploadYn);
 }

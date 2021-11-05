@@ -16,18 +16,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Broadcast {
+public class BroadcastReplay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int broadcastId;
+    private int broadcastReplayId;
 
-    private String streamingKey;
-    private String thumbnailUrl;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime broadcastDate;
-    private String title;
-    private String teacher;
-    private String description;
-    private String liveYn;
-    private int chatCount;
+    private String replayUrl;
+    private String openYn;
+
+    @OneToOne
+    @JoinColumn(name = "broadcastId")
+    private Broadcast broadcast;
 }

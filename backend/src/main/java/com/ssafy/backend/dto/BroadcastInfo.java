@@ -24,5 +24,5 @@ public class BroadcastInfo {
     private String teacher;
     private String description;
     private Map<String, String> textbook;
-    private List<String> trackList;
+    private List<Track> trackList;
 }
