@@ -13,6 +13,8 @@ const state = {
   activeTrack: null,
   // MM 관리
   MMList: null,
+  targetChannel: null,
+  mmData: null
 }
 
 const actions = {
@@ -132,6 +134,12 @@ const mutations = {
   SET_MM_LIST (state, payload) {
     state.MMList = payload
   },
+  SET_MM_DATA (state, payload) {
+    state.mmData = payload
+  },
+  SET_TARGET_CHANNEL (state, payload) {
+    state.targetChannel = payload
+  },
   
 }
 
@@ -140,6 +148,27 @@ const getters = {
   ordinal (state) {
     return Object.keys(state.students)
   },
+  // MM 관리
+  ordinalOptions (state) {
+    let op = [
+      { label: '교육생 공지', value: 0 },
+    ]
+    state.ordinalNo.forEach(ordinal => {
+      op.push(
+        { 
+          label: `${ordinal}기 관리`, 
+          value: ordinal
+        }
+      )
+    })
+    return op
+  },
+  trackOptions (state) {
+    return state.tracks.map(track => {
+      let label = track.trackName + ' | ' + track.trackSubject.trackSetting.ordinalNo + '기 ' + track.trackSubject.subjectName
+      return { value: track.trackId, label: label }
+    })
+  }
 }
 
 export default {

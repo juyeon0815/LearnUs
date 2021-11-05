@@ -51,6 +51,14 @@ public class BroadcastController {
         return new ResponseEntity<>(broadcastService.getBroadcastAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/{broadcastId}")
+    @ApiOperation(value = "실시간 방송 1개 조회")
+    public ResponseEntity<BroadcastInfo> getBroadcast(@PathVariable("broadcastId") int broadcastId) {
+        BroadcastInfo broadcastInfo = broadcastService.getBroadcast(broadcastId);
+        if (broadcastInfo == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastInfo, HttpStatus.OK);
+    }
+
     @GetMapping("/attendance/{broadcastId}")
     @ApiOperation(value = "참석 명단 가져오기")
     public ResponseEntity<Map<String, List<Attendance>>> getAttendance(@PathVariable("broadcastId") int broadcastId) {

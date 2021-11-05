@@ -52,6 +52,7 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<Track> getTrackAll() {
         List<Track> trackList = trackDao.findAll();
+        trackList.remove(0); // 0번째 값은 빈 값
         return trackList;
     }
 

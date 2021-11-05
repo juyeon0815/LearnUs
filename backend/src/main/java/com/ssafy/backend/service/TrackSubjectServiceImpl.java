@@ -1,10 +1,10 @@
 package com.ssafy.backend.service;
 
+import com.ssafy.backend.dao.TrackDao;
 import com.ssafy.backend.dao.TrackSettingDao;
 import com.ssafy.backend.dao.TrackSubjectDao;
-import com.ssafy.backend.dto.TrackSetting;
-import com.ssafy.backend.dto.TrackSubject;
-import com.ssafy.backend.dto.TrackSubjectInfo;
+import com.ssafy.backend.dao.UserDao;
+import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,10 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     private TrackSettingDao trackSettingDao;
     @Autowired
     private TrackSubjectDao trackSubjectDao;
+    @Autowired
+    private TrackDao trackDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public List<Integer> getOrdinalNo() {
@@ -58,6 +62,22 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
         TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectId);
         if (trackSubject == null) return false;
 
+        // 관련 트랙 가져오기
+        List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
+
+        for (int i=0;i<trackList.size();i++) {
+            Track track = trackList.get(i);
+            // 트랙과 관련된 유저 가져오기
+            List<User> userList = userDao.findUserByTrack(track);
+            for (int j=0;j<userList.size();j++) {
+                User user = userList.get(j);
+                Track saveTrack = trackDao.findTrackByTrackId(1);
+                // 유저 연관 끊어주기
+                user.setTrack(saveTrack);
+                userDao.save(user);
+            }
+        }
+
         trackSubjectDao.delete(trackSubject);
         return true;
     }
@@ -65,6 +85,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Override
     public List<TrackSubject> getTrackSubjectAll() {
         List<TrackSubject> trackSubjectList = trackSubjectDao.findAll();
+        trackSubjectList.remove(0); // 0번째 인덱스는 빈 값
        return trackSubjectList;
     }
 
