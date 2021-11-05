@@ -64,8 +64,6 @@ const actions = {
   async getActiveTrack({ commit }) {
     try {
       const response = await adminApi.getActiveTrack()
-      console.log(response)
-      // const response2 = await adminApi.getActiveTrack(2)
       commit('SET_ACTIVE_TRACK', response.data)
     } catch (err) {
       console.log(err.response)

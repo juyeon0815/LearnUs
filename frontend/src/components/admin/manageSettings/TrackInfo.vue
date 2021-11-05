@@ -12,16 +12,15 @@
           :key="idx"
           :ordinal="ordinal"
         />
-
       </div>
       <div class="track-box">
         <div class="ordinal">
           <span
             v-for="(ordinal, idx) in ordinalNo"
             :key="idx"
-            @click="changeOrd(ordinal[0])"
-            :class="[ordinal[0] == ord ? 'selected' : '']"
-          >{{ ordinal }}</span>
+            @click="changeOrd(ordinal)"
+            :class="[ordinal == ord ? 'selected' : '']"
+          >{{ ordinal }}기</span>
         </div>
         <div class="subject">
           <TrackInfoSubject
@@ -166,7 +165,7 @@ export default {
     ),
     subjectList () {
       return this.subjects.filter(subject => {
-        return subject.trackSetting.ordinalNo == this.ord
+        return subject.trackSetting.ordinalNo === this.ord
       })
     },
     trackList () {
@@ -176,7 +175,7 @@ export default {
     }
   },
   created () {
-    this.ord = this.ordinalNo[0][0]
+    this.ord = this.ordinalNo[0]
   }
 }
 </script>

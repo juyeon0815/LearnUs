@@ -52,6 +52,8 @@
       width: 50%;
       min-width: 600px;
       height: fit-content;
+      max-height: 90%;
+      overflow-y: auto;
       border-radius: 10px;
       background-color: $light;
       color: $dark;
@@ -60,6 +62,17 @@
       align-items: center;
       gap: .3rem;
       padding: 2rem 1rem 3rem;
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($orange, 0.5);
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $light-grey;
+        border-radius: 10px;
+      }
       .exit-btn {
         position: absolute;
         right: 1rem;

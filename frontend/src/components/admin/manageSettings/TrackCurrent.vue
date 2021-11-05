@@ -1,6 +1,6 @@
 <template>
   <div class="current-item">
-    <span>{{ ordinal }}</span>
+    <span>{{ ordinal }}기</span>
     <div class="select-box">
       <select 
         class="ordinal-select"
@@ -25,7 +25,7 @@ import adminApi from '@/api/admin'
 export default {
   name: 'TrackCurrent',
   props: {
-    ordinal: String
+    ordinal: Number
   },
   data () {
     return {
@@ -50,7 +50,7 @@ export default {
     ),
     subjectList () {
       return this.subjects.filter(subject => {
-        return subject.trackSetting.ordinalNo == this.ordinal[0]
+        return subject.trackSetting.ordinalNo === this.ordinal
       })
     },
   },

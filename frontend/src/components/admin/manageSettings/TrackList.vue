@@ -9,7 +9,7 @@
       <TrackListItem
         v-for="(ordinal, idx) in ordinalNo"
         :key="idx"
-        :ordinal=ordinal[0]
+        :ordinal=ordinal
       />
     </div>
   </div>

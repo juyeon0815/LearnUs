@@ -1,11 +1,12 @@
 <template>
   <tr class="mm-row">
     <td>{{ channel.name }}</td>
-    <td>
+    <td class="track-list">
       <span 
+        class="track-item"
         v-for="(track, idx) in channel.trackList"
         :key="idx"
-      >{{ track }}</span>
+      >{{ track.trackName }}</span>
     </td>
     <td>{{ channel.webhook }}</td>
   </tr>
