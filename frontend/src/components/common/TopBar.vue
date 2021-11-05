@@ -16,7 +16,7 @@
     </div>
     <div class="user-menu">
       <div class="profile">
-        <img src="@/assets/image/test/profile.jpg" alt="">
+        <img :src="this.$store.state.account.userInfo.profileUrl" alt="">
       </div>
       <div class="dropdown">
         <i class="dropdown-btn fi fi-rr-caret-down"></i>
