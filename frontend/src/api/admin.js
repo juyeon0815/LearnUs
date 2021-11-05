@@ -17,6 +17,13 @@ export default {
       }
     })
   },
+
+  getSingleStudent (id) {
+    return _axios({
+      url: `user/id/${id}`,
+      method: 'get',
+    })
+  },
   // 방송 스케줄 관련
   getBroadcastList () {
     return _axios({

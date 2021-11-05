@@ -5,6 +5,7 @@ const state = {
   students: null,
   selectedOrd: null,
   searchWord: '',
+  singleStudent: null,
 }
 
 const actions = {
@@ -16,6 +17,16 @@ const actions = {
     } catch (err) {
       console.log(err.response)
     }
+  },
+
+  getSingleStudent({ commit }, id) {
+    adminApi.getSingleStudent(id)
+      .then((res) => {
+        commit('SET_SINGLE_STUDENT', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   
   // 방송 스케줄
@@ -40,6 +51,9 @@ const mutations = {
   },
   SET_SEARCH_WORD (state, payload) {
     state.searchWord = payload
+  },
+  SET_SINGLE_STUDENT(state, payload) {
+    state.singleStudent = payload
   }
 }
 

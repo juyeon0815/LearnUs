@@ -6,6 +6,7 @@ import ManageSettings from '@/views/admin/ManageSettings.vue'
 import Account from '@/views/Account.vue'
 import Profile from '@/views/Profile.vue'
 import LiveSchedule from '@/views/admin/LiveSchedule.vue'
+import StudentDetail from '@/views/admin/StudentDetail.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/admin/students',
     name: 'ManageStudent',
     component: ManageStudent
+  },
+  {
+    path: '/admin/students/:id',
+    name: 'StudentDetail',
+    component: StudentDetail
   },
   {
     path: '/admin/settings',
