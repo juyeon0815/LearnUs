@@ -15,6 +15,19 @@
   }
 
 }
+body {
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($orange, 0.7);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $black;
+  }
+}
 
 .dark {
   background-color: $grey;

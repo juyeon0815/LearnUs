@@ -5,6 +5,7 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
+      <div :class="[result ? 'blue' : 'yellow', 'alert']" v-if="msg">{{ msg }}</div>
       <h1>UPDATE<span class="t-orange">:</span>Students</h1>
       <div class="subtitle">
         <h3>교육생 정보 수정</h3>
@@ -56,6 +57,8 @@ export default {
       updateFileName: null,
       createFile: null,
       createFileName: null,
+      msg: false,
+      result: 0
     }
   },
   methods: {
@@ -74,9 +77,47 @@ export default {
       formData.append('excelFile', this.createFile)
       try {
         const response = await adminApi.registerStudents(formData)
-        console.log(response)
+        if (response.status === 200) {
+          this.createFile = null
+          this.createFileName = null
+          this.result = 1
+          this.msg = '신규 교육생 등록이 완료되었습니다.'
+          setTimeout(() => {
+            this.msg = false
+          }, 2000)
+          this.$store.dispatch('admin/getStudents')
+        }
       } catch (err) {
-        console.log(err.response)
+        this.result = 0
+        this.msg = '신규 교육생 등록에 실패했습니다.'
+        setTimeout(() => {
+          this.msg = false
+        }, 2000)
+        // console.log(err.response)
+      }
+    },
+    async onUpdateInfo () {
+      const formData = new FormData()
+      formData.append('excelFile', this.updateFile)
+      try {
+        const response = await adminApi.editStudents(formData)
+        if (response.status === 200) {
+          this.updateFile = null
+          this.updateFileName = null
+          this.result = 1
+          this.msg = '교육생 정보 수정이 완료되었습니다.'
+          setTimeout(() => {
+            this.msg = false
+          }, 2000)
+          this.$store.dispatch('admin/getStudents')
+        }
+      } catch (err) {
+        this.result = 0
+        this.msg = '교육생 정보 수정에 실패했습니다.'
+        setTimeout(() => {
+          this.msg = false
+        }, 2000)
+        // console.log(err.response)
       }
     }
   }
