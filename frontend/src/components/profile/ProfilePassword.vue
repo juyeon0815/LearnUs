@@ -6,7 +6,7 @@
       </div>
       <button 
         :class="[isSubmit ? 'change-info-btn' : 'change-btn-disabled']"
-        @click="onChangePassword(passwordData)">
+        @click="onChangePassword">
         비밀번호 변경
       </button>
     </div>
@@ -55,7 +55,6 @@
 
 <script>
 import PV from "password-validator"
-import { mapActions } from 'vuex'
 
 export default {
   name: 'ProfilePassword',
@@ -74,7 +73,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions('account', ['onChangePassword']),
     // 형식 검증 method
     checkForm() {
       // 기존 비밀번호 형식 검증
@@ -108,7 +106,31 @@ export default {
         isSubmit = false;
       }
       this.isSubmit = isSubmit;
-    }, 
+    },
+    async onChangePassword() {
+      await this.$store.dispatch('account/onChangePassword', this.passwordData)
+      const httpStatus = this.$store.state.account.httpStatus
+      if (httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '비밀번호 변경이 완료되었습니다.'
+          this.originPW = ''
+          this.newPW = ''
+          this.passwordConfirm = ''
+        } else if (httpStatus === 400) {
+          alertInfo.message = '기존 비밀번호를 다시 확인해주세요.'
+        } else if (httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
+    }
   },
   watch: {
     originPW: function() {

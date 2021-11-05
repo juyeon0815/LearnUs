@@ -5,6 +5,7 @@ const state = {
   students: null,
   selectedOrd: null,
   searchWord: '',
+<<<<<<< HEAD
   // 트랙 관리
   ordinalNo: null,
   subjects: null,
@@ -12,6 +13,9 @@ const state = {
   activeTrack: null,
   // MM 관리
   MMList: null,
+=======
+  singleStudent: null,
+>>>>>>> 5ba927b63e27d15d09a1d3476cc67a6e2ebbc552
 }
 
 const actions = {
@@ -23,6 +27,15 @@ const actions = {
     } catch (err) {
       console.log(err.response)
     }
+  },
+  getSingleStudent({ commit }, id) {
+    adminApi.getSingleStudent(id)
+      .then((res) => {
+        commit('SET_SINGLE_STUDENT', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   // 트랙 관리
   async setTrackInfo({ dispatch }) {
@@ -69,7 +82,6 @@ const actions = {
       console.log(err.response)
     }
   },
-  
   // MM 관리
   async getMMAll({ commit }) {
     try {
@@ -103,6 +115,9 @@ const mutations = {
   SET_SEARCH_WORD (state, payload) {
     state.searchWord = payload
   },
+  SET_SINGLE_STUDENT(state, payload) {
+    state.singleStudent = payload
+  },
   // 트랙 관리
   SET_ORDINAL_NO (state, payload) {
     state.ordinalNo = payload
@@ -119,7 +134,8 @@ const mutations = {
   // MM 관리
   SET_MM_LIST (state, payload) {
     state.MMList = payload
-  }
+  },
+  
 }
 
 const getters = {
