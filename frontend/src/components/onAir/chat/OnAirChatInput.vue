@@ -2,7 +2,7 @@
   <div id="chat-input" class="chat-input">
     <div class="input-box">
       <div class="profile"></div>
-      <div class="input">
+      <div class="input-area">
         <div class="user-info">우만승[서울_3반_A306]</div>
         <textarea 
           ref="chatInputArea"
