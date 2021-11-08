@@ -38,12 +38,16 @@ public class BroadcastServiceImpl implements BroadcastService {
     private GifticonDao gifticonDao;
     @Autowired
     private BroadcastReplayDao broadcastReplayDao;
+    @Autowired
+    private BroadcastReplayOrdinalDao broadcastReplayOrdinalDao;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
+        String thumbnailUrl = broadcastInfo.getThumbnailUrl();
+        if (thumbnailUrl==null || thumbnailUrl.length()==0) thumbnailUrl = "https://mann-goofy.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg";
         // 방송 생성
         Broadcast broadcast = Broadcast.builder().streamingKey(UUID.randomUUID().toString())
-                .thumbnailUrl(broadcastInfo.getThumbnailUrl())
+                .thumbnailUrl(thumbnailUrl)
                 .broadcastDate(broadcastInfo.getBroadcastDate())
                 .title(broadcastInfo.getTitle())
                 .teacher(broadcastInfo.getTeacher())
@@ -400,5 +404,24 @@ public class BroadcastServiceImpl implements BroadcastService {
                         .broadcast(broadcast).build();
 
         broadcastReplayDao.save(broadcastReplay);
+
+        // 방송 객체에서 관련 트랙 가져오기
+        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+        Set<Integer> ordinalSet = new HashSet<>();
+        // 방송과 관련된 기수 가져오기
+        for (int i=0;i<broadcastTrackList.size();i++) {
+            BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
+            TrackSetting trackSetting = broadcastTrack.getTrack().getTrackSubject().getTrackSetting();
+            if (!ordinalSet.contains(trackSetting.getOrdinalNo())) ordinalSet.add(trackSetting.getOrdinalNo());
+        }
+
+        // 방송 다시보기 기수 객체 추가
+        Iterator<Integer> iterator = ordinalSet.iterator();
+        while(iterator.hasNext()) {
+            BroadcastReplayOrdinal broadcastReplayOrdinal = BroadcastReplayOrdinal.builder().ordinalNo(iterator.next())
+                    .broadcastReplay(broadcastReplay).build();
+
+            broadcastReplayOrdinalDao.save(broadcastReplayOrdinal);
+        }
     }
 }
