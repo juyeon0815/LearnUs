@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,10 +52,10 @@ public class TrackController {
         return new ResponseEntity<>(trackService.getTrackAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{subjectName}")
+    @GetMapping("/{subjectId}")
     @ApiOperation(value = "TrackSubject별 Track 조회")
-    public ResponseEntity<List<Track>> getTrackSubject(@PathVariable("subjectName") String subjectName) {
-        List<Track> trackList = trackService.getTrackSubject(subjectName);
+    public ResponseEntity<List<Track>> getTrackSubject(@PathVariable("subjectId") int subjectId) {
+        List<Track> trackList = trackService.getTrackSubject(subjectId);
         if (trackList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(trackList, HttpStatus.OK);
     }

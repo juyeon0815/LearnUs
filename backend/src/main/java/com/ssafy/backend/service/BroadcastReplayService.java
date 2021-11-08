@@ -8,7 +8,7 @@ public interface BroadcastReplayService {
     public boolean insert(BroadcastReplayInfo broadcastReplayInfo);
     public boolean update(BroadcastReplayInfo broadcastReplayInfo);
     public boolean delete(int broadcastReplayId);
-    public List<BroadcastReplayInfo> getBroadcastReplayAll();
-    public List<BroadcastReplayInfo> getBroadcastReplayTrack(String trackName);
+    public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo);
+    public List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo);
     public BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId);
 }

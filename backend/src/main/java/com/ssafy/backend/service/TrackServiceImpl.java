@@ -57,8 +57,8 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getTrackSubject(String subjectName) {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectBySubjectName(subjectName);
+    public List<Track> getTrackSubject(int subjectId) {
+        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(subjectId);
         if (trackSubject == null) return null;
 
         List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
@@ -73,5 +73,4 @@ public class TrackServiceImpl implements TrackService {
         List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
         return trackList;
     }
-
 }
