@@ -1,11 +1,7 @@
 package com.ssafy.backend.service.user;
 
-import com.ssafy.backend.dao.TrackDao;
-import com.ssafy.backend.dao.TrackSettingDao;
-import com.ssafy.backend.dao.UserDao;
-import com.ssafy.backend.dto.Track;
-import com.ssafy.backend.dto.TrackSetting;
-import com.ssafy.backend.dto.User;
+import com.ssafy.backend.dao.*;
+import com.ssafy.backend.dto.*;
 import com.ssafy.backend.service.ExcelService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -37,6 +33,10 @@ public class UserServiceImpl implements UserService {
     private JwtService jwtService;
     @Autowired
     private ExcelService excelService;
+    @Autowired
+    private BroadcastDao broadcastDao;
+    @Autowired
+    private AttendanceDao attendanceDao;
 
     @Override
     public Map<String, Object> login(String email, String password, HttpServletResponse res) {
@@ -217,5 +217,18 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(newPW));
         userDao.save(user);
         return true;
+    }
+
+    @Override
+    public void userChatSend(int userId, int broadcastId) {
+        User user = userDao.findUserByUserId(userId);
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+        Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+
+        attendance.setChatScore(attendance.getChatScore()+1);
+        attendanceDao.save(attendance);
+
+        broadcast.setChatCount(broadcast.getChatCount()+1);
+        broadcastDao.save(broadcast);
     }
 }

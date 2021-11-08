@@ -20,4 +20,6 @@ public interface UserService {
     public String getEmail(int userId, String phone);
     public boolean getPwCheck(String email, int userId, String phone);
     public boolean resetPW(int userId, String newPW);
+
+    void userChatSend(int userId, int broadcastId);
 }
