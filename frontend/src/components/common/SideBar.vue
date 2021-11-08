@@ -24,9 +24,19 @@
         <i class="fi fi-rr-film"></i>
         <span>RE<span class="t-orange">:</span>PLAY</span>
         <div class="category">
-          <span>‣ 전체보기</span>
-          <span>‣ 1학기 과정</span>
-          <span>‣ 2학기 과정</span>
+          <span @click="$router.push({name: 'Replay', params: {category: 'all'}})">‣ 전체보기</span>
+          <span @click="semester_1st = !semester_1st">‣ 1학기 과정</span>
+            <div class="class-category" v-if="semester_1st">
+              <span @click="$router.push({name: 'Replay', params: {category: '코딩집중교육'}})">‣ 코딩집중교육</span>
+            </div>
+          <div v-if="semester==2">
+          <span @click="semester_2nd = !semester_2nd">‣ 2학기 과정</span>
+            <div class="class-category" v-if="semester_2nd">
+              <span @click="$router.push({name: 'Replay', params: {category: '공통 PJT'}})">‣ 공통 PJT</span>
+              <span @click="$router.push({name: 'Replay', params: {category: '특화 PJT'}})">‣ 특화 PJT</span>
+              <span @click="$router.push({name: 'Replay', params: {category: '자율 PJT'}})">‣ 자율 PJT</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="menu-item">
@@ -48,14 +58,22 @@ export default {
   name: 'SideBar',
   data () {
     return {
-      vw: 0
+      vw: 0,
+      semester: '',
+      semester_1st : false,
+      semester_2nd : false,
+      userInfo: null,
     }
+  },
+  methods :{
   },
   created () {
     this.vw = window.innerWidth
     window.addEventListener('resize', () => {
       this.vw = window.innerWidth
     })
+    this.userInfo = this.$store.state.account.userInfo
+    this.semester = this.userInfo.track.trackSubject.trackSetting.semester
   }
 }
 </script>
