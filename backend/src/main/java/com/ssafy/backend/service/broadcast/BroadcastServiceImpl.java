@@ -3,7 +3,9 @@ package com.ssafy.backend.service.broadcast;
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.BroadcastInfo;
+import com.ssafy.backend.dto.info.ChatInfo;
 import com.ssafy.backend.service.ExcelService;
+import com.ssafy.backend.service.RedisService;
 import com.ssafy.backend.service.mattermost.MattermostMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,6 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     @Autowired
     private BroadcastDao broadcastDao;
-    @Autowired
-    private TrackDao trackDao;
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -43,6 +43,8 @@ public class BroadcastServiceImpl implements BroadcastService {
     private BroadcastReplayDao broadcastReplayDao;
     @Autowired
     private BroadcastReplayOrdinalDao broadcastReplayOrdinalDao;
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -426,5 +428,11 @@ public class BroadcastServiceImpl implements BroadcastService {
 
             broadcastReplayOrdinalDao.save(broadcastReplayOrdinal);
         }
+    }
+
+    @Override
+    public List<ChatInfo> getChatInfoList(int broadcastId) {
+        List<ChatInfo> chatInfoList = redisService.getChatInfoValue("chat"+broadcastId);
+        return chatInfoList;
     }
 }

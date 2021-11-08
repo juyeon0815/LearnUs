@@ -2,6 +2,7 @@ package com.ssafy.backend.service.broadcast;
 
 import com.ssafy.backend.dto.Attendance;
 import com.ssafy.backend.dto.info.BroadcastInfo;
+import com.ssafy.backend.dto.info.ChatInfo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,4 +23,6 @@ public interface BroadcastService {
     public void endGifticon(int broadcastId);
     public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
     public void endReplayInsert(int broadcastId, String autoUploadYn);
+
+    public List<ChatInfo> getChatInfoList(int broadcastId);
 }

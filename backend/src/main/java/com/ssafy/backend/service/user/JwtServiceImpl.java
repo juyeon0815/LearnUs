@@ -101,7 +101,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public Map<String, Object> validRefreshToken(String accessToken) {
-        List<String> refreshInfo = redisService.getValue(accessToken);
+        List<String> refreshInfo = redisService.getListValue(accessToken);
         Map<String, Object> resultMap = new HashMap<>();
 
         // refreshToken size = 0 -> refreshToken 만료
