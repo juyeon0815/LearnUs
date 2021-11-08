@@ -20,6 +20,9 @@ export default {
   name: 'CreateLive',
   components: {
     CreateLiveForm,
-  }
+  },
+  created() {
+    this.$store.dispatch('admin/setTrackInfo')
+  },
 }
 </script>
