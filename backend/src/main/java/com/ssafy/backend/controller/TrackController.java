@@ -3,17 +3,13 @@ package com.ssafy.backend.controller;
 import com.ssafy.backend.dto.Track;
 import com.ssafy.backend.dto.TrackInfo;
 import com.ssafy.backend.service.TrackService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/track")

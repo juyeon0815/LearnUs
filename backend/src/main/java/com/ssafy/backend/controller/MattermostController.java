@@ -1,6 +1,5 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.Mattermost;
 import com.ssafy.backend.dto.MattermostInfo;
 import com.ssafy.backend.service.MattermostService;
 import io.swagger.annotations.ApiOperation;

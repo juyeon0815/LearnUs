@@ -2,7 +2,6 @@ package com.ssafy.backend.service;
 
 import com.ssafy.backend.dao.MattermostDao;
 import com.ssafy.backend.dao.MattermostTrackDao;
-import com.ssafy.backend.dao.TrackDao;
 import com.ssafy.backend.dao.TrackSettingDao;
 import com.ssafy.backend.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;

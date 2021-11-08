@@ -3,7 +3,6 @@ package com.ssafy.backend.service;
 import com.ssafy.backend.dto.Attendance;
 import com.ssafy.backend.dto.Broadcast;
 import com.ssafy.backend.dto.Gifticon;
-import com.ssafy.backend.dto.User;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.web.multipart.MultipartFile;
 
