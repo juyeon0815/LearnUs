@@ -83,7 +83,6 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public Map<String, Object> validAccessToken(String accessToken) {
         Map<String, Object> resultMap = new HashMap<>();
-        System.out.println("만료 시간 : "+redisTemplate.getExpire(accessToken));
 
         String validAccessToken = decodeToken(accessToken);
         if (validAccessToken.equals("invalid")) {
@@ -110,7 +109,6 @@ public class JwtServiceImpl implements JwtService {
             resultMap.put("msg", "RefreshToken has been expired");
         } else {
             String validRefreshToken = decodeToken(refreshInfo.get(1));
-            System.out.println("validRefreshToken : "+validRefreshToken);
 
             if (validRefreshToken.equals("invalid")) {
                 resultMap.put("status", 403);

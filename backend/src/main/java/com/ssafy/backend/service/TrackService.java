@@ -10,6 +10,6 @@ public interface TrackService {
     public boolean update(TrackInfo trackInfo);
     public boolean delete(int trackId);
     public List<Track> getTrackAll();
-    public List<Track> getTrackSubject(String subjectName);
+    public List<Track> getTrackSubject(int subjectId);
     public List<Track> getCurrentTrackSubject();
 }

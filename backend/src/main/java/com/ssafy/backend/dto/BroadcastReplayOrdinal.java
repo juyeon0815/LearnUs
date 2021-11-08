@@ -14,15 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BroadcastReplay {
+public class BroadcastReplayOrdinal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int broadcastReplayId;
+    private int broadcastReplayOrdinalId;
 
-    private String replayUrl;
-    private String openYn;
+    private int ordinalNo;
 
-    @OneToOne
-    @JoinColumn(name = "broadcastId")
-    private Broadcast broadcast;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "broadcastReplayId")
+    private BroadcastReplay broadcastReplay;
 }
