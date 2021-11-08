@@ -1,4 +1,4 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.quiz;
 
 import com.ssafy.backend.dao.BroadcastDao;
 import com.ssafy.backend.dao.QuizDao;
