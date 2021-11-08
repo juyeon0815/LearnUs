@@ -27,7 +27,6 @@ public class GifticonServiceImpl implements GifticonService{
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
         User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
         Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
-        System.out.println("attendance : "+attendance);
 
         if (attendance == null) return false;
 
