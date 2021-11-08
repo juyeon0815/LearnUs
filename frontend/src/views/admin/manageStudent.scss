@@ -17,6 +17,11 @@
           background-color: $orange;
           border-bottom: 2px solid $light;
         }
+        tbody {
+          tr {
+            cursor: pointer;
+          }
+        }
 
         tr {
           text-align: center;
@@ -240,6 +245,119 @@
             cursor: pointer;
             margin-left: auto;
           }
+        }
+      }
+    }
+    .student-detail {
+      .student-info {
+        padding: 0 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+        color: $dark;
+        .row-info {
+          display: flex;
+          gap: .5rem;
+          align-items: center;
+        }
+        .profile-box {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          .profile {
+            width: 7rem;
+            height: 7rem;
+            border-radius: 100%;
+          }     
+          .name {
+            font-size: 2rem;
+            font-weight: 700;
+          }
+          .id {
+            background: $orange;
+            height: fit-content;
+            padding: 2px 12px;
+            border-radius: 1rem;
+            color: $white;
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            font-weight: 300;
+          }
+          .ordinal {
+            font-size: 1.1rem;
+            margin-bottom: .3rem;
+          }
+          .contact {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            font-size: .9rem;
+            span {
+              padding-bottom: 5px;
+              margin-right: 1rem;
+            }
+          }
+        }
+        .btns {
+          display: flex;
+          justify-content: center;
+          gap: 1.5rem;
+          .submit-btn {
+            border-radius: 2rem;
+            padding: .5rem 2rem;
+            font-weight: 700;
+          }
+        }
+        .no-btn {
+          font-size: 1.2rem;
+          text-align: center;
+          font-weight: 700;
+        }
+        .info-box {
+          display: flex;
+          flex-direction: column;
+          margin-top: 20px;
+          .box-division {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            .info-input-box {
+              position: relative;
+              width: 100%;
+              .info-input {
+                width: 100%;
+                height: 40px;
+                background-color: $white;
+                box-shadow:inset 0px 3px 3px rgba(0, 0, 0, .3);
+                color: $dark;
+                border: none;
+                outline: none;
+                padding-left: 20px;
+                padding-right: 10px;
+                font-size: 1rem;
+                font-weight: 700;
+                border-radius: 30px !important;
+                transition: none;
+                margin-right: 2rem;
+                
+                ~label {
+                  position: absolute;
+                  color: $orange;
+                  font-size: .9rem;
+                  left: 20px;
+                  top: -24px;
+                  pointer-events:none;
+                }
+              }
+            }
+            
+          }
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
       }
     }
