@@ -75,10 +75,10 @@ export default {
       }
     },
     async submitProfilePhoto() {
-      const albumBucketName = "mann-goofy"
+      const albumBucketName = process.env.VUE_APP_S3_BUCKET
       const region = "ap-northeast-2"
-      const accessKeyId = "AKIAXS6UYTLJHERWB34S"
-      const secretAccessKey = "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"
+      const accessKeyId = process.env.VUE_APP_S3_ACCESS_KEY_ID
+      const secretAccessKey = process.env.VUE_APP_S3_SECRET_ACCESS_KEY
 
       AWS.config.update({
         region,
