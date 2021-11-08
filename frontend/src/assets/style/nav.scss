@@ -70,6 +70,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  z-index: 1;
   .btn-group {
     display: flex;
     gap: 0.5rem;
@@ -93,8 +94,8 @@
     align-items: center;
     gap: 0.3rem;
     .profile {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2rem;
+      height: 2rem;
       border-radius: 100%;
       overflow: hidden;
       img {
@@ -106,6 +107,7 @@
     .dropdown {
       position: relative;
       display: inline-block;
+      z-index: 10;
       i {
         cursor: pointer;
       }
