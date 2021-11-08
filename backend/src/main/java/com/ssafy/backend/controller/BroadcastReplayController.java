@@ -41,16 +41,16 @@ public class BroadcastReplayController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all/{ordinalNo}")
     @ApiOperation(value = "방송 다시보기 전체 조회")
-    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll() {
-        return new ResponseEntity<>(broadcastReplayService.getBroadcastReplayAll(), HttpStatus.OK);
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll(@PathVariable("ordinalNo") int ordinalNo) {
+        return new ResponseEntity<>(broadcastReplayService.getBroadcastReplayAll(ordinalNo), HttpStatus.OK);
     }
 
-    @GetMapping("/track/{trackName}")
+    @GetMapping("/track/{trackId}/{ordinalNo}")
     @ApiOperation(value = "트랙별 방송 다시보기 조회")
-    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayTrack(@PathVariable("trackName") String trackName) {
-        return new ResponseEntity<>(broadcastReplayService.getBroadcastReplayTrack(trackName), HttpStatus.OK);
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayTrack(@PathVariable("trackId") int trackId, @PathVariable("ordinalNo") int ordinalNo) {
+        return new ResponseEntity<>(broadcastReplayService.getBroadcastReplayTrack(trackId, ordinalNo), HttpStatus.OK);
     }
 
     @GetMapping("/{broadcastReplayId}")

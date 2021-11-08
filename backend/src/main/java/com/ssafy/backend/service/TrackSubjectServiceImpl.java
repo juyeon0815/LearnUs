@@ -34,6 +34,14 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     }
 
     @Override
+    public Integer getSemester(int ordinalNo) {
+        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(ordinalNo);
+        if (trackSetting == null) return 0;
+
+        return trackSetting.getSemester();
+    }
+
+    @Override
     public boolean insert(TrackSubjectInfo trackSubjectInfo) {
         TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
         if (trackSetting == null) return false;
@@ -97,9 +105,9 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     }
 
     @Override
-    public boolean currentTrackSubjectUpdate(String newSubjectName) {
+    public boolean currentTrackSubjectUpdate(int newSubjectId) {
         TrackSubject nowTrackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
-        TrackSubject newTrackSubject = trackSubjectDao.findTrackSubjectBySubjectName(newSubjectName);
+        TrackSubject newTrackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(newSubjectId);
         if (nowTrackSubject == null || newTrackSubject == null) return false;
 
         nowTrackSubject.setNowSubject("N");
@@ -107,5 +115,14 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
         trackSubjectDao.save(nowTrackSubject);
         trackSubjectDao.save(newTrackSubject);
         return true;
+    }
+
+    @Override
+    public List<TrackSubject> getTrackSubjectSemester(int semester) {
+        TrackSetting trackSetting = trackSettingDao.findTrackSettingBySemester(semester);
+        if (trackSetting == null) return null;
+
+        List<TrackSubject> trackSubjectList = trackSubjectDao.findTrackSubjectsByTrackSetting(trackSetting);
+        return trackSubjectList;
     }
 }

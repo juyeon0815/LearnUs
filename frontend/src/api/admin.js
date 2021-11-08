@@ -116,7 +116,7 @@ export default {
   editMatterMost (data) {
     return _axios({
       url: 'mattermost',
-      method: 'put',
+      method: 'patch',
       data: data
     })
   },

@@ -8,6 +8,11 @@
     background-color: $black;
     color: $white;
   }
+  &.disabled {
+    background-color: $light-grey;
+    color: $white;
+    pointer-events: none;
+  }
   &.dark-yellow {
     background-color: $dark;
     color: $yellow;
@@ -15,6 +20,10 @@
   &.dark-orange {
     background-color: $dark;
     color: $orange;
+  }
+  &.orange {
+    background-color: $orange;
+    color: $dark;
   }
   &.purple {
     background-color: $purple;
