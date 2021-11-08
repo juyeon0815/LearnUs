@@ -167,7 +167,6 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
             Textbook textbook = textbookList.get(i);
             textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
         }
-        System.out.println("textbookMap : "+textbookMap);
 
         BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplayId)
                 .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())

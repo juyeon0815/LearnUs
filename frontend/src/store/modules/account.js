@@ -66,30 +66,45 @@ const actions = {
         commit('SET_HTTP_STATUS', err.response.status)
       })
   },
-  onChangePassword ({ state }, passwordData) {
+  async onChangePassword ({ state, commit }, passwordData) {
     const userData = {
       ...passwordData,
       userId: state.userInfo.userId
     }
-    accountApi.changePassword(userData)
+    await accountApi.changePassword(userData)
       .then((res) => {
-        console.log(res)
+        commit('SET_HTTP_STATUS', res.status)
       })
       .catch((err) => {
-        console.log(err)
+        commit('SET_HTTP_STATUS', err.response.status)
       })
   },
-  onChangeUserPhone({ state, commit }, newPhoneNumber) {
+  async onChangeUserPhone({ state, commit }, newPhoneNumber) {
     const userData = state.userInfo
     userData.phone = newPhoneNumber
-    accountApi.changeUserPhone(userData)
+    await accountApi.changeUserInfo(userData)
       .then((res) => {
         if (res.status === 200) {
           commit('CHANGE_USER_PHONE', newPhoneNumber)
+          commit('SET_HTTP_STATUS', res.status)
         }
       })
       .catch((err) => {
-        console.log(err)
+        commit('SET_HTTP_STATUS', err.response.status)
+      })
+  },
+  async onChangeUserPhoto({ state, commit }, newProfileUrl) {
+    const userData = state.userInfo
+    userData.profileUrl = newProfileUrl
+    await accountApi.changeUserInfo(userData)
+      .then((res) => {
+        if (res.status === 200) {
+          commit('CHANGE_USER_PHOTO', newProfileUrl)
+          commit('SET_HTTP_STATUS', res.status)
+        }
+      })
+      .catch((err) => {
+        commit('SET_HTTP_STATUS', err.response.status)
       })
   },
   getUserInfo({ commit }, userId) {
@@ -116,6 +131,9 @@ const mutations = {
   },
   CHANGE_USER_PHONE (state, newPhoneNumber) {
     state.userInfo.phone = newPhoneNumber
+  },
+  CHANGE_USER_PHOTO (state, newProfileUrl) {
+    state.userInfo.profileUrl = newProfileUrl
   },
   SET_HTTP_STATUS (state, status) {
     state.httpStatus = status
