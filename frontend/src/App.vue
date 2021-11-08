@@ -34,7 +34,8 @@ export default {
     },
     needSideBar () {
       if (this.$route.name === "Account" ||
-          this.$route.name === "OnAir"
+          this.$route.name === "OnAir" ||
+          this.$route.name === "OnAirStudio"
       ) {
         return false
       }
@@ -47,7 +48,9 @@ export default {
       return true
     },
     needTopLogo () {
-      if (this.$route.name === "OnAir") {
+      if (this.$route.name === "OnAir" ||
+          this.$route.name === "OnAirStudio"
+      ) {
         return true
       }
       return false
