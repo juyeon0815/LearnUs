@@ -1,9 +1,9 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.track;
 
 import com.ssafy.backend.dao.TrackDao;
 import com.ssafy.backend.dao.TrackSubjectDao;
 import com.ssafy.backend.dto.Track;
-import com.ssafy.backend.dto.TrackInfo;
+import com.ssafy.backend.dto.info.TrackInfo;
 import com.ssafy.backend.dto.TrackSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

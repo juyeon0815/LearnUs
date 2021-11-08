@@ -1,7 +1,7 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.track;
 
 import com.ssafy.backend.dto.Track;
-import com.ssafy.backend.dto.TrackInfo;
+import com.ssafy.backend.dto.info.TrackInfo;
 
 import java.util.List;
 

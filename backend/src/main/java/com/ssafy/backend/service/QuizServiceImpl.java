@@ -5,7 +5,7 @@ import com.ssafy.backend.dao.QuizDao;
 import com.ssafy.backend.dao.QuizSelectDao;
 import com.ssafy.backend.dto.Broadcast;
 import com.ssafy.backend.dto.Quiz;
-import com.ssafy.backend.dto.QuizInfo;
+import com.ssafy.backend.dto.info.QuizInfo;
 import com.ssafy.backend.dto.QuizSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

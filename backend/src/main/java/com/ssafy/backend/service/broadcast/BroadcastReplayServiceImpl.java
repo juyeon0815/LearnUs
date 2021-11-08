@@ -1,7 +1,8 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.broadcast;
 
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
+import com.ssafy.backend.dto.info.BroadcastReplayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

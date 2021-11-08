@@ -1,4 +1,4 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.mattermost;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

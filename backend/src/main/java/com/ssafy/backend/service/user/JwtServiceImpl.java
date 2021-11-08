@@ -1,5 +1,6 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.user;
 
+import com.ssafy.backend.service.RedisService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

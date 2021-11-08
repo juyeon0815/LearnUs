@@ -1,6 +1,6 @@
 package com.ssafy.backend.service;
 
-import com.ssafy.backend.dto.QuizInfo;
+import com.ssafy.backend.dto.info.QuizInfo;
 
 import java.util.List;
 

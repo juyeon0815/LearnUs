@@ -1,9 +1,10 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.mattermost;
 
 import com.ssafy.backend.dao.MattermostDao;
 import com.ssafy.backend.dao.MattermostTrackDao;
 import com.ssafy.backend.dao.TrackSettingDao;
 import com.ssafy.backend.dto.*;
+import com.ssafy.backend.dto.info.MattermostInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,7 @@
-package com.ssafy.backend.dto;
+package com.ssafy.backend.dto.info;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.backend.dto.Track;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

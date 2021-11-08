@@ -1,6 +1,6 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.mattermost;
 
-import com.ssafy.backend.dto.MattermostInfo;
+import com.ssafy.backend.dto.info.MattermostInfo;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.broadcast;
 
-import com.ssafy.backend.dto.BroadcastReplayInfo;
+import com.ssafy.backend.dto.info.BroadcastReplayInfo;
 
 import java.util.List;
 

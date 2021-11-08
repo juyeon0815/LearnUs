@@ -1,4 +1,4 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.user;
 
 import java.util.Map;
 

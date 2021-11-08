@@ -1,4 +1,4 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.user;
 
 import com.ssafy.backend.dto.User;
 import org.springframework.web.multipart.MultipartFile;

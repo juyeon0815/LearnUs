@@ -1,7 +1,7 @@
-package com.ssafy.backend.service;
+package com.ssafy.backend.service.broadcast;
 
 import com.ssafy.backend.dto.Attendance;
-import com.ssafy.backend.dto.BroadcastInfo;
+import com.ssafy.backend.dto.info.BroadcastInfo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
