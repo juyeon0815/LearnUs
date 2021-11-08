@@ -107,7 +107,7 @@ public class MattermostServiceImpl implements MattermostService{
                 trackList.add(track);
             }
             MattermostInfo mattermostInfo = MattermostInfo.builder().mattermostId(mattermost.getMattermostId()).webhook(mattermost.getWebhook())
-                    .name(mattermost.getName()).pathName(mattermost.getPathName()).trackList(trackList).build();
+                    .name(mattermost.getName()).pathName(mattermost.getPathName()).trackList(trackList).ordinalNo(mattermost.getTrackSetting().getOrdinalNo()).build();
             mattermostInfoList.add(mattermostInfo);
             trackList = new ArrayList<>(); // 초기화
         }

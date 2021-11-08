@@ -41,9 +41,11 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
+        String thumbnailUrl = broadcastInfo.getThumbnailUrl();
+        if (thumbnailUrl==null || thumbnailUrl.length()==0) thumbnailUrl = "https://mann-goofy.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg";
         // 방송 생성
         Broadcast broadcast = Broadcast.builder().streamingKey(UUID.randomUUID().toString())
-                .thumbnailUrl(broadcastInfo.getThumbnailUrl())
+                .thumbnailUrl(thumbnailUrl)
                 .broadcastDate(broadcastInfo.getBroadcastDate())
                 .title(broadcastInfo.getTitle())
                 .teacher(broadcastInfo.getTeacher())
