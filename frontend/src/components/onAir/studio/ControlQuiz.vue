@@ -1,9 +1,15 @@
 <template>
-  <div class="control-quiz">퀴즈</div>
+  <div class="control-quiz">
+    <ControlQuizItem/>
+  </div>
 </template>
 
 <script>
+import ControlQuizItem from './ControlQuizItem.vue'
 export default {
-  name: 'ControlQuiz'
+  name: 'ControlQuiz',
+  components: {
+    ControlQuizItem
+  }
 }
 </script>
