@@ -5,7 +5,7 @@
     <QuizResult v-if="quizResult"/>
     <SolvingQuiz v-if="quiz"/>
     <OnAirChatList/>
-    <OnAirChatInput @autosize="autosizeList"/>
+    <OnAirChatInput @autosize="autosize"/>
   </div>
 </template>
 
