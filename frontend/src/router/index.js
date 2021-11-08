@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '@/views/Index.vue'
 import OnAir from '@/views/onAir/OnAir.vue'
+import OnAirStudio from '@/views/onAir/OnAirStudio.vue'
 import ManageStudent from '@/views/admin/ManageStudent.vue'
 import ManageSettings from '@/views/admin/ManageSettings.vue'
 import Account from '@/views/Account.vue'
@@ -18,6 +19,11 @@ const routes = [
     path: '/on-air/:id',
     name: 'OnAir',
     component: OnAir
+  },
+  {
+    path: '/on-air/studio/:id',
+    name: 'OnAirStudio',
+    component: OnAirStudio
   },
   {
     path: '/admin/students',
