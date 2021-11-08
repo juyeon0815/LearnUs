@@ -401,7 +401,6 @@
           background-color: $orange;
           border-bottom: 2px solid $light;
         }
-
         tr {
           text-align: center;
           font-weight: 300;
@@ -420,18 +419,15 @@
         }
         .track-list {
           display: flex;
-          gap: .2rem;
+          gap: .5rem;
           flex-wrap: wrap;
           .track-item {
-            padding: .1rem .4rem;
-            background: $yellow;
+            padding: .1rem .5rem;
+            color: $white;
+            background: rgba($light, .2);
+            box-shadow: 1px 1px 2px rgba($dark, 0.4);
             border-radius: 1rem;
             font-size: .8rem;
-            font-weight: 500;
-            color: $dark;
-            &.admin {
-              background: $light;
-            }
           }
         }
       }
