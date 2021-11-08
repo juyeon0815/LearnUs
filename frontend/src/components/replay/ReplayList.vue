@@ -1,11 +1,12 @@
 <template>
   <div class="replay-list">
-    <div class="content">
+    <div id="scroll" class="content">
     <ReplayListItem
     v-for="idx in 15"
     :key="idx"
     :idx="idx"/>
     </div>
+    
     <ul class="pagination" v-if="totalPage && totalPage > 1">
       <li
         :class="{ disabled: currentPage === 1 }"
