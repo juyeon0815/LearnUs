@@ -467,42 +467,6 @@
               color: $blank-grey;
               font-weight: 500;
             }
-            .mm-select {
-              .target {
-                width: 50%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-weight: 700;
-                font-size: .9rem;
-                cursor: pointer;
-                background-color: white;
-                color: $grey;
-                &.left {
-                  left: 0;
-                  border-radius: 20px 0 0 20px;
-                  box-shadow: inset 0 3px 3px rgba(0, 0, 0, .3);
-                  &.checked {
-                    background-color: $orange;
-                    color: $white;
-                    box-shadow: 4px 0px 4px rgba($black, 0.25);
-                  }
-                }
-                &.right {
-                  right: 0;
-                  border-radius: 0 20px 20px 0;
-                  box-shadow: inset 0 3px 3px rgba(0, 0, 0, .3);
-                  &.checked {
-                    background-color: $orange;
-                    color: $white;
-                    box-shadow: none;
-                  }
-                }
-              }
-            }
             label {
               position: absolute;
               color: $grey;
