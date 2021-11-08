@@ -45,6 +45,7 @@ export default {
   methods: {
     changePage(page) {
       this.currentPage = page
+      document.getElementById('scroll').scrollTop = 0
     },
   },
     computed: {
