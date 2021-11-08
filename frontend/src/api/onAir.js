@@ -1,6 +1,14 @@
 import _axios from "./interceptor"
 
 export default {
+  // 방송 생성
+  createBroadcast (data) {
+    return _axios({
+      url: 'broadcast',
+      method: 'post',
+      data: data
+    })
+  },
   // 실시간 방송 전체
   getOnAirAll () {
     return _axios({
@@ -16,7 +24,7 @@ export default {
     })
   },
   // 참석 명단
-  getOnAirInfo (id) {
+  getOnAirStudents (id) {
     return _axios({
       url: `broadcast/attendance/${id}`,
       method: 'get',

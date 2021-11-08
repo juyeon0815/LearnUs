@@ -5,11 +5,9 @@
       <header class="header">
         <div class="chapter">Create<span class="t-orange">:</span>LIVE</div>
       </header>
-      <button class="create-btn">라이브 생성</button>
+      <!-- <button class="create-btn">라이브 생성</button> -->
     </div>
-    <div>
-      <CreateLiveForm/>
-    </div>
+    <CreateLiveForm/>
   </div>
 </template>
 
