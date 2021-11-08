@@ -90,17 +90,6 @@ const actions = {
       console.log(err.response)
     }
   }, 
-  // 방송 스케줄
-  getBroadcastList({ commit }) {
-    adminApi.getBroadcastList()
-      .then((res) => {
-        console.log(res)
-        console.log(commit)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    },
 }
 
 const mutations = {

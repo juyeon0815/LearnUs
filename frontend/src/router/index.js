@@ -4,9 +4,9 @@ import OnAir from '@/views/onAir/OnAir.vue'
 import OnAirStudio from '@/views/onAir/OnAirStudio.vue'
 import ManageStudent from '@/views/admin/ManageStudent.vue'
 import ManageSettings from '@/views/admin/ManageSettings.vue'
-import Account from '@/views/Account.vue'
-import Profile from '@/views/Profile.vue'
-import LiveSchedule from '@/views/admin/LiveSchedule.vue'
+import Account from '@/views/account/Login.vue'
+import Profile from '@/views/account/Profile.vue'
+import LiveSchedule from '@/views/broadcast/LiveSchedule.vue'
 import StudentDetail from '@/views/admin/StudentDetail.vue'
 import CreateLive from '@/views/admin/CreateLive.vue'
 
@@ -57,7 +57,7 @@ const routes = [
     component: Profile
   },
   {
-    path: '/admin/live-schedule',
+    path: '/broadcast/live-schedule',
     name: 'LiveSchedule',
     component: LiveSchedule
   },

@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import ScheduleList from '@/components/admin/schedule/ScheduleList'
+import "./liveSchedule.scss"
+import ScheduleList from '@/components/broadcast/schedule/ScheduleList'
 import { mapActions } from 'vuex'
 
 export default {
@@ -15,7 +16,7 @@ export default {
     ScheduleList,
   },
   methods: {
-    ...mapActions('admin', ['getBroadcastList'])
+    ...mapActions('broadcast', ['getBroadcastList'])
   },
   created() {
     this.getBroadcastList()
