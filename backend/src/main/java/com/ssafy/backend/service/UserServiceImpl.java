@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
 
-            Track nowTrack = trackDao.findTRACKByTrackName(row.getCell(4).getStringCellValue());
+            Track nowTrack = trackDao.findTrackByTrackName(row.getCell(4).getStringCellValue());
 
             User user = new User();
 
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
             user.setRegion(row.getCell(5).getStringCellValue());
             user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
-            user.setProfileUrl("");
+            user.setProfileUrl("https://mann-goofy.s3.ap-northeast-2.amazonaws.com/profiles/default.jpg");
             user.setType(1);
             user.setStatusCode("Y");
             user.setTrack(nowTrack);
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
             user.setClassNo((int) row.getCell(6).getNumericCellValue());
             user.setPhone(row.getCell(7).getStringCellValue());
 
-            Track nowTrack = trackDao.findTRACKByTrackName(row.getCell(4).getStringCellValue());
+            Track nowTrack = trackDao.findTrackByTrackName(row.getCell(4).getStringCellValue());
 
             String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
         user.setStatusCode(updateUser.getStatusCode());
         String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
         user.setNickname(nickName);
-        Track track = trackDao.findTRACKByTrackName(updateUser.getTrack().getTrackName());
+        Track track = trackDao.findTrackByTrackName(updateUser.getTrack().getTrackName());
         if (track != null) user.setTrack(track);
 
         userDao.save(user);
@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
         Map<String, List<User>> map = new HashMap<>();
         List<User> userList = new ArrayList<>();
         for (int i=0;i<trackList.size();i++) {
-            Track trackNow = trackDao.findTRACKByTrackName(trackList.get(i));
+            Track trackNow = trackDao.findTrackByTrackName(trackList.get(i));
             // 현재 트랙에 해당되는 학생들 뽑기
             userList = userDao.findUserByTrack(trackNow);
             map.put(trackList.get(i), userList);

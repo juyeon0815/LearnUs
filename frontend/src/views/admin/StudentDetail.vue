@@ -9,12 +9,11 @@
         </span>
       </header>
     </div>
-    <StudentInfo :studentInfo="studentInfo" v-if="studentInfo !== null"/>
+    <StudentInfo/>
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
 import StudentInfo from '@/components/admin/studentDetail/StudentInfo'
 import './admin.scss'
 
@@ -23,18 +22,5 @@ export default {
   components: {
     StudentInfo
   },
-  methods: {
-    ...mapActions('admin', ['getSingleStudent']),
-    ...mapMutations('admin', ['SET_SINGLE_STUDENT'])
-  },
-  computed: {
-    studentInfo() {
-      return this.$store.state.admin.singleStudent
-    }
-  },
-  created() {
-    this.SET_SINGLE_STUDENT(null)
-    this.getSingleStudent(this.$route.params.id)
-  }
 }
 </script>

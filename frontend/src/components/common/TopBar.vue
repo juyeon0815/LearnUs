@@ -16,7 +16,7 @@
     </div>
     <div class="user-menu">
       <div class="profile">
-        <img src="@/assets/image/test/profile.jpg" alt="">
+        <img :key="photoKey" :src="profileUrl" alt="">
       </div>
       <div class="dropdown">
         <i class="dropdown-btn fi fi-rr-caret-down"></i>
@@ -37,7 +37,15 @@ export default {
   name: 'TopBar',
   methods: {
     ...mapActions('account', ['onLogout'])
-  }
+  },
+  computed: {
+    profileUrl() {
+      return this.$store.state.account.userInfo.profileUrl
+    },
+    photoKey() {
+      return this.$store.state.account.photoKey
+    }
+  },
 }
 </script>
 
