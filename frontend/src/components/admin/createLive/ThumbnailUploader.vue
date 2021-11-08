@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       thumbnailImage: null,
-      thumbnailPath: ''
+      thumbnailPath: '',
     }
   },
   methods: {
@@ -40,6 +40,11 @@ export default {
       const accessKeyId = process.env.VUE_APP_S3_ACCESS_KEY_ID
       const secretAccessKey = process.env.VUE_APP_S3_SECRET_ACCESS_KEY
 
+      if (!this.thumbnailImage) {
+        const defaultThumbnailPath = 'https://' + albumBucketName + '.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg'
+        return defaultThumbnailPath
+      }
+
       AWS.config.update({
         region,
         accessKeyId,
@@ -51,24 +56,24 @@ export default {
         params: {Bucket: albumBucketName,}
       })
 
-      const file = this.thumbnailImage
-      const fileName = 'tempThumbnail.jpg'
-      const albumPhotosKey = encodeURIComponent('profiles') + "/"
-      const photoKey = albumPhotosKey + fileName
+      const file = this.$refs.inputImage.files[0]
+      const fileName = file.name
+      const slice = fileName.split(".")
+      const albumPhotosKey = encodeURIComponent('thumbnails') + "/"
+      const photoKey = albumPhotosKey + slice[0] + "_" + new Date().getTime() + "." + slice[1]
 
-      s3.upload({
+      await s3.upload({
         Key: photoKey,
         Body: file,
         ACL: 'public-read'
       }).promise()
         .then((res) => {
           this.thumbnailPath = res.Location
-          // const newProfileUrl = res.Location
-          // await this.$store.dispatch('account/onChangeUserPhoto', newProfileUrl)
         })
         .catch((err) => {
           console.log(err)
         })
+      return this.thumbnailPath
     }
   }
 }

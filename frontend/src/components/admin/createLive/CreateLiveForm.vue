@@ -3,7 +3,7 @@
     <button class="create-btn" @click="onCreate">라이브 생성</button>
     <!-- 썸네일, 기초정보 인풋 -->
     <div class="live-row">
-      <ThumbnailUploader/>
+      <ThumbnailUploader ref="thumbnailUploader"/>
       <div class="summary-col">
         <div class="input-box mb-2">
           <input 
@@ -85,7 +85,7 @@ export default {
       instructor: '',
       trackIds: [],
       description: '',
-      thumbnail: 'test',
+      thumbnail: '',
     }
   },
   methods: {
@@ -99,7 +99,9 @@ export default {
     insertDescription (event) {
       this.description = event.target.value
     },
-    onCreate() {
+    async onCreate() {
+      this.thumbnail = await this.$refs.thumbnailUploader.saveThumbnail()
+      console.log(this.thumbnail)
       let data = this.broadcastData
       const tracksObj = this.tracks.filter(track => {
         return data.trackList.includes(track.trackId)
