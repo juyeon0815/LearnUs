@@ -28,6 +28,6 @@ public class Broadcast {
     private String title;
     private String teacher;
     private String description;
-    private String liveYn;
+    private String liveCode;
     private int chatCount;
 }
