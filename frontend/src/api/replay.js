@@ -10,7 +10,7 @@ export default {
 
     getBroadCastsByTrack(searchData) {
         return _axios({
-            url: `broadcastReplay/${searchData.trackId}/${searchData.ordinalNo}`,
+            url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
             method : 'get'
         })
     }
