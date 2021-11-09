@@ -45,10 +45,10 @@ public class BroadcastController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    @ApiOperation(value = "실시간 방송 조회")
-    public ResponseEntity<List<BroadcastInfo>> getBroadcastAll() {
-        return new ResponseEntity<>(broadcastService.getBroadcastAll(), HttpStatus.OK);
+    @GetMapping("/all/{liveCode}")
+    @ApiOperation(value = "방송 조회 (onAir, 방송 전)")
+    public ResponseEntity<List<BroadcastInfo>> getBroadcastAll(@PathVariable("liveCode") String liveCode) {
+        return new ResponseEntity<>(broadcastService.getBroadcastAll(liveCode), HttpStatus.OK);
     }
 
     @GetMapping("/{broadcastId}")
