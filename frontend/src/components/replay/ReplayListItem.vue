@@ -5,13 +5,13 @@
     </div>
     <div class="broadcast-info">
       <div class="info-first-box">
-        <span class="info-title">{{ title }}</span>
+        <span class="info-title">{{ idx.broadcast.title }}</span>
       </div>
       <div class="info-student">
         <span><strong>대상 교육생</strong> | {{ studentGroup }} Track</span>
       </div>
       <div class="info-time">
-        <span><strong>방송 시간</strong> | {{ broadcastTime }}</span>
+        <span><strong>방송 시간</strong> | {{ idx.broadcast.broadcastDate }}</span>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
 export default {
   name: 'ReplayListItem',
   props: {
-    idx: Number
+    idx: Object
   },
   data() {
     return {

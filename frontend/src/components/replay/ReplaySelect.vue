@@ -3,7 +3,7 @@
     <div class="select-box">
       <select 
         class="ordinal-select"
-        v-model="this.trackList[0].trackName"
+        v-model="trackName"
         @change="changeSubject"
       >
         <option 
@@ -24,25 +24,27 @@ export default {
   name: 'TrackInfo',
  data: () => {
     return {
-      subjectId: null,
       userInfo: null,
-      subjectName: '',
-      category : ''
+      trackName : ''
     }
   },
-  methods: {
-    
+  methods:{
+    changeSubject(event){
+      this.$store.commit('replay/SET_SUBJECT', event.target.value)
+    },
   },
   computed: {
-    ...mapState(
-      'admin', ['tracks']
-    ),
+    ...mapState('admin', ['tracks']),
     trackList () {
+      console.log(this.tracks)
      return this.tracks.filter(track => {
         return track.trackSubject.subjectName === this.$route.params.category;
       }) 
-    }
+    },
   },
+  created () {
+    this.trackName = this.trackList[0].trackName
+  }
 }
 
 </script>

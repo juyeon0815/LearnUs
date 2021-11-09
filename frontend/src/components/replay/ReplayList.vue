@@ -2,11 +2,10 @@
   <div class="replay-list">
     <div id="scroll" class="content">
     <ReplayListItem
-    v-for="idx in 15"
+    v-for="idx in paginatedArea"
     :key="idx"
     :idx="idx"/>
     </div>
-    
     <ul class="pagination" v-if="totalPage && totalPage > 1">
       <li
         :class="{ disabled: currentPage === 1 }"
@@ -40,6 +39,7 @@ export default {
   data () {
     return {
       currentPage: 1,
+      ordinalNo : ''
     }
   },
   methods: {
@@ -48,10 +48,12 @@ export default {
       document.getElementById('scroll').scrollTop = 0
     },
   },
-    computed: {
-    ...mapState('admin', ['students', 'selectedOrd', 'searchWord']),
+  computed: {
+    ...mapState('replay', ['broadCasts', 'selectedSubject']),
     currentResult () {
-      const entire = this.students[this.selectedOrd]
+      console.log("replay", this.broadCasts);
+      console.log("category" , this.selectedSubject)
+      const entire = this.broadCasts;
       return entire
     },
     paginatedArea () {
@@ -63,6 +65,9 @@ export default {
       const total = this.currentResult.length
       return Math.ceil(total/10)
     },
+  },
+  created () {
+    this.$store.dispatch('replay/getBroadCasts', this.$store.state.account.userInfo.ordinalNo)
   }
 }
 </script>

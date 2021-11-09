@@ -4,6 +4,7 @@ import account from './modules/account'
 import admin from './modules/admin'
 import chat from './modules/chat'
 import video from './modules/video'
+import replay from './modules/replay'
 
 const store = createStore({
   plugins: [createPersistedState()],
@@ -11,7 +12,8 @@ const store = createStore({
     account,
     admin,
     chat,
-    video
+    video,
+    replay
   }
 })
 

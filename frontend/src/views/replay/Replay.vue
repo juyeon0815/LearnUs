@@ -3,7 +3,7 @@
       <div class="row">
       <span class="title">RE<span class="colon">:</span>PLAY</span>
       </div>
-      <TrackInfo/>
+      <TrackInfo v-if="this.$route.params.category!='all'"/>
       <ReplayList/>
   </div>
 </template>
@@ -19,6 +19,6 @@ export default {
   components: {
      ReplayList, 
      TrackInfo
-  },
+  }
 }
 </script>
