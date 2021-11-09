@@ -2,13 +2,26 @@
   width: 100%;
   position: relative;
   .mb-2 {
-    margin-bottom: 2rem;
+    margin-bottom: 2rem !important;
   }
   .mb-3 {
     margin-bottom: 3rem;
   }
   .flex-start {
     align-items: flex-start !important;
+  }
+  .btn-update {
+    padding: .3rem 1.5rem;
+    background: $light;
+    color: $dark;
+    border: solid 2px $orange;
+    border-radius: 2rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    &:hover {
+      color: $white;
+      background: $orange;
+    }
   }
   .create-live-form {
     width: 100%;
@@ -46,7 +59,17 @@
   position: relative;
   flex: 0 0 auto;
   width: 45%;
-
+  .btn-delete {
+    position: absolute;
+    top: -24px;
+    left: 120px;
+    font-size: 0.7rem;
+    padding: 0 7px;
+    border-radius: 10px;
+    border: solid 1px $orange;
+    color: $orange;
+    cursor: pointer;
+  }
   .hide-input {
     position: absolute;
     width: 100%;

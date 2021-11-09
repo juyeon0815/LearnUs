@@ -10,8 +10,12 @@
     <input ref="inputImage" type="file" class="hide-input" @change="getImage">
     <label>Thumbnail</label>
     <div class="empty-box">
-      <i class="fi fi-rr-add plus-icon"></i>
+      <i class="fi fi-rr-add plus-icon" v-if="!thumbnailImage"></i>
     </div>
+    <!-- input 삭제 -->
+    <button class="btn-delete" v-if="thumbnailImage" @click="deleteThumbnail">
+      삭제
+    </button>
   </div>
 </template>
 
@@ -35,15 +39,16 @@ export default {
       reader.readAsDataURL(inputImage)
     },
     async saveThumbnail() {
+      if (!this.thumbnailImage) {
+        const defaultThumbnailPath = 'https://' + albumBucketName + '.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg'
+        return defaultThumbnailPath
+      } else if (this.$route.name === "OnAirStudio" && this.thumbnailImage === this.originalThumbnailPath) {
+        return this.originalThumbnailPath
+      }
       const albumBucketName = process.env.VUE_APP_S3_BUCKET
       const region = "ap-northeast-2"
       const accessKeyId = process.env.VUE_APP_S3_ACCESS_KEY_ID
       const secretAccessKey = process.env.VUE_APP_S3_SECRET_ACCESS_KEY
-
-      if (!this.thumbnailImage) {
-        const defaultThumbnailPath = 'https://' + albumBucketName + '.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg'
-        return defaultThumbnailPath
-      }
 
       AWS.config.update({
         region,
@@ -74,6 +79,20 @@ export default {
           console.log(err)
         })
       return this.thumbnailPath
+    },
+    deleteThumbnail() {
+      this.thumbnailImage = null
+      this.$refs.inputImage.value = ''
+    },
+  },
+  computed: {
+    originalThumbnailPath() {
+      return this.$store.state.broadcast.broadcastDetail.thumbnailUrl
+    }
+  },
+  created() {
+    if (this.$route.name === "OnAirStudio") {
+      this.thumbnailImage = this.originalThumbnailPath
     }
   }
 }

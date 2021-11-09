@@ -2,7 +2,9 @@
   <div class="video-info">
     <button
       class="btn edit-btn"
+      @click="toggleUpdateModal"
     >수정</button>
+    <VideoInfoUpdateModal v-if="isUpdateModalOn" @hideModal="toggleUpdateModal"/>
     <div class="info">
       <div class="info-row">
         <span class="key">Title</span>
@@ -44,8 +46,23 @@
 </template>
 
 <script>
+import VideoInfoUpdateModal from './VideoInfoUpdateModal'
+
 export default {
-  name: 'VideoInfo'
+  name: 'VideoInfo',
+  components: {
+    VideoInfoUpdateModal,
+  },
+  data() {
+    return {
+      isUpdateModalOn: false,
+    }
+  },
+  methods: {
+    toggleUpdateModal() {
+      this.isUpdateModalOn = !this.isUpdateModalOn
+    }
+  }
 }
 </script>
 
