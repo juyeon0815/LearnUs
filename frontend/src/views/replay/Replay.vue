@@ -26,16 +26,24 @@ export default {
     TrackInfo,
   },
   watch: {
-    '$route' () {
-      if (this.$route.name === 'Replay') {
-        const category = this.$route.params.category
-        console.log(category)
-        if(category === 'all') {
-          console.log("여기들어와서 지운다잉")
-          this.$store.commit('replay/SET_BROADCASTS_TRACK',null)
+    $route() {
+      if (this.$route.name === "Replay") {
+        const category = this.$route.params.category;
+        if (category === "all") {
+          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
         }
+        this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
       }
-    }
+    },
+  },
+  created(){
+    if (this.$route.name === "Replay") {
+      const category = this.$route.params.category;
+        if (category === "all") {
+          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
+        }
+        this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
+      }
   }
-}
+};
 </script>
