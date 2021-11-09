@@ -6,6 +6,7 @@ import broadcast from './modules/broadcast'
 import chat from './modules/chat'
 import onAir from './modules/onAir'
 import video from './modules/video'
+import replay from './modules/replay'
 
 const store = createStore({
   plugins: [createPersistedState()],
@@ -14,8 +15,9 @@ const store = createStore({
     admin,
     broadcast,
     chat,
+    video,
+    replay,
     onAir,
-    video
   }
 })
 

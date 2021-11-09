@@ -9,6 +9,10 @@ import Profile from '@/views/account/Profile.vue'
 import LiveSchedule from '@/views/broadcast/LiveSchedule.vue'
 import CreateLive from '@/views/admin/CreateLive.vue'
 
+
+import Replay from '@/views/replay/Replay.vue'
+import ReplayVideo from '@/views/replay/ReplayVideo.vue'
+
 const routes = [
   {
     path: '/',
@@ -54,6 +58,16 @@ const routes = [
     path: '/broadcast/live-schedule',
     name: 'LiveSchedule',
     component: LiveSchedule
+  },
+  {
+    path: '/replay/:category',
+    name: 'Replay',
+    component: Replay
+  },
+  {
+    path: '/replay/:id',
+    name: 'ReplayVideo',
+    component: ReplayVideo
   },
 ]
 
