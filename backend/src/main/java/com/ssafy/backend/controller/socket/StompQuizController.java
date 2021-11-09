@@ -55,6 +55,8 @@ public class StompQuizController {
 
     @MessageMapping("quiz.answer")
     public void answer(QuizAnswerInfo quizAnswerInfo) {
+        System.out.println("퀴즈 정답제출:"+quizAnswerInfo);
+
         quizAnswerService.insert(quizAnswerInfo);
     }
 

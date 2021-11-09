@@ -32,9 +32,16 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
         Quiz quiz = quizDao.findQuizByQuizId(quizAnswerInfo.getQuizId());
         User user = userDao.findUserByUserId(quizAnswerInfo.getUserId());
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(quizAnswerInfo.getBroadcastId());
-        if (quiz == null || user == null || broadcast == null) return false;
+        if (quiz == null || user == null || broadcast == null) {
+            System.out.println(quiz);
+            System.out.println(user);
+            System.out.println(broadcast);
+            return false;
+        }
 
+        System.out.println("저장합시다");
         QuizAnswer quizAnswer = new QuizAnswer();
+        quizAnswer.setAnswer(quizAnswerInfo.getAnswer());
         quizAnswer.setUser(user);
         quizAnswer.setQuiz(quiz);
         quizAnswer.setSubmitTime(LocalDateTime.now());

@@ -38,7 +38,8 @@ public class StompChatController {
 
     @MessageMapping("chat.message.{broadcastId}")
     public void send(ChatInfo chat, @DestinationVariable int broadcastId) {
-        System.out.println("send : "+chat);
+//        chat.setRegDate(LocalDateTime.now());
+        System.out.println("여기야send : "+chat);
         userService.userChatSend(chat.getUserId(), broadcastId);
 
         redisService.setChatInfoValue("chat"+broadcastId, chat);
