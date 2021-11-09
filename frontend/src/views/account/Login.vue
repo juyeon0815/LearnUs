@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import './account.scss'
-import LoginForm from '@/components/account/LoginForm'
-import FindEmailForm from '@/components/account/FindEmailForm'
-import FindPasswordForm from '@/components/account/FindPasswordForm'
-import ResetPasswordForm from '@/components/account/ResetPasswordForm'
+import './login.scss'
+import LoginForm from '@/components/account/login/LoginForm'
+import FindEmailForm from '@/components/account/login/FindEmailForm'
+import FindPasswordForm from '@/components/account/login/FindPasswordForm'
+import ResetPasswordForm from '@/components/account/login/ResetPasswordForm'
 
 export default {
-  name: 'Account',
+  name: 'Login',
   components: {
     LoginForm,
     FindEmailForm,

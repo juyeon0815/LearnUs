@@ -7,6 +7,7 @@ const state = {
   searchedEmail: null,
   instantUserId: null,
   httpStatus: null,
+  photoKey: 0,
 }
 
 const actions = {
@@ -100,6 +101,7 @@ const actions = {
       .then((res) => {
         if (res.status === 200) {
           commit('CHANGE_USER_PHOTO', newProfileUrl)
+          commit('UPDATE_PHOTO_KEY')
           commit('SET_HTTP_STATUS', res.status)
         }
       })
@@ -137,6 +139,9 @@ const mutations = {
   },
   SET_HTTP_STATUS (state, status) {
     state.httpStatus = status
+  },
+  UPDATE_PHOTO_KEY (state) {
+    state.photoKey += 1
   }
 }
 

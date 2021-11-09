@@ -2,19 +2,43 @@
 
 ## FE 작업 기록 (최신 화면 확인용)
 
-#### COMMON
+#### INDEX
 
-- [2021-10-25] 기본 INDEX (SIDE/TOP NAV + ONAIR)
+![image-20211108212411436](README.assets/image-20211108212411436.png)
 
-  ![image-20211025181353720](README.assets/image-20211025181353720.png)
 
-  - SM Viewport - Break point(576px)
 
-  ![image-20211025181401125](README.assets/image-20211025181401125.png)
+#### ADMIN/Student
 
-- [2021-10-27] INDEX UI 완료
+![image-20211108212440856](README.assets/image-20211108212440856.png)
 
-  ![image-20211027144059380](README.assets/image-20211027144059380.png)
+![image-20211108212450153](README.assets/image-20211108212450153.png)
+
+![image-20211108212510030](README.assets/image-20211108212510030.png)
+
+
+
+#### ADMIN/SETTINGS
+
+![image-20211108213904234](README.assets/image-20211108213904234.png)
+
+![image-20211108214009124](README.assets/image-20211108214009124.png)
+
+#### ![image-20211108214017209](README.assets/image-20211108214017209.png)
+
+
+
+#### LIVE STUDIO
+
+![image-20211108214143814](README.assets/image-20211108214143814.png)
+
+
+
+#### LIVE CHAT
+
+![image-20211108214723549](README.assets/image-20211108214723549.png)
+
+
 
 
 

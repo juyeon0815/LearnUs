@@ -1,5 +1,5 @@
 <template>
-  <tr @click="getDetail">
+  <tr>
     <td>{{ idx + 1 }}</td>
     <td>{{ student.name }}</td>
     <td>{{ student.userId }}</td>
@@ -11,16 +11,10 @@
 
 <script>
 export default {
-  name: 'StudentTableRow',
+  name: 'ControlStudentTableRow',
   props: {
     student: Object,
     idx: Number
-  },
-  methods: {
-    getDetail() {
-      this.$store.commit('admin/SET_TARGET_ID', this.student.userId)
-      this.$emit('open-detail')
-    }
   }
 }
 </script>

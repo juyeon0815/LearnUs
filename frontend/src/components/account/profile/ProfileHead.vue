@@ -6,7 +6,7 @@
       <div class="photo-update">
         <span class="text-btn" @click="showCropper">변경</span>
         <span class="dot-space">⬝</span>
-        <span class="text-btn">삭제</span>
+        <span class="text-btn" @click="deletePhoto">삭제</span>
         </div>
     </div>
     <!-- 이름, 학번 및 소속 -->
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ProfileCrop from './ProfileCrop'
 
 export default {
@@ -37,10 +38,11 @@ export default {
     return {
       userInfo: null,
       isCropperShow: false,
-      photoKey: 0,
+      defaultPhoto: 'https://mann-goofy.s3.ap-northeast-2.amazonaws.com/profiles/default.jpg'
     }
   },
   methods: {
+    ...mapActions('account', ['onChangeUserPhoto']),
     showCropper() {
       this.isCropperShow = true
     },
@@ -55,11 +57,26 @@ export default {
         if (httpStatus === 200) {
           alertInfo.type = 'success'
           alertInfo.message = '사진 변경이 완료되었습니다.'
-          this.photoKey += 1
         } else if (httpStatus === 500) {
           alertInfo.message = '서버 오류입니다.'
         } else {
           alertInfo.message = `${httpStatus} 오류입니다.`
+        }
+        this.$emit('alert', alertInfo)
+      }
+    },
+    async deletePhoto() {
+      if (this.userInfo.profileUrl === this.defaultPhoto) {
+        const alertInfo = {
+          type: 'fail',
+          message: '등록된 사진이 없습니다.'
+        }
+        this.$emit('alert', alertInfo)
+      } else {
+        await this.onChangeUserPhoto(this.defaultPhoto)
+        const alertInfo = {
+          type: 'success',
+          message: '사진 삭제가 완료되었습니다.'
         }
         this.$emit('alert', alertInfo)
       }
@@ -68,6 +85,9 @@ export default {
   computed: {
     profileUrl() {
       return this.$store.state.account.userInfo.profileUrl
+    },
+    photoKey() {
+      return this.$store.state.account.photoKey
     }
   },
   created() {
