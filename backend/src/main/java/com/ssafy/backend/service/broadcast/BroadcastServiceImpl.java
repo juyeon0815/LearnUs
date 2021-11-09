@@ -56,7 +56,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                 .broadcastDate(broadcastInfo.getBroadcastDate())
                 .title(broadcastInfo.getTitle())
                 .teacher(broadcastInfo.getTeacher())
-                .liveYn("Y")
+                .liveCode("C")
                 .description(broadcastInfo.getDescription()).build();
         broadcastDao.save(broadcast);
 
@@ -155,8 +155,8 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
-    public List<BroadcastInfo> getBroadcastAll() {
-        List<Broadcast> broadcastList = broadcastDao.findBroadcastsByLiveYn("Y");
+    public List<BroadcastInfo> getBroadcastAll(String liveCode) {
+        List<Broadcast> broadcastList = broadcastDao.findBroadcastsByLiveCode(liveCode);
 
         List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
         for (int i = 0; i < broadcastList.size(); i++) {
@@ -195,7 +195,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     @Override
     public BroadcastInfo getBroadcast(int broadcastId) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastIdAndLiveYn(broadcastId, "Y");
+        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
         if (broadcast == null) return null;
 
         Map<String, String> textbookMap = new HashMap<>();
@@ -257,6 +257,9 @@ public class BroadcastServiceImpl implements BroadcastService {
     @Override
     public void start(int broadcastId) {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+
+        broadcast.setLiveCode("Y");
+        broadcastDao.save(broadcast);
 
         // 해당 방송과 연관된 트랙 가져오기
         List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
@@ -398,7 +401,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         //방송 객체를 불러와 스트림키를 확인한다.
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
-        broadcast.setLiveYn("N");
+        broadcast.setLiveCode("N");
         broadcastDao.save(broadcast);
 
         //스트림키로 cdn url를 생성한다

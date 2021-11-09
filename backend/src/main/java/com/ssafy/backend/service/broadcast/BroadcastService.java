@@ -15,7 +15,7 @@ public interface BroadcastService {
     public void delete(int broadcastId);
     public void attend(int broadcastId, int userId);
     public Map<String, List<Attendance>> getAttendance(int broadcastId);
-    public List<BroadcastInfo> getBroadcastAll();
+    public List<BroadcastInfo> getBroadcastAll(String liveCode);
     public BroadcastInfo getBroadcast(int broadcastId);
     public void start(int broadcastId);
     public void endAttendance(int broadcastId);

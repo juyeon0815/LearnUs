@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
 
         for (int i=1;i<trackSettingList.size();i++) {
             int nowOrdinalNo = trackSettingList.get(i).getOrdinalNo();
-            List<User> userList = userDao.findUserByOrdinalNo(nowOrdinalNo);
+            List<User> userList = userDao.findUserByOrdinalNoAndStatusCode(nowOrdinalNo, "Y");
             map.put(nowOrdinalNo, userList);
         }
         return map;
