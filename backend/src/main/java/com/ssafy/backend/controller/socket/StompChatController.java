@@ -1,4 +1,4 @@
-package com.ssafy.backend.controller.stomp;
+package com.ssafy.backend.controller.socket;
 
 import com.ssafy.backend.dto.info.ChatInfo;
 import com.ssafy.backend.service.RedisService;
@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-public class ChatController {
+public class StompChatController {
     private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
-    private static final String CHAT_ADMIN_EXCHANGE_NAME = "chatAdmin.exchange";
+    private static final String ADMIN_EXCHANGE_NAME = "admin.exchange";
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -31,9 +31,9 @@ public class ChatController {
     public void enter(@DestinationVariable int broadcastId) {
         String value = redisService.getValue("viewer"+broadcastId);
         int viewerCnt = 0;
-        if (value != null || value.length() >= 0) viewerCnt = Integer.parseInt(value);
+        if (value != null && value.length() >= 0) viewerCnt = Integer.parseInt(value);
         redisService.setValue("viewer"+broadcastId, (viewerCnt+1)+"");
-        rabbitTemplate.convertAndSend(CHAT_ADMIN_EXCHANGE_NAME, "broadcast." + broadcastId, value);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, viewerCnt);
     }
 
     @MessageMapping("chat.message.{broadcastId}")
