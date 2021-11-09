@@ -8,7 +8,7 @@ import Account from '@/views/account/Login.vue'
 import Profile from '@/views/account/Profile.vue'
 import LiveSchedule from '@/views/broadcast/LiveSchedule.vue'
 import CreateLive from '@/views/admin/CreateLive.vue'
-
+import ErrorPage from '@/views/Error.vue'
 
 import Replay from '@/views/replay/Replay.vue'
 import ReplayVideo from '@/views/replay/ReplayVideo.vue'
@@ -68,6 +68,15 @@ const routes = [
     path: '/replay/:id',
     name: 'ReplayVideo',
     component: ReplayVideo
+  },
+  { 
+    path: '/:pathMatch(.*)*', 
+    redirect: '/error/404'
+  },
+  {
+    path: '/error/:code',
+    name: 'Error',
+    component: ErrorPage
   },
 ]
 
