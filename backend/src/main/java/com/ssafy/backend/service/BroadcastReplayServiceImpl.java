@@ -26,7 +26,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
         Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastReplayInfo.getBroadcastId());
         if (broadcast == null) return false;
 
-        broadcast.setLiveYn("N");
+        broadcast.setLiveCode("N");
         broadcastDao.save(broadcast);
 
         BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplayInfo.getReplayUrl())
