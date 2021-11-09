@@ -226,9 +226,12 @@
       }
     }
     .change-btn-disabled {
-      font-weight: 700;
+      background-color: $light-grey;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: $white;
       pointer-events: none;
-      border: solid $black;
+      border: none;
+      outline: none;
       border-radius: 25px;
       padding: 3px 15px;
     }

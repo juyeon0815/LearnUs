@@ -6,7 +6,7 @@
 
 <script>
 import './profile.scss'
-import ProfileBox from '@/components/profile/ProfileBox'
+import ProfileBox from '@/components/account/profile/ProfileBox'
 
 export default {
   name: 'Profile',

@@ -8,6 +8,12 @@ export default {
       method: 'get',
     })
   },
+  getStudentDetail (id) {
+    return _axios({
+      url: `user/id/${id}`,
+      method: 'get',
+    })
+  },
   registerStudents (data) {
     return _axios({
       url: 'user',
@@ -124,21 +130,6 @@ export default {
     return _axios({
       url: `mattermost/${id}`,
       method: 'delete'
-    })
-  },
-
-
-  getSingleStudent (id) {
-    return _axios({
-      url: `user/id/${id}`,
-      method: 'get',
-    })
-  },
-  // 방송 스케줄 관련
-  getBroadcastList () {
-    return _axios({
-      url: 'broadcast/all',
-      method: 'get',
     })
   },
 }
