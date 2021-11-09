@@ -1,4 +1,4 @@
-package com.ssafy.backend.controller.stomp;
+package com.ssafy.backend.controller.socket;
 
 import com.ssafy.backend.dao.QuizDao;
 import com.ssafy.backend.dao.QuizSelectDao;
@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-public class QuizController {
+public class StompQuizController {
     private static final String QUIZ_EXCHANGE_NAME = "quiz.exchange";
 
     @Autowired

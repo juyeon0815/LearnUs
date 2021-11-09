@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface QuizAnswerDao extends JpaRepository<QuizAnswer, String> {
     List<QuizAnswer> findQuizAnswersByQuiz(Quiz quiz);
-    List<QuizAnswer> findTop3ByQuizAndAnswerYnByOrderBySubmitTime(Quiz quiz, String answerYn);
-    @Query(value = "select count(QuizAnswer.answer) as count, QuizAnswer.answer as answer from QuizAnswer where QuizAnswer.quiz.quizId = :quiz_id group by QuizAnswer.answer")
+    @Query(nativeQuery = true, value = "select * from QuizAnswer where answer_yn='Y' and quiz.quizId = :quiz_id limit 3")
+    List<QuizAnswer> findAnswer(int quiz_id);
+    @Query(nativeQuery = true, value = "select count(QuizAnswer.answer) as count, QuizAnswer.answer as answer from QuizAnswer where QuizAnswer.quiz.quizId = :quiz_id group by QuizAnswer.answer")
     List<QuizRateInfo> findQuizRate();
     @Query(nativeQuery = true, value = "select count(QuizAnswer.answer) as count, QuizAnswer.answer as answer from QuizAnswer where QuizAnswer.quiz.quizId = :quiz_id group by QuizAnswer.answer Limit 4")
     List<QuizRateInfo> findQuizSRate();

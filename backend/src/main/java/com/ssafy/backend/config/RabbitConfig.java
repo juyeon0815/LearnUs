@@ -48,14 +48,14 @@ public class RabbitConfig {
         return rabbitTemplate;
     }
 
-    @Bean
-    public SimpleMessageListenerContainer container() {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory());
-        container.setQueueNames(CHAT_QUEUE_NAME);
-        container.setMessageListener(null);
-        return container;
-    }
+//    @Bean
+//    public SimpleMessageListenerContainer container() {
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory());
+//        container.setQueueNames(CHAT_QUEUE_NAME);
+//        container.setMessageListener(null);
+//        return container;
+//    }
 
     // spring 에서 자동생성해주는 connectionFactory는 SimpleConnectionFactory인가? 그건데
     // 여기서 사용하는 건 cachingConnectionFactory라 새로 등록해줌

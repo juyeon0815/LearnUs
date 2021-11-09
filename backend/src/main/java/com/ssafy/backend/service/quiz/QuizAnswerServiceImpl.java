@@ -56,7 +56,7 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
     @Override
     public List<QuizAnswer> getQuizAnswerAll(int quizId) {
         Quiz quiz = quizDao.findQuizByQuizId(quizId);
-        List<QuizAnswer> quizAnswerList = quizAnswerDao.findTop3ByQuizAndAnswerYnByOrderBySubmitTime(quiz, "Y");
+        List<QuizAnswer> quizAnswerList = quizAnswerDao.findAnswer(quiz.getQuizId());
         return quizAnswerList;
     }
 
