@@ -1,5 +1,6 @@
 <template>
   <div class="account">
+    <decoration/>
     <div class="user-form">
       <i class="fi fi-rr-arrow-small-left direct-back"
       @click="$router.push({ name: 'Account', params: {page: 'login'}})"
@@ -15,6 +16,7 @@
 
 <script>
 import './login.scss'
+import decoration from '@/components/account/login/decoration'
 import LoginForm from '@/components/account/login/LoginForm'
 import FindEmailForm from '@/components/account/login/FindEmailForm'
 import FindPasswordForm from '@/components/account/login/FindPasswordForm'
@@ -23,6 +25,7 @@ import ResetPasswordForm from '@/components/account/login/ResetPasswordForm'
 export default {
   name: 'Login',
   components: {
+    decoration,
     LoginForm,
     FindEmailForm,
     FindPasswordForm,

@@ -1,14 +1,17 @@
 @import '@/assets/style/_color.scss';
 
 .account {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  background: $peach;
+  background: $dark;
+  overflow: hidden;
   .user-form {
     width: 450px;
     height: 100vh;
     background: $grey;
     position: absolute;
+    top: 0;
     right: 0;
     display: flex;
     flex-direction: column;
@@ -118,6 +121,66 @@
       font-size: 40px;
       cursor: pointer;
       color: #F1F1F1;
+    }
+  }
+  .deco-account {
+    position: relative;
+    width: calc(100% - 450px);
+    height: 100%;
+    img {
+      filter: drop-shadow(10px 10px 10px rgba($black, .7));
+    }
+    .title-box {
+      position: absolute;
+      top: 28%;
+      left: 8%;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Montserrat', sans-serif;
+      text-shadow: 5px 5px 5px rgba($black, .7);
+      font-style: italic;
+      transform: rotate(-8deg);
+      .subtitle {
+        font-size: 2.5vw;
+      }
+      .title {
+        color: $orange;
+        font-weight: 900;
+        font-size: 10vw;
+        line-height: 10vw;
+      }
+    }
+    .ground {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100px;
+      background: rgba($orange, .8);
+    }
+    .deco-img {
+      position: absolute;
+      right: 0;
+      bottom: -5px;
+      height: 90%;
+      .mountain {
+        min-width: 100%;
+        min-height: 100%;
+      }
+      .rocket {
+        position: absolute;
+        &.right {
+          width: 10%;
+          top: 25%;
+          right: 5%;
+          transform: rotate(-110deg);
+        }
+        &.left {
+          top: -10%;
+          left: -25%;
+          width: 20%;
+          transform: rotate(-120deg);
+        }
+      }
     }
   }
 }
