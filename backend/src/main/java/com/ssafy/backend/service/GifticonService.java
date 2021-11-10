@@ -6,8 +6,8 @@ import com.ssafy.backend.dto.info.GifticonInfo;
 import java.util.List;
 
 public interface GifticonService {
-    public boolean insert(GifticonInfo gifticonInfo);
-    public boolean update(GifticonInfo gifticonInfo);
-    public void delete(int gifticonid);
-    public List<Gifticon> getGifticonAll(int broadcastId);
+    boolean insert(GifticonInfo gifticonInfo);
+    boolean update(GifticonInfo gifticonInfo);
+    void delete(int gifticonid);
+    List<Gifticon> getGifticonAll(int broadcastId);
 }

@@ -2,7 +2,6 @@ package com.ssafy.backend.dao;
 
 import com.ssafy.backend.dto.Quiz;
 import com.ssafy.backend.dto.QuizAnswer;
-import com.ssafy.backend.dto.info.QuizRateInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    public Map<String, Object> login(String email, String password, HttpServletResponse res);
-    public void insert(MultipartFile excelFile) throws IOException;
-    public void updateList(MultipartFile excelFile) throws IOException;
-    public void updateUser(User updateUser);
-    public boolean updatePW(int userId, String originPW, String newPW);
-    public Map<String, List<User>> getTrackUser(List<String> trackList);
-    public Map<Integer, List<User>> getUserAll();
-    public User getUser(String type, String search);
-    public String getEmail(int userId, String phone);
-    public boolean getPwCheck(String email, int userId, String phone);
-    public boolean resetPW(int userId, String newPW);
+    Map<String, Object> login(String email, String password, HttpServletResponse res);
+    void insert(MultipartFile excelFile) throws IOException;
+    void updateList(MultipartFile excelFile) throws IOException;
+    void updateUser(User updateUser);
+    boolean updatePW(int userId, String originPW, String newPW);
+    Map<String, List<User>> getTrackUser(List<String> trackList);
+    Map<Integer, List<User>> getUserAll();
+    User getUser(String type, String search);
+    String getEmail(int userId, String phone);
+    boolean getPwCheck(String email, int userId, String phone);
+    boolean resetPW(int userId, String newPW);
 
     void userChatSend(int userId, int broadcastId);
 }

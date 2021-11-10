@@ -13,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BroadcastReplayInfo {
-    private int broadcastReplyId;
+    private int broadcastReplayId;
     private int broadcastId;
     private String replayUrl;
     private String openYn;

@@ -1,20 +1,16 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Attendance;
-import com.ssafy.backend.dto.Award;
 import com.ssafy.backend.dto.info.BroadcastInfo;
 import com.ssafy.backend.dto.info.ChatInfo;
 import com.ssafy.backend.service.broadcast.BroadcastService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

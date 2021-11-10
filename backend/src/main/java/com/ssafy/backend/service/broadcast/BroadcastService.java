@@ -1,7 +1,6 @@
 package com.ssafy.backend.service.broadcast;
 
 import com.ssafy.backend.dto.Attendance;
-import com.ssafy.backend.dto.Award;
 import com.ssafy.backend.dto.info.BroadcastInfo;
 import com.ssafy.backend.dto.info.ChatInfo;
 
@@ -11,20 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface BroadcastService {
-    public void insert(BroadcastInfo broadcastInfo);
-    public void update(BroadcastInfo broadcastInfo);
-    public void delete(int broadcastId);
-    public void attend(int broadcastId, int userId);
-    public Map<String, List<Attendance>> getAttendance(int broadcastId);
-    public List<BroadcastInfo> getBroadcastAll(String liveCode);
-    public BroadcastInfo getBroadcast(int broadcastId);
-    public void start(int broadcastId);
-    public Map<String, List<Attendance>> end(int broadcastId);
-    public void endAttendance(int broadcastId);
-    public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
-    public void endGifticon(int broadcastId);
-    public void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
-    public void endReplayInsert(int broadcastId, String autoUploadYn);
+    void insert(BroadcastInfo broadcastInfo);
+    void update(BroadcastInfo broadcastInfo);
+    void delete(int broadcastId);
+    void attend(int broadcastId, int userId);
+    Map<String, List<Attendance>> getAttendance(int broadcastId);
+    List<BroadcastInfo> getBroadcastAll(String liveCode);
+    BroadcastInfo getBroadcast(int broadcastId);
+    void start(int broadcastId);
+    Map<String, List<Attendance>> end(int broadcastId);
+    void endAttendance(int broadcastId);
+    void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    void endGifticon(int broadcastId);
+    void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    void endReplayInsert(int broadcastId, String autoUploadYn);
 
-    public List<ChatInfo> getChatInfoList(int broadcastId);
+    List<ChatInfo> getChatInfoList(int broadcastId);
 }

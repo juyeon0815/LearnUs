@@ -5,10 +5,10 @@ import com.ssafy.backend.dto.info.BroadcastReplayInfo;
 import java.util.List;
 
 public interface BroadcastReplayService {
-    public boolean insert(BroadcastReplayInfo broadcastReplayInfo);
-    public boolean update(BroadcastReplayInfo broadcastReplayInfo);
-    public boolean delete(int broadcastReplayId);
-    public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo);
-    public List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo);
-    public BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId);
+    boolean insert(BroadcastReplayInfo broadcastReplayInfo);
+    boolean update(BroadcastReplayInfo broadcastReplayInfo);
+    boolean delete(int broadcastReplayId);
+    List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo);
+    List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo);
+    BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId);
 }

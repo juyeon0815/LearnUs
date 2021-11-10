@@ -57,7 +57,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
 
     @Override
     public boolean update(BroadcastReplayInfo broadcastReplayInfo) {
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayInfo.getBroadcastReplyId());
+        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayInfo.getBroadcastReplayId());
         if (broadcastReplay == null) return false;
 
         broadcastReplay.setReplayUrl(broadcastReplayInfo.getReplayUrl());
@@ -99,7 +99,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                 Textbook textbook = textbookList.get(i);
                 textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
             }
-            BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplay.getBroadcastReplayId())
+            BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
                     .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
                     .broadcast(broadcast).textbook(textbookMap).build();
             broadcastReplayInfoList.add(broadcastReplayInfo);
@@ -144,7 +144,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                     textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
                 }
 
-                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplay.getBroadcastReplayId())
+                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
                         .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
                         .textbook(textbookMap).broadcast(broadcast).build();
 
@@ -169,7 +169,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
             textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
         }
 
-        BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplyId(broadcastReplayId)
+        BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplayId)
                 .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
                 .textbook(textbookMap).broadcast(broadcast).build();
 
