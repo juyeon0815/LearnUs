@@ -4,7 +4,8 @@
     <ScheduleListItem 
       v-for="broadcast in scheduleList"
       :key="broadcast.broadcastId"
-      :broadcast="broadcast"/>
+      :broadcast="broadcast"
+      @onCancle="$emit('onCancle', broadcast)"/>
   </div>
 </template>
 
@@ -19,6 +20,6 @@ export default {
   props: {
     date: String,
     scheduleList: Array,
-  }
+  },
 }
 </script>

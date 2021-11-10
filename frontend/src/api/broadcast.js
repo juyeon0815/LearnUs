@@ -39,6 +39,13 @@ export default {
       data: broadcastInfo
     })
   },
+  // 방송 삭제
+  deleteBroadcast (id) {
+    return _axios({
+      url: `broadcast/${id}`,
+      method: 'delete',
+    })
+  },
   // 참석 명단
   getBroadcastStudents (id) {
     return _axios({

@@ -89,7 +89,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('onAir', ['createBroadcast']),
+    ...mapActions('broadcast', ['createBroadcast']),
     insertTitle (event) {
       this.title = event.target.value
     },

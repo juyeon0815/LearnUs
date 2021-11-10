@@ -1,3 +1,4 @@
+import router from '@/router'
 import broadcastApi from '@/api/broadcast'
 
 const state = {
@@ -5,22 +6,13 @@ const state = {
   broadcastDetail: null,
   studentList: null,
   studentTarget: null,
+  httpStatus: null,
 }
 
 const actions = {
   // 방송 스케줄
   getBroadcastList({ commit }) {
     broadcastApi.getBroadcastList()
-      .then((res) => {
-        commit('SET_BROADCAST_LIST', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
-  // 방송 상세 정보 조회 및 수정
-  getBroadcastDetail({commit}, id) {
-    broadcastApi.getBroadcastDetail(id)
       .then((res) => {
         const broadcastList = res.data
         broadcastList.sort(function (a, b) {
@@ -32,7 +24,17 @@ const actions = {
           }
           return 0;
         })
-        commit('SET_BROADCAST_DETAIL', broadcastList)
+        commit('SET_BROADCAST_LIST', broadcastList)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  // 방송 상세 정보 조회 및 수정
+  getBroadcastDetail({commit}, id) {
+    broadcastApi.getBroadcastDetail(id)
+      .then((res) => {
+        commit('SET_BROADCAST_DETAIL', res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -42,21 +44,22 @@ const actions = {
   async createBroadcast ({ commit }, data) {
     try {
       const response = await broadcastApi.createBroadcast(data)
-      console.log(response)
+      commit('SET_HTTP_STATUS', response.status)
+      router.push({ name: 'LiveSchedule' })
     } catch (err) {
       commit('TEMP', 'test')
     }
   },
-  updateBroadcastInfo({commit}, broadcastInfo) {
-    broadcastApi.updateBroadcastInfo(broadcastInfo)
+  async updateBroadcastInfo({commit}, broadcastInfo) {
+    await broadcastApi.updateBroadcastInfo(broadcastInfo)
       .then((res) => {
         if (res.status === 200){
-          console.log(res)
+          commit('SET_HTTP_STATUS', res.status)
           commit('SET_BROADCAST_DETAIL', broadcastInfo)
         }
       })
       .catch((err) => {
-        console.log(err)
+        commit('SET_HTTP_STATUS', err.response.status)
       })
   },
   async getBroadcastStudents ({ commit }, id) {
@@ -67,6 +70,16 @@ const actions = {
     } catch (err) {
       console.log(err)
     }
+  },
+  async deleteBroadcast({commit}, id) {
+    await broadcastApi.deleteBroadcast(id)
+      .then((res) => {
+        commit('DELETE_BROADCAST', id)
+        commit('SET_HTTP_STATUS', res.status)
+      })
+      .catch((err) => {
+        commit('SET_HTTP_STATUS', err.response.status)
+      })
   }
 }
 
@@ -83,6 +96,14 @@ const mutations = {
   SET_STUDENT_TARGET (state, payload) {
     state.studentTarget = payload
   },
+  SET_HTTP_STATUS (state, payload) {
+    state.httpStatus = payload
+  },
+  DELETE_BROADCAST (state, id) {
+    state.broadcastList = state.broadcastList.filter(broadcast => {
+      return broadcast.broadcastId != id
+    })
+  }
 }
 
 const getters = {

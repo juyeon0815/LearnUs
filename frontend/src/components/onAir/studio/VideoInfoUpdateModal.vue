@@ -1,6 +1,9 @@
 <template>
   <div class="popup">
     <div class="popup-box create-live">
+      <div 
+        :class="[alertInfo.type === 'fail' ? 'yellow' : 'blue' ,'alert top-abs']" 
+        v-if="isAlertShow">{{ alertInfo.message }}</div>
       <i class="fi fi-rr-cross exit-btn" @click="$emit('hideModal')"></i>
       <h1 class="mb-2">Update LIVE</h1>
       <div class="create-live-form">
@@ -74,7 +77,7 @@
 
 <script>
 import moment from 'moment'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import Multiselect from '@vueform/multiselect'
 import ThumbnailUploader from '@/components/admin/createLive/ThumbnailUploader'
 
@@ -92,10 +95,16 @@ export default {
       trackIds: [],
       description: '',
       thumbnail: '',
+      alertInfo: {
+        type: null,
+        message: '',
+      },
+      isAlertShow: false,
     }
   },
   methods: {
     ...mapActions('broadcast', ['updateBroadcastInfo']),
+    ...mapMutations('broadcast', ['SET_HTTP_STATUS']),
     insertTitle (event) {
       this.title = event.target.value
     },
@@ -115,11 +124,36 @@ export default {
         return data.trackList.includes(track.trackId)
       })
       data.trackList = tracksObj
-      this.updateBroadcastInfo(data)
+      await this.updateBroadcastInfo(data)
+      if (this.httpStatus !== null) {
+        const alertInfo = {
+          type: 'fail',
+          message: '',
+        }
+        if (this.httpStatus === 200) {
+          alertInfo.type = 'success'
+          alertInfo.message = '방송 정보가 수정되었습니다.'
+        } else if (this.httpStatus === 500) {
+          alertInfo.message = '서버 오류입니다.'
+        } else {
+          alertInfo.message = `${this.httpStatus} 오류입니다.`
+        }
+        this.onAlert(alertInfo)
+      }
+    },
+    onAlert(alertInfo) {
+      this.alertInfo = alertInfo
+      this.isAlertShow = true
+      setTimeout(() => {
+        this.isAlertShow = false
+        this.alertInfo.type = null
+        this.alertInfo.message = ''
+        this.SET_HTTP_STATUS(null)
+      }, 2000)
     }
   },
   computed: {
-    ...mapState('broadcast',['broadcastDetail']),
+    ...mapState('broadcast',['broadcastDetail', 'httpStatus']),
     ...mapState('admin',['tracks']),
     ...mapGetters('admin',['trackOptions']),
     broadcastData () {

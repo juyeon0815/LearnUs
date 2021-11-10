@@ -23,6 +23,10 @@
       background: $orange;
     }
   }
+  .top-abs {
+    top: 70px !important;
+    z-index: 2;
+  }
   .create-live-form {
     width: 100%;
     display: flex;
