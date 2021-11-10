@@ -8,19 +8,23 @@
     <div class="info">
       <div class="info-row">
         <span class="key">Title</span>
-        <span class="val">Java 기본 및 응용(1)</span>
+        <span class="val">{{ broadcastDetail.title }}</span>
       </div>
       <div class="info-row">
         <span class="key">DateTime</span>
-        <span class="val">2021-10-17 09:00</span>
+        <span class="val">{{ broadcastDetail.broadcastDate }}</span>
       </div>
       <div class="info-row">
         <span class="key">Instructor</span>
-        <span class="val">최광호</span>
+        <span class="val">{{ broadcastDetail.teacher }}</span>
       </div>
       <div class="info-row">
         <span class="key">Target</span>
-        <span class="val">6기 코딩(비전공)</span>
+        <span 
+          v-for="track in broadcastDetail.trackList"
+          :key="track.trackId"
+          class="val" 
+        >{{ track.trackName }}</span>
       </div>
       <div class="info-row">
         <span class="key">Stream Server</span>
@@ -28,7 +32,7 @@
       </div>
       <div class="info-row">
         <span class="key">Stream Key</span>
-        <span class="val">ads45fafsa112</span>
+        <span class="val">{{ broadcastDetail.streamingKey }}</span>
       </div>
     </div>
     <div class="status-box">
@@ -46,6 +50,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import VideoInfoUpdateModal from './VideoInfoUpdateModal'
 
 export default {
@@ -62,6 +67,9 @@ export default {
     toggleUpdateModal() {
       this.isUpdateModalOn = !this.isUpdateModalOn
     }
+  },
+  computed: {
+    ...mapState('broadcast', ['broadcastDetail'])
   }
 }
 </script>
