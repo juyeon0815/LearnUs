@@ -72,8 +72,12 @@ export default {
     window.addEventListener('resize', () => {
       this.vw = window.innerWidth
     })
+  },
+  mounted () {
     this.userInfo = this.$store.state.account.userInfo
-    this.semester = this.userInfo.track.trackSubject.trackSetting.semester
+    if (this.userInfo) {
+      this.semester = this.userInfo.track.trackSubject.trackSetting.semester
+    }
   }
 }
 </script>
