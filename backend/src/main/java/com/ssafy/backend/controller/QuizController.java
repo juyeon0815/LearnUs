@@ -1,7 +1,7 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.QuizInfo;
-import com.ssafy.backend.service.QuizService;
+import com.ssafy.backend.dto.info.QuizInfo;
+import com.ssafy.backend.service.quiz.QuizService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

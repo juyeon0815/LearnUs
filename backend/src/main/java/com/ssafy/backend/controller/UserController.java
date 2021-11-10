@@ -1,8 +1,8 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.Password;
+import com.ssafy.backend.dto.info.Password;
 import com.ssafy.backend.dto.User;
-import com.ssafy.backend.service.UserService;
+import com.ssafy.backend.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

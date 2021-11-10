@@ -1,7 +1,7 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.BroadcastReplayInfo;
-import com.ssafy.backend.service.BroadcastReplayService;
+import com.ssafy.backend.dto.info.BroadcastReplayInfo;
+import com.ssafy.backend.service.broadcast.BroadcastReplayService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
