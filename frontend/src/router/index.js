@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '@/store'
 import Index from '@/views/Index.vue'
 import OnAir from '@/views/onAir/OnAir.vue'
 import OnAirStudio from '@/views/onAir/OnAirStudio.vue'
@@ -17,7 +18,8 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    component: Index
+    component: Index,
+    meta: { requireAuth: true }
   },
   {
     path: '/on-air/:id',
@@ -84,5 +86,29 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function(routeInfo) {
+    return routeInfo.meta.requireAuth
+  })) {
+    if (!store.state.account.accessToken) {
+      next('/account/login')
+    } else {
+      next()
+    }
+  } else {
+    if (to.name === 'Account') {
+      if (store.state.account.accessToken) {
+        next('/')
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  }
+  
+})
+
 
 export default router
