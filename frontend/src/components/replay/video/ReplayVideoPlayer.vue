@@ -2,6 +2,7 @@
   <div class="video-player">
     <video ref="videoPlayer" class="video-js vjs-fluid"></video>
   </div>
+  {{url}}
 </template>
 
 <script>
@@ -10,16 +11,18 @@ import './replayVideo.scss'
 
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
-
+import { mapState } from "vuex";
 export default {
   name: 'OnAirVideoPlayer',
   data () {
     return {
       player: null,
       videoWidth: 0,
+      url : '',
     }
   },
   computed: {
+    ...mapState("replay",["broadCastInfo"]),
     options() {
       return {
 				autoplay: true,
@@ -29,13 +32,18 @@ export default {
 				sources: [
 					{
 						src: require('@/assets/image/test/test.mp4'),
-						type: "video/mp4"
+						type: "video/mp4",
+
+            //다시보기
+            // src:this.url,
+            // type:"application/x-mpegURL",
 					}
 				],
 			}
     },
   },
   mounted() {
+    this.url = this.broadCastInfo.replayUrl
     this.player = videojs(
       this.$refs.videoPlayer, 
       this.options, 
