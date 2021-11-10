@@ -1,18 +1,22 @@
 <template>
   <div class="schedule-list-item">
     <div class="thumbnail-box">
-      <img :src="thumbnailPath" alt="" class="thumbnail-image">
+      <img :src="broadcast.thumbnailUrl" alt="" class="thumbnail-image">
     </div>
     <div class="broadcast-info">
       <div class="info-first-box">
-        <span class="info-title">{{ title }}</span>
+        <span 
+          class="info-title" 
+          @click="$router.push({ name: 'OnAirStudio', params: { id: broadcast.broadcastId }})">
+        {{ broadcast.title }}
+        </span>
         <span class="cancle-broadcast">방송 취소</span>
       </div>
       <div class="info-instructor">
-        <span><strong>진행자</strong> | {{ instructor }}</span>
+        <span><strong>진행자</strong> | {{ broadcast.teacher }}</span>
       </div>
       <div class="info-student">
-        <span><strong>대상 교육생</strong> | {{ studentGroup }} Track</span>
+        <span><strong>대상 교육생</strong> | {{ trackNames }}</span>
       </div>
     </div>
   </div>
@@ -21,12 +25,14 @@
 <script>
 export default {
   name: 'ScheduleListItem',
-  data() {
-    return {
-      thumbnailPath: require('@/assets/image/test/thumbnail.jpg'),
-      title: '알고리즘 ① Sort(버블, 선택, 삽입)',
-      instructor: '오창희',
-      studentGroup: '5기 전공',
+  props: {
+    broadcast: Object,
+  },
+  computed: {
+    trackNames() {
+      return this.broadcast.trackList.map(track => {
+        return track.trackName + ' | ' + track.trackSubject.trackSetting.ordinalNo + '기 ' + track.trackSubject.subjectName
+      })
     }
   }
 }

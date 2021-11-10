@@ -1,7 +1,13 @@
 <template>
   <div class="live-schedule">
-    <span class="title">LIVE<span class="colon">:</span>Schedule</span>
-    <ScheduleList/>
+    <div v-if="broadcastByDate">
+      <span class="title">LIVE<span class="colon">:</span>Schedule</span>
+      <ScheduleList 
+        v-for="(value, name) in broadcastByDate" 
+        :key="name"
+        :date="name"
+        :scheduleList="value"/>
+    </div>
   </div>
 </template>
 
@@ -19,7 +25,7 @@ export default {
     ...mapActions('broadcast', ['getBroadcastList'])
   },
   computed: {
-    ...mapGetters('broadcast', ['broadcastAfterToday'])
+    ...mapGetters('broadcast', ['broadcastByDate'])
   },
   created() {
     this.getBroadcastList()
