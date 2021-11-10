@@ -1,6 +1,7 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Attendance;
+import com.ssafy.backend.dto.Award;
 import com.ssafy.backend.dto.info.BroadcastInfo;
 import com.ssafy.backend.dto.info.ChatInfo;
 import com.ssafy.backend.service.broadcast.BroadcastService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +82,12 @@ public class BroadcastController {
     public ResponseEntity<String> broadcastStart(@RequestParam("broadcastId") int broadcastId) {
         broadcastService.start(broadcastId);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @GetMapping("/end/king/{broadcastId}")
+    @ApiOperation(value = "방송 종료 -> 방송 종료 창으로 이동")
+    public ResponseEntity<Map<String, List<Attendance>>> end(@PathVariable("broadcastId") int broadcastId) {
+        return new ResponseEntity<>(broadcastService.end(broadcastId), HttpStatus.OK);
     }
 
     @PostMapping("/end/attendance")

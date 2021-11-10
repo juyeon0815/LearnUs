@@ -24,6 +24,7 @@ import java.util.Map;
 @Log4j2
 public class StompQuizController {
     private static final String QUIZ_EXCHANGE_NAME = "quiz.exchange";
+    private static final String ADMIN_EXCHANGE_NAME = "admin.exchange";
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -34,8 +35,8 @@ public class StompQuizController {
     @Autowired
     private QuizAnswerService quizAnswerService;
 
-    @MessageMapping("quiz.start")
-    public void start(int quizId) {
+    @MessageMapping("quiz.start.{broadcastId}")
+    public void start(int quizId, @DestinationVariable int broadcastId) {
         Quiz quiz = quizDao.findQuizByQuizId(quizId);
         List<QuizSelect> quizSelectList = new ArrayList<>();
         if (quiz.getType().equals("c")) quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
@@ -50,24 +51,22 @@ public class StompQuizController {
                         .type(quiz.getType()).question(quiz.getQuestion()).answer(quiz.getAnswer())
                         .quizSelectList(saveQuizSelectList).build();
 
-        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz.0", quizInfo);
+        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "broadcast."+broadcastId, quizInfo);
     }
 
     @MessageMapping("quiz.answer")
     public void answer(QuizAnswerInfo quizAnswerInfo) {
-        System.out.println("퀴즈 정답제출:"+quizAnswerInfo);
-
         quizAnswerService.insert(quizAnswerInfo);
     }
 
     // 퀴즈 마감 - 순위권 보내주기 ( 정답 비율 )
-    @MessageMapping("quiz.stop.{quizId}")
-    public void stop(@DestinationVariable int quizId) {
+    @MessageMapping("quiz.stop.{broadcastId}")
+    public void stop(int quizId, @DestinationVariable int broadcastId) {
         List<QuizAnswer> quizAnswerList = quizAnswerService.getQuizAnswerAll(quizId);
-        Map<String, Integer> rateMap = quizAnswerService.getQuizAnswerRate(quizId);
+        Map<Object, Integer> rateMap = quizAnswerService.getQuizAnswerRate(quizId);
 
         QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).build();
 
-        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz."+quizId, quizRankInfo);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "broadcast."+broadcastId, quizRankInfo);
     }
 }

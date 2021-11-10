@@ -4,6 +4,7 @@ import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.BroadcastInfo;
 import com.ssafy.backend.dto.info.ChatInfo;
+import com.ssafy.backend.service.AwardService;
 import com.ssafy.backend.service.ExcelService;
 import com.ssafy.backend.service.RedisService;
 import com.ssafy.backend.service.mattermost.MattermostMessageService;
@@ -45,6 +46,8 @@ public class BroadcastServiceImpl implements BroadcastService {
     private BroadcastReplayOrdinalDao broadcastReplayOrdinalDao;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private AwardService awardService;
 
     @Override
     public void insert(BroadcastInfo broadcastInfo) {
@@ -288,6 +291,20 @@ public class BroadcastServiceImpl implements BroadcastService {
             Mattermost mattermost = iterator.next();
             mattermostMessageService.send(sb.toString(), mattermost.getPathName(), mattermost.getWebhook());
         }
+    }
+
+    @Override
+    public Map<String, List<Attendance>> end(int broadcastId) {
+        // 퀴즈왕
+        List<Attendance> quizKingList = attendanceDao.findQuizKing(broadcastId);
+        // 참여왕
+        List<Attendance> chatKingList = attendanceDao.findChatKing(broadcastId);
+
+        Map<String, List<Attendance>> map = new HashMap<>();
+        map.put("quiz", quizKingList);
+        map.put("chat", chatKingList);
+        awardService.insert(chatKingList, quizKingList);
+        return map;
     }
 
     @Override

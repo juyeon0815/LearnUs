@@ -1,6 +1,7 @@
 package com.ssafy.backend.service.broadcast;
 
 import com.ssafy.backend.dto.Attendance;
+import com.ssafy.backend.dto.Award;
 import com.ssafy.backend.dto.info.BroadcastInfo;
 import com.ssafy.backend.dto.info.ChatInfo;
 
@@ -18,6 +19,7 @@ public interface BroadcastService {
     public List<BroadcastInfo> getBroadcastAll(String liveCode);
     public BroadcastInfo getBroadcast(int broadcastId);
     public void start(int broadcastId);
+    public Map<String, List<Attendance>> end(int broadcastId);
     public void endAttendance(int broadcastId);
     public void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
     public void endGifticon(int broadcastId);
