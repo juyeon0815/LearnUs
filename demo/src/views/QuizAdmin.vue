@@ -51,7 +51,7 @@ export default {
       (frame) => {
         console.log("frame : ", frame);
         stomp.subscribe(
-          `/exchange/admin.exchange/broadcast.${this.broadcastId}`,
+          `/exchange/admin.exchange/admin.${this.broadcastId}`,
           function (message) {
             const payload = JSON.parse(message.body);
 

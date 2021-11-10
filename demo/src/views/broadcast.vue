@@ -1,5 +1,7 @@
 <template>
     <div>
+        <button @click="disconnect">연결해제</button>
+        <hr>
         닉네임 : <input type="text" v-model="nickName">
         메시지 : <input type="text" v-model="message">
         <button @click="send">전송</button>
@@ -25,6 +27,13 @@ export default {
         }
     },
     methods: {
+        disconnect() {
+            console.log("잘봐~ 연결해제 한다~");
+            stomp.disconnect(()=>{
+                console.log("연결해제");
+                this.$router.push({path:"/"});
+            });
+        },
         send() {
             var now = new Date();
             now.setHours(now.getHours() + 9); 
@@ -33,7 +42,7 @@ export default {
             stomp.send(`/pub/chat.message.${this.broadcastId}`, {}, JSON.stringify({
                 message:this.message,
                 nickName:this.nickName,
-                userId:545678,                
+                userId:548006,                
                 // regDate: new Date().toISOString().substring(0,10),
                 // regDate: new Date().toISOString().substring(0,10),
                 regDate: new Date(),
@@ -56,7 +65,7 @@ export default {
 
         stomp.connect("guest", "guest", (frame) => {
             console.log("frame : ", frame);
-            stomp.subscribe(`/exchange/chat.exchange/room.${this.broadcastId}`, function(message) {
+            stomp.subscribe(`/exchange/chat.exchange/chat.${this.broadcastId}`, function(message) {
                 const payload = JSON.parse(message.body);
 
                 const html = `<div>

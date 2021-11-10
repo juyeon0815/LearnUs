@@ -56,11 +56,9 @@ export default {
       (frame) => {
         console.log("frame : ", frame);
         console.log("STOMP CONNECT");
-        console.log("roomId connect : ", this.roomId);
-        console.log("stomp connect : ", stomp);
         console.log("params : ", this.$route.params.roomId);
         stomp.subscribe(
-          `/exchange/chat.exchange/room.${this.roomId}`,
+          `/exchange/chat.exchange/chat.${this.roomId}`,
           function (message) {
             const payload = JSON.parse(message.body);
 
