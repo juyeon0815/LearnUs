@@ -9,6 +9,13 @@ export default {
       method: 'get',
     })
   },
+  // 방송 중인 영상 리스트
+  getOnAirList () {
+    return _axios({
+      url: 'broadcast/all/Y',
+      method: 'get',
+    })
+  },
   // 방송 정보 관련
   getBroadcastDetail (id) {
     return _axios({
@@ -16,12 +23,27 @@ export default {
       method: 'get'
     })
   },
+  // 방송 생성
+  createBroadcast (data) {
+    return _axios({
+      url: 'broadcast',
+      method: 'post',
+      data: data
+    })
+  },
+  // 방송 수정
   updateBroadcastInfo (broadcastInfo) {
-    console.log(broadcastInfo)
     return _axios({
       url: 'broadcast',
       method: 'patch',
       data: broadcastInfo
     })
-  }
+  },
+  // 참석 명단
+  getOnAirStudents (id) {
+    return _axios({
+      url: `broadcast/attendance/${id}`,
+      method: 'get',
+    })
+  },
 }
