@@ -9,6 +9,7 @@ public interface RedisService {
     void setChatInfoValue(String key, ChatInfo value);
     void setValue(String key, String value);
     void update(String key, String newKey);
+    void delete(String key);
     List<String> getListValue(String key);
     List<ChatInfo> getChatInfoValue(String key);
     String getValue(String key);

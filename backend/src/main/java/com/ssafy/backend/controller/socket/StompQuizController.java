@@ -51,7 +51,7 @@ public class StompQuizController {
                         .type(quiz.getType()).question(quiz.getQuestion()).answer(quiz.getAnswer())
                         .quizSelectList(saveQuizSelectList).build();
 
-        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "broadcast."+broadcastId, quizInfo);
+        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz."+broadcastId, quizInfo);
     }
 
     @MessageMapping("quiz.answer")
@@ -67,6 +67,6 @@ public class StompQuizController {
 
         QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).build();
 
-        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "broadcast."+broadcastId, quizRankInfo);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin."+broadcastId, quizRankInfo);
     }
 }
