@@ -3,6 +3,8 @@ import broadcastApi from '@/api/broadcast'
 const state = {
   broadcastList: null,
   broadcastDetail: null,
+  studentList: null,
+  studentTarget: null,
 }
 
 const actions = {
@@ -56,6 +58,15 @@ const actions = {
       .catch((err) => {
         console.log(err)
       })
+  },
+  async getBroadcastStudents ({ commit }, id) {
+    try {
+      const response = await broadcastApi.getBroadcastStudents(id)
+      commit('SET_STUDENT_LIST', response.data)
+      // console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 
@@ -65,10 +76,23 @@ const mutations = {
   },
   SET_BROADCAST_DETAIL(state, payload) {
     state.broadcastDetail = payload
-  }
+  },
+  SET_STUDENT_LIST (state, payload) {
+    state.studentList = payload
+  },
+  SET_STUDENT_TARGET (state, payload) {
+    state.studentTarget = payload
+  },
 }
 
 const getters = {
+  studentData (state) {
+    if (state.studentTarget) {
+      return state.studentList[state.studentTarget]
+    } else {
+      return null
+    }
+  },
   broadcastByDate(state) {
     /* function leftZero(val) {
       if (val < 10) {
@@ -115,7 +139,7 @@ const getters = {
       result.push(newElement)
     } */
     return schedule
-  }
+  },
 }
 
 export default {

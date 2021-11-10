@@ -1,8 +1,8 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Track;
-import com.ssafy.backend.dto.TrackInfo;
-import com.ssafy.backend.service.TrackService;
+import com.ssafy.backend.dto.info.TrackInfo;
+import com.ssafy.backend.service.track.TrackService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
