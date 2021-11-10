@@ -303,7 +303,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         Map<String, List<Attendance>> map = new HashMap<>();
         map.put("quiz", quizKingList);
         map.put("chat", chatKingList);
-        awardService.insert(chatKingList, quizKingList);
+        awardService.insert(broadcastId, chatKingList, quizKingList);
         return map;
     }
 

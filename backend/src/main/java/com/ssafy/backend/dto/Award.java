@@ -22,6 +22,7 @@ public class Award {
 
     private int type;
     private int score;
+    private String gifticonYn;
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.EAGER)

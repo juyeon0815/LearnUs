@@ -6,6 +6,6 @@ import com.ssafy.backend.dto.Award;
 import java.util.List;
 
 public interface AwardService {
-    void insert(List<Attendance> chatKingList, List<Attendance> quizKingList);
+    void insert(int broadcastId, List<Attendance> chatKingList, List<Attendance> quizKingList);
     List<Award> getAward();
 }

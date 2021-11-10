@@ -2,8 +2,10 @@ package com.ssafy.backend.service.quiz;
 
 import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
+import com.ssafy.backend.dto.info.GifticonInfo;
 import com.ssafy.backend.dto.info.QuizAnswerInfo;
 import com.ssafy.backend.dto.info.QuizRateInfo;
+import com.ssafy.backend.service.GifticonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
     private AttendanceDao attendanceDao;
     @Autowired
     private QuizDao quizDao;
+    @Autowired
+    private GifticonService gifticonService;
 
     @Override
     public boolean insert(QuizAnswerInfo quizAnswerInfo) {
@@ -70,6 +74,11 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
         for (int i=0;i<index;i++) {
             QuizAnswer quizAnswer = quizAnswerList.get(i);
             Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(quiz.getBroadcast(), quizAnswer.getUser());
+            if (i==0) {
+                GifticonInfo gifticonInfo = GifticonInfo.builder().broadcastId(quizAnswer.getQuiz().getBroadcast().getBroadcastId())
+                        .userId(attendance.getUser().getUserId()+"").build();
+                gifticonService.insert(gifticonInfo);
+            }
             attendance.setQuizScore(attendance.getQuizScore()+addScore);
             addScore-=2;
         }
