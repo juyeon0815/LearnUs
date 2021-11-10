@@ -9,5 +9,5 @@ import java.util.Map;
 public interface QuizAnswerService {
     boolean insert(QuizAnswerInfo quizAnswerInfo);
     List<QuizAnswer> getQuizAnswerAll(int quizId);
-    Map<String, Integer> getQuizAnswerRate(int quizId);
+    Map<Object, Integer> getQuizAnswerRate(int quizId);
 }

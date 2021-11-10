@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuizRateInfo {
-    private int count;
+    private Integer count;
     private String answer;
 }

@@ -15,5 +15,5 @@ import java.util.Map;
 @AllArgsConstructor
 public class QuizRankInfo {
     private List<QuizAnswer> quizAnswerList;
-    private Map<String, Integer> rateMap;
+    private Map<Object, Integer> rateMap;
 }
