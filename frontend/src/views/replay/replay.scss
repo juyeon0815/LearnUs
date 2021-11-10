@@ -85,9 +85,9 @@
   select {
     border: none;
     outline: none;
-    width: fit-content;
+    width: 10vw;
     min-width: 110px;
-    height: 1.5rem;
+    height: 2rem;
     margin-left: 0.3rem;
     border-radius: 1rem;
     padding: 0 0.8rem;
@@ -96,6 +96,7 @@
     font-weight: 500;
     cursor: pointer;
     font-size: 0.9rem;
+    text-align: center;
     option {
       &:checked {
         background: $orange;
