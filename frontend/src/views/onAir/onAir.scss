@@ -77,12 +77,14 @@
         .video-preview {
           flex: 0 0 auto;
           height: 100%;
+          // max-width: 500px;
           aspect-ratio: 16/9;
           background: $dark;
           box-shadow: 0 4px 4px rgba($black, .4);
         }
         .video-info {
           flex: 1;
+          max-height: 250px;
           background: $dark;
           border-radius: 15px;
           box-shadow: 0 4px 4px rgba($black, .4);

@@ -40,7 +40,7 @@ export default {
     })
   },
   // 참석 명단
-  getOnAirStudents (id) {
+  getBroadcastStudents (id) {
     return _axios({
       url: `broadcast/attendance/${id}`,
       method: 'get',

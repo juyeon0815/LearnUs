@@ -19,6 +19,7 @@ export default {
   },
   created() {
     this.$store.dispatch('broadcast/getBroadcastDetail', this.$route.params.id)
+    this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
   },
 }
 </script>
