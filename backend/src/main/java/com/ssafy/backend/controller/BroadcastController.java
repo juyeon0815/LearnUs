@@ -1,8 +1,9 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Attendance;
-import com.ssafy.backend.dto.BroadcastInfo;
-import com.ssafy.backend.service.BroadcastService;
+import com.ssafy.backend.dto.info.BroadcastInfo;
+import com.ssafy.backend.dto.info.ChatInfo;
+import com.ssafy.backend.service.broadcast.BroadcastService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,6 +80,12 @@ public class BroadcastController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
+    @GetMapping("/end/king/{broadcastId}")
+    @ApiOperation(value = "방송 종료 -> 방송 종료 창으로 이동")
+    public ResponseEntity<Map<String, List<Attendance>>> end(@PathVariable("broadcastId") int broadcastId) {
+        return new ResponseEntity<>(broadcastService.end(broadcastId), HttpStatus.OK);
+    }
+
     @PostMapping("/end/attendance")
     @ApiOperation(value = "방송 종료 -> 미참석 명단 전송")
     public ResponseEntity<String> endAttendance(@RequestParam("broadcastId") int broadcastId) {
@@ -112,5 +119,13 @@ public class BroadcastController {
     public ResponseEntity<String> endReplayInsert(@RequestParam("broadcastId") int broadcastId, @RequestParam("autoUploadYn") String autoUploadYn) throws IOException {
         broadcastService.endReplayInsert(broadcastId, autoUploadYn);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @GetMapping("/chat/{broadcastId}")
+    @ApiOperation(value = "이전 채팅 정보 가져오기")
+    public ResponseEntity<List<ChatInfo>> getChatInfoList(@PathVariable("broadcastId") int broadcastId) {
+        List<ChatInfo> chatInfoList = broadcastService.getChatInfoList(broadcastId);
+        if (chatInfoList == null || chatInfoList.size() == 0) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(chatInfoList, HttpStatus.OK);
     }
 }

@@ -1,7 +1,7 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.dto.Gifticon;
-import com.ssafy.backend.dto.GifticonInfo;
+import com.ssafy.backend.dto.info.GifticonInfo;
 import com.ssafy.backend.service.GifticonService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

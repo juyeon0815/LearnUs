@@ -1,6 +1,6 @@
 package com.ssafy.backend.interceptor;
 
-import com.ssafy.backend.service.JwtService;
+import com.ssafy.backend.service.user.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
