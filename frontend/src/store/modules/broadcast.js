@@ -27,6 +27,15 @@ const actions = {
         console.log(err)
       })
   },
+  // 방송 생성 
+  async createBroadcast ({ commit }, data) {
+    try {
+      const response = await broadcastApi.createBroadcast(data)
+      console.log(response)
+    } catch (err) {
+      commit('TEMP', 'test')
+    }
+  },
   updateBroadcastInfo({commit}, broadcastInfo) {
     broadcastApi.updateBroadcastInfo(broadcastInfo)
       .then((res) => {

@@ -4,7 +4,6 @@ import account from './modules/account'
 import admin from './modules/admin'
 import broadcast from './modules/broadcast'
 import chat from './modules/chat'
-import onAir from './modules/onAir'
 import video from './modules/video'
 import replay from './modules/replay'
 
@@ -17,7 +16,6 @@ const store = createStore({
     chat,
     video,
     replay,
-    onAir,
   }
 })
 
