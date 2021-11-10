@@ -133,6 +133,12 @@
       height: 150px;
       padding: 1rem;
     }
+    &.modal-input {
+      background-color: $blank-grey !important;
+      color: #212121;
+      box-shadow: none;
+      box-shadow:inset 0px 3px 3px rgba(0, 0, 0, .3);
+    }
     ~label {
       position: absolute;
       color: $orange;
