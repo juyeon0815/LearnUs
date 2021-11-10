@@ -1,7 +1,7 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.MattermostInfo;
-import com.ssafy.backend.service.MattermostService;
+import com.ssafy.backend.dto.info.MattermostInfo;
+import com.ssafy.backend.service.mattermost.MattermostService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
