@@ -56,7 +56,6 @@ export default {
       if (this.$route.name === "Replay") {
         if (this.$route.params.category !== "all") {
           this.selectTrack = this.trackList[0].trackName;
-          console.log(this.selectTrack)
           this.selectTrackId = this.trackList.find((track) => {
             return track.trackName === this.selectTrack;
           });

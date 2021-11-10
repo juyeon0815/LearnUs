@@ -50,10 +50,8 @@ export default {
     currentResult() {
       let entire;
       if (this.broadCastsByTrack !== null) {
-        console.log("여기자나!!!!!");
         entire = this.broadCastsByTrack;
       } else {
-        console.log("여기맞아!!!");
         entire = this.broadCasts;
       }
       return entire;

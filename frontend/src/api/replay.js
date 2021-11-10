@@ -13,5 +13,12 @@ export default {
             url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
             method : 'get'
         })
+    },
+
+    getBroadCastInfo(broadcastReplayId) {
+        return _axios({
+            url: `broadcastReplay/${broadcastReplayId}`,
+            method : 'get'
+        })
     }
 }
