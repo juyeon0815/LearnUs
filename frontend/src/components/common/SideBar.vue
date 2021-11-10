@@ -1,6 +1,6 @@
 <template>
   <div class="side-bar">
-    <div class="logo">
+    <div class="logo" @click="$router.push('/')">
       <img class="logo-sm" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
       <span v-if="vw > 576" class="logo-text">LearnUs</span>
     </div>
@@ -14,8 +14,8 @@
       </div>
       <div 
         class="menu-item"
-        @click="$router.push({ name: 'OnAir' })"
       >
+        <!-- @click="$router.push({ name: 'OnAir' })" -->
         <i class="fi fi-rr-play-alt"></i>
         <span>ON<span class="t-orange">:</span>AIR</span>
       </div>
@@ -25,13 +25,13 @@
         <span>RE<span class="t-orange">:</span>PLAY</span>
         <div class="category">
           <span @click="$router.push({name: 'Replay', params: {category: 'all'}})">‣ 전체보기</span>
-          <span @click="semester_1st = !semester_1st">‣ 1학기 과정</span>
-            <div class="class-category" v-if="semester_1st">
+          <span @click="semester1st = !semester1st">‣ 1학기 과정</span>
+            <div class="class-category" v-if="semester1st">
               <span @click="$router.push({name: 'Replay', params: {category: '코딩집중교육'}})">‣ 코딩집중교육</span>
             </div>
           <div v-if="semester==2">
-          <span @click="semester_2nd = !semester_2nd">‣ 2학기 과정</span>
-            <div class="class-category" v-if="semester_2nd">
+          <span @click="semester2nd = !semester2nd">‣ 2학기 과정</span>
+            <div class="class-category" v-if="semester2nd">
               <span @click="$router.push({name: 'Replay', params: {category: '공통 PJT'}})">‣ 공통 PJT</span>
               <span @click="$router.push({name: 'Replay', params: {category: '특화 PJT'}})">‣ 특화 PJT</span>
               <span @click="$router.push({name: 'Replay', params: {category: '자율 PJT'}})">‣ 자율 PJT</span>
@@ -60,8 +60,8 @@ export default {
     return {
       vw: 0,
       semester: '',
-      semester_1st : false,
-      semester_2nd : false,
+      semester1st : false,
+      semester2nd : false,
       userInfo: null,
     }
   },
