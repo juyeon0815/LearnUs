@@ -1,0 +1,59 @@
+@import '@/assets/style/_color.scss';
+
+.error {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  .content {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: $blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem;
+    img {
+      position: absolute;
+      height: 60%;
+      top: -60%;
+      left: 50%;
+      transform: translate(-50%);
+    }
+    .code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: min(20vw, 8rem);
+      line-height: min(20vw, 8rem);
+      font-weight: 900;
+      color: rgba($black, .7);
+      text-shadow: 1px 1px 4px $blue, 0 0 0 $black;
+    }
+    .val {
+      font-family: 'Montserrat', sans-serif;
+      font-size: min(10vw, 2.5rem);
+      font-weight: 500;
+      color: rgba($black, .7);
+    }
+    .description {
+      font-size: min(5vw, 1.5rem);
+    }
+    button {
+      font-family: 'Montserrat', sans-serif;
+      font-size: min(5vw, 1.5rem);
+      font-weight: 700;
+      font-style: italic;
+      
+      margin-top: 1rem;
+      padding: .6rem 2rem;
+      border-radius: 2rem;
+      &:hover {
+        box-shadow: inset 4px 4px 4px $black;
+        font-weight: 900;
+      }
+    }
+  }
+}
