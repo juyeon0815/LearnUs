@@ -8,7 +8,7 @@
 <script>
 import "./liveSchedule.scss"
 import ScheduleList from '@/components/broadcast/schedule/ScheduleList'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'LiveSchedule',
@@ -17,6 +17,9 @@ export default {
   },
   methods: {
     ...mapActions('broadcast', ['getBroadcastList'])
+  },
+  computed: {
+    ...mapGetters('broadcast', ['broadcastAfterToday'])
   },
   created() {
     this.getBroadcastList()

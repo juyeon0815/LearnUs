@@ -101,7 +101,6 @@ export default {
     },
     async onCreate() {
       this.thumbnail = await this.$refs.thumbnailUploader.saveThumbnail()
-      console.log(this.thumbnail)
       let data = this.broadcastData
       const tracksObj = this.tracks.filter(track => {
         return data.trackList.includes(track.trackId)
