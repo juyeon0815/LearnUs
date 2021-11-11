@@ -39,6 +39,9 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public void delete(String key) { redisTemplate.delete(key); }
+
+    @Override
     public List<String> getListValue(String key) {
         List<String> list = redisTemplate.opsForList().range(key, 0, -1);
         return list;
