@@ -3,7 +3,7 @@ import createPersistedState from "vuex-persistedstate";
 import account from './modules/account'
 import admin from './modules/admin'
 import broadcast from './modules/broadcast'
-import chat from './modules/chat'
+import stomp from './modules/stomp'
 import video from './modules/video'
 import replay from './modules/replay'
 
@@ -13,7 +13,7 @@ const store = createStore({
     account,
     admin,
     broadcast,
-    chat,
+    stomp,
     video,
     replay,
   }
