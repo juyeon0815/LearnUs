@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
-    <div class="btn-group">
-      <button class="btn black">
+    <div v-if="showBtns" class="btn-group">
+      <button class="btn black" @click="$router.push({ name: 'CreateLive' })">
         <div class="btn-content">
           <i class="fi fi-rr-video-camera"></i>
           <span>라이브 방송 생성</span>
@@ -16,13 +16,12 @@
     </div>
     <div class="user-menu">
       <div class="profile">
-        <img src="@/assets/image/test/profile.jpg" alt="">
+        <img v-if="userInfo" :key="photoKey" :src="userInfo.profileUrl" alt="">
       </div>
       <div class="dropdown">
         <i class="dropdown-btn fi fi-rr-caret-down"></i>
         <ul class="dropdown-content">
           <li @click="$router.push({ name: 'Profile' })">계정 관리</li>
-          <li>정보 수정</li>
           <li @click="onLogout()">로그아웃</li>
         </ul>
       </div>
@@ -31,13 +30,22 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'TopBar',
   methods: {
     ...mapActions('account', ['onLogout'])
-  }
+  },
+  computed: {
+    ...mapState('account', ['userInfo', 'photoKey']),
+    showBtns () {
+      if (this.$route.name === "CreateLive") {
+        return false
+      }
+      return true
+    }
+  },
 }
 </script>
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router'
 import store from '@/store/index.js'
 
 const _axios = axios.create({
@@ -33,9 +34,9 @@ _axios.interceptors.response.use(
       alert('로그인 유효 시간이 만료되었습니다. 다시 로그인해주세요!')
     }
     // 500 error 처리
-    // if (error.response.status >= 500) {
-    //   router.push({ name: 'ServerError'})
-    // }
+    if (error.response.status >= 500) {
+      router.push({ name: 'ServerError'})
+    }
     return Promise.reject(error)
   }
 )
