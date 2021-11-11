@@ -35,7 +35,7 @@ export default {
   methods: {
     async changeCurrent () {
       try {
-        const response = await adminApi.changeCurrentSubject(this.subjectName)
+        const response = await adminApi.changeCurrentSubject(this.selectedSubject.trackSubjectId)
         if (response.status === 200) {
           this.$store.dispatch('admin/setTrackInfo')
         }
@@ -53,6 +53,11 @@ export default {
         return subject.trackSetting.ordinalNo === this.ordinal
       })
     },
+    selectedSubject () {
+      return this.subjectList.find(subject => {
+        return subject.subjectName === this.subjectName
+      })
+    }
   },
   created () {
     if (this.subjectList.length === 1) {
