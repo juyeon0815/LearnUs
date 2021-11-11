@@ -423,7 +423,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
         //스트림키로 cdn url를 생성한다
         String broadcastReplyUrl = "";
-        if (autoUploadYn.equals("Y")) broadcastReplyUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + "/index.m3u8";
+        if (autoUploadYn.equals("Y")) broadcastReplyUrl = "https://d31f0osw72yf0h.cloudfront.net/" + broadcast.getStreamingKey() + ".m3u8";
 
         BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplyUrl).openYn(autoUploadYn)
                         .broadcast(broadcast).build();

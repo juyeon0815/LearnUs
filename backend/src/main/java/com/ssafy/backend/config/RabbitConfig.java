@@ -17,26 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitConfig {
 
-    private static final String CHAT_QUEUE_NAME = "chat.queue";
-    private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
-    private static final String ROUTING_KEY = "room.*";
-
-    // Queue 등록
-    @Bean
-    public Queue queue() {
-        return new Queue(CHAT_QUEUE_NAME, true);
-    }
-
-    // Exchange 등록
-    @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(CHAT_EXCHANGE_NAME);
-    }
-
-    // Exchange와 Queue 바인딩
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
-    }
+    private static final String ROUTING_KEY = "broadcast.*";
 
     // messageConverter를 커스터마이징 하기 위해 Bean 새로 등록
     @Bean
@@ -46,15 +27,6 @@ public class RabbitConfig {
         rabbitTemplate.setRoutingKey(ROUTING_KEY);
         return rabbitTemplate;
     }
-
-//    @Bean
-//    public SimpleMessageListenerContainer container() {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory());
-//        container.setQueueNames(CHAT_QUEUE_NAME);
-//        container.setMessageListener(null);
-//        return container;
-//    }
 
     // spring 에서 자동생성해주는 connectionFactory는 SimpleConnectionFactory인가? 그건데
     // 여기서 사용하는 건 cachingConnectionFactory라 새로 등록해줌
