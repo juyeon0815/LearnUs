@@ -39,16 +39,16 @@ export default {
       reader.readAsDataURL(inputImage)
     },
     async saveThumbnail() {
+      const albumBucketName = process.env.VUE_APP_S3_BUCKET
+      const region = "ap-northeast-2"
+      const accessKeyId = process.env.VUE_APP_S3_ACCESS_KEY_ID
+      const secretAccessKey = process.env.VUE_APP_S3_SECRET_ACCESS_KEY
       if (!this.thumbnailImage) {
         const defaultThumbnailPath = 'https://' + albumBucketName + '.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg'
         return defaultThumbnailPath
       } else if (this.$route.name === "OnAirStudio" && this.thumbnailImage === this.originalThumbnailPath) {
         return this.originalThumbnailPath
       }
-      const albumBucketName = process.env.VUE_APP_S3_BUCKET
-      const region = "ap-northeast-2"
-      const accessKeyId = process.env.VUE_APP_S3_ACCESS_KEY_ID
-      const secretAccessKey = process.env.VUE_APP_S3_SECRET_ACCESS_KEY
 
       AWS.config.update({
         region,
