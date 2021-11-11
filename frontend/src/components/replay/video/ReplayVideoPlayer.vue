@@ -28,15 +28,24 @@ export default {
 				autoplay: true,
 				controls: true,
         fluid: true,
+        playsinline : true,
+        muted : true, 
+        controlBar : { 
+          playToggle : false, 
+          pictureInPictureToggle : false, 
+          remainingTimeDisplay : false, 
+          progressControl : true, 
+        },
         playbackRates: [0.5, 1, 1.5, 2],
 				sources: [
 					{
-						src: require('@/assets/image/test/test.mp4'),
-						type: "video/mp4",
+						// src: require('@/assets/image/test/test.mp4'),
+						// type: "video/mp4",
 
             //다시보기
             // src:this.url,
-            // type:"application/x-mpegURL",
+            src:"https://d31f0osw72yf0h.cloudfront.net/qwe.m3u8",
+            type:"application/x-mpegURL",
 					}
 				],
 			}
@@ -60,3 +69,7 @@ export default {
   }
 }
 </script>
+
+<style type="text/css">
+    .video-js .vjs-time-control{display:block;}
+</style>
