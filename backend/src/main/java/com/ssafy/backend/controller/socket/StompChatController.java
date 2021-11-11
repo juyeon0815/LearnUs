@@ -12,6 +12,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +35,9 @@ public class StompChatController {
         int viewerCnt = 0;
         if (value != null && value.length() >= 0) viewerCnt = Integer.parseInt(value);
         redisService.setValue("viewer"+broadcastId, (++viewerCnt)+"");
-        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, viewerCnt);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("viewer", viewerCnt);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, map);
     }
     
     public void leave(int broadcastId) {
@@ -41,16 +45,17 @@ public class StompChatController {
         int viewerCnt = 1;
         if (value != null && value.length() >= 0) viewerCnt = Integer.parseInt(value);
         redisService.setValue("viewer"+broadcastId, (--viewerCnt)+"");
-        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, viewerCnt);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("viewer", viewerCnt);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, map);
     }
 
     @MessageMapping("chat.message.{broadcastId}")
     public void send(ChatInfo chat, @DestinationVariable int broadcastId) {
         userService.userChatSend(chat.getUserId(), broadcastId);
 
-        redisService.setChatInfoValue("chat"+broadcastId, chat);
-
         chat.setRegDate(LocalDateTime.now());
+        redisService.setChatInfoValue("chat"+broadcastId, chat);
 
         rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME, "chat." + broadcastId, chat);
     }
