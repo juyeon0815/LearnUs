@@ -50,11 +50,8 @@ export default {
     currentResult() {
       let entire;
       if (this.broadCastsByTrack !== null) {
-        //트랙별 방송 정보가 있으면 보여주기
-        console.log("여기1");
         entire = this.broadCastsByTrack;
       } else {
-        console.log("여기2");
         entire = this.broadCasts;
       }
       return entire;

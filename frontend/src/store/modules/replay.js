@@ -5,6 +5,7 @@ const state = {
   broadCasts: null,
   broadCastsByTrack: null,
   selectedSubject: null,
+  broadCastInfo : null,
     
 }
 
@@ -25,6 +26,14 @@ const actions = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  async getBroadCastInfo({ commit }, broadcastReplayId) {
+    await replayApi.getBroadCastInfo(broadcastReplayId).then((res) => {
+      commit('SET_BROADCAST', res.data)
+      console.log(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 }
 
@@ -38,6 +47,9 @@ const mutations = {
   },
   SET_BROADCASTS_TRACK(state, payload) {
     state.broadCastsByTrack = payload
+  },
+  SET_BROADCAST(state, payload) {
+    state.broadCastInfo = payload
   }
 }
 
