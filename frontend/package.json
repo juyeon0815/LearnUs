@@ -23,7 +23,8 @@
     "vue-advanced-cropper": "^2.6.3",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
