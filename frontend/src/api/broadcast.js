@@ -53,4 +53,11 @@ export default {
       method: 'get',
     })
   },
+  // 현재 방송중인 방송 리스트
+  getOnairList() {
+    return _axios({
+      url: 'broadcast/all/Y',
+      method: 'get',
+    })
+  },
 }

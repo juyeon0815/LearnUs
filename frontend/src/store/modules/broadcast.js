@@ -7,6 +7,7 @@ const state = {
   studentList: null,
   studentTarget: null,
   httpStatus: null,
+  onairList: null,
 }
 
 const actions = {
@@ -71,7 +72,7 @@ const actions = {
       console.log(err)
     }
   },
-  async deleteBroadcast({commit}, id) {
+  async deleteBroadcast({ commit }, id) {
     await broadcastApi.deleteBroadcast(id)
       .then((res) => {
         commit('DELETE_BROADCAST', id)
@@ -80,7 +81,16 @@ const actions = {
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
       })
-  }
+  },
+  getOnairList({ commit }) {
+    broadcastApi.getOnairList()
+      .then((res) => {
+        commit('SET_ONAIR_LIST', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
 }
 
 const mutations = {
@@ -103,6 +113,9 @@ const mutations = {
     state.broadcastList = state.broadcastList.filter(broadcast => {
       return broadcast.broadcastId != id
     })
+  },
+  SET_ONAIR_LIST (state, payload) {
+    state.onairList = payload
   }
 }
 
