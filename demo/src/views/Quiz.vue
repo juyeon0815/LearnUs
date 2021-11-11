@@ -52,7 +52,7 @@ export default {
       (frame) => {
         console.log("frame : ", frame);
         stomp.subscribe(
-          `/exchange/quiz.exchange/broadcast.${this.broadcastId}`,
+          `/exchange/quiz.exchange/quiz.${this.broadcastId}`,
           (message) => {
             const payload = JSON.parse(message.body);
 
