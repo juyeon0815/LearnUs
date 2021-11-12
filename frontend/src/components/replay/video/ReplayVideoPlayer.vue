@@ -13,6 +13,9 @@ import "video.js/dist/video-js.css";
 import { mapState } from "vuex";
 export default {
   name: "OnAirVideoPlayer",
+  props: {
+    broadcastId: String,
+  },
   data() {
     return {
       player: null,
@@ -38,9 +41,11 @@ export default {
       };
     },
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch("replay/getBroadCastInfo", this.broadcastId); // broadcastId 업데이트 -> async await 걸어서 순서대로 처리되도록!
     mapState("replay", ["broadCastInfo"]),
     this.url = this.broadCastInfo.replayUrl;
+    console.log("ReplayVideoPlayer : "+this.url);
 
     this.player = videojs(this.$refs.videoPlayer, this.options, function ready() {
       this.currentTime(0);
