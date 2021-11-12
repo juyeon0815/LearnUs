@@ -10,6 +10,9 @@
 </template>
 
 <script>
+// import SockJS from 'sockjs-client';
+// import Stomp from '@stomp/stompjs';
+import { mapState } from 'vuex'
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
 import AttendResult from './chat/AttendResult.vue'
@@ -49,6 +52,49 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('account', ['userInfo']),
+    ...mapState('broadcast', ['broadcastDetail']),
+    ...mapState('stomp', ['stomp']),
+  },
+  // async created() {
+  //   let roomId = this.broadcastDetail.broadcastId
+  //   let nickName = this.userInfo.nickname
+
+  //   this.stomp.connect(
+  //     "guest",
+  //     "guest",
+  //     (frame) => {
+  //       console.log("frame : ", frame);
+  //       console.log("STOMP CONNECT");
+  //       console.log("params : ", roomId);
+  //       this.stomp.subscribe(
+  //         `/exchange/chat.exchange/chat.${roomId}`,
+  //         function (message) {
+  //           const payload = JSON.parse(message.body);
+
+  //           const html = `<div>
+  //                               <div>${payload.nickName} : ${payload.message}</div>
+  //                               </div>`;
+  //           document
+  //             .getElementById("chats")
+  //             .insertAdjacentHTML("beforeend", html);
+  //         },
+  //         { "auto-delete": true, durable: false, exclusive: false }
+  //       );
+  //       this.stomp.send(
+  //         `/pub/chat.enter.${roomId}`,
+  //         {},
+  //         JSON.stringify({
+  //           nickName: nickName,
+  //           chatRoomId: roomId,
+  //         })
+  //       );
+  //     },
+  //     onerror,
+  //     "/"
+  //   );
+  // },
   mounted () {
     this.autosize()
     window.addEventListener('resize', this.autosize())
