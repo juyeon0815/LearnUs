@@ -2,7 +2,10 @@ import { createStore } from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 import account from './modules/account'
 import admin from './modules/admin'
-import chat from './modules/chat'
+import broadcast from './modules/broadcast'
+import gifticon from './modules/gifticon'
+import stomp from './modules/stomp'
+import replay from './modules/replay'
 import video from './modules/video'
 
 const store = createStore({
@@ -10,8 +13,11 @@ const store = createStore({
   modules: {
     account,
     admin,
-    chat,
-    video
+    broadcast,
+    gifticon,
+    stomp,
+    replay,
+    video,
   }
 })
 

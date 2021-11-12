@@ -1,5 +1,6 @@
 <template>
   <div class="student-table">
+    <StudentDetail v-if="onStudentDetail" @close="onStudentDetail = false"/>
     <table>
       <thead>
         <tr>
@@ -17,10 +18,11 @@
           :key="idx"
           :student="student"
           :idx="idx + (currentPage - 1) * 10"
+          @open-detail="onStudentDetail = true"
         />
       </tbody>
     </table>
-    <div v-if="!currentResult.length" class="empty">
+    <div v-if="currentResult && !currentResult.length" class="empty">
       검색 결과가 없습니다.
     </div>
 
@@ -47,15 +49,18 @@
 
 <script>
 import { mapState } from 'vuex'
+import StudentDetail from './StudentDetail.vue'
 import StudentTableRow from './StudentTableRow.vue'
 export default {
   name: 'StudentTable',
   components: {
+    StudentDetail,
     StudentTableRow
   },
   data () {
     return {
       currentPage: 1,
+      onStudentDetail: false,
     }
   },
   methods: {
@@ -70,7 +75,7 @@ export default {
       if (this.searchWord.length) {
         const result = entire.filter(student => {
           let { name, userId, region, classNo, phone } = student
-          let track = student.track.name
+          let track = student.track.trackName
           let data = [
             name, String(userId).padStart(7, '0'),
             region, classNo + '반',
@@ -85,11 +90,17 @@ export default {
     paginatedArea () {
       let start = (this.currentPage - 1) * 10
       let end = this.currentPage * 10
-      return this.currentResult.slice(start, end)
+      if (this.currentResult) {
+        return this.currentResult.slice(start, end)
+      }
+      return null
     },
     totalPage () {
-      const total = this.currentResult.length
-      return Math.ceil(total/10)
+      if (this.currentResult) {
+        const total = this.currentResult.length
+        return Math.ceil(total/10)
+      }
+      return null
     },
   }
 }

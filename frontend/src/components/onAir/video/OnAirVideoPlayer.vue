@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 
@@ -16,7 +17,11 @@ export default {
       videoWidth: 0,
     }
   },
+  methods: {
+    ...mapActions('broadcast', ['getBroadcastDetail'])
+  },
   computed: {
+    ...mapState('broadcast', ['broadcastDetail']),
     options() {
       return {
 				autoplay: true,
@@ -25,12 +30,15 @@ export default {
         playbackRates: [0.5, 1, 1.5, 2],
 				sources: [
 					{
-						src: require('@/assets/image/test/test.mp4'),
-						type: "video/mp4"
+						src: `https://d31f0osw72yf0h.cloudfront.net/${this.broadcastDetail.streamingKey}.m3u8`,
+						type: "application/x-mpegURL"
 					}
 				],
 			}
     },
+  },
+  created () {
+    this.getBroadcastDetail(this.$route.params.id)
   },
   mounted() {
     this.player = videojs(

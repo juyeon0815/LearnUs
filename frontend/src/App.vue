@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[ !isAccount ? 'space' : '', 'dark' ]">
+  <div id="app" :class="[ noSpace ? 'space' : '', isError ? 'light' : 'dark' ]">
     <SideBar
       v-if="needSideBar"
     />
@@ -20,6 +20,8 @@ import "@/assets/style/index.scss";
 import SideBar from '@/components/common/SideBar'
 import TopBar from '@/components/common/TopBar'
 import TopLogo from '@/components/common/TopLogo'
+import SockJS from 'sockjs-client';
+import StompJs from 'stompjs';
 
 export default {
   name: 'App',
@@ -29,29 +31,52 @@ export default {
     TopLogo
   },
   computed: {
+    noSpace () {
+      if (
+        this.$route.name === "Account" ||
+        this.$route.name === "Error"
+      ) {
+        return false
+      }
+      return true
+    },
     isAccount () {
       return this.$route.name === "Account"
     },
+    isError () {
+      return this.$route.name === "Error"
+    },
     needSideBar () {
       if (this.$route.name === "Account" ||
-          this.$route.name === "OnAir"
+          this.$route.name === "OnAir" ||
+          this.$route.name === "OnAirStudio" ||
+          this.$route.name === "Error"
       ) {
         return false
       }
       return true
     },
     needTopBar () {
-      if (this.$route.name === "Account") {
+      if (this.$route.name === "Account" ||
+          this.$route.name === "Error"
+      ) {
         return false
       }
       return true
     },
     needTopLogo () {
-      if (this.$route.name === "OnAir") {
+      if (this.$route.name === "OnAir" ||
+          this.$route.name === "OnAirStudio"
+      ) {
         return true
       }
       return false
     }
+  },
+  created () {
+    const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
+    const stomp = StompJs.over(sockJS);
+    this.$store.commit('stomp/SET_STOMP', stomp)
   }
 }
 </script>

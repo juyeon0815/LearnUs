@@ -5,7 +5,8 @@ const state = {
   students: null,
   selectedOrd: null,
   searchWord: '',
-  singleStudent: null,
+  studentInfo: null,
+  targetId: null,
   // 트랙 관리
   ordinalNo: null,
   subjects: null,
@@ -27,10 +28,10 @@ const actions = {
       console.log(err.response)
     }
   },
-  getSingleStudent({ commit }, id) {
-    adminApi.getSingleStudent(id)
+  async getStudentDetail({ commit }, id) {
+    await adminApi.getStudentDetail(id)
       .then((res) => {
-        commit('SET_SINGLE_STUDENT', res.data)
+        commit('SET_STUDENT_DETAIL', res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -90,17 +91,6 @@ const actions = {
       console.log(err.response)
     }
   }, 
-  // 방송 스케줄
-  getBroadcastList({ commit }) {
-    adminApi.getBroadcastList()
-      .then((res) => {
-        console.log(res)
-        console.log(commit)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    },
 }
 
 const mutations = {
@@ -114,8 +104,11 @@ const mutations = {
   SET_SEARCH_WORD (state, payload) {
     state.searchWord = payload
   },
-  SET_SINGLE_STUDENT(state, payload) {
-    state.singleStudent = payload
+  SET_TARGET_ID (state, payload) {
+    state.targetId = payload
+  },
+  SET_STUDENT_DETAIL(state, payload) {
+    state.studentInfo = payload
   },
   // 트랙 관리
   SET_ORDINAL_NO (state, payload) {
@@ -144,10 +137,6 @@ const mutations = {
 }
 
 const getters = {
-  // 교육생 관리
-  ordinal (state) {
-    return Object.keys(state.students)
-  },
   // MM 관리
   ordinalOptions (state) {
     let op = [

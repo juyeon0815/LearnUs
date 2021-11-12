@@ -1,0 +1,257 @@
+@import '@/assets/style/_color.scss';
+@import "@/assets/style/_mixin.scss";
+
+.account {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: $peach;
+  overflow: hidden;
+  .user-form {
+    width: 450px;
+    height: 90vh;
+    background: $grey;
+    opacity: .98;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba($black, .7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .alert {
+      position: absolute;
+      top: 30px;
+      padding: .5rem 2rem;
+      width: 90%;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      z-index: 3;
+      box-shadow: 0 2px 3px rgba($dark, .4);
+      &.blue {
+        color: $light;
+        background-color: rgba($blue, .9);
+        border: 1px solid $blue;
+      }
+      &.yellow {
+        color: $dark;
+        background-color: rgba($yellow, .9);
+        border: 1px solid $yellow;
+      }
+    }
+    .login-form {
+      display: flex;
+      position: absolute;
+      top: 3rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      .heading-box {
+        position: relative;
+        display: flex;
+        pointer-events: none;
+        .heading {
+          font-size: 4rem;
+          font-weight: 900;
+          font-style: italic;
+          color: white;
+          z-index: 2;
+        }
+        .spectrum-left {
+          position: absolute;
+          right: 4px;
+          color: $orange;
+          z-index: 1;
+        }
+        .spectrum-right {
+          position: absolute;
+          left: 4px;
+          color: $blue;
+          z-index: 0;
+        }
+      }
+      .sub-heading {
+        font-style: italic;
+        font-size: 1rem;
+        margin-top: 10px;
+        pointer-events: none;
+      }
+    }
+    .other-forms {
+      display: flex;
+      position: absolute;
+      top: 3rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      .heading-box {
+        position: relative;
+        display: flex;
+        pointer-events: none;
+        .heading {
+          font-size: 4rem;
+          font-weight: 900;
+          font-style: italic;
+          color: $orange;
+          z-index: 2;
+          .colon {
+            color: white;
+          }
+        }
+        .spectrum {
+          position: absolute;
+          right: 3px;
+          top: 2px;
+          color: $blue;
+          z-index: 0;
+        }
+      }
+      .sub-heading {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1rem;
+        margin-top: 10px;
+        pointer-events: none;
+      }
+    }
+    .direct-back {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 40px;
+      cursor: pointer;
+      color: #F1F1F1;
+    }
+  }
+  .deco-account {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    img {
+      &.deco-sm {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(1.2);
+      }
+      &.deco-lg {
+        display: none;
+      }
+    }
+  }
+}
+.account-inputs {
+  margin-top: 20px;
+  .account-input-box {
+    position: relative;
+    .account-input {
+      width: 300px !important;
+      height: 50px;
+      margin-top: 60px;
+      background-color: #F1F1F1;
+      color: #212121;
+      box-shadow: none;
+      box-shadow:inset 0px 3px 3px rgba(0, 0, 0, .3);
+      border: none;
+      outline: none;
+      padding-left: 20px;
+      padding-right: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      border-radius: 30px !important;
+      transition: none;
+      
+      ~label {
+        position: absolute;
+        color: $orange;
+        font-size: 1.3rem;
+        font-style: italic;
+        left: 20px;
+        top: 20px;
+        pointer-events:none;
+      }
+    }
+    .error-text {
+      margin-top: 3px;
+      padding-left: 20px;
+      color: $yellow;
+      font-size: 1rem;
+      font-weight: 200;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  }
+  .btn-submit {
+    width: 300px !important;
+    height: 50px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    border-radius: 30px !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    &:hover {
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
+  }
+  .btn-orange {
+    background-color: $orange;
+    color: $black;
+  }
+  .btn-disabled {
+    background-color: $black;
+    color: $white; 
+    pointer-events: none;
+  }
+  .direct-box {
+    display: flex;
+    justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 1rem;
+    .dot-space {
+      margin: 0 5px;
+    }
+    .direct-text {
+      cursor: pointer;
+    }
+  }
+}
+
+@include lg {
+  .account {
+    .user-form {
+      width: 450px;
+      height: 100vh;
+      top: 0;
+      right: 0;
+      left: auto;
+      transform: none;
+      border-radius: 0;
+    }
+    .deco-account {
+      position: relative;
+      width: calc(100% - 450px);
+      height: 100%;
+      img {
+        &.deco-sm {
+          display: none;
+        }
+        &.deco-lg {
+          display: inline-block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 90%;
+          height: auto;
+          box-shadow: 10px 10px 20px rgba($black, .7);
+        }
+      }
+    }
+  }
+}
