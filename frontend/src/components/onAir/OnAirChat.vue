@@ -3,7 +3,7 @@
     <AttendCheck v-if="attendCheck"/>
     <AttendResult v-if="attendResult"/>
     <QuizResult v-if="currentQuizResult"/>
-    <SolvingQuiz v-if="currentQuiz"/>
+    <SolvingQuiz v-if="currentQuiz" @popup="autosize"/>
     <OnAirChatList/>
     <OnAirChatInput @autosize="autosize"/>
   </div>
@@ -98,9 +98,21 @@ export default {
             console.log(payload);
             if (payload === 'attendance start') {
               this.$store.commit('stomp/SET_ATTEND_CHECK', true)
+            } else if (payload === 'attendance stop') {
+              this.$store.commit('stomp/SET_ATTEND_CHECK', false)
             }
           },
           {'auto-delete':true, 'durable':false, 'exclusive':false})
+        if (this.$route.name === 'OnAirStudio') {
+          this.stomp.subscribe(
+            `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
+            (message) => {
+              const payload = JSON.parse(message.body)
+              console.log(payload)
+            },
+            { "auto-delete": true, durable: false, exclusive: false }
+          )
+        }
       },
       onerror,
       "/"
@@ -109,6 +121,9 @@ export default {
   mounted () {
     this.autosize()
     window.addEventListener('resize', this.autosize())
+  },
+  unmounted () {
+    this.stomp.disconnect()
   }
 
 }

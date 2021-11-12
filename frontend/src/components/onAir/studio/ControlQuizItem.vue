@@ -16,7 +16,10 @@
         </div>
       </div>
     </div>
-    <div class="btn-row">
+    <div v-if="quiz.useYn === 'Y'" class="btn-row">
+      종료된 퀴즈입니다.
+    </div>
+    <div v-else class="btn-row">
       <button class="btn dark-orange" @click="onDelete">
         <i class="btn fi fi-rr-trash"></i>
         <span>퀴즈 삭제</span>
@@ -25,16 +28,20 @@
         <i class="btn fi fi-rr-pencil"></i>
         <span>퀴즈 수정</span>
       </button>
-      <button class="btn dark-orange">
+      <button v-if="!isSolving" class="btn dark-orange" @click="startQuiz">
         <i class="btn fi fi-rr-flame"></i>
         <span>퀴즈 출제</span>
+      </button>
+      <button v-else class="btn dark-orange" @click="endQuiz">
+        <i class="btn fi fi-rr-flame"></i>
+        <span>퀴즈 종료</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'SolvingQuiz',
   props: {
@@ -47,7 +54,8 @@ export default {
         'o': 'OX',
         'c': '객관식',
         's': '주관식',
-      }
+      },
+      isSolving: false
     }
   },
   methods: {
@@ -56,11 +64,29 @@ export default {
       this.deleteQuiz(this.quiz)
     },
     onUpdate () {
-      this.$store.commit('stomp/SET_QUIZ_TARGET', this.quiz)
+      this.$store.commit('stomp/SET_QUIZ_TARGET', this.quiz.quizId)
       this.$emit('updateQuiz')
+    },
+    startQuiz() {
+      this.stomp.send(
+        `/pub/quiz.start.${this.currentBroadcastId}`,
+        {},
+        this.quiz.quizId
+      )
+      this.isSolving = true
+    },
+    endQuiz() {
+      this.stomp.send(
+        `/pub/quiz.stop.${this.currentBroadcastId}`, 
+        {}, 
+        this.quiz.quizId
+      )
+      this.$store.dispatch('stomp/getQuizList', this.currentBroadcastId)
     }
   },
   computed: {
+    ...mapState('stomp', ['stomp']),
+    ...mapGetters('broadcast', ['currentBroadcastId']),
     answer () {
       if (this.quiz.type === 'o') {
         if (this.quiz.answer) {

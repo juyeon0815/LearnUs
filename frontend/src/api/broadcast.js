@@ -74,4 +74,13 @@ export default {
       method: 'get',
     })
   },
+  startBroadcast(id) {
+    return _axios({
+      url: 'broadcast/start',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  }
 }

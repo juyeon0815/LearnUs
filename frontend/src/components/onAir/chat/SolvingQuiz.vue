@@ -27,6 +27,9 @@ export default {
   },
   computed: {
     ...mapState('stomp', ['stomp', 'currentQuiz']),
+  },
+  mounted () {
+    this.$emit('popup')
   }
 }
 </script>

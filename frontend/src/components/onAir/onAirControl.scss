@@ -66,6 +66,17 @@
     padding: 1rem;
     overflow-x: hidden;
     overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba($orange, 0.5);
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $black;
+      border-radius: 10px;
+    }
     .tabs {
       display: flex;
       justify-content: center;

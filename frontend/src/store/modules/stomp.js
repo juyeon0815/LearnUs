@@ -6,7 +6,9 @@ const state = {
   chatList: null,
   attendCheck: false,
   // 성공하면 1, 실패하면 2
-  attendResult: null, 
+  attendResult: null,
+  // 시작 전 0, 진행 중 1, 완료 2
+  attendProcess: 0,
   quizList: null,
   currentQuiz: null,
   currentQuizResult: null,
@@ -98,6 +100,9 @@ const mutations = {
   },
   SET_ATTEND_CHECK (state, payload) {
     state.attendCheck = payload
+  },
+  SET_ATTEND_PROCESS (state, payload) {
+    state.attendProcess = payload
   },
   SET_CHECK_RESULT (state, payload) {
     state.attendResult = payload
