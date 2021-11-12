@@ -18,7 +18,7 @@ export default {
     OnAirChatListItem,
   },
   computed: {
-    ...mapState('chat', ['chatList'])
+    ...mapState('stomp', ['chatList'])
   },
   methods: {
     autoscroll () {
