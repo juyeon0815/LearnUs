@@ -9,19 +9,23 @@
     <div class="winners">
       <div 
         class="rank-box"
-        v-for="idx in 3"
+        v-for="(rank, idx) in currentQuizResult.quizAnswerList"
         :key="idx"  
       >
-        <div class="rank">{{ idx }}</div>
-        <span>김싸피 [서울_3반]</span>
+        <div class="rank">{{ idx+1 }}</div>
+        <span>{{ rank.user.nickname }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'QuizResult'
+  name: 'QuizResult',
+  computed: {
+    ...mapState('stomp', ['currentQuizResult'])
+  }
 }
 </script>
 

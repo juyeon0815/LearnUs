@@ -23,6 +23,20 @@ export default {
       method: 'get'
     })
   },
+  // 채팅 기록 가져오기
+  getBroadcastChat (id) {
+    return _axios({
+      url: `broadcast/chat/${id}`,
+      method: 'get',
+    })
+  },
+  // 출석체크
+  checkAttendance (broadcastId, userId) {
+    return _axios({
+      url: `broadcast/${broadcastId}/${userId}`,
+      method: 'patch',
+    })
+  },
   // 방송 생성
   createBroadcast (data) {
     return _axios({

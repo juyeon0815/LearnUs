@@ -4,11 +4,11 @@
       <img src="@/assets/image/logo/logo-mountain-only.svg" alt="">
     </div>
     <div class="text">
-      <div class="complete">
+      <div v-if="attendResult === 1" class="complete">
         <span>{{ test.name }}({{ test.id }})</span>교육생
         <span>{{ today }} 출석</span>이 확인되었습니다.
       </div>
-      <div class="fail">
+      <div v-else-if="attendResult === 2" class="fail">
         <span>{{ test.name }}({{ test.id }})</span>교육생
         <span>{{ today }} 출석</span> 확인에 실패했습니다.
       </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
   name: 'AttendResult',
@@ -29,6 +30,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('stomp', ['attendResult']),
     today() {
       return moment().locale('ko').format("MMMM Do a");
     }
