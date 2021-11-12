@@ -332,6 +332,17 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
+    public boolean isAttend(int broadcastId) {
+        try {
+            String attend = redisService.getValue("attendance" + broadcastId);
+            if (attend != null) return true;
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public Map<String, List<Attendance>> end(int broadcastId) {
         try {
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
@@ -344,6 +355,9 @@ public class BroadcastServiceImpl implements BroadcastService {
             map.put("quiz", quizKingList);
             map.put("chat", chatKingList);
             awardService.insert(broadcastId, chatKingList, quizKingList);
+
+            redisService.delete("viewer"+broadcastId);
+            redisService.delete("chat"+broadcastId);
             return map;
         } catch (Exception e) {
             return null;

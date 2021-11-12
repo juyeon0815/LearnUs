@@ -64,10 +64,11 @@ public class StompQuizController {
     // 퀴즈 마감 - 순위권 보내주기 ( 정답 비율 )
     @MessageMapping("quiz.stop.{broadcastId}")
     public void stop(int quizId, @DestinationVariable int broadcastId) {
+        Quiz quiz = quizDao.findQuizByQuizId(quizId);
         List<QuizAnswer> quizAnswerList = quizAnswerService.getQuizAnswerAll(quizId);
         Map<Object, Integer> rateMap = quizAnswerService.getQuizAnswerRate(quizId);
 
-        QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).build();
+        QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).quiz(quiz).build();
 
         Map<String, QuizRankInfo> map = new HashMap<>();
         map.put("quizRank", quizRankInfo);

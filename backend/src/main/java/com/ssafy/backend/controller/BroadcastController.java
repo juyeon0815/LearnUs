@@ -84,6 +84,13 @@ public class BroadcastController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
+    @GetMapping("/start/isAttend/{broadcastId}")
+    @ApiOperation(value = "중간에 방송 들어왔을 때 출석중인지 아닌지 확인")
+    public ResponseEntity<String> broadcastIsAttend(@PathVariable("broadcastId") int broadcastId) {
+        if (!broadcastService.isAttend(broadcastId)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
     @GetMapping("/end/king/{broadcastId}")
     @ApiOperation(value = "방송 종료 -> 방송 종료 창으로 이동")
     public ResponseEntity<Map<String, List<Attendance>>> end(@PathVariable("broadcastId") int broadcastId) {

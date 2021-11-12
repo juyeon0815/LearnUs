@@ -76,6 +76,7 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
             int addScore = 5;
             for (int i = 0; i < index; i++) {
                 QuizAnswer quizAnswer = quizAnswerList.get(i);
+                quizAnswer.getUser().setPassword("");
                 Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(quiz.getBroadcast(), quizAnswer.getUser());
                 if (i == 0) {
                     GifticonInfo gifticonInfo = GifticonInfo.builder().broadcastId(quizAnswer.getQuiz().getBroadcast().getBroadcastId())

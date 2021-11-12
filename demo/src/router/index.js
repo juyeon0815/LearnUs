@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import recipe from "../views/recipe.vue";
 import chat from "../views/chat.vue";
 import About from "../views/About.vue";
 import chatDetail from "../views/chatDetail.vue";
@@ -24,10 +23,6 @@ const routes = [
     path: "/about/:postId",
     name: "About",
     component: About,
-  },
-  {
-    path: "/recipe",
-    component: recipe,
   },
   {
     path:"/",
