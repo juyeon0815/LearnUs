@@ -119,7 +119,7 @@ public class QuizServiceImpl implements QuizService{
                 QuizInfo quizInfo = QuizInfo.builder().quizId(quiz.getQuizId())
                         .broadcastId(broadcastId).type(quiz.getType())
                         .question(quiz.getQuestion()).answer(quiz.getAnswer())
-                        .quizSelectList(saveQuizSelectList).build();
+                        .quizSelectList(saveQuizSelectList).useYn(quiz.getUseYn()).build();
                 quizInfoList.add(quizInfo);
             }
 
