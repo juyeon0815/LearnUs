@@ -2,17 +2,18 @@
   <div id ="popup-b" class="solving-quiz">
     <div class="question">
       <img src="@/assets/image/deco/quiz.png" alt="">
-      <span>서울 3반 우만승이가 좋아하는 포켓몬의 이름은 무엇일까요?</span>
+      <span>{{ currentQuiz.question }}</span>
     </div>
     <div class="answer-zone">
-      <QuizOX v-if="type === 'O'"/>
-      <QuizChoice v-if="type === 'C'"/>
-      <QuizShort v-if="type === 'S'"/>
+      <QuizOX v-if="currentQuiz.type === 'o'" :quiz="currentQuiz"/>
+      <QuizChoice v-if="currentQuiz.type === 'c'" :quiz="currentQuiz"/>
+      <QuizShort v-if="currentQuiz.type === 's'" :quiz="currentQuiz"/>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import QuizOX from '@/components/quiz/QuizOX'
 import QuizChoice from '@/components/quiz/QuizChoice'
 import QuizShort from '@/components/quiz/QuizShort'
@@ -24,10 +25,11 @@ export default {
     QuizChoice,
     QuizShort
   },
-  data () {
-    return {
-      type: 'S'
-    }
+  computed: {
+    ...mapState('stomp', ['stomp', 'currentQuiz']),
+  },
+  mounted () {
+    this.$emit('popup')
   }
 }
 </script>

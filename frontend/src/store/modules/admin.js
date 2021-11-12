@@ -137,10 +137,6 @@ const mutations = {
 }
 
 const getters = {
-  // 교육생 관리
-  ordinal (state) {
-    return Object.keys(state.students)
-  },
   // MM 관리
   ordinalOptions (state) {
     let op = [
