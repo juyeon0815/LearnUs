@@ -4,4 +4,11 @@
   .vjs-control-bar {
     background-color: rgba($dark, 0.2) !important;
   }
+  .vjs-live-control .vjs-control {
+    flex: none;
+  }
+  .vjs-time-control {
+    background-color: aqua;
+    display: block;
+  }
 }

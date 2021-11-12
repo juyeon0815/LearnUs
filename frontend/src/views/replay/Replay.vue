@@ -31,8 +31,8 @@ export default {
         const category = this.$route.params.category;
         if (category === "all") {
           this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
-        }
-        this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
+        }else
+          this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
       }
     },
   },
@@ -41,7 +41,7 @@ export default {
       const category = this.$route.params.category;
         if (category === "all") {
           this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
-        }
+        }else
         this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
       }
   }

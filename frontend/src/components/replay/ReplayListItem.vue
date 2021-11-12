@@ -31,7 +31,7 @@ export default {
     return {
       thumbnailPath: require('@/assets/image/test/thumbnail.jpg'),
       datetime : '',
-      broadcastReplayId : this.replay.broadcastReplyId
+      broadcastReplayId : this.replay.broadcastReplayId
     }
   },
   mounted () {
