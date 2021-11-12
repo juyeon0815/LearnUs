@@ -35,7 +35,7 @@ _axios.interceptors.response.use(
     }
     // 500 error 처리
     if (error.response.status >= 500) {
-      router.push({ name: 'ServerError'})
+      router.push('/error/500')
     }
     return Promise.reject(error)
   }
