@@ -50,11 +50,16 @@ export default {
     currentResult() {
       let entire;
       if (this.broadCastsByTrack !== null) {
-        entire = this.broadCastsByTrack;
+        entire = this.broadCastsByTrack.filter((broadCastInfo)=>{
+          return broadCastInfo.openYn ==='Y'
+        })
       } else {
-        entire = this.broadCasts;
+        entire = this.broadCasts.filter((broadCastInfo)=>{
+          return broadCastInfo.openYn ==='Y'
+        })
       }
       return entire;
+      
     },
     paginatedArea() {
       let start = (this.currentPage - 1) * 10;

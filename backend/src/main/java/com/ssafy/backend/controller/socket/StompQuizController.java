@@ -16,6 +16,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +51,9 @@ public class StompQuizController {
         QuizInfo quizInfo = QuizInfo.builder().quizId(quizId).broadcastId(quiz.getBroadcast().getBroadcastId())
                         .type(quiz.getType()).question(quiz.getQuestion()).answer(quiz.getAnswer())
                         .quizSelectList(saveQuizSelectList).build();
-
-        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz."+broadcastId, quizInfo);
+        Map<String, QuizInfo> map = new HashMap<>();
+        map.put("quiz", quizInfo);
+        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz."+broadcastId, map);
     }
 
     @MessageMapping("quiz.answer")
@@ -67,6 +69,9 @@ public class StompQuizController {
 
         QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).build();
 
-        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin."+broadcastId, quizRankInfo);
+        Map<String, QuizRankInfo> map = new HashMap<>();
+        map.put("quizRank", quizRankInfo);
+        rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin."+broadcastId, map);
+        rabbitTemplate.convertAndSend(QUIZ_EXCHANGE_NAME, "quiz."+broadcastId, map);
     }
 }
