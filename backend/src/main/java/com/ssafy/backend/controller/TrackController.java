@@ -45,7 +45,9 @@ public class TrackController {
     @GetMapping("/all")
     @ApiOperation(value = "Track 전체 조회")
     public ResponseEntity<List<Track>> getTrackAll() {
-        return new ResponseEntity<>(trackService.getTrackAll(), HttpStatus.OK);
+        List<Track> trackList = trackService.getTrackAll();
+        if (trackList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(trackList, HttpStatus.OK);
     }
 
     @GetMapping("/{subjectId}")
