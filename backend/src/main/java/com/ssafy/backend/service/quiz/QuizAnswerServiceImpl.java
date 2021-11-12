@@ -40,7 +40,6 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
 
         quiz.setAttendCount(quiz.getAttendCount()+1);
 
-
         QuizAnswer quizAnswer = new QuizAnswer();
         quizAnswer.setAnswer(quizAnswerInfo.getAnswer());
         quizAnswer.setUser(user);
