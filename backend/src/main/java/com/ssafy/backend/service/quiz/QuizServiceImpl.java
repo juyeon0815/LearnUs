@@ -25,95 +25,107 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public boolean insert(QuizInfo quizInfo) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(quizInfo.getBroadcastId());
-        if (broadcast == null) return false;
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(quizInfo.getBroadcastId());
 
-        Quiz quiz = Quiz.builder().type(quizInfo.getType())
-                .question(quizInfo.getQuestion())
-                .answer(quizInfo.getAnswer())
-                .useYn("N").broadcast(broadcast).build();
+            Quiz quiz = Quiz.builder().type(quizInfo.getType())
+                    .question(quizInfo.getQuestion())
+                    .answer(quizInfo.getAnswer())
+                    .useYn("N").broadcast(broadcast).build();
 
-        quizDao.save(quiz);
+            quizDao.save(quiz);
 
-        if (quizInfo.getType().equals("c")) {
-            for (int i=0;i<quizInfo.getQuizSelectList().size();i++) {
-                QuizSelect quizSelect = QuizSelect.builder().number(i+1)
-                        .view(quizInfo.getQuizSelectList().get(i)).quiz(quiz).build();
+            if (quizInfo.getType().equals("c")) {
+                for (int i = 0; i < quizInfo.getQuizSelectList().size(); i++) {
+                    QuizSelect quizSelect = QuizSelect.builder().number(i + 1)
+                            .view(quizInfo.getQuizSelectList().get(i)).quiz(quiz).build();
 
-                quizSelectDao.save(quizSelect);
+                    quizSelectDao.save(quizSelect);
+                }
             }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return true;
     }
 
     @Override
     public boolean update(QuizInfo quizInfo) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(quizInfo.getBroadcastId());
-        Quiz quiz = quizDao.findQuizByQuizId(quizInfo.getQuizId());
-        if (broadcast == null || quiz == null) return false;
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(quizInfo.getBroadcastId());
+            Quiz quiz = quizDao.findQuizByQuizId(quizInfo.getQuizId());
 
-        quiz.setQuestion(quizInfo.getQuestion());
-        quiz.setAnswer(quizInfo.getAnswer());
+            quiz.setQuestion(quizInfo.getQuestion());
+            quiz.setAnswer(quizInfo.getAnswer());
 
-        // 퀴즈 타입 변경 ( 객관식 -> 주관식, ox | 주관식, ox -> 객관식 )
-        if (quiz.getType().equals("c")) {
-            List<QuizSelect> quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
-            for (int i=0;i<quizSelectList.size();i++) {
-                if (!quizInfo.getType().equals("c")) quizSelectDao.delete(quizSelectList.get(i));
-                else {
-                    QuizSelect quizSelect = quizSelectList.get(i);
-                    quizSelect.setView(quizInfo.getQuizSelectList().get(i));
+            // 퀴즈 타입 변경 ( 객관식 -> 주관식, ox | 주관식, ox -> 객관식 )
+            if (quiz.getType().equals("c")) {
+                List<QuizSelect> quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
+                for (int i = 0; i < quizSelectList.size(); i++) {
+                    if (!quizInfo.getType().equals("c")) quizSelectDao.delete(quizSelectList.get(i));
+                    else {
+                        QuizSelect quizSelect = quizSelectList.get(i);
+                        quizSelect.setView(quizInfo.getQuizSelectList().get(i));
+                        quizSelectDao.save(quizSelect);
+                    }
+                }
+            } else if ((quiz.getType().equals("s") || quiz.getType().equals("o")) && quizInfo.getType().equals("c")) {
+                for (int i = 0; i < quizInfo.getQuizSelectList().size(); i++) {
+                    QuizSelect quizSelect = QuizSelect.builder().number(i + 1)
+                            .view(quizInfo.getQuizSelectList().get(i)).quiz(quiz).build();
+
                     quizSelectDao.save(quizSelect);
                 }
             }
-        } else if ((quiz.getType().equals("s") || quiz.getType().equals("o")) && quizInfo.getType().equals("c")) {
-            for (int i=0;i<quizInfo.getQuizSelectList().size();i++) {
-                QuizSelect quizSelect = QuizSelect.builder().number(i+1)
-                        .view(quizInfo.getQuizSelectList().get(i)).quiz(quiz).build();
+            quiz.setType(quizInfo.getType());
 
-                quizSelectDao.save(quizSelect);
-            }
+            quizDao.save(quiz);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        quiz.setType(quizInfo.getType());
-
-        quizDao.save(quiz);
-        return true;
     }
 
     @Override
     public boolean delete(int quizId) {
-        Quiz quiz = quizDao.findQuizByQuizId(quizId);
-        if (quiz == null) return false;
-        quizDao.delete(quiz);
-        return true;
+        try {
+            Quiz quiz = quizDao.findQuizByQuizId(quizId);
+            quizDao.delete(quiz);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<QuizInfo> getQuizInfoAll(int broadcastId) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        if (broadcast == null) return null;
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
-        List<QuizInfo> quizInfoList = new ArrayList<>();
-        List<Quiz> quizList = quizDao.findQuizzesByBroadcast(broadcast);
+            List<QuizInfo> quizInfoList = new ArrayList<>();
+            List<Quiz> quizList = quizDao.findQuizzesByBroadcast(broadcast);
 
-        for (int i=0;i<quizList.size();i++) {
-            Quiz quiz = quizList.get(i);
+            for (int i = 0; i < quizList.size(); i++) {
+                Quiz quiz = quizList.get(i);
 
-            List<String> saveQuizSelectList = new ArrayList<>();
-            if (quiz.getType().equals("c")) {
-                List<QuizSelect> quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
-                for (int j=0;j<quizSelectList.size();j++) {
-                    saveQuizSelectList.add(quizSelectList.get(j).getView());
+                List<String> saveQuizSelectList = new ArrayList<>();
+                if (quiz.getType().equals("c")) {
+                    List<QuizSelect> quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
+                    for (int j = 0; j < quizSelectList.size(); j++) {
+                        saveQuizSelectList.add(quizSelectList.get(j).getView());
+                    }
                 }
+
+                QuizInfo quizInfo = QuizInfo.builder().quizId(quiz.getQuizId())
+                        .broadcastId(broadcastId).type(quiz.getType())
+                        .question(quiz.getQuestion()).answer(quiz.getAnswer())
+                        .quizSelectList(saveQuizSelectList).build();
+                quizInfoList.add(quizInfo);
             }
 
-            QuizInfo quizInfo = QuizInfo.builder().quizId(quiz.getQuizId())
-                    .broadcastId(broadcastId).type(quiz.getType())
-                    .question(quiz.getQuestion()).answer(quiz.getAnswer())
-                    .quizSelectList(saveQuizSelectList).build();
-            quizInfoList.add(quizInfo);
+            return quizInfoList;
+        } catch (Exception e) {
+            return null;
         }
-
-        return quizInfoList;
     }
 }

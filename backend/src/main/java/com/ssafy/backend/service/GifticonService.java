@@ -8,6 +8,6 @@ import java.util.List;
 public interface GifticonService {
     boolean insert(GifticonInfo gifticonInfo);
     boolean update(GifticonInfo gifticonInfo);
-    void delete(int gifticonid);
+    boolean delete(int gifticonid);
     List<Gifticon> getGifticonAll(int broadcastId);
 }

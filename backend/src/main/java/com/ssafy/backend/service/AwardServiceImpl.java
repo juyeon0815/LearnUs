@@ -61,7 +61,11 @@ public class AwardServiceImpl implements AwardService{
 
     @Override
     public List<Award> getAward() {
-        List<Award> awardList = awardDao.findAwards(LocalDate.now());
-        return awardList;
+        try {
+            List<Award> awardList = awardDao.findAwards(LocalDate.now());
+            return awardList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

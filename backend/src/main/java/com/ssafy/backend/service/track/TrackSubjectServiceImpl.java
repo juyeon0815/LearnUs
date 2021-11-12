@@ -26,104 +26,133 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
 
     @Override
     public List<Integer> getOrdinalNo() {
-        List<TrackSetting> trackSettingList = trackSettingDao.findAll();
-        List<Integer> ordinalNoList = new ArrayList<>();
-        for (int i=1;i<trackSettingList.size();i++) {
-            ordinalNoList.add(trackSettingList.get(i).getOrdinalNo());
+        try {
+            List<TrackSetting> trackSettingList = trackSettingDao.findAll();
+            List<Integer> ordinalNoList = new ArrayList<>();
+            for (int i = 1; i < trackSettingList.size(); i++) {
+                ordinalNoList.add(trackSettingList.get(i).getOrdinalNo());
+            }
+            return ordinalNoList;
+        } catch (Exception e) {
+            return null;
         }
-        return ordinalNoList;
     }
 
     @Override
     public Integer getSemester(int ordinalNo) {
-        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(ordinalNo);
-        if (trackSetting == null) return 0;
+        try {
+            TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(ordinalNo);
 
-        return trackSetting.getSemester();
+            return trackSetting.getSemester();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @Override
     public boolean insert(TrackSubjectInfo trackSubjectInfo) {
-        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
-        if (trackSetting == null) return false;
+        try {
+            TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
 
-        TrackSubject trackSubject = TrackSubject.builder().subjectName(trackSubjectInfo.getSubjectName())
-                .trackSetting(trackSetting).nowSubject("N").build();
+            TrackSubject trackSubject = TrackSubject.builder().subjectName(trackSubjectInfo.getSubjectName())
+                    .trackSetting(trackSetting).nowSubject("N").build();
 
-        trackSubjectDao.save(trackSubject);
-        return true;
+            trackSubjectDao.save(trackSubject);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean update(TrackSubjectInfo trackSubjectInfo) {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectInfo.getTrackSubjectId());
-        TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
-        if (trackSubject == null || trackSetting == null) return false;
-        trackSubject.setSubjectName(trackSubjectInfo.getSubjectName());
-        trackSubject.setTrackSetting(trackSetting);
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectInfo.getTrackSubjectId());
+            TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
+            trackSubject.setSubjectName(trackSubjectInfo.getSubjectName());
+            trackSubject.setTrackSetting(trackSetting);
 
-        trackSubjectDao.save(trackSubject);
-        return true;
+            trackSubjectDao.save(trackSubject);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean delete(int trackSubjectId) {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectId);
-        if (trackSubject == null) return false;
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectId);
 
-        // 관련 트랙 가져오기
-        List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
+            // 관련 트랙 가져오기
+            List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
 
-        for (int i=0;i<trackList.size();i++) {
-            Track track = trackList.get(i);
-            // 트랙과 관련된 유저 가져오기
-            List<User> userList = userDao.findUserByTrack(track);
-            for (int j=0;j<userList.size();j++) {
-                User user = userList.get(j);
-                Track saveTrack = trackDao.findTrackByTrackId(1);
-                // 유저 연관 끊어주기
-                user.setTrack(saveTrack);
-                userDao.save(user);
+            for (int i = 0; i < trackList.size(); i++) {
+                Track track = trackList.get(i);
+                // 트랙과 관련된 유저 가져오기
+                List<User> userList = userDao.findUserByTrack(track);
+                for (int j = 0; j < userList.size(); j++) {
+                    User user = userList.get(j);
+                    Track saveTrack = trackDao.findTrackByTrackId(1);
+                    // 유저 연관 끊어주기
+                    user.setTrack(saveTrack);
+                    userDao.save(user);
+                }
             }
-        }
 
-        trackSubjectDao.delete(trackSubject);
-        return true;
+            trackSubjectDao.delete(trackSubject);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<TrackSubject> getTrackSubjectAll() {
-        List<TrackSubject> trackSubjectList = trackSubjectDao.findAll();
-        trackSubjectList.remove(0); // 0번째 인덱스는 빈 값
-       return trackSubjectList;
+        try {
+            List<TrackSubject> trackSubjectList = trackSubjectDao.findAll();
+            trackSubjectList.remove(0); // 0번째 인덱스는 빈 값
+            return trackSubjectList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public TrackSubject getCurrentTrackSubject() {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
-        if (trackSubject == null) return null;
-        return trackSubject;
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
+            return trackSubject;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public boolean currentTrackSubjectUpdate(int newSubjectId) {
-        TrackSubject nowTrackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
-        TrackSubject newTrackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(newSubjectId);
-        if (nowTrackSubject == null || newTrackSubject == null) return false;
+        try {
+            TrackSubject nowTrackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
+            TrackSubject newTrackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(newSubjectId);
 
-        nowTrackSubject.setNowSubject("N");
-        newTrackSubject.setNowSubject("Y");
-        trackSubjectDao.save(nowTrackSubject);
-        trackSubjectDao.save(newTrackSubject);
-        return true;
+            nowTrackSubject.setNowSubject("N");
+            newTrackSubject.setNowSubject("Y");
+            trackSubjectDao.save(nowTrackSubject);
+            trackSubjectDao.save(newTrackSubject);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<TrackSubject> getTrackSubjectSemester(int semester) {
-        TrackSetting trackSetting = trackSettingDao.findTrackSettingBySemester(semester);
-        if (trackSetting == null) return null;
+        try {
+            TrackSetting trackSetting = trackSettingDao.findTrackSettingBySemester(semester);
 
-        List<TrackSubject> trackSubjectList = trackSubjectDao.findTrackSubjectsByTrackSetting(trackSetting);
-        return trackSubjectList;
+            List<TrackSubject> trackSubjectList = trackSubjectDao.findTrackSubjectsByTrackSetting(trackSetting);
+            return trackSubjectList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

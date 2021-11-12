@@ -25,42 +25,55 @@ public class GifticonServiceImpl implements GifticonService{
 
     @Override
     public boolean insert(GifticonInfo gifticonInfo) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
-        User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
-        Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
+            User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
+            Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
 
-        if (attendance == null) return false;
-
-        Gifticon gifticon = Gifticon.builder().user(user).broadcast(broadcast).build();
-        gifticonDao.save(gifticon);
-        return true;
+            Gifticon gifticon = Gifticon.builder().user(user).broadcast(broadcast).build();
+            gifticonDao.save(gifticon);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean update(GifticonInfo gifticonInfo) {
-        Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonInfo.getGifticonId());
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
-        User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
-        Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+        try {
+            Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonInfo.getGifticonId());
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
+            User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
+            Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
 
-        if (attendance == null) return false;
-
-        gifticon.setUser(user);
-        gifticon.setBroadcast(broadcast);
-        gifticonDao.save(gifticon);
-        return true;
+            gifticon.setUser(user);
+            gifticon.setBroadcast(broadcast);
+            gifticonDao.save(gifticon);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
-    public void delete(int gifticonid) {
-        Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonid);
-        gifticonDao.delete(gifticon);
+    public boolean delete(int gifticonid) {
+        try {
+            Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonid);
+            gifticonDao.delete(gifticon);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<Gifticon> getGifticonAll(int broadcastId) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-        List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
-        return gifticonList;
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+            List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+            return gifticonList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
