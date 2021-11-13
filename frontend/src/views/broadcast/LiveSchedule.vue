@@ -94,7 +94,7 @@ export default {
     this.getBroadcastList()
   },
   mounted() {
-    if(this.prevRoute.name === 'CreateLive' && this.httpStatus === 200) {
+    if(this.prevRoute && this.prevRoute.name === 'CreateLive' && this.httpStatus === 200) {
       const alertInfo = {
         type: 'success',
         message: '방송이 생성되었습니다.',
