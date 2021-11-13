@@ -12,24 +12,25 @@ const state = {
 
 const actions = {
   // 방송 스케줄
-  getBroadcastList({ commit }) {
-    broadcastApi.getBroadcastList()
-      .then((res) => {
-        const broadcastList = res.data
-        broadcastList.sort(function (a, b) {
-          if (a.broadcastDate > b.broadcastDate) {
-            return 1
-          }
-          if (a.broadcastDate < b.broadcastDate) {
-            return -1
-          }
-          return 0;
-        })
-        commit('SET_BROADCAST_LIST', broadcastList)
+  async getBroadcastList({ commit }) {
+    try {
+      const firstResponse = await broadcastApi.getBroadcastList()
+      const secondResponse = await broadcastApi.getOnAirList()
+      const broadcastList = firstResponse.data.concat(secondResponse.data)
+      broadcastList.sort(function (a, b) {
+        if (a.broadcastDate > b.broadcastDate) {
+          return 1
+        }
+        if (a.broadcastDate < b.broadcastDate) {
+          return -1
+        }
+        return 0;
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      commit('SET_BROADCAST_LIST', broadcastList)
+    }
+    catch (err) {
+      console.log(err)
+    }
   },
   // 방송 상세 정보 조회 및 수정
   getBroadcastDetail({commit}, id) {
@@ -134,51 +135,22 @@ const getters = {
     }
   },
   broadcastByDate(state) {
-    /* function leftZero(val) {
-      if (val < 10) {
-        return `0${val}`
-      } else {
-        return val
+    if (state.broadcastList) {
+      const dates = state.broadcastList.map(broadcast => {
+        return broadcast.broadcastDate.split(' ')[0]
+      })
+      const uniqueDates = [...new Set(dates)]
+      uniqueDates.sort()
+      const schedule = {}
+      for (var i = 0; i < uniqueDates.length; i++) {
+        schedule[`${uniqueDates[i]}`] = []
       }
-    }
-    const dateObject = new Date()
-    const year = dateObject.getFullYear()
-    const month = leftZero(dateObject.getMonth() + 1)
-    const day = leftZero(dateObject.getDate())
-    const today = [year, month, day].join('-')
-    const tomorrow = [year, month, day+1].join('-') */
-    /* return state.broadcastList.filter(broadcast => 
-      broadcast.broadcastDate.split(' ')[0] >= today
-    ) */
-    const dates = state.broadcastList.map(broadcast => {
-      return broadcast.broadcastDate.split(' ')[0]
-    })
-    const uniqueDates = [...new Set(dates)]
-    uniqueDates.sort()
-    const schedule = {}
-    for (var i = 0; i < uniqueDates.length; i++) {
-      schedule[`${uniqueDates[i]}`] = []
-    }
-    for (var k = 0; k < state.broadcastList.length; k++) {
-      schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
-    }
-    /* if (uniqueDates.includes(today)) {
-      schedule['today'] = schedule[today]
-      delete schedule[today]
-    }
-    if (uniqueDates.includes(tomorrow)) {
-      schedule['tomorrow'] = schedule[tomorrow]
-      delete schedule[tomorrow]
-    } */
-    /* const result = []
-    for (const element in schedule) {
-      const newElement = {
-        date: element,
-        schedule: schedule[element]
+      for (var k = 0; k < state.broadcastList.length; k++) {
+        schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
       }
-      result.push(newElement)
-    } */
-    return schedule
+      return schedule
+    }
+    return null
   },
 }
 
