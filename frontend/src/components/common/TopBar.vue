@@ -40,7 +40,9 @@ export default {
   computed: {
     ...mapState('account', ['userInfo', 'photoKey']),
     showBtns () {
-      if (this.$route.name === "CreateLive") {
+      if (this.$route.name === "CreateLive" ||
+        this.$route.name === "OnAirStudio"
+      ) {
         return false
       }
       return true

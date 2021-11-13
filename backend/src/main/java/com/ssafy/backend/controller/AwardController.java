@@ -23,6 +23,8 @@ public class AwardController {
     @GetMapping
     @ApiOperation(value = "오늘의 award 조회")
     public ResponseEntity<List<Award>> getAward() {
-        return new ResponseEntity<>(awardService.getAward(), HttpStatus.OK);
+        List<Award> awardList = awardService.getAward();
+        if (awardList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(awardList, HttpStatus.OK);
     }
 }

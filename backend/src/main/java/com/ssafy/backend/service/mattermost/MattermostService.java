@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface MattermostService {
     List<Integer> selectOrdinalNo();
-    void insert(MattermostInfo mattermostInfo);
-    void update(MattermostInfo mattermostInfo);
+    boolean insert(MattermostInfo mattermostInfo);
+    boolean update(MattermostInfo mattermostInfo);
     boolean delete(int mattermostId);
     List<MattermostInfo> getMattermostAll();
 }

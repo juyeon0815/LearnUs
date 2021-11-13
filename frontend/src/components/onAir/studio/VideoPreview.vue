@@ -1,6 +1,7 @@
 <template>
   <div class="video-preview">
     <video 
+      v-if="broadcastDetail"
       ref="videoPlayer" 
       class="video-js vjs-fluid"
     ></video>

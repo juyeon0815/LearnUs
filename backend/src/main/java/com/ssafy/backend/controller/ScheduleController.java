@@ -23,36 +23,38 @@ public class ScheduleController {
     @PostMapping
     @ApiOperation(value = "Schedule 추가")
     public ResponseEntity<String> insert(@RequestBody Schedule schedule) {
-        scheduleService.insert(schedule);
+        if (!scheduleService.insert(schedule)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "Schedule 수정")
     public ResponseEntity<String> update(@RequestBody Schedule schedule) {
-        scheduleService.update(schedule);
+        if (!scheduleService.update(schedule)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{scheduleId}")
     @ApiOperation(value = "Schedule 삭제")
     public ResponseEntity<String> delete(@PathVariable("scheduleId") int scheduleId) {
-        scheduleService.delete(scheduleId);
+        if (!scheduleService.delete(scheduleId)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "Schedule 전체 조회")
     public ResponseEntity<List<Schedule>> getScheduleAll() {
-        return new ResponseEntity<>(scheduleService.getScheduleAll(), HttpStatus.OK);
+        List<Schedule> scheduleList = scheduleService.getScheduleAll();
+        if (scheduleList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(scheduleList, HttpStatus.OK);
     }
 
     @GetMapping
     @ApiOperation(value = "오늘 Schedule 조회")
     public ResponseEntity<Schedule> getScheduleCurrent() {
         Schedule schedule = scheduleService.getScheduleCurrent();
-        if (schedule != null) return new ResponseEntity<>(schedule, HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
+        if (schedule == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(schedule, HttpStatus.OK);
 
     }
 }

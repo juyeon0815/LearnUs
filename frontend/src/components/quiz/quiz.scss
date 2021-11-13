@@ -6,12 +6,21 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
   font-size: 5rem;
+  line-height: 3rem;
   color: $light;
   text-shadow: 1px 0 3px rgba($black, 0.4);
   span {
     cursor: pointer;
     &:hover {
       color: rgba($grey, 0.5);
+    }
+    &.selected {
+      color: $orange;
+      pointer-events: none;
+    }
+    &.unselected {
+      color: $dark;
+      pointer-events: none;
     }
   }
 }
@@ -29,8 +38,20 @@
     background: rgba($black, 0.7);
     border: 3px solid $orange;
     font-weight: 700;
+    box-shadow: 2px 2px 4px rgba($black, 0.4);
     &:hover {
       background: $black;
+    }
+    &.selected {
+      background-color: $orange;
+      color: $white;
+      pointer-events: none;
+      
+    }
+    &.unselected {
+      background: rgba($black, 0.4);
+      pointer-events: none;
+      box-shadow: inset 2px 2px 4px rgba($black, 0.4);
     }
   }
 }
@@ -55,6 +76,10 @@
     border: none;
     outline: none;
     background: none;
+    &.solved {
+      pointer-events: none;
+      font-weight: 700;
+    }
   }
   button {
     position: absolute;

@@ -20,57 +20,76 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public boolean insert(TrackInfo trackInfo) {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectBySubjectName(trackInfo.getSubjectName());
-        if (trackSubject == null) return false;
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectBySubjectName(trackInfo.getSubjectName());
 
-        Track track = Track.builder().trackName(trackInfo.getTrackName()).trackSubject(trackSubject).build();
-        trackDao.save(track);
-        return true;
+            Track track = Track.builder().trackName(trackInfo.getTrackName()).trackSubject(trackSubject).build();
+            trackDao.save(track);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean update(TrackInfo trackInfo) {
-        Track track = trackDao.findTrackByTrackId(trackInfo.getTrackId());
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectBySubjectName(trackInfo.getSubjectName());
-        if (track == null || trackSubject == null) return false;
+        try {
+            Track track = trackDao.findTrackByTrackId(trackInfo.getTrackId());
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectBySubjectName(trackInfo.getSubjectName());
 
-        track.setTrackName(trackInfo.getTrackName());
-        track.setTrackSubject(trackSubject);
-        trackDao.save(track);
-        return true;
+            track.setTrackName(trackInfo.getTrackName());
+            track.setTrackSubject(trackSubject);
+            trackDao.save(track);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean delete(int trackId) {
-        Track track = trackDao.findTrackByTrackId(trackId);
-        if (track == null) return false;
+        try {
+            Track track = trackDao.findTrackByTrackId(trackId);
 
-        trackDao.delete(track);
-        return true;
+            trackDao.delete(track);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<Track> getTrackAll() {
-        List<Track> trackList = trackDao.findAll();
-        trackList.remove(0); // 0번째 값은 빈 값
-        return trackList;
+        try {
+            List<Track> trackList = trackDao.findAll();
+            trackList.remove(0); // 0번째 값은 빈 값
+            return trackList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public List<Track> getTrackSubject(int subjectId) {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(subjectId);
-        if (trackSubject == null) return null;
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(subjectId);
 
-        List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
-        return trackList;
+            List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
+            return trackList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public List<Track> getCurrentTrackSubject() {
-        TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
-        if (trackSubject == null) return null;
+        try {
+            TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByNowSubject("Y");
 
-        List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
-        return trackList;
+            List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
+            return trackList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

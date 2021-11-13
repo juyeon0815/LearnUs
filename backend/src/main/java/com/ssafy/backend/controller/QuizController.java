@@ -44,6 +44,8 @@ public class QuizController {
     @GetMapping("/all/{broadcastId}")
     @ApiOperation(value = "퀴즈 조회")
     public ResponseEntity<List<QuizInfo>> getQuizInfoAll(@PathVariable("broadcastId") int broadcastId) {
-        return new ResponseEntity<>(quizService.getQuizInfoAll(broadcastId), HttpStatus.OK);
+        List<QuizInfo> quizInfoList = quizService.getQuizInfoAll(broadcastId);
+        if (quizInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(quizInfoList, HttpStatus.OK);
     }
 }

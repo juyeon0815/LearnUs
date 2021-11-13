@@ -120,6 +120,12 @@ const mutations = {
 }
 
 const getters = {
+  currentBroadcastId (state) {
+    if (state.broadcastDetail) {
+      return state.broadcastDetail.broadcastId
+    }
+    return null
+  },
   studentData (state) {
     if (state.studentTarget) {
       return state.studentList[state.studentTarget]
