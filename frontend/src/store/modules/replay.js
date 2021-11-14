@@ -10,14 +10,14 @@ const state = {
 }
 
 const actions = {
-    //다시보기
-    async getBroadCasts({ commit }, ordinalNo) {
-        await replayApi.getBroadCasts(ordinalNo).then((res) => {
-            commit('SET_BROADCASTS', res.data)
-            console.log(res.data)
-        }).catch((err) => {
-            console.log(err);
-        })
+  //다시보기
+  async getBroadCasts({ commit }, ordinalNo) {
+    await replayApi.getBroadCasts(ordinalNo).then((res) => {
+        commit('SET_BROADCASTS', res.data)
+        console.log(res.data)
+    }).catch((err) => {
+        console.log(err);
+    })
   },
   async getBroadCastsByTrack({ commit }, searchData) {
     await replayApi.getBroadCastsByTrack(searchData).then((res) => {

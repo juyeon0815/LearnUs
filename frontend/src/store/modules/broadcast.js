@@ -10,6 +10,10 @@ const state = {
   httpStatus: null,
   onairList: null,
   quizResult: null,
+  replayList: null,
+  replayListByTrack: null,
+  replayDetail: null,
+  selectedSubject: null,
 }
 
 const actions = {
