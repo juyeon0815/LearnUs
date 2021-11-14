@@ -32,7 +32,7 @@ public class StompAttendanceController {
     }
 
     // 출석 종료
-    @MessageMapping("attendance.stop.{broadcastid}")
+    @MessageMapping("attendance.stop.{broadcastId}")
     public void attendStop(@DestinationVariable int broadcastId) {
         redisService.delete("attendance"+broadcastId);
         rabbitTemplate.convertAndSend(ATTENDANCE_EXCHANGE_NAME, "attendance."+broadcastId, "attendance stop");
@@ -41,5 +41,15 @@ public class StompAttendanceController {
     @MessageMapping("attendance.attend")
     public void attend(int userId, int broadcastId) {
         broadcastService.attend(broadcastId, userId);
+    }
+
+    @MessageMapping("broadcast.start.{broadcastId}")
+    public void broadcastStart(@DestinationVariable int broadcastId) {
+        rabbitTemplate.convertAndSend(ATTENDANCE_EXCHANGE_NAME, "attendance."+broadcastId, "broadcast start");
+    }
+
+    @MessageMapping("broadcast.stop.{broadcastId}")
+    public void broadcastStop(@DestinationVariable int broadcastId) {
+        rabbitTemplate.convertAndSend(ATTENDANCE_EXCHANGE_NAME, "attendance."+broadcastId, "broadcast stop");
     }
 }
