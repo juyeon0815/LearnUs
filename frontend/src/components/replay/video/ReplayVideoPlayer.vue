@@ -43,7 +43,6 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("replay/getBroadCastInfo", this.broadcastId); // broadcastId 업데이트 -> async await 걸어서 순서대로 처리되도록!
-    mapState("replay", ["broadCastInfo"]),
     this.url = this.broadCastInfo.replayUrl;
     console.log("ReplayVideoPlayer : "+this.url);
 
