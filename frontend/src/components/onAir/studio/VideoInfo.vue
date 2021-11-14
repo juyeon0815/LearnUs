@@ -37,12 +37,12 @@
     </div>
     <div class="status-box">
       <div class="status">
-        <div class="status-circle"></div>
-        <span>ONAIR</span>
+        <div :class="[status === 'ONAIR' ? 'on' : 'off', 'status-circle']"></div>
+        <span>{{ status }}</span>
       </div>
       <div>|</div>
       <div class="viewer">
-      <span>356 </span>
+      <span>{{ viewers }}</span>
       Viewers
       </div>
     </div>
@@ -69,7 +69,16 @@ export default {
     }
   },
   computed: {
-    ...mapState('broadcast', ['broadcastDetail'])
+    ...mapState('broadcast', ['broadcastDetail']),
+    ...mapState('stomp', ['viewers']),
+    status () {
+      if (this.broadcastDetail.liveCode === 'C') {
+        return 'Ready'
+      } else if (this.broadcastDetail.liveCode === 'Y') {
+        return 'ONAIR'
+      }
+      return 'The END'
+    }
   }
 }
 </script>
