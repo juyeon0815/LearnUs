@@ -12,12 +12,16 @@ import java.util.Map;
 public class MattermostMessageServiceImpl implements MattermostMessageService{
     @Override
     public void send(String message, String pathName, String webhook) {
-        RestTemplate restTemplate = new RestTemplate();
+        try {
+            RestTemplate restTemplate = new RestTemplate();
 
-        Map<String, Object> request = new HashMap<>();
-        request.put("text", message);
-        request.put("channel", "#"+pathName);
-        HttpEntity<Map<String,Object>> entity = new HttpEntity<>(request);
-        restTemplate.exchange(webhook, HttpMethod.POST, entity, String.class);
+            Map<String, Object> request = new HashMap<>();
+            request.put("text", message);
+            request.put("channel", "#" + pathName);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request);
+            restTemplate.exchange(webhook, HttpMethod.POST, entity, String.class);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
     }
 }
