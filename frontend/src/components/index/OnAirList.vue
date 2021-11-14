@@ -1,5 +1,5 @@
 <template>
-  <div class="on-air-list">
+  <div class="on-air-list" v-if="onairList">
     <div class="chapter">ON<span class="t-orange">:</span>AIR</div>
     <div ref="wrapper" class="wrapper" v-if="onairList && onairList.length >= 1">
       <div ref="carousel" class="carousel">
@@ -12,7 +12,7 @@
           />
         </div>
       </div>
-      <div v-if="onAirList && onAirList.length > 3">
+      <div v-if="onairList.length > 3">
         <i 
           ref="prev" 
           class="move left fi fi-rr-caret-left"
