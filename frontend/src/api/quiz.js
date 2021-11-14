@@ -26,5 +26,11 @@ export default {
       url: `quiz/${id}`,
       method: 'delete'
     })
+  },
+  getQuizResult (id) {
+    return _axios({
+      url: `quiz/all/after/${id}`,
+      method: 'get'
+    })
   }
 }
