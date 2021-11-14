@@ -105,7 +105,8 @@ export default {
       method: 'post',
       params: {
         'broadcastId': id
-      }
+      },
+      responseType: 'blob'
     })
   },
   sendGifticonMM (id) {
@@ -123,7 +124,26 @@ export default {
       method: 'post',
       params: {
         'broadcastId': id
-      }
+      },
+      responseType: 'blob'
+    })
+  },
+  getBroadcastAfter (id) {
+    return _axios({
+      url: `/broadcast/after/${id}`,
+      method : 'get',
+    })
+  },
+  getBroadcastStudentCnt (id) {
+    return _axios({
+      url: `/broadcast/attendance/after/${id}`,
+      method : 'get',
+    })
+  },
+  getActiveStudent (id) {
+    return _axios({
+      url: `/broadcast/end/king/${id}`,
+      method : 'get',
     })
   },
   getReplayList(ordinalNo) {
@@ -140,9 +160,9 @@ export default {
     })
   },
 
-  getReplayInfo(broadcastReplayId) {
+  getReplayInfo(id) {
     return _axios({
-      url: `broadcastReplay/${broadcastReplayId}`,
+      url: `broadcastReplay/${id}`,
       method : 'get'
     })
   }

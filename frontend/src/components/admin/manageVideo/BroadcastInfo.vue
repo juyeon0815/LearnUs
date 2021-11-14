@@ -1,6 +1,7 @@
 <template>
   <div class="broadcast-info">
     <UpdateModal v-if="onUpdateModal" @hideModal="onUpdateModal = false"/>
+    <DeleteConfirm v-if="onDeleteConfirm" @close="onDeleteConfirm = false"/>
     <div class="default">
       <div class="video">
         <div class="player"></div>
@@ -24,6 +25,7 @@
           </button>
           <button
             class="btn black"
+            @click="onDeleteConfirm = true"
           >
             <div class="btn-content">
               <i class="fi fi-rr-trash"></i>
@@ -34,24 +36,29 @@
       </div>
       <VideoInfo/>
     </div>
-    <div class="chat"></div>
+    <Award/>
   </div>
 </template>
 
 <script>
 // import VideoPlayer from '@/components/replay/video/ReplayVideoPlayer'
 import VideoInfo from './BroadcastVideoInfo.vue'
+import DeleteConfirm from './BroadcastDeleteConfirm.vue'
+import Award from './BroadcastAward.vue'
 import UpdateModal from '@/components/onAir/studio/VideoInfoUpdateModal'
 export default {
   name: 'BroadcastInfo',
   data () {
     return {
       onUpdateModal: false,
+      onDeleteConfirm: false
     }
   },
   components: {
     VideoInfo,
-    UpdateModal
+    Award,
+    UpdateModal,
+    DeleteConfirm
     // VideoPlayer
   }
 }

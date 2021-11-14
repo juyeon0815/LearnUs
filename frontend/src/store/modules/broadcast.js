@@ -5,6 +5,7 @@ import quizApi from '@/api/quiz'
 const state = {
   broadcastList: null,
   broadcastDetail: null,
+  broadcastCnt: null,
   studentList: null,
   studentTarget: null,
   httpStatus: null,
@@ -14,6 +15,7 @@ const state = {
   replayListByTrack: null,
   replayDetail: null,
   selectedSubject: null,
+  activeStudents: null,
 }
 
 const actions = {
@@ -108,7 +110,41 @@ const actions = {
     } catch (err) {
       console.log(err)
     }
-  }
+  },
+  async getActiveStudent ({ commit }, id) {
+    try {
+      const response = await broadcastApi.getActiveStudent(id)
+      if (response.status === 200) {
+        commit('SET_ACTIVE_STUDENTS', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  async getBroadcastAfter ({ commit }, id) {
+    try {
+      const response = await broadcastApi.getBroadcastAfter(id)
+      if (response.status === 200) {
+        commit('SET_REPLAY_DETAIL', response.data.broadcastReplay)
+      }
+      const cnt = await broadcastApi.getBroadcastStudentCnt(id)
+      if (cnt.status === 200) {
+        commit('SET_BROADCAST_CNT', cnt.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  async getReplayDetail ({ commit }, id) {
+    try {
+      const response = await broadcastApi.getReplayInfo(id)
+      if (response.status === 200) {
+        commit('SET_REPLAY_DETAIL', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
 }
 
 const mutations = {
@@ -117,6 +153,9 @@ const mutations = {
   },
   SET_BROADCAST_DETAIL(state, payload) {
     state.broadcastDetail = payload
+  },
+  SET_BROADCAST_CNT(state, payload) {
+    state.broadcastCnt = payload
   },
   SET_STUDENT_LIST (state, payload) {
     state.studentList = payload
@@ -137,6 +176,12 @@ const mutations = {
   },
   SET_QUIZ_RESULT (state, payload) {
     state.quizResult = payload
+  },
+  SET_ACTIVE_STUDENTS (state, payload) {
+    state.activeStudents = payload
+  },
+  SET_REPLAY_DETAIL (state, payload) {
+    state.replayDetail = payload
   }
 }
 
@@ -153,9 +198,12 @@ const getters = {
     }
     return null
   },
-  // attendanceCnt (state) {
-
-  // },
+  quizCnt (state) {
+    if (state.quizResult) {
+      return state.quizResult.length
+    }
+    return 0
+  },
   broadcastByDate(state) {
     if (state.broadcastList) {
       const dates = state.broadcastList.map(broadcast => {
