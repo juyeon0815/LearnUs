@@ -25,7 +25,7 @@ export default {
     ...mapState('broadcast', ['broadcastDetail']),
     options() {
       return {
-				autoplay: 'any',
+				autoplay: false,
 				controls: true,
         poster: this.broadcastDetail.thumbnailUrl,
         fluid: true,
