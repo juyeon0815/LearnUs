@@ -5,11 +5,12 @@ const state = {
 }
 
 const actions = {
-  async createGifticon({ commit }, data) {
+  async createGifticon({ dispatch }, gifticonData) {
     try {
-      const response = await gifticonApi.createGifticon(data)
-      console.log(response)
-      commit('TEST')
+      const response = await gifticonApi.createGifticon(gifticonData)
+      if (response.status === 200) {
+        dispatch('getGifticonList', gifticonData.broadcastId)
+      }
     } catch (err) {
       console.log(err);
     }
@@ -24,6 +25,17 @@ const actions = {
       console.log(err)
     }
   },
+  async deleteGifticon({ dispatch }, data) {
+    try {
+      const response = await gifticonApi.deleteGifticon(data.gifticonId)
+      if (response.status === 200) {
+        dispatch('getGifticonList', data.broadcastId)
+      }
+    }
+    catch(err) {
+      console.log(err)
+    }
+  }
 }
 
 const mutations = {
@@ -32,9 +44,21 @@ const mutations = {
   }
 }
 
+const getters = {
+  gifticonUserIdList(state) {
+    if (state.gifticonList) {
+      return state.gifticonList.map(student => {
+        return student.user.userId
+      })
+    }
+    return null
+  }
+}
+
 export default {
   namespaced: true,
   state,
   actions,
   mutations,
+  getters,
 }
