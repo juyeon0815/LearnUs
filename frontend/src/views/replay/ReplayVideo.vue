@@ -1,7 +1,7 @@
 <template>
   <div id="replay" class="replay">
     <div class="replay-video">
-      <ReplayVideoPlayer />
+      <ReplayVideoPlayer :broadcastId="broadcastId"/> <!-- broadcastId player로 넘겨주기 -->
       <ReplayVideoInfo />
     </div>
   </div>
@@ -19,18 +19,25 @@ export default {
     ReplayVideoInfo,
     ReplayVideoPlayer
   },
+  data() {
+    return {
+      broadcastId: 0,
+    }
+  },
   watch: {
     $route() {
       if (this.$route.name === "ReplayVideo") {
         const id = this.$route.params.id;
+        console.log("watch 다시보기!! : ", id);
         this.$store.dispatch("replay/getBroadCastInfo", id);
       }
     },
   },
   created(){
     if (this.$route.name === "ReplayVideo") {
-      const id = this.$route.params.id;
-      this.$store.dispatch("replay/getBroadCastInfo", id);
+      // const id = this.$route.params.id;
+      this.broadcastId = this.$route.params.id; // 넘겨주기 위해 broadcastId 저장
+      // await this.$store.dispatch("replay/getBroadCastInfo", id);
     }
   }
 }

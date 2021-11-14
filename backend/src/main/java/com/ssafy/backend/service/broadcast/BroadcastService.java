@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface BroadcastService {
-    void insert(BroadcastInfo broadcastInfo);
-    void update(BroadcastInfo broadcastInfo);
-    void delete(int broadcastId);
-    void attend(int broadcastId, int userId);
+    boolean insert(BroadcastInfo broadcastInfo);
+    boolean update(BroadcastInfo broadcastInfo);
+    boolean delete(int broadcastId);
+    boolean attend(int broadcastId, int userId);
     Map<String, List<Attendance>> getAttendance(int broadcastId);
     List<BroadcastInfo> getBroadcastAll(String liveCode);
     BroadcastInfo getBroadcast(int broadcastId);
-    void start(int broadcastId);
+    boolean start(int broadcastId);
     Map<String, List<Attendance>> end(int broadcastId);
-    void endAttendance(int broadcastId);
-    void endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
-    void endGifticon(int broadcastId);
-    void endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
-    void endReplayInsert(int broadcastId, String autoUploadYn);
+    boolean endAttendance(int broadcastId);
+    boolean endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    boolean endGifticon(int broadcastId);
+    boolean endGifticonDownload(int broadcastId, HttpServletResponse response) throws IOException;
+    boolean endReplayInsert(int broadcastId, String autoUploadYn);
 
     List<ChatInfo> getChatInfoList(int broadcastId);
 }

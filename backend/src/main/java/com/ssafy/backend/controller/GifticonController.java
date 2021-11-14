@@ -25,27 +25,29 @@ public class GifticonController {
     @PostMapping
     @ApiOperation(value = "기프티콘 추가")
     public ResponseEntity<String> insert(@RequestBody GifticonInfo gifticonInfo) {
-        if (!gifticonService.insert(gifticonInfo)) return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        if (!gifticonService.insert(gifticonInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "기프티콘 수정")
     public ResponseEntity<String> update(@RequestBody GifticonInfo gifticonInfo) {
-        if (!gifticonService.update(gifticonInfo)) return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+        if (!gifticonService.update(gifticonInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{gifticonId}")
     @ApiOperation(value = "기프티콘 삭제")
     public ResponseEntity<String> delete(@PathVariable("gifticonId") int gifticonId) {
-        gifticonService.delete(gifticonId);
+        if (!gifticonService.delete(gifticonId)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/all/{broadcastId}")
     @ApiOperation(value = "기프티콘 조회")
     public ResponseEntity<List<Gifticon>> getGifticonAll(@PathVariable("broadcastId") int broadcastId) {
-        return new ResponseEntity<>(gifticonService.getGifticonAll(broadcastId), HttpStatus.OK);
+        List<Gifticon> gifticonList = gifticonService.getGifticonAll(broadcastId);
+        if (gifticonList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(gifticonList, HttpStatus.OK);
     }
 }

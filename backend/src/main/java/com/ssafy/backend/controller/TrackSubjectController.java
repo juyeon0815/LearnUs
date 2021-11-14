@@ -24,7 +24,9 @@ public class TrackSubjectController {
     @GetMapping("/ordinalNo")
     @ApiOperation(value = "현재 기수 조회")
     public ResponseEntity<List<Integer>> getOrdinalNo() {
-        return new ResponseEntity<>(trackSubjectService.getOrdinalNo(), HttpStatus.OK);
+        List<Integer> ordinalList = trackSubjectService.getOrdinalNo();
+        if (ordinalList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ordinalList, HttpStatus.OK);
     }
 
     @GetMapping("/semester/{ordinalNo}")
@@ -59,7 +61,9 @@ public class TrackSubjectController {
     @GetMapping("/all")
     @ApiOperation(value = "트랙 주제 전체 조회")
     public ResponseEntity<List<TrackSubject>> getTrackSubjectAll() {
-        return new ResponseEntity<>(trackSubjectService.getTrackSubjectAll(), HttpStatus.OK);
+        List<TrackSubject> trackSubjectList = trackSubjectService.getTrackSubjectAll();
+        if (trackSubjectList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(trackSubjectList, HttpStatus.OK);
     }
 
     @GetMapping("/current")

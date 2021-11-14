@@ -24,155 +24,175 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
 
     @Override
     public boolean insert(BroadcastReplayInfo broadcastReplayInfo) {
-        Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastReplayInfo.getBroadcastId());
-        if (broadcast == null) return false;
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastReplayInfo.getBroadcastId());
 
-        broadcast.setLiveCode("N");
-        broadcastDao.save(broadcast);
+            broadcast.setLiveCode("N");
+            broadcastDao.save(broadcast);
 
-        BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplayInfo.getReplayUrl())
-                .openYn(broadcastReplayInfo.getOpenYn()).broadcast(broadcast).build();
-        broadcastReplayDao.save(broadcastReplay);
+            BroadcastReplay broadcastReplay = BroadcastReplay.builder().replayUrl(broadcastReplayInfo.getReplayUrl())
+                    .openYn(broadcastReplayInfo.getOpenYn()).broadcast(broadcast).build();
+            broadcastReplayDao.save(broadcastReplay);
 
-        // 방송 객체에서 관련 트랙 가져오기
-        List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
-        Set<Integer> ordinalSet = new HashSet<>();
-        // 방송과 관련된 기수 가져오기
-        for (int i=0;i<broadcastTrackList.size();i++) {
-            BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
-            TrackSetting trackSetting = broadcastTrack.getTrack().getTrackSubject().getTrackSetting();
-            if (!ordinalSet.contains(trackSetting.getOrdinalNo())) ordinalSet.add(trackSetting.getOrdinalNo());
+            // 방송 객체에서 관련 트랙 가져오기
+            List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+            Set<Integer> ordinalSet = new HashSet<>();
+            // 방송과 관련된 기수 가져오기
+            for (int i = 0; i < broadcastTrackList.size(); i++) {
+                BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
+                TrackSetting trackSetting = broadcastTrack.getTrack().getTrackSubject().getTrackSetting();
+                if (!ordinalSet.contains(trackSetting.getOrdinalNo())) ordinalSet.add(trackSetting.getOrdinalNo());
+            }
+
+            // 방송 다시보기 기수 객체 추가
+            Iterator<Integer> iterator = ordinalSet.iterator();
+            while (iterator.hasNext()) {
+                BroadcastReplayOrdinal broadcastReplayOrdinal = BroadcastReplayOrdinal.builder().ordinalNo(iterator.next())
+                        .broadcastReplay(broadcastReplay).build();
+
+                broadcastReplayOrdinalDao.save(broadcastReplayOrdinal);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        // 방송 다시보기 기수 객체 추가
-        Iterator<Integer> iterator = ordinalSet.iterator();
-        while(iterator.hasNext()) {
-            BroadcastReplayOrdinal broadcastReplayOrdinal = BroadcastReplayOrdinal.builder().ordinalNo(iterator.next())
-                    .broadcastReplay(broadcastReplay).build();
-
-            broadcastReplayOrdinalDao.save(broadcastReplayOrdinal);
-        }
-        return true;
     }
 
     @Override
     public boolean update(BroadcastReplayInfo broadcastReplayInfo) {
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayInfo.getBroadcastReplayId());
-        if (broadcastReplay == null) return false;
+        try {
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayInfo.getBroadcastReplayId());
 
-        broadcastReplay.setReplayUrl(broadcastReplayInfo.getReplayUrl());
-        broadcastReplay.setOpenYn(broadcastReplayInfo.getOpenYn());
+            broadcastReplay.setReplayUrl(broadcastReplayInfo.getReplayUrl());
+            broadcastReplay.setOpenYn(broadcastReplayInfo.getOpenYn());
 
-        broadcastReplayDao.save(broadcastReplay);
-        return true;
+            broadcastReplayDao.save(broadcastReplay);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean delete(int broadcastReplayId) {
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
-        if (broadcastReplay == null) return false;
+        try {
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
 
-        broadcastReplayDao.delete(broadcastReplay);
-        return true;
+            broadcastReplayDao.delete(broadcastReplay);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo) {
-        List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
-        List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
-        Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
+        try {
+            List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+            List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
+            Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
-        for (int i=0;i<broadcastReplayOrdinalList.size();i++) {
-            BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
-            BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
-            if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
-        }
-
-        Iterator<BroadcastReplay> iterator = broadcastReplaySet.iterator();
-        while(iterator.hasNext()) {
-            BroadcastReplay broadcastReplay = iterator.next();
-            Broadcast broadcast = broadcastReplay.getBroadcast();
-            List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
-            Map<String, String> textbookMap = new HashMap<>();
-            // 교재 저장
-            for (int i=0;i<textbookList.size();i++) {
-                Textbook textbook = textbookList.get(i);
-                textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+            for (int i = 0; i < broadcastReplayOrdinalList.size(); i++) {
+                BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
+                BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
+                if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
             }
-            BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
-                    .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
-                    .broadcast(broadcast).textbook(textbookMap).build();
-            broadcastReplayInfoList.add(broadcastReplayInfo);
-        }
 
-        return broadcastReplayInfoList;
+            Iterator<BroadcastReplay> iterator = broadcastReplaySet.iterator();
+            while (iterator.hasNext()) {
+                BroadcastReplay broadcastReplay = iterator.next();
+                Broadcast broadcast = broadcastReplay.getBroadcast();
+                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                Map<String, String> textbookMap = new HashMap<>();
+                // 교재 저장
+                for (int i = 0; i < textbookList.size(); i++) {
+                    Textbook textbook = textbookList.get(i);
+                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                }
+                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                        .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
+                        .broadcast(broadcast).textbook(textbookMap).build();
+                broadcastReplayInfoList.add(broadcastReplayInfo);
+            }
+
+            return broadcastReplayInfoList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo) {
-        List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
-        List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
-        Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
+        try {
+            List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+            List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
+            Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
-        for (int i=0;i<broadcastReplayOrdinalList.size();i++) {
-            BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
-            BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
-            if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
-        }
-
-        Iterator<BroadcastReplay> iterator = broadcastReplaySet.iterator();
-        while(iterator.hasNext()) {
-            Boolean flag = false;
-            BroadcastReplay broadcastReplay = iterator.next();
-            Broadcast broadcast = broadcastReplay.getBroadcast();
-
-            // 방송과 관련된 트랙 정보 가져오기
-            List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
-            for (int j=0;j<broadcastTrackList.size();j++) {
-                BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
-                // 방송과 관련된 트랙 이름과 일치하면 객체 넣기
-                if (broadcastTrack.getTrack().getTrackId() == trackId) flag = true;
+            for (int i = 0; i < broadcastReplayOrdinalList.size(); i++) {
+                BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
+                BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
+                if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
             }
 
-            if (flag) {
-                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
-                Map<String, String> textbookMap = new HashMap<>();
+            Iterator<BroadcastReplay> iterator = broadcastReplaySet.iterator();
+            while (iterator.hasNext()) {
+                Boolean flag = false;
+                BroadcastReplay broadcastReplay = iterator.next();
+                Broadcast broadcast = broadcastReplay.getBroadcast();
 
-                // 방송 관련 교재 가져오기
-                for (int j=0;j<textbookList.size();j++) {
-                    Textbook textbook = textbookList.get(j);
-                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                // 방송과 관련된 트랙 정보 가져오기
+                List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByBroadcast(broadcast);
+                for (int j = 0; j < broadcastTrackList.size(); j++) {
+                    BroadcastTrack broadcastTrack = broadcastTrackList.get(j);
+                    // 방송과 관련된 트랙 이름과 일치하면 객체 넣기
+                    if (broadcastTrack.getTrack().getTrackId() == trackId) flag = true;
                 }
 
-                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
-                        .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
-                        .textbook(textbookMap).broadcast(broadcast).build();
+                if (flag) {
+                    List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                    Map<String, String> textbookMap = new HashMap<>();
 
-                broadcastReplayInfoList.add(broadcastReplayInfo);
+                    // 방송 관련 교재 가져오기
+                    for (int j = 0; j < textbookList.size(); j++) {
+                        Textbook textbook = textbookList.get(j);
+                        textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                    }
+
+                    BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                            .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                            .textbook(textbookMap).broadcast(broadcast).build();
+
+                    broadcastReplayInfoList.add(broadcastReplayInfo);
+                }
             }
-        }
 
-        return broadcastReplayInfoList;
+            return broadcastReplayInfoList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId) {
-        BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
-        Broadcast broadcast = broadcastReplay.getBroadcast();
-        if (broadcastReplay == null || broadcast == null) return null;
+        try {
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcastReplayId(broadcastReplayId);
+            Broadcast broadcast = broadcastReplay.getBroadcast();
 
-        List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
-        Map<String, String> textbookMap = new HashMap<>();
+            List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+            Map<String, String> textbookMap = new HashMap<>();
 
-        for (int i=0;i<textbookList.size();i++) {
-            Textbook textbook = textbookList.get(i);
-            textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+            for (int i = 0; i < textbookList.size(); i++) {
+                Textbook textbook = textbookList.get(i);
+                textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+            }
+
+            BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplayId)
+                    .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                    .textbook(textbookMap).broadcast(broadcast).build();
+
+            return broadcastReplayInfo;
+        } catch (Exception e) {
+            return null;
         }
-
-        BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplayId)
-                .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
-                .textbook(textbookMap).broadcast(broadcast).build();
-
-        return broadcastReplayInfo;
     }
 }

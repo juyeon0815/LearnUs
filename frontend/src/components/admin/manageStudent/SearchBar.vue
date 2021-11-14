@@ -6,7 +6,7 @@
       @change="changeOrdinal"
     >
       <option 
-        v-for="num in ordinal"
+        v-for="num in ordinalNo"
         :value="num"
         :key="num"
       >{{ num }}기</option>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'SearchBar',
   data () {
@@ -40,13 +40,12 @@ export default {
     }
   }, 
   computed: {
-    ...mapState('admin', ['selectedOrd', 'searchWord']),
-    ...mapGetters('admin', ['ordinal'])
+    ...mapState('admin', ['selectedOrd', 'searchWord', 'ordinalNo']),
   },
   mounted () {
     if (!this.selectedOrd) {
-      this.$store.commit('admin/SET_ORD', this.ordinal[0])
-      this.ord = this.ordinal[0]
+      this.$store.commit('admin/SET_ORD', this.ordinalNo[0])
+      this.ord = this.ordinalNo[0]
     } else {
       this.ord = this.selectedOrd
     }

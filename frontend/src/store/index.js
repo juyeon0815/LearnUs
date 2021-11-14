@@ -3,9 +3,10 @@ import createPersistedState from "vuex-persistedstate";
 import account from './modules/account'
 import admin from './modules/admin'
 import broadcast from './modules/broadcast'
-import chat from './modules/chat'
-import video from './modules/video'
+import gifticon from './modules/gifticon'
+import stomp from './modules/stomp'
 import replay from './modules/replay'
+import video from './modules/video'
 
 const store = createStore({
   plugins: [createPersistedState()],
@@ -13,9 +14,10 @@ const store = createStore({
     account,
     admin,
     broadcast,
-    chat,
-    video,
+    gifticon,
+    stomp,
     replay,
+    video,
   }
 })
 

@@ -22,7 +22,7 @@
         />
       </tbody>
     </table>
-    <div v-if="!currentResult.length" class="empty">
+    <div v-if="currentResult && !currentResult.length" class="empty">
       검색 결과가 없습니다.
     </div>
 
@@ -90,11 +90,17 @@ export default {
     paginatedArea () {
       let start = (this.currentPage - 1) * 10
       let end = this.currentPage * 10
-      return this.currentResult.slice(start, end)
+      if (this.currentResult) {
+        return this.currentResult.slice(start, end)
+      }
+      return null
     },
     totalPage () {
-      const total = this.currentResult.length
-      return Math.ceil(total/10)
+      if (this.currentResult) {
+        const total = this.currentResult.length
+        return Math.ceil(total/10)
+      }
+      return null
     },
   }
 }

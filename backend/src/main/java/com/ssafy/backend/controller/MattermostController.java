@@ -23,33 +23,37 @@ public class MattermostController {
     @GetMapping("/select")
     @ApiOperation(value = "프로 채널 시 기수 선택")
     public ResponseEntity<List<Integer>> selectOrdinalNo() {
-        return new ResponseEntity<>(mattermostService.selectOrdinalNo(), HttpStatus.OK);
+        List<Integer> ordinalList = mattermostService.selectOrdinalNo();
+        if (ordinalList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ordinalList, HttpStatus.OK);
     }
 
     @PostMapping
     @ApiOperation(value = "MM 채널 추가")
     public ResponseEntity<String> insert(@RequestBody MattermostInfo mattermostInfo) {
-        mattermostService.insert(mattermostInfo);
+        if (!mattermostService.insert(mattermostInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "MM 채널 수정")
     public ResponseEntity<String> update(@RequestBody MattermostInfo mattermostInfo) {
-        mattermostService.update(mattermostInfo);
+        if (!mattermostService.update(mattermostInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{mattermostId}")
     @ApiOperation(value = "MM 채널 삭제")
     public ResponseEntity<String> delete(@PathVariable("mattermostId") int mattermostId) {
-        if (mattermostService.delete(mattermostId)) return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
-        return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
+        if (!mattermostService.delete(mattermostId)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "MM 채널 조회")
     public ResponseEntity<List<MattermostInfo>> getMattermostAll() {
-        return new ResponseEntity<>(mattermostService.getMattermostAll(), HttpStatus.OK);
+        List<MattermostInfo> mattermostInfoList = mattermostService.getMattermostAll();
+        if (mattermostInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>(mattermostInfoList, HttpStatus.OK);
     }
 }

@@ -3,11 +3,11 @@
     <div 
       :class="[alertInfo.type === 'fail' ? 'yellow' : 'blue' ,'alert top-abs']" 
       v-if="isAlertShow">{{ alertInfo.message }}</div>
-    <CanclePopup 
+    <CancelPopup 
       v-if="isModalOn"
       @hideModal="hideModal"
       @confirmDelete="onConfirmDelete"
-      :broadcast="cancleExpected"/>
+      :broadcast="cancelExpected"/>
     <div v-if="broadcastByDate">
       <span class="title">LIVE<span class="colon">:</span>Schedule</span>
       <ScheduleList 
@@ -15,7 +15,7 @@
         :key="name"
         :date="name"
         :scheduleList="value"
-        @onCancle="onCancle"/>
+        @onCancel="onCancel"/>
     </div>
   </div>
 </template>
@@ -23,18 +23,18 @@
 <script>
 import "./liveSchedule.scss"
 import ScheduleList from '@/components/broadcast/schedule/ScheduleList'
-import CanclePopup from '@/components/broadcast/schedule/CanclePopup'
+import CancelPopup from '@/components/broadcast/schedule/CancelPopup'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'LiveSchedule',
   components: {
     ScheduleList,
-    CanclePopup,
+    CancelPopup,
   },
   data() {
     return {
-      cancleExpected: null,
+      cancelExpected: null,
       isModalOn: false,
       alertInfo: {
         type: null,
@@ -47,18 +47,18 @@ export default {
   methods: {
     ...mapActions('broadcast', ['getBroadcastList', 'deleteBroadcast']),
     ...mapMutations('broadcast', ['SET_HTTP_STATUS']),
-    onCancle(broadcast) {
-      this.cancleExpected = broadcast
+    onCancel(broadcast) {
+      this.cancelExpected = broadcast
       this.isModalOn = true
     },
     hideModal() {
-      this.cancleExpected = null
+      this.cancelExpected = null
       this.isModalOn = false
     },
     async onConfirmDelete() {
-      await this.deleteBroadcast(this.cancleExpected.broadcastId)
+      await this.deleteBroadcast(this.cancelExpected.broadcastId)
       this.isModalOn = false
-      this.cancleExpected = null
+      this.cancelExpected = null
       if (this.httpStatus !== null) {
         const alertInfo = {
           type: 'fail',
@@ -94,7 +94,7 @@ export default {
     this.getBroadcastList()
   },
   mounted() {
-    if(this.prevRoute.name === 'CreateLive' && this.httpStatus === 200) {
+    if(this.prevRoute && this.prevRoute.name === 'CreateLive' && this.httpStatus === 200) {
       const alertInfo = {
         type: 'success',
         message: '방송이 생성되었습니다.',

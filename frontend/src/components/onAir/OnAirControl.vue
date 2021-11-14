@@ -1,6 +1,5 @@
 <template>
   <div class="on-air-control">
-    <ControlStudentTable v-if="studentDetail"/>
     <div class="default">
       <VideoPreview/>
       <VideoInfo/>
@@ -32,7 +31,6 @@ import './onAirControl.scss'
 import VideoInfo from './studio/VideoInfo.vue'
 import VideoPreview from './studio/VideoPreview.vue'
 import ControlStudent from './studio/ControlStudent.vue'
-import ControlStudentTable from './studio/ControlStudentTable.vue'
 import ControlGifticon from './studio/ControlGifticon.vue'
 import ControlQuiz from './studio/ControlQuiz.vue'
 export default {
@@ -42,13 +40,11 @@ export default {
     VideoPreview,
     ControlGifticon,
     ControlStudent,
-    ControlStudentTable,
     ControlQuiz
   },
   data () {
     return {
       control: 0,
-      studentDetail: false,
     }
   },
   methods: {

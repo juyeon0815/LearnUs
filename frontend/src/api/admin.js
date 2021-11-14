@@ -93,9 +93,9 @@ export default {
       method: 'delete',
     })
   },
-  changeCurrentSubject (name) {
+  changeCurrentSubject (id) {
     return _axios({
-      url: `trackSubject/current/${name}`,
+      url: `trackSubject/current/${id}`,
       method: 'patch',
     })
   },

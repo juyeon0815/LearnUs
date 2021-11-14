@@ -44,6 +44,7 @@ export default {
   },
   created () {
     this.$store.dispatch('admin/getStudents')
+    this.$store.dispatch('admin/getOrdinalAll')
   }
 }
 </script>
