@@ -175,9 +175,27 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
-    public List<BroadcastInfo> getBroadcastAll(String liveCode) {
+    public List<BroadcastInfo> getBroadcastAll(String liveCode, String accessToken) {
         try {
-            List<Broadcast> broadcastList = broadcastDao.findBroadcastsByLiveCode(liveCode);
+            // 객체 정보 가져오기
+            List<String> userInfo = redisService.getListValue(accessToken);
+            User user = userDao.findUserByUserId(Integer.parseInt(userInfo.get(0)));
+
+            List<Broadcast> broadcastList = new ArrayList<>();
+
+            if (user.getStatusCode().equals("A")) {
+                broadcastList = broadcastDao.findBroadcastsByLiveCode(liveCode);
+            } else {
+                // 객체에 연관된 방송만 보여주기
+                Track track = user.getTrack();
+
+                List<BroadcastTrack> broadcastTrackList = broadcastTrackDao.findBroadcastTracksByTrack(track);
+                for (int i=0;i<broadcastTrackList.size();i++) {
+                    BroadcastTrack broadcastTrack = broadcastTrackList.get(i);
+                    Broadcast broadcast = broadcastTrack.getBroadcast();
+                    if (broadcast.getLiveCode().equals(liveCode)) broadcastList.add(broadcast);
+                }
+            }
 
             List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
             for (int i = 0; i < broadcastList.size(); i++) {

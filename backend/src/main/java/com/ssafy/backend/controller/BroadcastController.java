@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -48,8 +49,8 @@ public class BroadcastController {
 
     @GetMapping("/all/{liveCode}")
     @ApiOperation(value = "방송 조회 (onAir, 방송 전)")
-    public ResponseEntity<List<BroadcastInfo>> getBroadcastAll(@PathVariable("liveCode") String liveCode) {
-        List<BroadcastInfo> broadcastInfoList = broadcastService.getBroadcastAll(liveCode);
+    public ResponseEntity<List<BroadcastInfo>> getBroadcastAll(@PathVariable("liveCode") String liveCode, HttpServletRequest request) {
+        List<BroadcastInfo> broadcastInfoList = broadcastService.getBroadcastAll(liveCode, request.getHeader("accessToken"));
         if (broadcastInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(broadcastInfoList, HttpStatus.OK);
     }
@@ -140,5 +141,21 @@ public class BroadcastController {
         List<ChatInfo> chatInfoList = broadcastService.getChatInfoList(broadcastId);
         if (chatInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(chatInfoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/attendance/after/{broadcastId}")
+    @ApiOperation(value = "방송 후 출석 관련 조회 (전체 출석 인원, 출석 완료한 인원")
+    public ResponseEntity<Map<String, Integer>> getAttendanceAfter(@PathVariable("broadcastId") int broadcastId) {
+        Map<String, Integer> map = broadcastService.getAttendanceAfter(broadcastId);
+        if (map == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/after/{broadcastId}")
+    @ApiOperation(value = "방송 후 방송 객체, 방송 다시보기 객체 조회")
+    public ResponseEntity<Map<String, Object>> getBroadcastAndBroadcastReplay(@PathVariable("broadcastId") int broadcastId) {
+        Map<String, Object> map = broadcastService.getBroadcastAndBroadcastReplay(broadcastId);
+        if (map == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

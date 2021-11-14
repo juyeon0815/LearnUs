@@ -15,7 +15,7 @@ public interface BroadcastService {
     boolean delete(int broadcastId);
     boolean attend(int broadcastId, int userId);
     Map<String, List<Attendance>> getAttendance(int broadcastId);
-    List<BroadcastInfo> getBroadcastAll(String liveCode);
+    List<BroadcastInfo> getBroadcastAll(String liveCode, String accessToken);
     BroadcastInfo getBroadcast(int broadcastId);
     boolean start(int broadcastId);
     boolean isAttend(int broadcastId);
