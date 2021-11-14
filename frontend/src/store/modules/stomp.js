@@ -4,6 +4,7 @@ import quizApi from '@/api/quiz'
 const state = {
   stomp: null,
   chatList: null,
+  viewers: 0,
   attendCheck: false,
   // 성공하면 1, 실패하면 2
   attendResult: null,
@@ -97,6 +98,9 @@ const actions = {
 const mutations = {
   SET_STOMP (state, payload) {
     state.stomp = payload
+  },
+  SET_VIEWERS (state, payload) {
+    state.viewers = payload
   },
   SET_ATTEND_CHECK (state, payload) {
     state.attendCheck = payload

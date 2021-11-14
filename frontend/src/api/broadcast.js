@@ -82,5 +82,50 @@ export default {
         'broadcastId': id
       }
     })
-  }
+  },
+  endBroadcast(data) {
+    return _axios({
+      url: 'broadcast/end/replay',
+      method: 'post',
+      params: data
+    })
+  },
+  sendAttendMM (id) {
+    return _axios({
+      url: 'broadcast/end/attendance',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadAttendance (id) {
+    return _axios({
+      url: 'broadcast/end/attendance/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  sendGifticonMM (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadGifticon (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  
+
 }
