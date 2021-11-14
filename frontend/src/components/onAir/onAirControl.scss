@@ -51,7 +51,12 @@
           width: .5rem;
           height: .5rem;
           border-radius: 100%;
-          background: $orange;
+          &.on {
+            background: $orange;
+          }
+          &.off {
+            background: $blank-grey;
+          }
         }
       }
       span {
