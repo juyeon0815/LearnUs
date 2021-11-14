@@ -1,5 +1,6 @@
 import router from '@/router'
 import broadcastApi from '@/api/broadcast'
+import quizApi from '@/api/quiz'
 
 const state = {
   broadcastList: null,
@@ -8,6 +9,7 @@ const state = {
   studentTarget: null,
   httpStatus: null,
   onairList: null,
+  quizResult: null,
 }
 
 const actions = {
@@ -92,6 +94,16 @@ const actions = {
         console.log(err)
       })
   },
+  async getQuizResult ({ commit }, id) {
+    try {
+      const response = await quizApi.getQuizResult(id)
+      if (response.status === 200) {
+        commit('SET_QUIZ_RESULT', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 }
 
 const mutations = {
@@ -117,6 +129,9 @@ const mutations = {
   },
   SET_ONAIR_LIST (state, payload) {
     state.onairList = payload
+  },
+  SET_QUIZ_RESULT (state, payload) {
+    state.quizResult = payload
   }
 }
 
@@ -130,10 +145,12 @@ const getters = {
   studentData (state) {
     if (state.studentTarget) {
       return state.studentList[state.studentTarget]
-    } else {
-      return null
     }
+    return null
   },
+  // attendanceCnt (state) {
+
+  // },
   broadcastByDate(state) {
     /* function leftZero(val) {
       if (val < 10) {
