@@ -32,14 +32,15 @@ const actions = {
       })
   },
   // 방송 상세 정보 조회 및 수정
-  getBroadcastDetail({commit}, id) {
-    broadcastApi.getBroadcastDetail(id)
-      .then((res) => {
-        commit('SET_BROADCAST_DETAIL', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async getBroadcastDetail({ commit }, id) {
+    try {
+      const response = await broadcastApi.getBroadcastDetail(id)
+      if (response.status === 200) {
+        commit('SET_BROADCAST_DETAIL', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   },
   // 방송 생성 
   async createBroadcast ({ commit }, data) {
