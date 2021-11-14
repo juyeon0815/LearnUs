@@ -83,21 +83,14 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     public boolean delete(int trackSubjectId) {
         try {
             TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectId);
-
+            TrackSubject updateTrackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(1);
             // 관련 트랙 가져오기
             List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
 
             for (int i = 0; i < trackList.size(); i++) {
                 Track track = trackList.get(i);
-                // 트랙과 관련된 유저 가져오기
-                List<User> userList = userDao.findUserByTrack(track);
-                for (int j = 0; j < userList.size(); j++) {
-                    User user = userList.get(j);
-                    Track saveTrack = trackDao.findTrackByTrackId(1);
-                    // 유저 연관 끊어주기
-                    user.setTrack(saveTrack);
-                    userDao.save(user);
-                }
+                track.setTrackSubject(updateTrackSubject);
+                trackDao.save(track);
             }
 
             trackSubjectDao.delete(trackSubject);

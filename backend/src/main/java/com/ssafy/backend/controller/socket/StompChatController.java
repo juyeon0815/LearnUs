@@ -19,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Log4j2
 public class StompChatController {
+    private static final String ATTENDANCE_EXCHANGE_NAME = "attendance.exchange";
     private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
     private static final String ADMIN_EXCHANGE_NAME = "admin.exchange";
 

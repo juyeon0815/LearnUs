@@ -35,6 +35,7 @@ public class UserController {
         Map<String, Object> map = userService.login(login.getEmail(), login.getPassword(), res);
         if (map == null) entity = ResponseEntity.badRequest().body(null);
         else if (map.containsKey("msg")) entity = ResponseEntity.badRequest().body(map);
+        else if (map.containsKey("fail")) entity = ResponseEntity.status(403).body(map);
         else entity = ResponseEntity.ok().body(map);
 
         return entity;

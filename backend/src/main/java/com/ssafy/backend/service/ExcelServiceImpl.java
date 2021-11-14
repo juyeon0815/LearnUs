@@ -39,96 +39,107 @@ public class ExcelServiceImpl implements ExcelService{
     }
 
     @Override
-    public void createExcelAttendance(Broadcast broadcast, List<Attendance> attendanceList, HttpServletResponse response) throws IOException{
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("미참석자 명단");
-        Row row = null;
-        Cell cell = null;
-        int rowNum = 0;
+    public boolean createExcelAttendance(Broadcast broadcast, List<Attendance> attendanceList, HttpServletResponse response) throws IOException {
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("미참석자 명단");
+            Row row = null;
+            Cell cell = null;
+            int rowNum = 0;
 
-        // Header
-        row = sheet.createRow(rowNum++);
-        cell = row.createCell(0);
-        cell.setCellValue("번호");
-        cell = row.createCell(1);
-        cell.setCellValue("기수");
-        cell = row.createCell(2);;
-        cell.setCellValue("학번");
-        cell = row.createCell(3);
-        cell.setCellValue("이름");
-        cell = row.createCell(4);
-        cell.setCellValue("지역");
-        cell = row.createCell(5);
-        cell.setCellValue("반");
-
-        // Body
-        for (int i=0;i<attendanceList.size();i++) {
-            User user = attendanceList.get(i).getUser();
+            // Header
             row = sheet.createRow(rowNum++);
             cell = row.createCell(0);
-            cell.setCellValue(i+1);
+            cell.setCellValue("번호");
             cell = row.createCell(1);
-            cell.setCellValue(user.getOrdinalNo());
+            cell.setCellValue("기수");
             cell = row.createCell(2);
-            cell.setCellValue(user.getUserId());
+            cell.setCellValue("학번");
             cell = row.createCell(3);
-            cell.setCellValue(user.getName());
+            cell.setCellValue("이름");
             cell = row.createCell(4);
-            cell.setCellValue(user.getRegion());
+            cell.setCellValue("지역");
             cell = row.createCell(5);
-            cell.setCellValue(user.getClassNo());
+            cell.setCellValue("반");
+
+            // Body
+            for (int i = 0; i < attendanceList.size(); i++) {
+                User user = attendanceList.get(i).getUser();
+                row = sheet.createRow(rowNum++);
+                cell = row.createCell(0);
+                cell.setCellValue(i + 1);
+                cell = row.createCell(1);
+                cell.setCellValue(user.getOrdinalNo());
+                cell = row.createCell(2);
+                cell.setCellValue(user.getUserId());
+                cell = row.createCell(3);
+                cell.setCellValue(user.getName());
+                cell = row.createCell(4);
+                cell.setCellValue(user.getRegion());
+                cell = row.createCell(5);
+                cell.setCellValue(user.getClassNo());
+            }
+
+            // 타입과 파일명 지정
+            String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+            response.setContentType("ms-vnd/excel");
+            response.setHeader("content-disposition", "attachment;filename=[" + broadcast.getTitle() + "] attendance (" + formatDate + ").xlsx");
+
+            // file output
+            workbook.write(response.getOutputStream());
+            response.getOutputStream().close();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        // 타입과 파일명 지정
-        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
-        response.setContentType("ms-vnd/excel");
-        response.setHeader("content-disposition", "attachment;filename=["+ broadcast.getTitle() + "] attendance (" + formatDate + ").xlsx");
-
-        // file output
-        workbook.write(response.getOutputStream());
-        response.getOutputStream().close();
     }
 
     @Override
-    public void createExcelGifticon(Broadcast broadcast, List<Gifticon> gifticonList, HttpServletResponse response) throws IOException {
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("기프티콘 당첨자 명단");
-        Row row = null;
-        Cell cell = null;
-        int rowNum = 0;
+    public boolean createExcelGifticon(Broadcast broadcast, List<Gifticon> gifticonList, HttpServletResponse response) throws IOException {
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("기프티콘 당첨자 명단");
+            Row row = null;
+            Cell cell = null;
+            int rowNum = 0;
 
-        // Header
-        row = sheet.createRow(rowNum++);
-        cell = row.createCell(0);
-        cell.setCellValue("번호");
-        cell = row.createCell(1);
-        cell.setCellValue("학번");
-        cell = row.createCell(2);;
-        cell.setCellValue("이름");
-        cell = row.createCell(3);
-        cell.setCellValue("번호");
-
-        // Body
-        for (int i=0;i<gifticonList.size();i++) {
-            User user = gifticonList.get(i).getUser();
+            // Header
             row = sheet.createRow(rowNum++);
             cell = row.createCell(0);
-            cell.setCellValue(i+1);
+            cell.setCellValue("번호");
             cell = row.createCell(1);
-            cell.setCellValue(user.getUserId());
+            cell.setCellValue("학번");
             cell = row.createCell(2);
-            cell.setCellValue(user.getName());
+            ;
+            cell.setCellValue("이름");
             cell = row.createCell(3);
-            cell.setCellValue(user.getPhone());
+            cell.setCellValue("번호");
+
+            // Body
+            for (int i = 0; i < gifticonList.size(); i++) {
+                User user = gifticonList.get(i).getUser();
+                row = sheet.createRow(rowNum++);
+                cell = row.createCell(0);
+                cell.setCellValue(i + 1);
+                cell = row.createCell(1);
+                cell.setCellValue(user.getUserId());
+                cell = row.createCell(2);
+                cell.setCellValue(user.getName());
+                cell = row.createCell(3);
+                cell.setCellValue(user.getPhone());
+            }
+
+            // 타입과 파일명 지정
+            String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+            response.setContentType("ms-vnd/excel");
+            response.setHeader("content-disposition", "attachment;filename=[" + broadcast.getTitle() + "] gifticon (" + formatDate + ").xlsx");
+
+            // file output
+            workbook.write(response.getOutputStream());
+            response.getOutputStream().close();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        // 타입과 파일명 지정
-        String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
-        response.setContentType("ms-vnd/excel");
-        response.setHeader("content-disposition", "attachment;filename=["+ broadcast.getTitle() + "] gifticon (" + formatDate + ").xlsx");
-
-        // file output
-        workbook.write(response.getOutputStream());
-        response.getOutputStream().close();
     }
 }

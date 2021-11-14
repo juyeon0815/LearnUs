@@ -31,6 +31,8 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
     private QuizDao quizDao;
     @Autowired
     private GifticonService gifticonService;
+    @Autowired
+    private GifticonDao gifticonDao;
 
     @Override
     public boolean insert(QuizAnswerInfo quizAnswerInfo) {
@@ -76,11 +78,15 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
             int addScore = 5;
             for (int i = 0; i < index; i++) {
                 QuizAnswer quizAnswer = quizAnswerList.get(i);
+                quizAnswer.getUser().setPassword("");
                 Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(quiz.getBroadcast(), quizAnswer.getUser());
-                if (i == 0) {
-                    GifticonInfo gifticonInfo = GifticonInfo.builder().broadcastId(quizAnswer.getQuiz().getBroadcast().getBroadcastId())
-                            .userId(attendance.getUser().getUserId() + "").build();
-                    gifticonService.insert(gifticonInfo);
+                if (i == 0) { // 퀴즈 1등 기프티콘에 주가 (이미 기프티콘 받았다면 있으면 추가 x)
+                    Gifticon gifticon = gifticonDao.findGifticonByUserAndBroadcast(quizAnswer.getUser(), quizAnswer.getQuiz().getBroadcast());
+                    if (gifticon == null) {
+                        GifticonInfo gifticonInfo = GifticonInfo.builder().broadcastId(quizAnswer.getQuiz().getBroadcast().getBroadcastId())
+                                .userId(attendance.getUser().getUserId() + "").build();
+                        gifticonService.insert(gifticonInfo);
+                    }
                 }
                 attendance.setQuizScore(attendance.getQuizScore() + addScore);
                 addScore -= 2;
@@ -92,7 +98,7 @@ public class QuizAnswerServiceImpl implements QuizAnswerService{
     }
 
     @Override
-    public Map<Object, Integer> getQuizAnswerRate(int quizId) {
+    public Map<Object, Integer> getQuizAnswerRate(int quizId) { // 퀴즈 순위권, 정답 비율
         try {
             Quiz quiz = quizDao.findQuizByQuizId(quizId);
             List<QuizAnswer> quizAnswerList = quizAnswerDao.findQuizAnswersByQuiz(quiz);
