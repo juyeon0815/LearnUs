@@ -42,7 +42,7 @@ export default {
   computed: {
     ...mapState('broadcast', ['studentList']),
     classList () {
-      return Object.keys(this.studentList)
+      return Object.keys(this.studentList).sort()
     }
   }
 }
