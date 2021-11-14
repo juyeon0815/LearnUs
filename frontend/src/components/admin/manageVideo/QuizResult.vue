@@ -21,8 +21,5 @@ export default {
   computed: {
     ...mapState('broadcast', ['quizResult'])
   },
-  created () {
-    this.$store.dispatch('broadcast/getQuizResult', this.$route.params.id)
-  }
 }
 </script>

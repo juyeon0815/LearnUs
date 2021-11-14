@@ -1,6 +1,6 @@
 <template>
   <div class="video-info">
-    <div class="data">
+    <div v-if="broadcastDetail" class="data">
       <div class="info-row">
         <span class="key">Title</span>
         <span class="val">{{ broadcastDetail.title }}</span>
@@ -25,18 +25,38 @@
         <span class="key">Description</span>
         <span class="val">{{ description }}</span>
       </div>
+      <div class="btns">
+        <button
+          class="btn black"
+          @click="downloadAbsenceList"
+        >
+          <div class="btn-content">
+            <i class="fi fi-rr-download"></i>
+            <span>미출석자 명단</span>
+          </div>
+        </button>
+        <button
+          class="btn black"
+          @click="downloadGifticonList"
+        >
+          <div class="btn-content">
+            <i class="fi fi-rr-download"></i>
+            <span>기프티콘 당첨자 명단</span>
+          </div>
+        </button>
+      </div>
     </div>
     <div class="brief">
       <div class="brief-col">
-        <span class="val">156</span>
+        <span class="val">{{ broadcastCnt.attend }}</span>
         <span class="label">Students</span>
       </div>
       <div class="brief-col">
-        <span class="val">60</span>
+        <span class="val">{{ broadcastDetail.chatCount }}</span>
         <span class="label">Chats</span>
       </div>
       <div class="brief-col">
-        <span class="val">10</span>
+        <span class="val">{{ quizCnt }}</span>
         <span class="label">Quizzes</span>
       </div>
     </div>
@@ -44,17 +64,64 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import moment from 'moment'
+import { mapState, mapGetters } from 'vuex'
+import broadcastApi from '@/api/broadcast'
 
 export default {
   name: 'BroadcastVideoInfo',
+  methods: {
+    getFileName (contentDisposition) {
+      let fileName = contentDisposition.split("=");
+      return fileName[1];
+    },
+    async downloadAbsenceList () {
+      try {
+        const response = await broadcastApi.downloadAttendance(this.currentBroadcastId)
+        console.log(response)
+        if (response.status === 200) {
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
+          const fileName = `[${this.broadcastDetail.title}] 미출석자 명단(${this.date}).xlsx`
+          
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', fileName)
+          link.click()
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async downloadGifticonList () {
+      try {
+        const response = await broadcastApi.downloadGifticon(this.currentBroadcastId)
+        console.log(response)
+        if (response.status === 200) {
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
+          const fileName = `[${this.broadcastDetail.title}] 기프티콘 당첨자 명단(${this.date}).xlsx`
+          
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', fileName)
+          link.click()
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    
+  },
   computed: {
-    ...mapState('broadcast', ['broadcastDetail']),
+    ...mapState('broadcast', ['broadcastDetail', 'broadcastCnt']),
+    ...mapGetters('broadcast', ['currentBroadcastId', 'quizCnt']),
     description () {
-      if (this.broadcastDetail.description.length <= 150) {
+      if (this.broadcastDetail.description.length <= 50) {
         return this.broadcastDetail.description
       }
-      return this.broadcastDetail.description.slice(0, 150) + '···'
+      return this.broadcastDetail.description.slice(0, 50) + '···'
+    },
+    date () {
+      return moment(this.broadcastDetail.broadcastDate).locale('ko').format('L')
     }
   }
 }
