@@ -206,7 +206,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                         .streamingKey(broadcast.getStreamingKey())
                         .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
                         .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
-                        .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).build();
+                        .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).chatCount(broadcast.getChatCount()).build();
 
                 broadcastInfoList.add(broadcastInfo);
             }
@@ -244,7 +244,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                     .streamingKey(broadcast.getStreamingKey())
                     .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
                     .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
-                    .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).build();
+                    .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).chatCount(broadcast.getChatCount()).build();
 
             return broadcastInfo;
         } catch (Exception e) {
@@ -363,6 +363,50 @@ public class BroadcastServiceImpl implements BroadcastService {
         }
     }
 
+    public void attendanceSort(List<Attendance> sortList) {
+        Collections.sort(sortList, new Comparator<Attendance>() {
+            @Override
+            public int compare(Attendance o1, Attendance o2) {
+                if (o1.getUser().getOrdinalNo() == o2.getUser().getOrdinalNo()) { // 기수가 같다면
+                    if (o1.getUser().getRegion().equals(o2.getUser().getRegion())) { // 지역이 같다면
+                        if (o1.getUser().getClassNo() == o2.getUser().getClassNo()) { // 반이 같다면
+                            // 아이디 정렬
+                            return Integer.compare(o1.getUser().getUserId(), o2.getUser().getUserId());
+                        }
+                        // 반 정렬
+                        return Integer.compare(o1.getUser().getClassNo(), o2.getUser().getClassNo());
+                    }
+                    // 지역 정렬
+                    return o1.getUser().getRegion().compareTo(o2.getUser().getRegion());
+                }
+                // 기수 정렬
+                return Integer.compare(o1.getUser().getOrdinalNo(), o2.getUser().getOrdinalNo());
+            }
+        });
+    }
+
+    public void gifticonSort(List<Gifticon> sortList) {
+        Collections.sort(sortList, new Comparator<Gifticon>() {
+            @Override
+            public int compare(Gifticon o1, Gifticon o2) {
+                if (o1.getUser().getOrdinalNo() == o2.getUser().getOrdinalNo()) { // 기수가 같다면
+                    if (o1.getUser().getRegion().equals(o2.getUser().getRegion())) { // 지역이 같다면
+                        if (o1.getUser().getClassNo() == o2.getUser().getClassNo()) { // 반이 같다면
+                            // 아이디 정렬
+                            return Integer.compare(o1.getUser().getUserId(), o2.getUser().getUserId());
+                        }
+                        // 반 정렬
+                        return Integer.compare(o1.getUser().getClassNo(), o2.getUser().getClassNo());
+                    }
+                    // 지역 정렬
+                    return o1.getUser().getRegion().compareTo(o2.getUser().getRegion());
+                }
+                // 기수 정렬
+                return Integer.compare(o1.getUser().getOrdinalNo(), o2.getUser().getOrdinalNo());
+            }
+        });
+    }
+
     @Override
     public boolean endAttendance(int broadcastId) {
         try {
@@ -377,15 +421,23 @@ public class BroadcastServiceImpl implements BroadcastService {
                 TrackSetting trackSetting = broadcastTrackList.get(i).getTrack().getTrackSubject().getTrackSetting();
                 if (!trackSettingSet.contains(trackSetting)) trackSettingSet.add(trackSetting);
             }
+
             Iterator<TrackSetting> iterator = trackSettingSet.iterator();
             while (iterator.hasNext()) {
                 TrackSetting trackSetting = iterator.next();
-                Mattermost mattermost = mattermostDao.findMattermostByTrackSetting(trackSetting);
-                if (mattermost != null) mattermostList.add(mattermost);
+                List<Mattermost> mattermostTrackSettingList = mattermostDao.findMattermostsByTrackSetting(trackSetting);
+                for (int i=0;i<mattermostTrackSettingList.size();i++) {
+                    Mattermost mattermost = mattermostTrackSettingList.get(i);
+                    mattermostList.add(mattermost);
+                }
             }
 
             // 미참석자 명단 가져오기
             List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
+
+            // 미참석자 명단 정렬
+            attendanceSort(attendanceList);
+
             StringBuilder sb = new StringBuilder();
             // 날짜 format
             String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
@@ -420,6 +472,8 @@ public class BroadcastServiceImpl implements BroadcastService {
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
             List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
+            // 명단 정렬
+            attendanceSort(attendanceList);
             if (!excelService.createExcelAttendance(broadcast, attendanceList, response)) return false;
             return true;
         } catch (Exception e) {
@@ -448,6 +502,9 @@ public class BroadcastServiceImpl implements BroadcastService {
 
             // 기프티콘 명단 가져오기
             List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+
+            // 기프티콘 명단 정렬
+            gifticonSort(gifticonList);
 
             StringBuilder sb = new StringBuilder();
             // 날짜 format
@@ -483,6 +540,8 @@ public class BroadcastServiceImpl implements BroadcastService {
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
             List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
+            // 기프티콘 명단 정렬
+            gifticonSort(gifticonList);
             if (!excelService.createExcelGifticon(broadcast, gifticonList, response)) return false;
             return true;
         } catch (Exception e) {
@@ -539,6 +598,38 @@ public class BroadcastServiceImpl implements BroadcastService {
         try {
             List<ChatInfo> chatInfoList = redisService.getChatInfoValue("chat" + broadcastId);
             return chatInfoList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Map<String, Integer> getAttendanceAfter(int broadcastId) {
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
+            List<Attendance> attendanceCompleteList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "Y");
+
+            Map<String, Integer> map = new HashMap<>();
+            map.put("totalAttend", attendanceList.size());
+            map.put("attend", attendanceCompleteList.size());
+
+            return map;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getBroadcastAndBroadcastReplay(int broadcastId) {
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("broadcast", broadcast);
+            map.put("broadcastReplay", broadcastReplay);
+            return map;
         } catch (Exception e) {
             return null;
         }

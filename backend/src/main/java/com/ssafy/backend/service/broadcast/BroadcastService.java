@@ -27,4 +27,7 @@ public interface BroadcastService {
     boolean endReplayInsert(int broadcastId, String autoUploadYn);
 
     List<ChatInfo> getChatInfoList(int broadcastId);
+
+    Map<String, Integer> getAttendanceAfter(int broadcastId);
+    Map<String, Object> getBroadcastAndBroadcastReplay(int broadcastId);
 }
