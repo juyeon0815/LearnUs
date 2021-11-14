@@ -11,7 +11,7 @@
         <span 
           class="info-title" 
           @click="$router.push({ name: 'OnAirStudio', params: { id: broadcast.broadcastId }})">
-        {{ broadcast.title }}
+          {{ broadcast.title }}
         </span>
         <span 
           class="cancle-broadcast" 

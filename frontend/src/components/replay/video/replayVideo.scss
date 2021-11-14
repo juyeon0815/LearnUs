@@ -1,0 +1,10 @@
+@import "@/assets/style/_color.scss";
+
+.video-js {
+  .vjs-control-bar {
+    background-color: rgba($dark, 0.2) !important;
+  }
+  .vjs-time-control {
+    display: block;
+  }
+}

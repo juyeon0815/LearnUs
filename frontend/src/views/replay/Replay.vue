@@ -2,8 +2,8 @@
   <div class="replay">
     <div class="row">
       <span class="title">RE<span class="colon">:</span>PLAY</span>
+      <ReplaySelect v-if="this.$route.params.category != 'all'" />
     </div>
-    <TrackInfo v-if="this.$route.params.category != 'all'" />
     <ReplayList />
   </div>
 </template>
@@ -12,7 +12,7 @@
 import "./replay.scss";
 
 import ReplayList from "@/components/replay/ReplayList";
-import TrackInfo from "@/components/replay/ReplaySelect";
+import ReplaySelect from "@/components/replay/ReplaySelect";
 
 export default {
   name: "Replay",
@@ -23,19 +23,27 @@ export default {
   },
   components: {
     ReplayList,
-    TrackInfo,
+    ReplaySelect,
   },
   watch: {
-    '$route' () {
-      if (this.$route.name === 'Replay') {
-        const category = this.$route.params.category
-        console.log(category)
-        if(category === 'all') {
-          console.log("여기들어와서 지운다잉")
-          this.$store.commit('replay/SET_BROADCASTS_TRACK',null)
-        }
+    $route() {
+      if (this.$route.name === "Replay") {
+        const category = this.$route.params.category;
+        if (category === "all") {
+          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
+        }else
+          this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
       }
-    }
+    },
+  },
+  created(){
+    if (this.$route.name === "Replay") {
+      const category = this.$route.params.category;
+        if (category === "all") {
+          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
+        }else
+        this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
+      }
   }
-}
+};
 </script>

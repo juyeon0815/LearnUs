@@ -1,13 +1,14 @@
 <template>
   <div class="on-air-list">
     <div class="chapter">ON<span class="t-orange">:</span>AIR</div>
-    <div ref="wrapper" class="wrapper">
+    <div ref="wrapper" class="wrapper" v-if="onairList">
       <div ref="carousel" class="carousel">
         <div ref="content" class="row">
           <OnAirListItem
-            v-for="idx in 7"
-            :key="idx"
+            v-for="(broadcast, idx) in onairList"
+            :key="broadcast.broadcasId"
             :idx="idx"
+            :broadcast="broadcast"
           />
         </div>
       </div>
@@ -29,13 +30,16 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import OnAirListItem from './OnAirListItem'
+
 export default {
   name: 'OnAirList',
   components: {
     OnAirListItem
   },
   methods: {
+    ...mapActions('broadcast', ['getOnairList']),
     move(dir) {
       const gap = 32
       const item = 300
@@ -67,6 +71,12 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapState('broadcast', ['onairList'])
+  },
+  created() {
+    this.getOnairList()
   }
 }
 </script>

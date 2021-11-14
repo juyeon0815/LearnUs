@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface UserService {
     Map<String, Object> login(String email, String password, HttpServletResponse res);
-    void insert(MultipartFile excelFile) throws IOException;
-    void updateList(MultipartFile excelFile) throws IOException;
-    void updateUser(User updateUser);
+    boolean insert(MultipartFile excelFile) throws IOException;
+    boolean updateList(MultipartFile excelFile) throws IOException;
+    boolean updateUser(User updateUser);
     boolean updatePW(int userId, String originPW, String newPW);
     Map<String, List<User>> getTrackUser(List<String> trackList);
     Map<Integer, List<User>> getUserAll();
@@ -21,5 +21,5 @@ public interface UserService {
     boolean getPwCheck(String email, int userId, String phone);
     boolean resetPW(int userId, String newPW);
 
-    void userChatSend(int userId, int broadcastId);
+    boolean userChatSend(int userId, int broadcastId);
 }

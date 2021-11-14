@@ -3,22 +3,25 @@
     <div class="input-box">
       <div class="profile"></div>
       <div class="input-area">
-        <div class="user-info">우만승[서울_3반_A306]</div>
+        <div class="user-info">{{ userInfo.nickname }}</div>
         <textarea 
           ref="chatInputArea"
           v-model="content"
           @keydown="autosizeInput"
           @keyup="autosizeInput"
+          @keydown.enter.prevent
+          @keyup.enter="send"
           type="text"
           placeholder="메시지를 입력해주세요."
         ></textarea>
-        <i class="fi fi-rr-paper-plane"></i>
+        <i class="fi fi-rr-paper-plane" @click="send"></i>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'OnAirChatInput',
   data () {
@@ -35,7 +38,26 @@ export default {
       textarea.style.height = "1px"
       textarea.style.height = (textarea.scrollHeight + 6) + "px"
       this.$emit('autosize', textarea.style.height)
-    }
+    },
+    send() {
+      this.stomp.send(
+        `/pub/chat.message.${this.currentBroadcastId}`,
+        {},
+        JSON.stringify({
+          message: this.content,
+          nickName: this.userInfo.nickname,
+          userId: this.userInfo.userId,
+          profileUrl: this.userInfo.profileUrl,
+          regDate: new Date(),
+        })
+      )
+      this.content = ''
+    },
+  },
+  computed: {
+    ...mapState('stomp', ['stomp']),
+    ...mapState('account', ['userInfo']),
+    ...mapGetters('broadcast', ['currentBroadcastId'])
   }
 }
 </script>

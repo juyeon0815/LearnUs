@@ -1,8 +1,9 @@
 <template>
   <div class="track-current">
     <div class="select-box">
-      <select class="ordinal-select" v-model="selectTrack" @change="changeSubject">
-        <!-- //<option disabled value="">전체보기</option> -->
+      <select class="ordinal-select" 
+        v-model="selectTrack" 
+        @change="changeSubject">
         <option
           class="decorated"
           v-for="track in trackList"
@@ -30,19 +31,15 @@ export default {
   methods: {
     changeSubject(event) {
       this.selectTrack = event.target.value;
-      console.log(this.selectTrack);
-
       this.selectTrackId = this.trackList.find((track) => {
         return track.trackName === this.selectTrack;
       });
-      console.log(this.searchData.trackId, this.searchData.ordinalNo);
       this.$store.dispatch("replay/getBroadCastsByTrack", this.searchData);
     },
   },
   computed: {
     ...mapState("admin", ["tracks"]),
     trackList() {
-      console.log(this.tracks);
       return this.tracks.filter((track) => {
         return track.trackSubject.subjectName === this.$route.params.category;
       });
@@ -55,20 +52,26 @@ export default {
     },
   },
   watch: {
-    $route() {
-      if (this.$route.params.category !== "all") {
-        this.selectTrack = this.trackList[0].trackName;
-
-        this.selectTrackId = this.trackList.find((track) => {
-          return track.trackName === this.selectTrack;
-        });
-        console.log(this.searchData.trackId, this.searchData.ordinalNo);
-        this.$store.dispatch("replay/getBroadCastsByTrack", this.searchData);
+    '$route'() {
+      if (this.$route.name === "Replay") {
+        if (this.$route.params.category !== "all") {
+          this.selectTrack = this.trackList[0].trackName;
+          this.selectTrackId = this.trackList.find((track) => {
+            return track.trackName === this.selectTrack;
+          });
+          this.$store.dispatch("replay/getBroadCastsByTrack", this.searchData);
+        }
       }
     },
   },
   created() {
-    this.selectTrack = this.trackList[0].trackName;
+    if (this.$route.params.category !== "all") {
+      this.selectTrack = this.trackList[0].trackName;
+      this.selectTrackId = this.trackList.find((track) => {
+        return track.trackName === this.selectTrack;
+      });
+      this.$store.dispatch("replay/getBroadCastsByTrack", this.searchData);
+    }
   },
 };
 </script>

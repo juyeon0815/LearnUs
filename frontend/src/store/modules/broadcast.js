@@ -1,5 +1,6 @@
 import router from '@/router'
 import broadcastApi from '@/api/broadcast'
+import quizApi from '@/api/quiz'
 
 const state = {
   broadcastList: null,
@@ -7,38 +8,46 @@ const state = {
   studentList: null,
   studentTarget: null,
   httpStatus: null,
+  onairList: null,
+  quizResult: null,
+  replayList: null,
+  replayListByTrack: null,
+  replayDetail: null,
+  selectedSubject: null,
 }
 
 const actions = {
   // 방송 스케줄
-  getBroadcastList({ commit }) {
-    broadcastApi.getBroadcastList()
-      .then((res) => {
-        const broadcastList = res.data
-        broadcastList.sort(function (a, b) {
-          if (a.broadcastDate > b.broadcastDate) {
-            return 1
-          }
-          if (a.broadcastDate < b.broadcastDate) {
-            return -1
-          }
-          return 0;
-        })
-        commit('SET_BROADCAST_LIST', broadcastList)
+  async getBroadcastList({ commit }) {
+    try {
+      const firstResponse = await broadcastApi.getBroadcastList()
+      const secondResponse = await broadcastApi.getOnAirList()
+      const broadcastList = firstResponse.data.concat(secondResponse.data)
+      broadcastList.sort(function (a, b) {
+        if (a.broadcastDate > b.broadcastDate) {
+          return 1
+        }
+        if (a.broadcastDate < b.broadcastDate) {
+          return -1
+        }
+        return 0;
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      commit('SET_BROADCAST_LIST', broadcastList)
+    }
+    catch (err) {
+      console.log(err)
+    }
   },
   // 방송 상세 정보 조회 및 수정
-  getBroadcastDetail({commit}, id) {
-    broadcastApi.getBroadcastDetail(id)
-      .then((res) => {
-        commit('SET_BROADCAST_DETAIL', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async getBroadcastDetail({ commit }, id) {
+    try {
+      const response = await broadcastApi.getBroadcastDetail(id)
+      if (response.status === 200) {
+        commit('SET_BROADCAST_DETAIL', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   },
   // 방송 생성 
   async createBroadcast ({ commit }, data) {
@@ -71,7 +80,7 @@ const actions = {
       console.log(err)
     }
   },
-  async deleteBroadcast({commit}, id) {
+  async deleteBroadcast({ commit }, id) {
     await broadcastApi.deleteBroadcast(id)
       .then((res) => {
         commit('DELETE_BROADCAST', id)
@@ -80,6 +89,25 @@ const actions = {
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
       })
+  },
+  getOnairList({ commit }) {
+    broadcastApi.getOnairList()
+      .then((res) => {
+        commit('SET_ONAIR_LIST', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  async getQuizResult ({ commit }, id) {
+    try {
+      const response = await quizApi.getQuizResult(id)
+      if (response.status === 200) {
+        commit('SET_QUIZ_RESULT', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 
@@ -103,63 +131,58 @@ const mutations = {
     state.broadcastList = state.broadcastList.filter(broadcast => {
       return broadcast.broadcastId != id
     })
+  },
+  SET_ONAIR_LIST (state, payload) {
+    state.onairList = payload
+  },
+  SET_QUIZ_RESULT (state, payload) {
+    state.quizResult = payload
   }
 }
 
 const getters = {
+  currentBroadcastId (state) {
+    if (state.broadcastDetail) {
+      return state.broadcastDetail.broadcastId
+    }
+    return null
+  },
   studentData (state) {
     if (state.studentTarget) {
       return state.studentList[state.studentTarget]
-    } else {
-      return null
     }
+    return null
   },
+  // attendanceCnt (state) {
+
+  // },
   broadcastByDate(state) {
-    /* function leftZero(val) {
-      if (val < 10) {
-        return `0${val}`
-      } else {
-        return val
+    if (state.broadcastList) {
+      const dates = state.broadcastList.map(broadcast => {
+        return broadcast.broadcastDate.split(' ')[0]
+      })
+      const uniqueDates = [...new Set(dates)]
+      uniqueDates.sort()
+      const schedule = {}
+      for (var i = 0; i < uniqueDates.length; i++) {
+        schedule[`${uniqueDates[i]}`] = []
       }
-    }
-    const dateObject = new Date()
-    const year = dateObject.getFullYear()
-    const month = leftZero(dateObject.getMonth() + 1)
-    const day = leftZero(dateObject.getDate())
-    const today = [year, month, day].join('-')
-    const tomorrow = [year, month, day+1].join('-') */
-    /* return state.broadcastList.filter(broadcast => 
-      broadcast.broadcastDate.split(' ')[0] >= today
-    ) */
-    const dates = state.broadcastList.map(broadcast => {
-      return broadcast.broadcastDate.split(' ')[0]
-    })
-    const uniqueDates = [...new Set(dates)]
-    uniqueDates.sort()
-    const schedule = {}
-    for (var i = 0; i < uniqueDates.length; i++) {
-      schedule[`${uniqueDates[i]}`] = []
-    }
-    for (var k = 0; k < state.broadcastList.length; k++) {
-      schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
-    }
-    /* if (uniqueDates.includes(today)) {
-      schedule['today'] = schedule[today]
-      delete schedule[today]
-    }
-    if (uniqueDates.includes(tomorrow)) {
-      schedule['tomorrow'] = schedule[tomorrow]
-      delete schedule[tomorrow]
-    } */
-    /* const result = []
-    for (const element in schedule) {
-      const newElement = {
-        date: element,
-        schedule: schedule[element]
+      for (var k = 0; k < state.broadcastList.length; k++) {
+        schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
       }
-      result.push(newElement)
-    } */
-    return schedule
+      return schedule
+    }
+    return null
+  },
+  entireStudentList(state) {
+    if (state.studentList) {
+      let result = []
+      for (const studentList of Object.values(state.studentList)) {
+        result = result.concat(studentList)
+      }
+      return result
+    }
+    return null
   },
 }
 

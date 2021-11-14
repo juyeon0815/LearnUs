@@ -1,0 +1,219 @@
+@import "@/assets/style/_color.scss";
+
+.admin {
+  &.video {
+    width: 90%;
+    height: 100%;
+    .content {
+      width: 100%;
+      min-width: 900px;
+      height: 520px;
+      overflow-y: auto;
+      background: $dark;
+      border-radius: 10px;
+      padding: .5rem 1rem;
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        .tab-item {
+          cursor: pointer;
+          padding: .1rem .5rem;
+          border-bottom: 3px solid $light;
+          &.active {
+            font-weight: 700;
+            border-bottom: 3px solid $orange;
+            pointer-events: none;
+          }
+        }
+      }
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($orange, 0.5);
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $black;
+        border-radius: 10px;
+      }
+    }
+    .broadcast-info {
+      width: 100%;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      .default {
+        flex: 1;
+        display: flex;
+        gap: 1rem;
+        .video {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: .5rem;
+          .player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: $black;
+          }
+          .btns {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+            button {
+              width: fit-content;
+              height: fit-content;
+              padding: 0.5rem 1rem;
+              border-radius: 2rem;
+              font-size: 0.875rem;
+              box-shadow: 2px 2px 4px rgba($black, .4);
+              .btn-content {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                i {
+                  color: $orange;
+                  font-size: 1rem;
+                }
+              }
+            }
+          }
+        }
+        .video-info {
+          width: 45%;
+          display: flex;
+          flex-direction: column;
+          gap: .5rem;
+          .data {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            background: $black;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .2rem;
+            font-size: .875rem;
+            .info-row {
+              .key {
+                font-family: 'Montserrat', sans-serif;
+                font-style: italic;
+                color: $orange;
+                margin-right: .5rem;
+              }
+            }
+          }
+          .brief {
+            height: 80px;
+            background: $black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            .brief-col {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              font-family: 'Montserrat', sans-serif;
+              font-style: italic;
+              .val {
+                font-weight: 900;
+                font-size: 2rem;
+              }
+              .label {
+                color: $orange;
+              }
+            }
+          }
+        }
+      }
+      .chat {
+        width: 100%;
+        height: 100px;
+        background: $purple;
+      }
+
+    }
+    .quiz-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      .quiz-item {
+        width: 95%;
+        height: fit-content;
+        background: $black;
+        border-radius: 10px;
+        padding: .5rem 1rem;
+        .title {
+          display: flex;
+          gap: .5rem;
+          .num {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: $orange;
+          }
+          .question {
+            font-weight: 700;
+          }
+        }
+        .result {
+          display: flex;
+          padding: 1rem;
+          padding-left: 2rem;
+          gap: 1rem;
+          .count {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .val {
+              font-family: 'Montserrat', sans-serif;
+              font-weight: 900;
+              font-size: 1.5rem;
+            }
+            .label {
+              font-size: .7rem;
+            }
+          }
+          .rank-box {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+            background: rgba($white, .2);
+            border-radius: 2rem;
+            padding: .5rem 1rem;
+            .user {
+              display: flex;
+              align-items: center;
+              gap: .5rem;
+              .rank {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-style: italic;
+                color: $orange;
+              }
+              .profile {
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 100%;
+              }
+              .nickname {
+                font-size: .9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

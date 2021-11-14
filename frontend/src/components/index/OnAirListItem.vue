@@ -1,17 +1,21 @@
 <template>
   <div class="on-air-item">
-    <img src="@/assets/image/test/thumbnail.jpg" alt="">
+    <img 
+      src="@/assets/image/test/thumbnail.jpg" 
+      alt="boradcast thumbnail"
+      @click="$router.push({ name:'OnAir', params: { id: broadcast.broadcastId } })">
     <div class="content">
-      <div class="track"></div>
+      <img src="@/assets/image/test/ssafy-square.jpg" alt="" class="track">
       <div class="info">
-        <div class="title">{{ shorten(test.title) }}</div>
+        <div 
+          class="title"
+          @click="$router.push({ name:'OnAir', params: { id: broadcast.broadcastId } })">
+          {{ shorten(broadcast.title) }}
+        </div>
         <div class="viewers">
           <i class="fi fi-sr-flame"></i>
           <span>{{ idx }}명이 시청 중</span>
         </div>
-      </div>
-      <div class="dropdown">
-        <i class="fi fi-rr-menu-dots-vertical"></i>
       </div>
     </div>
   </div>
@@ -21,7 +25,8 @@
 export default {
   name: 'OnAirListItem',
   props: {
-    idx: Number
+    idx: Number,
+    broadcast: Object,
   },
   data () {
     return {
@@ -38,6 +43,6 @@ export default {
       }
       return text
     }
-  }
+  },
 }
 </script>

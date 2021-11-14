@@ -23,6 +23,20 @@ export default {
       method: 'get'
     })
   },
+  // 채팅 기록 가져오기
+  getBroadcastChat (id) {
+    return _axios({
+      url: `broadcast/chat/${id}`,
+      method: 'get',
+    })
+  },
+  // 출석체크
+  checkAttendance (broadcastId, userId) {
+    return _axios({
+      url: `broadcast/${broadcastId}/${userId}`,
+      method: 'patch',
+    })
+  },
   // 방송 생성
   createBroadcast (data) {
     return _axios({
@@ -53,4 +67,85 @@ export default {
       method: 'get',
     })
   },
+  // 현재 방송중인 방송 리스트
+  getOnairList() {
+    return _axios({
+      url: 'broadcast/all/Y',
+      method: 'get',
+    })
+  },
+  startBroadcast(id) {
+    return _axios({
+      url: 'broadcast/start',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  endBroadcast(data) {
+    return _axios({
+      url: 'broadcast/end/replay',
+      method: 'post',
+      params: data
+    })
+  },
+  sendAttendMM (id) {
+    return _axios({
+      url: 'broadcast/end/attendance',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadAttendance (id) {
+    return _axios({
+      url: 'broadcast/end/attendance/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  sendGifticonMM (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadGifticon (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  getReplayList(ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/all/${ordinalNo}`,
+      method : 'get',
+    })
+  },
+
+  getReplayByTrack(searchData) {
+    return _axios({
+      url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
+      method : 'get'
+    })
+  },
+
+  getReplayInfo(broadcastReplayId) {
+    return _axios({
+      url: `broadcastReplay/${broadcastReplayId}`,
+      method : 'get'
+    })
+  }
+  
+
 }

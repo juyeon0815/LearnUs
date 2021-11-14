@@ -1,15 +1,16 @@
 <template>
   <div id="chat-box" class="on-air-chat">
-    <AttendCheck v-if="attend"/>
+    <AttendCheck v-if="attendCheck"/>
     <AttendResult v-if="attendResult"/>
-    <QuizResult v-if="quizResult"/>
-    <SolvingQuiz v-if="quiz"/>
+    <QuizResult v-if="currentQuizResult"/>
+    <SolvingQuiz v-if="currentQuiz" @popup="autosize"/>
     <OnAirChatList/>
     <OnAirChatInput @autosize="autosize"/>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions, mapGetters } from 'vuex'
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
 import AttendResult from './chat/AttendResult.vue'
@@ -28,15 +29,8 @@ export default {
     QuizResult,
     SolvingQuiz
   },
-  data () {
-    return {
-      attend: false,
-      attendResult: false,
-      quiz: false,
-      quizResult: false,
-    }
-  },
   methods: {
+    ...mapActions('broadcast', ['getBroadcastDetail']),
     autosize () {
       const chat = document.getElementById('chat-box')
       const chatList = document.getElementById('chat-list')
@@ -49,9 +43,93 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('account', ['userInfo']),
+    ...mapState('stomp', ['stomp', 'currentQuiz', 'currentQuizResult', 'attendCheck', 'attendResult']),
+    ...mapGetters('broadcast', ['currentBroadcastId'])
+  },
+  async created() {
+    this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
+
+    this.stomp.connect(
+      "admin",
+      "admin",
+      () => {
+        this.stomp.subscribe(
+          `/exchange/chat.exchange/chat.${this.currentBroadcastId}`,
+          (message) => {
+            const payload = JSON.parse(message.body);
+            const data = {
+              userId: payload.userId,
+              nickName: payload.nickName,
+              profileUrl: payload.profileUrl,
+              message: payload.message,
+              regDate: payload.regDate
+            }
+            this.$store.commit('stomp/ADD_CHAT_LIST', data)
+            this.autosize()
+          },
+          { "auto-delete": true, durable: false, exclusive: false }
+        );
+        this.stomp.send(
+          `/pub/chat.enter.${this.currentBroadcastId}`,
+          {}
+        )
+        this.stomp.subscribe(
+          `/exchange/quiz.exchange/quiz.${this.currentBroadcastId}`,
+          (message) => {
+            const payload = JSON.parse(message.body)
+            const key = Object.keys(payload)[0]
+            if ( key === 'quiz') {
+              this.$store.commit('stomp/SET_CURRENT_QUIZ', payload.quiz)
+            } else if (key === 'quizRank') {
+              this.$store.commit('stomp/SET_CURRENT_QUIZ', null)
+              this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', payload.quizRank)
+            }
+            setTimeout(() => {
+              this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', null)
+            }, 5000)
+          },
+          { "auto-delete": true, durable: false, exclusive: false }
+        )
+        this.stomp.subscribe(
+          `/exchange/attendance.exchange/attendance.${this.currentBroadcastId}`, 
+          (message) => {
+            const payload = JSON.parse(message.body)
+            console.log(payload);
+            if (payload === 'attendance start') {
+              this.$store.commit('stomp/SET_ATTEND_CHECK', true)
+            } else if (payload === 'attendance stop') {
+              this.$store.commit('stomp/SET_ATTEND_CHECK', false)
+            } else if (payload === 'broadcast start') {
+              this.getBroadcastDetail(this.currentBroadcastId)
+            } else if (payload === 'broadcast stop') {
+              this.getBroadcastDetail(this.currentBroadcastId)
+            }
+          },
+          {'auto-delete':true, 'durable':false, 'exclusive':false})
+        if (this.$route.name === 'OnAirStudio') {
+          this.stomp.subscribe(
+            `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
+            (message) => {
+              const payload = JSON.parse(message.body)
+              this.$store.commit('stomp/SET_VIEWERS', payload.viewers)
+              // console.log(payload)
+            },
+            { "auto-delete": true, durable: false, exclusive: false }
+          )
+        }
+      },
+      onerror,
+      "/"
+    );
+  },
   mounted () {
     this.autosize()
     window.addEventListener('resize', this.autosize())
+  },
+  unmounted () {
+    this.stomp.disconnect()
   }
 
 }

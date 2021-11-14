@@ -1,6 +1,7 @@
 <template>
   <div class="video-preview">
     <video 
+      v-if="broadcastDetail"
       ref="videoPlayer" 
       class="video-js vjs-fluid"
     ></video>
@@ -24,7 +25,7 @@ export default {
     ...mapState('broadcast', ['broadcastDetail']),
     options() {
       return {
-				autoplay: 'any',
+				autoplay: false,
 				controls: true,
         poster: this.broadcastDetail.thumbnailUrl,
         fluid: true,
