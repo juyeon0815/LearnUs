@@ -126,6 +126,26 @@ export default {
       }
     })
   },
+  getReplayList(ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/all/${ordinalNo}`,
+      method : 'get',
+    })
+  },
+
+  getReplayByTrack(searchData) {
+    return _axios({
+      url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
+      method : 'get'
+    })
+  },
+
+  getReplayInfo(broadcastReplayId) {
+    return _axios({
+      url: `broadcastReplay/${broadcastReplayId}`,
+      method : 'get'
+    })
+  }
   
 
 }
