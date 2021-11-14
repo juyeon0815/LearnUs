@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'CanclePopup',
+  name: 'CancelPopup',
   props: {
     broadcast: Object
   }
