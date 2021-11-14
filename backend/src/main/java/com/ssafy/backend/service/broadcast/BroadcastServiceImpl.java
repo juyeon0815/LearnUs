@@ -206,7 +206,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                         .streamingKey(broadcast.getStreamingKey())
                         .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
                         .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
-                        .textbook(textbookMap).trackList(trackList).build();
+                        .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).build();
 
                 broadcastInfoList.add(broadcastInfo);
             }
@@ -244,7 +244,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                     .streamingKey(broadcast.getStreamingKey())
                     .thumbnailUrl(broadcast.getThumbnailUrl()).broadcastDate(broadcast.getBroadcastDate())
                     .title(broadcast.getTitle()).teacher(broadcast.getTeacher()).description(broadcast.getDescription())
-                    .textbook(textbookMap).trackList(trackList).build();
+                    .textbook(textbookMap).trackList(trackList).liveCode(broadcast.getLiveCode()).build();
 
             return broadcastInfo;
         } catch (Exception e) {
@@ -345,7 +345,6 @@ public class BroadcastServiceImpl implements BroadcastService {
     @Override
     public Map<String, List<Attendance>> end(int broadcastId) {
         try {
-            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
             // 퀴즈왕
             List<Attendance> quizKingList = attendanceDao.findQuizKing(broadcastId);
             // 참여왕
@@ -421,7 +420,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
             List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "N");
-            excelService.createExcelAttendance(broadcast, attendanceList, response);
+            if (!excelService.createExcelAttendance(broadcast, attendanceList, response)) return false;
             return true;
         } catch (Exception e) {
             return false;
@@ -484,7 +483,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
 
             List<Gifticon> gifticonList = gifticonDao.findGifticonsByBroadcast(broadcast);
-            excelService.createExcelGifticon(broadcast, gifticonList, response);
+            if (!excelService.createExcelGifticon(broadcast, gifticonList, response)) return false;
             return true;
         } catch (Exception e) {
             return false;
