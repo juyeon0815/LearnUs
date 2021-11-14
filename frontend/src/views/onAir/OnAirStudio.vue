@@ -32,7 +32,7 @@
         </div>
       </button>
       <button 
-        v-if="broadcastDetail.liveCode === 'C'" 
+        v-if="broadcastDetail && broadcastDetail.liveCode === 'C'" 
         class="btn black" 
         @click="startBroadcast"
       >
@@ -42,7 +42,7 @@
         </div>
       </button>
       <button 
-        v-if="broadcastDetail.liveCode === 'Y'" 
+        v-if="broadcastDetail && broadcastDetail.liveCode === 'Y'" 
         class="btn black" 
         @click="isEnding = true"
       >
