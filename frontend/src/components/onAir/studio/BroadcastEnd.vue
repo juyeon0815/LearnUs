@@ -92,35 +92,6 @@ export default {
         console.log(err)
       }
     },
-    // download() {
-    //   const param = new URLSearchParams();
-    //   param.append("broadcastId", this.broadcastId);
-    //   axios({
-    //     method: "post",
-    //     url: "http://localhost:8080/broadcast/end/gifticon/download",
-    //     params : {
-    //       "broadcastId":this.broadcastId
-    //     },
-    //     responseType: "blob"
-    //   })
-    //   .then((res)=> {
-    //     console.log("res : ", res);
-    //     const url = window.URL.createObjectURL(new Blob([res.data], { type: res.headers['content-type'] }));
-    //     let fileName = this.getFileName(res.headers['content-disposition'])
-        
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', fileName);
-    //     link.click();
-
-    //   }).catch((err)=> {
-    //     console.log(err);
-    //   })
-    // },
-    // getFileName (contentDisposition) {
-    //   let fileName = contentDisposition.split("=");
-    //   return fileName[1];
-    // },
   }
 }
 </script>
