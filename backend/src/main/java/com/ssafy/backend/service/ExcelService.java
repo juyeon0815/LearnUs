@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface ExcelService {
     Sheet excelCheck(MultipartFile excelFile) throws IOException;
-    void createExcelAttendance(Broadcast broadcast, List<Attendance> attendanceList, HttpServletResponse response) throws IOException;
-    void createExcelGifticon(Broadcast broadcast, List<Gifticon> gifticonList, HttpServletResponse response) throws IOException;
+    boolean createExcelAttendance(Broadcast broadcast, List<Attendance> attendanceList, HttpServletResponse response) throws IOException;
+    boolean createExcelGifticon(Broadcast broadcast, List<Gifticon> gifticonList, HttpServletResponse response) throws IOException;
 }
