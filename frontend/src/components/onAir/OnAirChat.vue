@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
 import AttendResult from './chat/AttendResult.vue'
@@ -30,6 +30,7 @@ export default {
     SolvingQuiz
   },
   methods: {
+    ...mapActions('broadcast', ['getBroadcastDetail']),
     autosize () {
       const chat = document.getElementById('chat-box')
       const chatList = document.getElementById('chat-list')
@@ -102,6 +103,10 @@ export default {
               this.$store.commit('stomp/SET_ATTEND_CHECK', true)
             } else if (payload === 'attendance stop') {
               this.$store.commit('stomp/SET_ATTEND_CHECK', false)
+            } else if (payload === 'broadcast start') {
+              this.getBroadcastDetail(this.currentBroadcastId)
+            } else if (payload === 'broadcast stop') {
+              this.getBroadcastDetail(this.currentBroadcastId)
             }
           },
           {'auto-delete':true, 'durable':false, 'exclusive':false})
@@ -110,7 +115,8 @@ export default {
             `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
             (message) => {
               const payload = JSON.parse(message.body)
-              console.log(payload)
+              this.$store.commit('stomp/SET_VIEWERS', payload.viewers)
+              // console.log(payload)
             },
             { "auto-delete": true, durable: false, exclusive: false }
           )
