@@ -3,7 +3,9 @@
     <StudentSearchModal
       v-if="isSearchModalOn" 
       @close="closeSearchModal"/>
-    <span @click="openSearchModal">기프티콘 추가</span>
+    <i 
+      class="fi fi-sr-add gifticon-add-btn"
+      @click="openSearchModal"></i>
     <div class="student-table" v-if="gifticonList">
         <table>
           <thead>
