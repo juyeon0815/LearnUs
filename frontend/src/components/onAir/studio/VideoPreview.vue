@@ -27,7 +27,7 @@ export default {
       return {
 				autoplay: false,
 				controls: true,
-        poster: this.broadcastDetail.thumbnailUrl,
+        // poster: this.broadcastDetail.thumbnailUrl,
         fluid: true,
         liveui: true,
 				sources: [
