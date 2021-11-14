@@ -65,10 +65,11 @@ public class StompQuizController {
     @MessageMapping("quiz.stop.{broadcastId}")
     public void stop(int quizId, @DestinationVariable int broadcastId) {
         Quiz quiz = quizDao.findQuizByQuizId(quizId);
+        List<QuizSelect> quizSelectList = quizSelectDao.findQuizSelectsByQuiz(quiz);
         List<QuizAnswer> quizAnswerList = quizAnswerService.getQuizAnswerAll(quizId);
         Map<Object, Integer> rateMap = quizAnswerService.getQuizAnswerRate(quizId);
 
-        QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).quiz(quiz).build();
+        QuizRankInfo quizRankInfo = QuizRankInfo.builder().quizAnswerList(quizAnswerList).rateMap(rateMap).quiz(quiz).quizSelectList(quizSelectList).build();
 
         Map<String, QuizRankInfo> map = new HashMap<>();
         map.put("quizRank", quizRankInfo);
