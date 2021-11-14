@@ -170,6 +170,16 @@ const getters = {
     }
     return null
   },
+  entireStudentList(state) {
+    if (state.studentList) {
+      let result = []
+      for (const studentList of Object.values(state.studentList)) {
+        result = result.concat(studentList)
+      }
+      return result
+    }
+    return null
+  },
 }
 
 export default {
