@@ -401,7 +401,6 @@
           background-color: $orange;
           border-bottom: 2px solid $light;
         }
-
         tr {
           text-align: center;
           font-weight: 300;
@@ -420,18 +419,15 @@
         }
         .track-list {
           display: flex;
-          gap: .2rem;
+          gap: .5rem;
           flex-wrap: wrap;
           .track-item {
-            padding: .1rem .4rem;
-            background: $yellow;
+            padding: .1rem .5rem;
+            color: $white;
+            background: rgba($light, .2);
+            box-shadow: 1px 1px 2px rgba($dark, 0.4);
             border-radius: 1rem;
             font-size: .8rem;
-            font-weight: 500;
-            color: $dark;
-            &.admin {
-              background: $light;
-            }
           }
         }
       }
@@ -466,42 +462,6 @@
             input::placeholder {
               color: $blank-grey;
               font-weight: 500;
-            }
-            .mm-select {
-              .target {
-                width: 50%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-weight: 700;
-                font-size: .9rem;
-                cursor: pointer;
-                background-color: white;
-                color: $grey;
-                &.left {
-                  left: 0;
-                  border-radius: 20px 0 0 20px;
-                  box-shadow: inset 0 3px 3px rgba(0, 0, 0, .3);
-                  &.checked {
-                    background-color: $orange;
-                    color: $white;
-                    box-shadow: 4px 0px 4px rgba($black, 0.25);
-                  }
-                }
-                &.right {
-                  right: 0;
-                  border-radius: 0 20px 20px 0;
-                  box-shadow: inset 0 3px 3px rgba(0, 0, 0, .3);
-                  &.checked {
-                    background-color: $orange;
-                    color: $white;
-                    box-shadow: none;
-                  }
-                }
-              }
             }
             label {
               position: absolute;
