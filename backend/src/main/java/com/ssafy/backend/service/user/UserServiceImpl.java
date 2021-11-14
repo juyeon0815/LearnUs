@@ -271,7 +271,9 @@ public class UserServiceImpl implements UserService {
     public boolean getPwCheck(String email, int userId, String phone) {
         try {
             User user = userDao.findUserByUserIdAndEmailAndPhone(userId, email, phone);
-            return false;
+            if (user != null) return true;
+            else return false;
+
         } catch (Exception e) {
             return false;
         }
