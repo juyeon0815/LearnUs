@@ -4,7 +4,7 @@
     <td>{{ student.user.name }} </td>
     <td>{{ student.user.userId }}</td>
     <td>{{ student.user.region }} {{ student.user.classNo }}반 
-      <i class="fi fi-rr-trash cancle-btn" @click="deleteGifticon"></i>
+      <i class="fi fi-rr-cross-small cancle-btn" @click="deleteGifticon"></i>
     </td>
   </tr>
 </template>

@@ -10,6 +10,7 @@ const actions = {
       const response = await gifticonApi.createGifticon(gifticonData)
       if (response.status === 200) {
         dispatch('getGifticonList', gifticonData.broadcastId)
+        return Promise.resolve(response)
       }
     } catch (err) {
       console.log(err);
@@ -30,6 +31,7 @@ const actions = {
       const response = await gifticonApi.deleteGifticon(data.gifticonId)
       if (response.status === 200) {
         dispatch('getGifticonList', data.broadcastId)
+        return Promise.resolve(response)
       }
     }
     catch(err) {
