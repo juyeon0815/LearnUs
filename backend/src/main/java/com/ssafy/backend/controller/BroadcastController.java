@@ -138,7 +138,7 @@ public class BroadcastController {
     @ApiOperation(value = "이전 채팅 정보 가져오기")
     public ResponseEntity<List<ChatInfo>> getChatInfoList(@PathVariable("broadcastId") int broadcastId) {
         List<ChatInfo> chatInfoList = broadcastService.getChatInfoList(broadcastId);
-        if (chatInfoList == null || chatInfoList.size() == 0) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        if (chatInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(chatInfoList, HttpStatus.OK);
     }
 }
