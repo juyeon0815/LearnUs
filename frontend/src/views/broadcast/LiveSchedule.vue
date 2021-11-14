@@ -17,6 +17,9 @@
         :scheduleList="value"
         @onCancel="onCancel"/>
     </div>
+    <div v-if="broadcastByDate && !Object.keys(broadcastByDate).length">
+      <span>예정된 방송이 없습니다.</span>
+    </div>
   </div>
 </template>
 
