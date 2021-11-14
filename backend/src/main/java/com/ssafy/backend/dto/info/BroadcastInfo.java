@@ -25,6 +25,7 @@ public class BroadcastInfo {
     private String teacher;
     private String description;
     private String liveCode;
+    private int chatCount;
     private Map<String, String> textbook;
     private List<Track> trackList;
 }
