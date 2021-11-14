@@ -2,11 +2,11 @@ import _axios from "./interceptor"
 
 export default {
   // 기프티콘 생성
-  createGifticon(gifticonInfo) {
+  createGifticon(gifticonData) {
     return _axios({
       url: 'gifticon',
       method: 'post',
-      data: gifticonInfo
+      data: gifticonData
     })
   },
   // 기프티콘 수정
@@ -18,9 +18,9 @@ export default {
     })
   },
   // 기프티콘 삭제
-  deleteGifticon(broadcastId) {
+  deleteGifticon(gifticonId) {
     return _axios({
-      url: `gifticon/${broadcastId}`,
+      url: `gifticon/${gifticonId}`,
       method: 'delete'
     })
   },
