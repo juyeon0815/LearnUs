@@ -1,6 +1,6 @@
 <template>
   <div class="on-air studio">
-    <div class="btn-group">
+    <div v-if="broadcastDetail" class="btn-group">
       <button 
         v-if="!attendProcess"
         class="btn black" 
@@ -56,7 +56,7 @@
       v-if="isEnding"
       @close="isEnding=false"
     />
-    <div class="content">
+    <div v-if="broadcastDetail" class="content">
       <OnAirControl/>
       <OnAirChat/>
     </div>
