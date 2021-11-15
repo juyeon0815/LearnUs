@@ -10,4 +10,5 @@ public interface TrackDao extends JpaRepository<Track, String> {
     Track findTrackByTrackName(String trackName);
     Track findTrackByTrackId(int trackId);
     List<Track> findTracksByTrackSubject(TrackSubject trackSubject);
+    List<Track> findTracksByTrackName(String trackName);
 }
