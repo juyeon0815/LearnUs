@@ -16,6 +16,7 @@ const state = {
   replayDetail: null,
   selectedSubject: null,
   activeStudents: null,
+  historyLiast: null,
 }
 
 const actions = {
@@ -171,6 +172,16 @@ const actions = {
       console.log(err)
     }
   },
+  async getHistoryList({ commit }) {
+    try {
+      const response = await broadcastApi.getHistoryList()
+      if (response.status === 200) {
+        commit('SET_HISTORY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
 }
 
 const mutations = {
@@ -208,6 +219,9 @@ const mutations = {
   },
   SET_REPLAY_DETAIL (state, payload) {
     state.replayDetail = payload
+  },
+  SET_HISTORY_LIST (state, payload) {
+    state.historyList = payload
   }
 }
 

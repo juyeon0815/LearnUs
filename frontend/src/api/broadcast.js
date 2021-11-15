@@ -16,6 +16,13 @@ export default {
       method: 'get',
     })
   },
+  //방송 종료된 영상 리스트
+  getHistoryList() {
+    return _axios({
+      url: 'broadcast/all/N',
+      method: 'get'
+    })
+  },
   // 방송 정보 관련
   getBroadcastDetail (id) {
     return _axios({
@@ -178,7 +185,5 @@ export default {
       method: 'patch',
       data: replayInfo
     })
-  }
-  
-
+  },
 }
