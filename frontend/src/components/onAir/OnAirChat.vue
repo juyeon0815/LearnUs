@@ -58,6 +58,7 @@ export default {
     this.$store.commit('stomp/SET_STOMP', stomp)
 
     console.log("커넥트 시도");
+    console.log(stomp);
     await this.stomp.connect(
       "admin",
       "admin",
