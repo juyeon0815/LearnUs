@@ -1,6 +1,6 @@
 <template>
   <div class="replay-list">
-    <div id="scroll" class="content">
+    <div class="replay-grid">
       <ReplayListItem
         v-for="(replay, idx) in paginatedArea"
         :key="idx"
@@ -37,42 +37,32 @@ export default {
   data() {
     return {
       currentPage: 1,
-    };
+    }
   },
   methods: {
     changePage(page) {
       this.currentPage = page;
-      document.getElementById("scroll").scrollTop = 0;
+      document.getElementById("scroll").scrollTop = 0
     },
   },
   computed: {
-    ...mapState("replay", ["broadCasts", "broadCastsByTrack"]),
+    ...mapState('broadcast', ['replayList']),
     currentResult() {
-      let entire;
-      if (this.broadCastsByTrack !== null) {
-        entire = this.broadCastsByTrack.filter((broadCastInfo)=>{
-          return broadCastInfo.openYn ==='Y'
+      let entire = this.replayList.filter( replay => {
+          return replay.openYn === 'Y'
         })
-      } else {
-        entire = this.broadCasts.filter((broadCastInfo)=>{
-          return broadCastInfo.openYn ==='Y'
-        })
-      }
-      return entire;
+      return entire
       
     },
     paginatedArea() {
-      let start = (this.currentPage - 1) * 10;
-      let end = this.currentPage * 10;
-      return this.currentResult.slice(start, end);
+      let start = (this.currentPage - 1) * 12
+      let end = this.currentPage * 12
+      return this.currentResult.slice(start, end)
     },
     totalPage() {
-      const total = this.currentResult.length;
-      return Math.ceil(total / 10);
+      const total = this.currentResult.length
+      return Math.ceil(total / 12)
     },
   },
-  created() {
-    this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
-  },
-};
+}
 </script>

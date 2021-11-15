@@ -12,7 +12,6 @@ const state = {
   onairList: null,
   quizResult: null,
   replayList: null,
-  replayListByTrack: null,
   replayDetail: null,
   selectedSubject: null,
   activeStudents: null,
@@ -135,6 +134,26 @@ const actions = {
       console.log(err)
     }
   },
+  async getReplayList ({ commit }, ordinal) {
+    try {
+      const response = await broadcastApi.getReplayList(ordinal)
+      if (response.status === 200) {
+        commit('SET_REPLAY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  async getReplayTrackList ({ commit }, data) {
+    try {
+      const response = await broadcastApi.getReplayByTrack(data.id, data.ordinalNo)
+      if (response.status === 200) {
+        commit('SET_REPLAY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
   async getReplayDetail ({ commit }, id) {
     try {
       const response = await broadcastApi.getReplayInfo(id)
@@ -206,6 +225,9 @@ const mutations = {
   SET_ACTIVE_STUDENTS (state, payload) {
     state.activeStudents = payload
   },
+  SET_REPLAY_LIST (state, payload) {
+    state.replayList = payload
+  },
   SET_REPLAY_DETAIL (state, payload) {
     state.replayDetail = payload
   }
@@ -223,6 +245,9 @@ const getters = {
       return state.broadcastDetail.liveCode === 'Y'
     }
     return null
+  },
+  hasReplay (state) {
+    return state.replayDetail != null
   },
   studentData (state) {
     if (state.studentTarget) {

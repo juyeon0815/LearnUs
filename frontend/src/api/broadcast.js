@@ -146,21 +146,20 @@ export default {
       method : 'get',
     })
   },
-  getReplayList(ordinalNo) {
+  getReplayList (ordinalNo) {
     return _axios({
       url: `broadcastReplay/all/${ordinalNo}`,
       method : 'get',
     })
   },
-
-  getReplayByTrack(searchData) {
+  getReplayByTrack (id, ordinalNo) {
     return _axios({
-      url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
+      url: `broadcastReplay/track/${id}/${ordinalNo}`,
       method : 'get'
     })
   },
 
-  getReplayInfo(id) {
+  getReplayInfo (id) {
     return _axios({
       url: `broadcastReplay/${id}`,
       method : 'get'
