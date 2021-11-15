@@ -40,7 +40,7 @@
             />
           </tbody>
         </table>
-        <div v-if="!searchedList.length" class="empty">
+        <div v-if="!searchedList.length" class="empty popup-empty">
           검색 결과가 없습니다.
         </div>
       </div>

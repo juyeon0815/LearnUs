@@ -5,7 +5,7 @@
       v-for="broadcast in scheduleList"
       :key="broadcast.broadcastId"
       :broadcast="broadcast"
-      @onCancle="$emit('onCancle', broadcast)"/>
+      @onCancel="$emit('onCancel', broadcast)"/>
   </div>
 </template>
 

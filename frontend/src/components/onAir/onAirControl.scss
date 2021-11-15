@@ -326,6 +326,7 @@
         justify-content: center;
         align-items: center;
         gap: .5rem;
+        margin-bottom: 1rem;
         input {
           width: 250px;
           height: 2rem;
@@ -404,7 +405,10 @@
           padding: 2rem;
           text-align: center;
           font-weight: 300;
-          color: $dark;
+          color: $white;
+          &.popup-empty {
+            color: $dark;
+          }
         }
   
         .pagination {
