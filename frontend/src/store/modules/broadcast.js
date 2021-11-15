@@ -145,6 +145,17 @@ const actions = {
       console.log(err)
     }
   },
+  async updateReplayInfo({ dispatch }, replayInfo) {
+    try {
+      const response = await broadcastApi.updateReplayInfo(replayInfo)
+      if (response.status === 200) {
+        dispatch('getReplayDetail', replayInfo.broadcastReplayId)
+        return Promise.resolve(response)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
 }
 
 const mutations = {
