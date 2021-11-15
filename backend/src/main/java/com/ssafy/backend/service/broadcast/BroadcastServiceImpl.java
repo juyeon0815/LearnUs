@@ -231,6 +231,14 @@ public class BroadcastServiceImpl implements BroadcastService {
                 broadcastInfoList.add(broadcastInfo);
             }
 
+            // 방송 정렬
+            Collections.sort(broadcastInfoList, new Comparator<BroadcastInfo>() {
+                @Override
+                public int compare(BroadcastInfo o1, BroadcastInfo o2) {
+                    return o1.getBroadcastDate().compareTo(o2.getBroadcastDate());
+                }
+            });
+
             return broadcastInfoList;
         } catch (Exception e) {
             return null;
