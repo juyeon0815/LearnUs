@@ -18,6 +18,8 @@ import OnAirChatInput from './chat/OnAirChatInput.vue'
 import OnAirChatList from './chat/OnAirChatList.vue'
 import QuizResult from './chat/QuizResult.vue'
 import SolvingQuiz from './chat/SolvingQuiz.vue'
+import SockJS from 'sockjs-client';
+import StompJs from 'stompjs';
 export default {
   name: 'OnAirChat',
   components: {
@@ -49,6 +51,11 @@ export default {
   },
   async created() {
     await this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
+    
+
+    const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
+    const stomp = StompJs.over(sockJS);
+    this.$store.commit('stomp/SET_STOMP', stomp)
 
     console.log("커넥트 시도");
     await this.stomp.connect(

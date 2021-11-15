@@ -20,8 +20,8 @@ import "@/assets/style/index.scss";
 import SideBar from '@/components/common/SideBar'
 import TopBar from '@/components/common/TopBar'
 import TopLogo from '@/components/common/TopLogo'
-import SockJS from 'sockjs-client';
-import StompJs from 'stompjs';
+// import SockJS from 'sockjs-client';
+// import StompJs from 'stompjs';
 
 export default {
   name: 'App',
@@ -74,9 +74,9 @@ export default {
     }
   },
   created () {
-    const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
-    const stomp = StompJs.over(sockJS);
-    this.$store.commit('stomp/SET_STOMP', stomp)
+    // const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
+    // const stomp = StompJs.over(sockJS);
+    // this.$store.commit('stomp/SET_STOMP', stomp)
   }
 }
 </script>
