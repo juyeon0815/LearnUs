@@ -171,6 +171,13 @@ export default {
       url: `/broadcast/start/isAttend/${id}`,
       method : 'get'
     })
+  },
+  updateReplayInfo(replayInfo) {
+    return _axios({
+      url: 'broadcastReplay',
+      method: 'patch',
+      data: replayInfo
+    })
   }
   
 
