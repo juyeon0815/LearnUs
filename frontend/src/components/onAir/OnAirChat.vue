@@ -48,13 +48,15 @@ export default {
     ...mapGetters('broadcast', ['currentBroadcastId'])
   },
   async created() {
-    this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
+    await this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
 
-    this.stomp.connect(
+    await this.stomp.connect(
       "admin",
       "admin",
-      () => {
-        this.stomp.subscribe(
+      async (frame) => {
+        console.log(frame);
+
+        await this.stomp.subscribe(
           `/exchange/chat.exchange/chat.${this.currentBroadcastId}`,
           (message) => {
             const payload = JSON.parse(message.body);
@@ -70,11 +72,11 @@ export default {
           },
           { "auto-delete": true, durable: false, exclusive: false }
         );
-        this.stomp.send(
+        await this.stomp.send(
           `/pub/chat.enter.${this.currentBroadcastId}`,
           {}
         )
-        this.stomp.subscribe(
+        await this.stomp.subscribe(
           `/exchange/quiz.exchange/quiz.${this.currentBroadcastId}`,
           (message) => {
             const payload = JSON.parse(message.body)
@@ -91,7 +93,7 @@ export default {
           },
           { "auto-delete": true, durable: false, exclusive: false }
         )
-        this.stomp.subscribe(
+        await this.stomp.subscribe(
           `/exchange/attendance.exchange/attendance.${this.currentBroadcastId}`, 
           (message) => {
             const payload = JSON.parse(message.body)
@@ -104,7 +106,7 @@ export default {
           },
           {'auto-delete':true, 'durable':false, 'exclusive':false})
         if (this.$route.name === 'OnAirStudio') {
-          this.stomp.subscribe(
+          await this.stomp.subscribe(
             `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
             (message) => {
               const payload = JSON.parse(message.body)
