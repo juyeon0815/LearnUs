@@ -73,7 +73,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                 List<User> userList = userDao.findUserByTrack(track);
                 for (int j = 0; j < userList.size(); j++) {
                     User user = userList.get(j);
-                    Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").build();
+                    Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").gifticonYn("N").build();
                     attendanceDao.save(attendance);
                 }
             }
@@ -133,7 +133,9 @@ public class BroadcastServiceImpl implements BroadcastService {
                         List<User> userList = userDao.findUserByTrack(track);
                         for (int j = 0; j < userList.size(); j++) {
                             User user = userList.get(j);
-                            Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").build();
+                            Gifticon gifticon = gifticonDao.findGifticonByUserAndBroadcast(user, broadcast);
+                            String gifticonYn = gifticon == null?"N":"Y";
+                            Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").gifticonYn(gifticonYn).build();
                             attendanceDao.save(attendance);
                         }
                     }
