@@ -4,11 +4,11 @@
       ref="videoPlayer" 
       class="video-js vjs-fluid"
     ></video>
-    <div v-if="getBroadcastDetail && getBroadcastDetail.liveCode === 'C'" class="video-empty">
+    <div v-if="broadcastDetail && broadcastDetail.liveCode === 'C'" class="video-empty">
       <i class="fi fi-rr-rocket"></i>
       <span>라이브 방송 준비 중입니다.</span> 
     </div>
-    <div v-else-if="getBroadcastDetail && getBroadcastDetail.liveCode === 'N'" class="video-empty">
+    <div v-else-if="broadcastDetail && broadcastDetail.liveCode === 'N'" class="video-empty">
       <i class="fi fi-rr-rocket"></i>
       <span>라이브 방송이 종료되었습니다.</span> 
     </div>
