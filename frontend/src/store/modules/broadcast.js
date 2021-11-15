@@ -145,6 +145,15 @@ const actions = {
       console.log(err)
     }
   },
+  closeManageVideo ({ commit }) {
+    commit('SET_BROADCAST_DETAIL', null)
+    commit('SET_BROADCAST_CNT', null)
+    commit('SET_STUDENT_LIST', null)
+    commit('SET_STUDENT_TARGET', null)
+    commit('SET_QUIZ_RESULT', null)
+    commit('SET_ACTIVE_STUDENTS', null)
+    commit('SET_REPLAY_DETAIL', null)
+  }
 }
 
 const mutations = {

@@ -46,7 +46,7 @@
         </button>
       </div>
     </div>
-    <div class="brief">
+    <div v-if="broadcastCnt" class="brief">
       <div class="brief-col">
         <span class="val">{{ broadcastCnt.attend }}</span>
         <span class="label">Students</span>

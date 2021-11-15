@@ -1,5 +1,5 @@
 <template>
-  <div class="award">
+  <div v-if="activeStudents" class="award">
     <div class="award-row">
       <div class="title">
         <i class="fi fi-rr-comment"></i>

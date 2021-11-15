@@ -115,8 +115,7 @@ export default {
             `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
             (message) => {
               const payload = JSON.parse(message.body)
-              this.$store.commit('stomp/SET_VIEWERS', payload.viewers)
-              // console.log(payload)
+              this.$store.commit('stomp/SET_VIEWERS', payload.viewer)
             },
             { "auto-delete": true, durable: false, exclusive: false }
           )

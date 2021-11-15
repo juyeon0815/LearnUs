@@ -57,5 +57,8 @@ export default {
     this.$store.dispatch('broadcast/getQuizResult', this.$route.params.id)
     this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
   },
+  unmounted () {
+    this.$store.dispatch('broadcast/closeManageVideo')
+  }
 }
 </script>
