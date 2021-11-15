@@ -4,7 +4,7 @@ export default {
   // 교육생 관리
   getStudents () {
     return _axios({
-      url: 'user/all',
+      url: '/user/all',
       method: 'get',
     })
   },
