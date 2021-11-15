@@ -1,11 +1,5 @@
 <template>
   <div class="control-gifticon">
-    <StudentSearchModal
-      v-if="isSearchModalOn" 
-      @close="closeSearchModal"/>
-    <i 
-      class="fi fi-sr-add gifticon-add-btn"
-      @click="openSearchModal"></i>
     <div class="student-table" v-if="gifticonList">
         <table>
           <thead>
@@ -35,28 +29,19 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import ControlGifticonRow from './ControlGifticonRow.vue'
-import StudentSearchModal from './StudentSearchModal.vue'
 
 export default {
   name: 'ControlGifticon',
   components: {
     ControlGifticonRow,
-    StudentSearchModal,
   },
   data () {
     return {
       currentPage: 1,
-      isSearchModalOn: false,
     }
   },
   methods: {
     ...mapActions('gifticon', ['getGifticonList']),
-    openSearchModal() {
-      this.isSearchModalOn = true
-    },
-    closeSearchModal() {
-      this.isSearchModalOn = false
-    },
   },
   created() {
     this.getGifticonList(this.$route.params.id)

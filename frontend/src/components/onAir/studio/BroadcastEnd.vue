@@ -7,6 +7,55 @@
       ></i>
       <h1>방송 종료</h1>
       <div class="default">
+        <div class="award">
+          <h3 @click="showRank= !showRank">
+            방송 참여 우수 교육생
+            <i :class="[showRank ? 'fi-rr-caret-up' : 'fi-rr-caret-down', 'fi']"></i>
+          </h3>
+          <transition name="fade"
+            v-on:before-enter="beforeEnter" v-on:enter="enter"
+            v-on:before-leave="beforeLeave" v-on:leave="leave"
+          >
+            <div v-show="showRank" ref="target" class="student">
+              <div class="rank-row">
+                <div class="rank-box">
+                  <span class="title">Chat Rank</span>
+                  <div 
+                    v-for="(item, idx) in activeStudents.chat"
+                    :key="idx"
+                    class="user"
+                  >
+                    <span class="rank">{{ ranks[idx] }}</span>
+                    <span class="nickname">{{ item.user.nickname }}</span>
+                    <i 
+                      class="fi fi-rr-add"
+                      v-if="item.gifticonYn === 'N'" 
+                      @click="createGifticon(item.user)"></i>
+                  </div>
+                </div>
+                <div class="rank-box">
+                  <span class="title">Quiz Rank</span>
+                  <div 
+                    v-for="(item, idx) in activeStudents.quiz"
+                    :key="idx"
+                    class="user"
+                  >
+                    <span class="rank">{{ ranks[idx] }}</span>
+                    <span class="nickname">{{ item.user.nickname }}</span>
+                    <i 
+                      class="fi fi-rr-add"
+                      v-if="item.gifticonYn === 'N'" 
+                      @click="createGifticon"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="gifticon">
+                <span class="title">Gifticon List</span>
+                <ControlGifticon/>
+              </div>
+            </div>
+          </transition>
+        </div>
         <div class="check-options">
           <div 
             :class="[replay ? 'checked' : '', 'checkbox']"
@@ -57,23 +106,19 @@
 <script>
 import broadcastApi from '@/api/broadcast'
 import { mapState, mapGetters } from 'vuex'
+import ControlGifticon from './ControlGifticon.vue'
 export default {
   name: 'BroadcastEnd',
+  components: {
+    ControlGifticon
+  },
   data () {
     return {
       replay: true,
       attendance: false,
       gifticon: false,
-    }
-  },
-  computed: {
-    ...mapState('stomp', ['stomp']),
-    ...mapGetters('broadcast', ['currentBroadcastId']),
-    replayData () {
-      return {
-        broadcastId: this.currentBroadcastId,
-        autoUploadYn: this.replay ? 'Y' : 'N'
-      }
+      ranks: ['1st', '2nd', '3rd'],
+      showRank: false
     }
   },
   methods: {
@@ -92,6 +137,43 @@ export default {
         console.log(err)
       }
     },
-  }
+    async createGifticon(data) {
+      const gifticonData = {
+        userId: data.userId,
+        broadcastId: this.currentBroadcastId,
+      }
+      const result = await this.$store.dispatch('gifticon/createGifticon', gifticonData)
+      if (result.status === 200) {
+        this.$store.dispatch('broadcast/getActiveStudent', this.currentBroadcastId)
+      }
+    },
+    beforeEnter: function(el) {
+      el.style.height = '0'
+    },
+    enter: function(el) {
+      console.log(el.scrollHeight)
+      el.style.height = el.scrollHeight + 16 + 'px'
+    },
+    beforeLeave: function(el) {
+      el.style.height = el.scrollHeight + 16 + 'px'
+    },
+    leave: function(el) {
+      el.style.height = '0'
+    }
+  },
+  computed: {
+    ...mapState('stomp', ['stomp']),
+    ...mapState('broadcast', ['activeStudents']),
+    ...mapGetters('broadcast', ['currentBroadcastId']),
+    replayData () {
+      return {
+        broadcastId: this.currentBroadcastId,
+        autoUploadYn: this.replay ? 'Y' : 'N'
+      }
+    },
+  },
+  created () {
+    this.$store.dispatch('broadcast/getActiveStudent', this.currentBroadcastId)
+  },
 }
 </script>

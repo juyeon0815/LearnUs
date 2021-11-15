@@ -42,8 +42,7 @@
       </div>
       <div>|</div>
       <div class="viewer">
-      <span>{{ viewers }}</span>
-      Viewers
+      <span>{{ viewers }}</span> Viewers
       </div>
     </div>
   </div>

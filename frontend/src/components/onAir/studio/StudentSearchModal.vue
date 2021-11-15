@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup control-gifticon">
     <div class="popup-box">
       <div 
         :class="[alertInfo.type === 'fail' ? 'yellow' : 'blue' ,'alert']" 
