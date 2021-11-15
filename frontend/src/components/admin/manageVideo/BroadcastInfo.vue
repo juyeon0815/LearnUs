@@ -15,14 +15,22 @@
               <span>영상 정보 수정</span>
             </div>
           </button>
-          <button
+          <input 
+            id="video-input"
+            type="file"
+            accept="video/*"
+            style="display:none;"
+            @change="onUploadVideo"
+          >
+          <label 
+            for="video-input"
             class="btn black"
           >
             <div class="btn-content">
               <i class="fi fi-rr-resources"></i>
               <span>영상 소스 교체</span>
             </div>
-          </button>
+          </label>
           <button
             class="btn black"
             @click="onDeleteConfirm = true"
@@ -60,6 +68,11 @@ export default {
     UpdateModal,
     DeleteConfirm
     // VideoPlayer
+  },
+  methods: {
+    onUploadVideo () {
+      // 영상 소스 교체
+    }
   }
 }
 </script>
