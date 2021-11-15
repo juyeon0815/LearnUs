@@ -5,12 +5,14 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
+      <div :class="[result ? 'blue' : 'yellow', 'alert']" v-if="msg">{{ msg }}</div>
       <h1>Tracks<span class="t-orange">:</span></h1>
       <div class="track-current">
         <TrackCurrent
           v-for="(ordinal, idx) in ordinalNo"
           :key="idx"
           :ordinal="ordinal"
+          @current="alertCurrent"
         />
       </div>
       <div class="track-box">
@@ -107,7 +109,9 @@ export default {
       trackData: {
         subjectId: null,
         trackName: ''
-      }
+      },
+      msg: false,
+      result: 0
     }
   },
   methods: {
@@ -119,6 +123,18 @@ export default {
     changeSubject(id, name) {
       this.subjectId = id
       this.subjectName = name
+    },
+    alertCurrent (success) {
+      if (success) {
+        this.result = 1
+        this.msg = '현재 진행 중인 교육 과정이 변경되었습니다.'
+      } else {
+        this.result = 0
+        this.msg = '교육 과정 변경에 실패했습니다.'
+      }
+      setTimeout(() => {
+        this.msg = false
+      }, 2000)
     },
     onAdd(target) {
       const input = document.querySelector(`.add-${target} > .add-box`)
