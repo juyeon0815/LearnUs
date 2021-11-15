@@ -23,7 +23,6 @@ export default {
   components: {
     OnAirChatInput,
     OnAirChatList,
-    // popup
     AttendCheck,
     AttendResult,
     QuizResult,
@@ -49,14 +48,16 @@ export default {
     ...mapGetters('broadcast', ['currentBroadcastId'])
   },
   async created() {
-    this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
+    this.$store.dispatch('stomp/getChatList', this.$route.params.id)
+    this.$store.dispatch('stomp/isAttendCheck', this.$route.params.id)
 
     this.stomp.connect(
       "admin",
       "admin",
       () => {
+        const id = this.$route.params.id
         this.stomp.subscribe(
-          `/exchange/chat.exchange/chat.${this.currentBroadcastId}`,
+          `/exchange/chat.exchange/chat.${id}`,
           (message) => {
             const payload = JSON.parse(message.body);
             const data = {
@@ -72,11 +73,11 @@ export default {
           { "auto-delete": true, durable: false, exclusive: false }
         );
         this.stomp.send(
-          `/pub/chat.enter.${this.currentBroadcastId}`,
+          `/pub/chat.enter.${id}`,
           {}
         )
         this.stomp.subscribe(
-          `/exchange/quiz.exchange/quiz.${this.currentBroadcastId}`,
+          `/exchange/quiz.exchange/quiz.${id}`,
           (message) => {
             const payload = JSON.parse(message.body)
             const key = Object.keys(payload)[0]
@@ -93,24 +94,24 @@ export default {
           { "auto-delete": true, durable: false, exclusive: false }
         )
         this.stomp.subscribe(
-          `/exchange/attendance.exchange/attendance.${this.currentBroadcastId}`, 
+          `/exchange/attendance.exchange/attendance.${id}`, 
           (message) => {
             const payload = JSON.parse(message.body)
-            console.log(payload);
+            // console.log(payload);
             if (payload === 'attendance start') {
               this.$store.commit('stomp/SET_ATTEND_CHECK', true)
             } else if (payload === 'attendance stop') {
               this.$store.commit('stomp/SET_ATTEND_CHECK', false)
             } else if (payload === 'broadcast start') {
-              this.getBroadcastDetail(this.currentBroadcastId)
+              this.getBroadcastDetail(id)
             } else if (payload === 'broadcast stop') {
-              this.getBroadcastDetail(this.currentBroadcastId)
+              this.getBroadcastDetail(id)
             }
           },
           {'auto-delete':true, 'durable':false, 'exclusive':false})
         if (this.$route.name === 'OnAirStudio') {
           this.stomp.subscribe(
-            `/exchange/admin.exchange/admin.${this.currentBroadcastId}`,
+            `/exchange/admin.exchange/admin.${id}`,
             (message) => {
               const payload = JSON.parse(message.body)
               this.$store.commit('stomp/SET_VIEWERS', payload.viewer)

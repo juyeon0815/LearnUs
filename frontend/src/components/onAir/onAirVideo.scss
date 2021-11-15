@@ -2,6 +2,13 @@
 
 .video-js {
   .vjs-control-bar {
-    background-color: rgba($dark, 0.2) !important;
+    background-color: rgba($dark, .4) !important;
+  }
+  .vjs-time-control {
+    &.vjs-remaining-time,
+    &.vjs-duration,
+    &.vjs-time-divider {
+      display: none;
+    }
   }
 }

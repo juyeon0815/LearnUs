@@ -165,6 +165,12 @@ export default {
       url: `broadcastReplay/${id}`,
       method : 'get'
     })
+  },
+  isAttendCheck (id) {
+    return _axios({
+      url: `/broadcast/start/isAttend/${id}`,
+      method : 'get'
+    })
   }
   
 

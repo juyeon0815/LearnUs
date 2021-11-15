@@ -153,7 +153,13 @@ const actions = {
     commit('SET_QUIZ_RESULT', null)
     commit('SET_ACTIVE_STUDENTS', null)
     commit('SET_REPLAY_DETAIL', null)
-  }
+  },
+  closeOnAirStudio ({ commit }) {
+    commit('SET_BROADCAST_DETAIL', null)
+    commit('SET_STUDENT_LIST', null)
+    commit('SET_STUDENT_TARGET', null)
+    commit('SET_REPLAY_DETAIL', null)
+  },
 }
 
 const mutations = {
@@ -198,6 +204,12 @@ const getters = {
   currentBroadcastId (state) {
     if (state.broadcastDetail) {
       return state.broadcastDetail.broadcastId
+    }
+    return null
+  },
+  isLive (state) {
+    if (state.broadcastDetail) {
+      return state.broadcastDetail.liveCode === 'Y'
     }
     return null
   },

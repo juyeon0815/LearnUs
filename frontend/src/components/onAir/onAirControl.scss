@@ -1,6 +1,19 @@
 @import "@/assets/style/_color.scss";
 
 .on-air-control {
+  .video-empty {
+    width: 100%;
+    height: 100%;
+    background: $black;
+    font-size: 1.2rem;
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+    i {
+      color: $orange;
+    }
+  }
   .video-info {
     position: relative;
     padding: 1.5rem;

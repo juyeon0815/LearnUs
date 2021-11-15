@@ -1,15 +1,18 @@
 <template>
   <div class="video-preview">
     <video 
-      v-if="broadcastDetail"
       ref="videoPlayer" 
       class="video-js vjs-fluid"
     ></video>
+    <div v-if="!isLive" class="video-empty">
+      <i class="fi fi-rr-rocket"></i>
+      <span>진행 중인 실시간 방송이 없습니다.</span> 
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 
@@ -23,11 +26,12 @@ export default {
   },
   computed: {
     ...mapState('broadcast', ['broadcastDetail']),
+    ...mapGetters('broadcast', ['isLive']),
     options() {
       return {
-				autoplay: false,
+				autoplay: 'any',
 				controls: true,
-        // poster: this.broadcastDetail.thumbnailUrl,
+        poster: this.broadcastDetail.thumbnailUrl,
         fluid: true,
         liveui: true,
 				sources: [
@@ -39,19 +43,33 @@ export default {
 			}
     },
   },
-  mounted() {
-    this.player = videojs(
-      this.$refs.videoPlayer, 
-      this.options, 
-      function onPlayerReady() {
-        console.log('onPlayerReady', this);
+  watch: {
+    isLive (val) {
+      if (val) {
+        this.player = videojs(
+          this.$refs.videoPlayer, 
+          this.options
+        )
+        this.player.removeChild('BigPlayButton');
+      } else {
+        if (this.player) {
+          this.player.dispose()
+        }
       }
-    )
-    this.player.removeChild('BigPlayButton');
+    },
+  },
+  mounted() {
+    if (this.isLive && this.broadcastDetail) {
+      this.player = videojs(
+          this.$refs.videoPlayer, 
+          this.options
+        )
+        this.player.removeChild('BigPlayButton');
+    }
   },
   beforeUnmount() {
     if (this.player) {
-        this.player.dispose()
+      this.player.dispose()
     }
   }
 }

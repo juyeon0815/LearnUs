@@ -1,5 +1,5 @@
 <template>
-  <div class="control-student">
+  <div v-if="studentList" class="control-student">
     <ControlStudentTable 
       v-if="studentTable"
       @close="offStudentTable"

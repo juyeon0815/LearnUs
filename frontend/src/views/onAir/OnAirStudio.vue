@@ -115,7 +115,7 @@ export default {
     this.$store.dispatch('stomp/getQuizList', this.$route.params.id)
   },
   unmounted () {
-    this.$store.commit('broadcast/SET_BROADCAST_DETAIL', null)
+    this.$store.dispatch('broadcast/closeOnAirStudio')
   }
 }
 </script>

@@ -32,6 +32,16 @@ const actions = {
       console.log(err)
     }
   },
+  async isAttendCheck ({ commit }, id) {
+    try {
+      const response = await broadcastApi.isAttendCheck(id)
+      if (response.status === 200) {
+        commit('SET_ATTEND_CHECK', true)
+      }
+    } catch (err) {
+      commit('SET_ATTEND_CHECK', false)
+    }
+  },
   async checkAttend ({ commit }, data) {
     commit('SET_ATTEND_CHECK', false)
     try {
