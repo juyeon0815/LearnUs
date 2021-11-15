@@ -50,6 +50,7 @@ export default {
   async created() {
     await this.$store.dispatch('stomp/getChatList', this.currentBroadcastId)
 
+    console.log("커넥트 시도");
     await this.stomp.connect(
       "admin",
       "admin",

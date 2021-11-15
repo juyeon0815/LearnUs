@@ -53,6 +53,7 @@ public class StompChatController {
 
     @MessageMapping("chat.message.{broadcastId}")
     public void send(ChatInfo chat, @DestinationVariable int broadcastId) {
+        System.out.println("??찍히나요??@@:"+chat.toString());
         userService.userChatSend(chat.getUserId(), broadcastId);
 
         chat.setRegDate(LocalDateTime.now());
