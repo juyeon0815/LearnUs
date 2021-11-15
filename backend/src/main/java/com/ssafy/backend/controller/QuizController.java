@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/quiz")
+@RequestMapping("/api/quiz")
 @CrossOrigin("*")
 public class QuizController {
     private static final String SUCCESS = "success";

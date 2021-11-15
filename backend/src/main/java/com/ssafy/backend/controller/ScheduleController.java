@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/api/schedule")
 @CrossOrigin("*")
 public class ScheduleController {
     private static final String SUCCESS = "success";
