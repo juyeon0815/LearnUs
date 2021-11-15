@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/broadcastReplay")
+@RequestMapping("/api//broadcastReplay")
 @CrossOrigin("*")
 public class BroadcastReplayController {
     private static final String SUCCESS = "success";
