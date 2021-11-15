@@ -6,6 +6,7 @@ import OnAirStudio from '@/views/onAir/OnAirStudio.vue'
 import ManageStudent from '@/views/admin/ManageStudent.vue'
 import ManageSettings from '@/views/admin/ManageSettings.vue'
 import ManageVideo from '@/views/admin/ManageVideo.vue'
+import VideoHistory from '@/views/admin/VideoHistory.vue'
 import Account from '@/views/account/Login.vue'
 import Profile from '@/views/account/Profile.vue'
 import LiveSchedule from '@/views/broadcast/LiveSchedule.vue'
@@ -41,6 +42,11 @@ const routes = [
     path: '/admin/settings',
     name: 'ManageSettings',
     component: ManageSettings
+  },
+  {
+    path: '/admin/history',
+    name: 'VideoHistory',
+    component: VideoHistory
   },
   {
     path: '/admin/video/:id',
