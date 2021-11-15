@@ -479,10 +479,18 @@
   }
 }
 .control-student {
+  position: relative;
   padding: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
+  .empty {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 1.1rem;
+  }
   .class {
     background: $orange;
     padding: .5rem 0;

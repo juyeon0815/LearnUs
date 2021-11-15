@@ -1,11 +1,22 @@
 <template>
   <div class="video-player">
-    <video ref="videoPlayer" class="video-js vjs-fluid"></video>
+    <video 
+      ref="videoPlayer" 
+      class="video-js vjs-fluid"
+    ></video>
+    <div v-if="getBroadcastDetail && getBroadcastDetail.liveCode === 'C'" class="video-empty">
+      <i class="fi fi-rr-rocket"></i>
+      <span>라이브 방송 준비 중입니다.</span> 
+    </div>
+    <div v-else-if="getBroadcastDetail && getBroadcastDetail.liveCode === 'N'" class="video-empty">
+      <i class="fi fi-rr-rocket"></i>
+      <span>라이브 방송이 종료되었습니다.</span> 
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 
@@ -17,17 +28,17 @@ export default {
       videoWidth: 0,
     }
   },
-  methods: {
-    ...mapActions('broadcast', ['getBroadcastDetail'])
-  },
   computed: {
     ...mapState('broadcast', ['broadcastDetail']),
+    ...mapGetters('broadcast', ['isLive']),
     options() {
       return {
-				autoplay: true,
+				autoplay: 'any',
 				controls: true,
         fluid: true,
+        liveui: true,
         playbackRates: [0.5, 1, 1.5, 2],
+        poster: this.broadcastDetail.thumbnailUrl,
 				sources: [
 					{
 						src: `https://d31f0osw72yf0h.cloudfront.net/${this.broadcastDetail.streamingKey}.m3u8`,
@@ -37,18 +48,29 @@ export default {
 			}
     },
   },
-  created () {
-    this.getBroadcastDetail(this.$route.params.id)
+  watch: {
+    isLive (val) {
+      if (val) {
+        this.player = videojs(
+          this.$refs.videoPlayer, 
+          this.options
+        )
+        this.player.removeChild('BigPlayButton');
+      } else {
+        if (this.player) {
+          this.player.dispose()
+        }
+      }
+    },
   },
   mounted() {
-    this.player = videojs(
-      this.$refs.videoPlayer, 
-      this.options, 
-      function onPlayerReady() {
-        console.log('onPlayerReady', this);
-      }
-    )
-    this.player.removeChild('BigPlayButton');
+    if (this.isLive && this.broadcastDetail) {
+      this.player = videojs(
+          this.$refs.videoPlayer, 
+          this.options
+        )
+        this.player.removeChild('BigPlayButton');
+    }
   },
   beforeUnmount() {
     if (this.player) {

@@ -133,6 +133,7 @@ export default {
         if (this.httpStatus === 200) {
           alertInfo.type = 'success'
           alertInfo.message = '방송 정보가 수정되었습니다.'
+          this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
         } else if (this.httpStatus === 500) {
           alertInfo.message = '서버 오류입니다.'
         } else {

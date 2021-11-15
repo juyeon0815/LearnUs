@@ -83,22 +83,6 @@
           @click="endBroadcast"
         >방송 종료</button>
       </div>
-      <!-- <div class="setting-box">
-        <h3>방송 참여 정보</h3>
-        <div>
-          <button>미참석 명단 Download</button>
-          <button>기프티콘 당첨자 명단 Download</button>
-        </div> -->
-        <!-- 미참석 명단 엑셀 다운로드 -->
-
-        <!-- 기프티콘 명단 엑셀 다운로드 -->
-        
-        
-        <!-- 미참석 명단 MM 전송 -->
-        <!-- 기프티콘 명단 MM 전송 -->
-        <!-- 다시보기 공개 여부 -->
-        <!-- 채팅 / 퀴즈왕 정보 -->
-      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -132,7 +116,7 @@ export default {
         if (this.gifticon) {
           await broadcastApi.sendGifticonMM(this.currentBroadcastId)
         }
-        alert('방송이 종료되었습니다.')
+        this.$router.push({ name: 'ManageVideo', params: { id: this.currentBroadcastId}})
       } catch (err) {
         console.log(err)
       }

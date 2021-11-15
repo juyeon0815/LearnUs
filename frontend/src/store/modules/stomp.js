@@ -102,6 +102,11 @@ const actions = {
     } catch (err) {
       console.log(err)
     }
+  },
+  resetStompData ({ commit }) {
+    commit('SET_CHAT_LIST', null)
+    commit('SET_VIEWERS', 0)
+    commit('SET_CURRENT_QUIZ', null)
   }
 }
 
