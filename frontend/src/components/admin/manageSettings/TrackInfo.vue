@@ -40,7 +40,10 @@
                 placeholder="과정 이름"
               >
               <span>
-                <button @click="addSubject">추가</button>
+                <button 
+                  :class="[subjectData.subjectName.trim().length ? '' : 'disabled']" 
+                  @click="addSubject"
+                >추가</button>
                 <button @click="offAdd('subject')">취소</button>
               </span>
             </div>
@@ -62,7 +65,10 @@
                 placeholder="트랙 이름"
               >
               <span>
-                <button @click="addTrack">추가</button>
+                <button 
+                  :class="[trackData.trackName.trim().length ? '' : 'disabled']" 
+                  @click="addTrack"
+                >추가</button>
                 <button @click="offAdd('track')">취소</button>
               </span>
             </div>
@@ -99,7 +105,7 @@ export default {
         subjectName: '',
       },
       trackData: {
-        subjectName: null,
+        subjectId: null,
         trackName: ''
       }
     }
@@ -122,7 +128,7 @@ export default {
       if (target === 'subject') {
         this.subjectData.ordinalNo = this.ord
       } else if (target === 'track') {
-        this.trackData.subjectName = this.subjectName
+        this.trackData.subjectId = this.subjectId
       }
     },
     offAdd(target) {
