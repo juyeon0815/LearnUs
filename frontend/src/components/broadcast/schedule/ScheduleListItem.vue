@@ -11,7 +11,7 @@
         <span 
           class="info-title"
           @click="$router.push({ name: 'OnAir', params: { id: broadcast.broadcastId }})">
-          {{ shorten(broadcast.title) }}
+          {{ shorten }}
           <span class="onair" v-if="broadcast.liveCode === 'Y'">ONAIR</span>
         </span>
         <div class="admin-btn" v-if="isAdmin">
@@ -49,16 +49,14 @@ export default {
   props: {
     broadcast: Object,
   },
-  methods: {
-    shorten(sentence) {
-      if (sentence.length > 15) {
-        return sentence.slice(0,14) + '..'
-      } else {
-        return sentence
-      }
-    }
-  },
   computed: {
+    shorten() {
+      if (this.broadcast.title.length > 15) {
+        return this.broadcast.title.slice(0,14) + '···'
+      } else {
+        return this.broadcast.title
+      }
+    },
     trackNames() {
       return this.broadcast.trackList.map(track => {
         return track.trackName + ' | ' + track.trackSubject.trackSetting.ordinalNo + '기 ' + track.trackSubject.subjectName
