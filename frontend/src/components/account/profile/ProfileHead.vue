@@ -13,15 +13,19 @@
     <div class="student-info">
       <div>
         <span class="student-name">{{ userInfo.name }}</span>
-        <span class="student-id">0{{ userInfo.userId }}</span>
+        <span v-if="!isAdmin" class="student-id">0{{ userInfo.userId }}</span>
       </div>
       <div class="department">
-        <span class="grade">SSAFY {{ userInfo.ordinalNo }}기 교육생</span>
-        <span class="region-class">({{ userInfo.region }} {{ userInfo.classNo }}반)</span>
+        <span v-if="isAdmin" class="grade">관리자 계정</span>
+        <span v-if="!isAdmin" class="grade">SSAFY {{ userInfo.ordinalNo }}기 교육생</span>
+        <span v-if="!isAdmin" class="region-class">({{ userInfo.region }} {{ userInfo.classNo }}반)</span>
       </div>
     </div>
     <!--  -->
-    <ProfileCrop v-if="isCropperShow" @hideCropper="onHideCropper"/>
+    <ProfileCrop 
+      v-if="isCropperShow" 
+      @hideCropper="onHideCropper" 
+      @wrongExtension="onWrongExtension"/>
   </div>
 </template>
 
@@ -80,6 +84,10 @@ export default {
         }
         this.$emit('alert', alertInfo)
       }
+    },
+    onWrongExtension(alertInfo) {
+      this.isCropperShow = false
+      this.$emit('alert', alertInfo)
     }
   },
   computed: {
@@ -88,6 +96,12 @@ export default {
     },
     photoKey() {
       return this.$store.state.account.photoKey
+    },
+    isAdmin() {
+      if (this.$store.state.account.userInfo) {
+        return this.$store.state.account.userInfo.statusCode === 'A'
+      }
+      return false
     }
   },
   created() {

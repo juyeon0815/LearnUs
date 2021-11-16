@@ -3,7 +3,9 @@
     <button class="create-btn" @click="onCreate">라이브 생성</button>
     <!-- 썸네일, 기초정보 인풋 -->
     <div class="live-row">
-      <ThumbnailUploader ref="thumbnailUploader"/>
+      <ThumbnailUploader 
+        @wrongExtension="onWrongExtension" 
+        ref="thumbnailUploader"/>
       <div class="summary-col">
         <div class="input-box mb-2">
           <input 
@@ -122,6 +124,9 @@ export default {
       })
       data.trackList = tracksObj
       this.createBroadcast(data)
+    },
+    onWrongExtension(alertInfo) {
+      this.onAlert(alertInfo)
     },
     onAlert(alertInfo) {
       this.alertInfo = alertInfo

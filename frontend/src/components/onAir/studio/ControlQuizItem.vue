@@ -64,7 +64,7 @@ export default {
       this.deleteQuiz(this.quiz)
     },
     onUpdate () {
-      this.$store.commit('stomp/SET_QUIZ_TARGET', this.quiz.quizId)
+      this.$store.commit('stomp/SET_QUIZ_TARGET', this.quiz)
       this.$emit('updateQuiz')
     },
     startQuiz() {

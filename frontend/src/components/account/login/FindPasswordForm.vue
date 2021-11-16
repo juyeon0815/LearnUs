@@ -31,7 +31,6 @@
           type="text"
           maxlength="7"
           placeholder="SSAFY 학번을 입력해 주세요."
-          @click="onFindPassword"
           required
         />
         <label>student ID</label>

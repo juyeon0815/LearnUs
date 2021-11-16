@@ -56,6 +56,7 @@
             v-for="track in trackList"
             :key="track.trackId"
             :track="track"
+            @at="alertTrack"
           />
           <div class="add-track">
             <button class="add-btn" @click="onAdd('track')">+</button>
@@ -181,20 +182,25 @@ export default {
           this.$store.dispatch('admin/getTrackAll')
         }
       } catch (err) {
-        console.log(err.response)
         if (err.response.data === 'same_name') {
-          this.result = 0
-          this.msg = '같은 이름의 트랙은 등록할 수 없습니다.'
+          this.alertTrack(1)
         } else {
           this.offAdd('track')
-          this.result = 0
-          this.msg = '트랙 추가에 실패했습니다.'
+          this.alertTrack(0)
         }
-        setTimeout(() => {
-          this.msg = false
-        }, 2000)
       }
     },
+    alertTrack (val) {
+      this.result = 0
+      if (val) {
+        this.msg = '같은 이름의 트랙은 등록할 수 없습니다.'
+      } else {
+        this.msg = '트랙 추가에 실패했습니다.'
+      }
+      setTimeout(() => {
+        this.msg = false
+      }, 2000)
+    }
   },
   computed: {
     ...mapState(

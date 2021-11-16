@@ -17,71 +17,11 @@ import Replay from '@/views/replay/Replay.vue'
 import ReplayDetail from '@/views/replay/ReplayDetail.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'Index',
-    component: Index,
-    meta: { requireAuth: true }
-  },
-  {
-    path: '/live/:id',
-    name: 'OnAir',
-    component: OnAir
-  },
-  {
-    path: '/live/studio/:id',
-    name: 'OnAirStudio',
-    component: OnAirStudio
-  },
-  {
-    path: '/admin/students',
-    name: 'ManageStudent',
-    component: ManageStudent
-  },
-  {
-    path: '/admin/settings',
-    name: 'ManageSettings',
-    component: ManageSettings
-  },
-  {
-    path: '/admin/history',
-    name: 'VideoHistory',
-    component: VideoHistory
-  },
-  {
-    path: '/admin/video/:id',
-    name: 'ManageVideo',
-    component: ManageVideo
-  },
-  {
-    path: '/admin/create/live',
-    name: 'CreateLive',
-    component: CreateLive
-  },
+  // 비로그인 사용자
   {
     path: '/account/:page',
     name: 'Account',
     component: Account
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
-  },
-  {
-    path: '/broadcast/schedule',
-    name: 'LiveSchedule',
-    component: LiveSchedule
-  },
-  {
-    path: '/replay/:track',
-    name: 'Replay',
-    component: Replay
-  },
-  {
-    path: '/replay/video/:id',
-    name: 'ReplayDetail',
-    component: ReplayDetail
   },
   { 
     path: '/:pathMatch(.*)*', 
@@ -91,6 +31,80 @@ const routes = [
     path: '/error/:code',
     name: 'Error',
     component: ErrorPage
+  },
+  // 로그인 사용자
+  {
+    path: '/',
+    name: 'Index',
+    component: Index,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/live/:id',
+    name: 'OnAir',
+    component: OnAir,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/broadcast/schedule',
+    name: 'LiveSchedule',
+    component: LiveSchedule,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/replay/:track',
+    name: 'Replay',
+    component: Replay,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/replay/video/:id',
+    name: 'ReplayDetail',
+    component: ReplayDetail,
+    meta: { requireAuth: true }
+  },
+  // 관리자
+  {
+    path: '/live/studio/:id',
+    name: 'OnAirStudio',
+    component: OnAirStudio,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/admin/video/:id',
+    name: 'ManageVideo',
+    component: ManageVideo,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/admin/create/live',
+    name: 'CreateLive',
+    component: CreateLive,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/admin/students',
+    name: 'ManageStudent',
+    component: ManageStudent,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/admin/settings',
+    name: 'ManageSettings',
+    component: ManageSettings,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/admin/history',
+    name: 'VideoHistory',
+    component: VideoHistory,
+    meta: { requireAuth: true }
   },
 ]
 
@@ -106,7 +120,22 @@ router.beforeEach(function (to, from, next) {
     if (!store.state.account.accessToken) {
       next('/account/login')
     } else {
-      next()
+      if (
+        to.name === 'OnAirStudio' ||
+        to.name === 'ManageVideo' ||
+        to.name === 'CreateLive' ||
+        to.name === 'ManageStudent' ||
+        to.name === 'ManageSettings' ||
+        to.name === 'VideoHistory'
+      ) {
+        if (store.state.account.userInfo.statusCode === 'A') {
+          next()
+        } else {
+          next('/')
+        }
+      } else {
+        next()
+      }
     }
   } else {
     if (to.name === 'Account') {
@@ -121,6 +150,5 @@ router.beforeEach(function (to, from, next) {
   }
   
 })
-
 
 export default router
