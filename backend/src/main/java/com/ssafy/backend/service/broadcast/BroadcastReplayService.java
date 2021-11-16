@@ -11,4 +11,6 @@ public interface BroadcastReplayService {
     List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo);
     List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo);
     BroadcastReplayInfo getBroadcastReplay(int broadcastReplayId);
+    Integer getBroadcastReplayId(int broadcastId);
+//    List<BroadcastReplayInfo> getBroadcastReplayLimit3(int userId);
 }

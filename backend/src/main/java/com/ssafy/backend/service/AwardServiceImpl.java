@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AwardServiceImpl implements AwardService{
@@ -64,10 +67,37 @@ public class AwardServiceImpl implements AwardService{
     }
 
     @Override
-    public List<Award> getAward() {
+    public Map<String, List<Award>> getAward() {
         try {
-            List<Award> awardList = awardDao.findAwards(LocalDate.now());
-            return awardList;
+            Map<String, List<Award>> map = new HashMap<>();
+            List<Award> chatAwardList = awardDao.findChatAwards(LocalDate.now(), 0);
+            List<Award> quizAwardList = awardDao.findChatAwards(LocalDate.now(), 1);
+
+            List<Award> saveChatAwardList = new ArrayList<>();
+            List<Award> saveQuizAwardList = new ArrayList<>();
+
+            for (int i=0;i<chatAwardList.size();i++) {
+                if (saveChatAwardList.size() >= 3) break;
+                Award award = chatAwardList.get(i);
+                if (!saveChatAwardList.contains(award)) {
+                    award.getUser().setPassword("");
+                    saveChatAwardList.add(award);
+                }
+            }
+
+            for (int i=0;i<quizAwardList.size();i++) {
+                if (saveQuizAwardList.size() >= 3) break;
+                Award award = quizAwardList.get(i);
+                if (!saveQuizAwardList.contains(award)) {
+                    award.getUser().setPassword("");
+                    saveQuizAwardList.add(award);
+                }
+            }
+
+            map.put("chat", saveChatAwardList);
+            map.put("quiz", saveQuizAwardList);
+
+            return map;
         } catch (Exception e) {
             return null;
         }

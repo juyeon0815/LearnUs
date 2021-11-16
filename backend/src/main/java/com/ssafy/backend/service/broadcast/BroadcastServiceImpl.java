@@ -70,10 +70,10 @@ public class BroadcastServiceImpl implements BroadcastService {
                 Track track = broadcastInfo.getTrackList().get(i);
                 BroadcastTrack broadcastTrack = BroadcastTrack.builder().broadcast(broadcast).track(track).build();
                 broadcastTrackDao.save(broadcastTrack);
-                List<User> userList = userDao.findUserByTrack(track);
+                List<User> userList = userDao.findUsersByTrackAndStatusCode(track, "Y");
                 for (int j = 0; j < userList.size(); j++) {
                     User user = userList.get(j);
-                    Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").build();
+                    Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(broadcastTrack).attend("N").gifticonYn("N").build();
                     attendanceDao.save(attendance);
                 }
             }
@@ -130,10 +130,13 @@ public class BroadcastServiceImpl implements BroadcastService {
                         BroadcastTrack saveBroadcastTrack = BroadcastTrack.builder().broadcast(broadcast).track(track).build();
                         broadcastTrackDao.save(saveBroadcastTrack);
                         // 참가 명단 추가
-                        List<User> userList = userDao.findUserByTrack(track);
+                        List<User> userList = userDao.findUsersByTrackAndStatusCode(track, "Y");
                         for (int j = 0; j < userList.size(); j++) {
                             User user = userList.get(j);
-                            Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").build();
+
+                            Gifticon gifticon = gifticonDao.findGifticonByUserAndBroadcast(user, broadcast);
+                            String gifticonYn = gifticon == null?"N":"Y";
+                            Attendance attendance = Attendance.builder().user(user).broadcast(broadcast).broadcastTrack(saveBroadcastTrack).attend("N").gifticonYn(gifticonYn).build();
                             attendanceDao.save(attendance);
                         }
                     }
@@ -228,6 +231,14 @@ public class BroadcastServiceImpl implements BroadcastService {
 
                 broadcastInfoList.add(broadcastInfo);
             }
+
+            // 방송 정렬
+            Collections.sort(broadcastInfoList, new Comparator<BroadcastInfo>() {
+                @Override
+                public int compare(BroadcastInfo o1, BroadcastInfo o2) {
+                    return o2.getBroadcastDate().compareTo(o1.getBroadcastDate());
+                }
+            });
 
             return broadcastInfoList;
         } catch (Exception e) {
