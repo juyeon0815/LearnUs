@@ -37,7 +37,7 @@
               class= "quiz-input"
               :closeOnSelect="false"
               :options=answerOptions
-              placeholder="정답"
+              placeholder="정답을 입력해주세요."
               required
             ></multiselect>
             <div
@@ -50,7 +50,7 @@
               :value="answer"
               class= "quiz-input" 
               type="text"
-              placeholder="문제를 입력해주세요."
+              placeholder="정답을 입력해주세요."
               required
             >
             <label>Answer</label>
