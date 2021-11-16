@@ -24,7 +24,7 @@
         <i class="fi fi-rr-film" @click="moveToReplay(0, 0)"></i>
         <span @click="moveToReplay(0, 0)">RE<span class="t-orange">:</span>PLAY</span>
         <div v-if="optionReady" class="category">
-          <span @click="moveToReplay(0, 0)">‣ 전체 보기</span>
+          <span v-if="!isAdmin" @click="moveToReplay(0, 0)">‣ 전체 보기</span>
           <div v-if="!isAdmin">
             <span @click="changeReplayMenu(1)">‣ 1학기 과정</span>
             <transition name="fade"
@@ -158,8 +158,7 @@ export default {
       this.vw = window.innerWidth
     })
     if (this.userInfo) {
-      this.$store.dispatch('admin/getTrackAll')
-      this.$store.dispatch('admin/getSubjectAll')
+      this.$store.dispatch('admin/setTrackInfo')
     }
   },
 }
