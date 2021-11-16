@@ -20,5 +20,12 @@ export default {
       url: `broadcastReplay/${broadcastReplayId}`,
       method: 'get'
     })
-  }
+  },
+
+  getIndexReplayList(userId) {
+    return _axios({
+      url: `broadcastReplay/index/${userId}`,
+      method: 'get'
+    })
+  },
 }

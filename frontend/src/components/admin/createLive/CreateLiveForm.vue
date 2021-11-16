@@ -63,6 +63,8 @@
         <label>Description</label>
       </div>
     </div>
+    <!-- Alert -->
+    <div :class="[alertInfo.type === 'fail' ? 'yellow' : 'blue' ,'alert']" v-if="showAlert">{{ alertInfo.message }}</div>
   </div>
 </template>
 
@@ -86,6 +88,11 @@ export default {
       trackIds: [],
       description: '',
       thumbnail: '',
+      showAlert: false,
+      alertInfo: {
+        type: null,
+        message: '',
+      }
     }
   },
   methods: {
@@ -100,6 +107,14 @@ export default {
       this.description = event.target.value
     },
     async onCreate() {
+      if (this.title === '' || this.instructor === '' || !this.trackIds.length) {
+        const alertInfo = {
+          type: 'fail',
+          message: '제목, 진행자, 대상 트랙은 필수 입력 항목입니다.'
+        }
+        this.onAlert(alertInfo)
+        return
+      }
       this.thumbnail = await this.$refs.thumbnailUploader.saveThumbnail()
       let data = this.broadcastData
       const tracksObj = this.tracks.filter(track => {
@@ -107,6 +122,15 @@ export default {
       })
       data.trackList = tracksObj
       this.createBroadcast(data)
+    },
+    onAlert(alertInfo) {
+      this.alertInfo = alertInfo
+      this.showAlert = true
+      setTimeout(() => {
+        this.showAlert = false
+        this.alertInfo.type = null
+        this.alertInfo.message = ''
+      }, 2000)
     }
   },
   computed: {
