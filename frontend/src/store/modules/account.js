@@ -154,7 +154,12 @@ const mutations = {
 }
 
 const getters = {
-
+  isAdmin (state) {
+    if (state.userInfo) {
+      return state.userInfo.statusCode === 'A'
+    }
+    return 0
+  }
 }
 
 export default {
