@@ -1,6 +1,7 @@
 <template>
   <div class="update-popup">
     <div class="popup-box">
+      <Loading v-if="isLoading"/>
       <i 
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
@@ -49,8 +50,12 @@
 
 <script>
 import adminApi from '@/api/admin'
+import Loading from '@/components/common/Loading'
 export default {
   name: 'StudentUpdate',
+  components: {
+    Loading
+  },
   data () {
     return {
       updateFile: null,
@@ -58,7 +63,8 @@ export default {
       createFile: null,
       createFileName: null,
       msg: false,
-      result: 0
+      result: 0,
+      isLoading: false,
     }
   },
   methods: {
@@ -73,11 +79,13 @@ export default {
       }
     },
     async onRegisterInfo() {
+      this.isLoading = true
       const formData = new FormData()
       formData.append('excelFile', this.createFile)
       try {
         const response = await adminApi.registerStudents(formData)
         if (response.status === 200) {
+          this.isLoading = false
           this.createFile = null
           this.createFileName = null
           this.result = 1
@@ -88,20 +96,22 @@ export default {
           this.$store.dispatch('admin/getStudents')
         }
       } catch (err) {
+        this.isLoading = false
         this.result = 0
         this.msg = '신규 교육생 등록에 실패했습니다.'
         setTimeout(() => {
           this.msg = false
         }, 2000)
-        // console.log(err.response)
       }
     },
     async onUpdateInfo () {
+      this.isLoading = true
       const formData = new FormData()
       formData.append('excelFile', this.updateFile)
       try {
         const response = await adminApi.editStudents(formData)
         if (response.status === 200) {
+          this.isLoading = false
           this.updateFile = null
           this.updateFileName = null
           this.result = 1
@@ -112,6 +122,7 @@ export default {
           this.$store.dispatch('admin/getStudents')
         }
       } catch (err) {
+        this.isLoading = false
         this.result = 0
         this.msg = '교육생 정보 수정에 실패했습니다.'
         setTimeout(() => {

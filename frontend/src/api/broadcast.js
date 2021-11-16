@@ -165,7 +165,12 @@ export default {
       method : 'get'
     })
   },
-
+  getReplayId (id) {
+    return _axios({
+      url: `broadcastReplay/getId/${id}`,
+      method : 'get'
+    })
+  },
   getReplayInfo (id) {
     return _axios({
       url: `broadcastReplay/${id}`,
