@@ -8,7 +8,7 @@
           <button 
             class="btn"
             @click="onUpdate = true"
-          >+</button>
+          ><i class="fi fi-rr-add"></i></button>
         </span>
       </header>
       <SearchBar/>

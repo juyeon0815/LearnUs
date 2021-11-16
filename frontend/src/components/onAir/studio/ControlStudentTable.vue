@@ -66,6 +66,11 @@ export default {
       currentPage: 1,
     }
   },
+  methods: {
+    changePage(page) {
+      this.currentPage = page
+    },
+  },
   computed: {
     ...mapGetters('broadcast', ['studentData']),
     paginatedArea () {

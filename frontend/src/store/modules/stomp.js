@@ -4,6 +4,7 @@ import quizApi from '@/api/quiz'
 const state = {
   stomp: null,
   chatList: null,
+  viewers: 0,
   attendCheck: false,
   // 성공하면 1, 실패하면 2
   attendResult: null,
@@ -29,6 +30,16 @@ const actions = {
       }
     } catch (err) {
       console.log(err)
+    }
+  },
+  async isAttendCheck ({ commit }, id) {
+    try {
+      const response = await broadcastApi.isAttendCheck(id)
+      if (response.status === 200) {
+        commit('SET_ATTEND_CHECK', true)
+      }
+    } catch (err) {
+      commit('SET_ATTEND_CHECK', false)
     }
   },
   async checkAttend ({ commit }, data) {
@@ -91,12 +102,20 @@ const actions = {
     } catch (err) {
       console.log(err)
     }
+  },
+  resetStompData ({ commit }) {
+    commit('SET_CHAT_LIST', null)
+    commit('SET_VIEWERS', 0)
+    commit('SET_CURRENT_QUIZ', null)
   }
 }
 
 const mutations = {
   SET_STOMP (state, payload) {
     state.stomp = payload
+  },
+  SET_VIEWERS (state, payload) {
+    state.viewers = payload
   },
   SET_ATTEND_CHECK (state, payload) {
     state.attendCheck = payload

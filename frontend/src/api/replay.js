@@ -1,24 +1,24 @@
 import _axios from "./interceptor"
 
 export default {
-    getBroadCasts(ordinalNo) {
-        return _axios({
-            url: `broadcastReplay/all/${ordinalNo}`,
-            method : 'get',
-        })
-    },
+  getBroadCasts(ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/all/${ordinalNo}`,
+      method: 'get',
+    })
+  },
 
-    getBroadCastsByTrack(searchData) {
-        return _axios({
-            url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
-            method : 'get'
-        })
-    },
+  getBroadCastsByTrack(searchData) {
+    return _axios({
+      url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
+      method: 'get'
+    })
+  },
 
-    getBroadCastInfo(broadcastReplayId) {
-        return _axios({
-            url: `broadcastReplay/${broadcastReplayId}`,
-            method : 'get'
-        })
-    }
+  getBroadCastInfo(broadcastReplayId) {
+    return _axios({
+      url: `broadcastReplay/${broadcastReplayId}`,
+      method: 'get'
+    })
+  }
 }
