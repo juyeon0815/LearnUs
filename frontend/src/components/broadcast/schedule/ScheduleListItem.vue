@@ -79,7 +79,10 @@ export default {
       return result
     },
     isAdmin() {
-      return this.$store.state.account.userInfo.statusCode === 'A'
+      if (this.$store.state.account.userInfo) {
+        return this.$store.state.account.userInfo.statusCode === 'A'
+      }
+      return false
     }
   }
 }
