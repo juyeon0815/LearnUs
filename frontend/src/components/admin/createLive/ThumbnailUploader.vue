@@ -32,6 +32,22 @@ export default {
   methods: {
     getImage() {
       const inputImage = this.$refs.inputImage.files[0]
+      /* 파일 확장자 실패 분기 */
+      const extension = inputImage.name.split(".")[1]
+      if (!extension || (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'png')) {
+        const alertInfo = {
+          type: 'fail',
+          message: 'jpg · jpeg · png 파일만 등록할 수 있습니다.'
+        }
+        if (this.$route.name === 'OnAirStudio' || this.$route.name === 'ManageVideo') {
+          this.thumbnailImage = this.originalThumbnailPath
+        } else {
+          this.thumbnailImage = null
+        }
+        this.$refs.inputImage.value = ''
+        this.$emit('wrongExtension',alertInfo)
+        return
+      }
       const reader = new FileReader()
       reader.onload = () => {
         this.thumbnailImage = reader.result
@@ -46,7 +62,7 @@ export default {
       if (!this.thumbnailImage) {
         const defaultThumbnailPath = 'https://' + albumBucketName + '.s3.ap-northeast-2.amazonaws.com/thumbnails/default.jpg'
         return defaultThumbnailPath
-      } else if (this.$route.name === "OnAirStudio" && this.thumbnailImage === this.originalThumbnailPath) {
+      } else if ((this.$route.name === "OnAirStudio" || this.$route.name === 'ManageVideo') && this.thumbnailImage === this.originalThumbnailPath) {
         return this.originalThumbnailPath
       }
 
@@ -91,7 +107,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.name === "OnAirStudio") {
+    if (this.$route.name === 'OnAirStudio' || this.$route.name === 'ManageVideo') {
       this.thumbnailImage = this.originalThumbnailPath
     }
   }
