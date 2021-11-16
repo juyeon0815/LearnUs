@@ -8,7 +8,7 @@
     <DeleteConfirm v-if="onDeleteConfirm" @close="onDeleteConfirm = false"/>
     <div class="default">
       <div class="video">
-        <div class="player"></div>
+        <VideoPlayer/>
         <div class="btns">
           <button
             class="btn black"
@@ -56,7 +56,7 @@
 <script>
 import AWS from "aws-sdk"
 
-// import VideoPlayer from '@/components/replay/video/ReplayVideoPlayer'
+import VideoPlayer from './BroadcastVideoPlayer'
 import VideoInfo from './BroadcastVideoInfo.vue'
 import DeleteConfirm from './BroadcastDeleteConfirm.vue'
 import Award from './BroadcastAward.vue'
@@ -81,7 +81,7 @@ export default {
     UpdateModal,
     DeleteConfirm,
     UploadSpinner,
-    // VideoPlayer
+    VideoPlayer
   },
   methods: {
     ...mapActions('broadcast', ['updateReplayInfo']),
