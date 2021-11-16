@@ -48,11 +48,13 @@ export default {
   computed: {
     ...mapState('broadcast', ['replayList']),
     currentResult() {
-      let entire = this.replayList.filter( replay => {
-          return replay.openYn === 'Y'
-        })
-      return entire
-      
+      if (this.replayList) {
+        let entire = this.replayList.filter( replay => {
+            return replay.openYn === 'Y'
+          })
+        return entire
+      }
+      return []
     },
     paginatedArea() {
       let start = (this.currentPage - 1) * 12

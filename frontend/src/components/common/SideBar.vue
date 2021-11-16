@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bar">
+  <div v-if="userInfo" class="side-bar">
     <div class="logo" @click="$router.push('/')">
       <img class="logo-sm" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
       <span v-if="vw > 576" class="logo-text">LearnUs</span>
@@ -139,13 +139,23 @@ export default {
       return this.userInfo && this.tracks && this.subjects
     }
   },
-  created () {
+  watch: {
+    userInfo (val) {
+      if (val) {
+        this.$store.dispatch('admin/getTrackAll')
+        this.$store.dispatch('admin/getSubjectAll')
+      }
+    }
+  },
+  mounted () {
     this.vw = window.innerWidth
     window.addEventListener('resize', () => {
       this.vw = window.innerWidth
     })
-    this.$store.dispatch('admin/getTrackAll')
-    this.$store.dispatch('admin/getSubjectAll')
+    if (this.userInfo) {
+      this.$store.dispatch('admin/getTrackAll')
+      this.$store.dispatch('admin/getSubjectAll')
+    }
   },
 }
 </script>

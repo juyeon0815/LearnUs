@@ -34,6 +34,22 @@ export default {
   },
   watch: {
     '$route'() {
+      if (this.userInfo) {
+        const trackId = this.$route.params.track
+        if (!trackId || trackId === '0') {
+          this.$store.dispatch('broadcast/getReplayList', this.userInfo.ordinalNo)
+        } else {
+          const data = {
+            id: trackId,
+            ordinalNo: this.userInfo.ordinalNo
+          }
+          this.$store.dispatch('broadcast/getReplayTrackList', data)
+        }
+      }
+    },
+  },
+  created () {
+    if (this.userInfo) {
       const trackId = this.$route.params.track
       if (!trackId || trackId === '0') {
         this.$store.dispatch('broadcast/getReplayList', this.userInfo.ordinalNo)
@@ -44,18 +60,6 @@ export default {
         }
         this.$store.dispatch('broadcast/getReplayTrackList', data)
       }
-    },
-  },
-  created () {
-    const trackId = this.$route.params.track
-    if (trackId === '0') {
-      this.$store.dispatch('broadcast/getReplayList', this.userInfo.ordinalNo)
-    } else {
-      const data = {
-        id: trackId,
-        ordinalNo: this.userInfo.ordinalNo
-      }
-      this.$store.dispatch('broadcast/getReplayTrackList', data)
     }
   }
 };
