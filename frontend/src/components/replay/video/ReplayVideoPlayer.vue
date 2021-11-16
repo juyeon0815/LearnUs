@@ -63,18 +63,6 @@ export default {
       return moment(this.replayDetail.broadcast.broadcastDate).locale('ko').format('LL');
     }
   },
-<<<<<<< HEAD
-  async mounted() {
-    await this.$store.dispatch("replay/getBroadCastInfo", this.broadcastId); // broadcastId 업데이트 -> async await 걸어서 순서대로 처리되도록!
-    this.url = this.broadCastInfo.replayUrl;
-    console.log("ReplayVideoPlayer : "+this.url);
-
-    this.player = videojs(this.$refs.videoPlayer, this.options, function ready() {
-      this.currentTime(0);
-    });
-    this.player.removeChild("BigPlayButton");
-
-=======
   watch: {
     hasReplay (val) {
       if (val) {
@@ -104,7 +92,6 @@ export default {
       )
       this.player.removeChild("BigPlayButton")
     }
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   },
   beforeUnmount() {
     if (this.player) {

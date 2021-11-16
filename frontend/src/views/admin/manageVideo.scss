@@ -11,16 +11,16 @@
       overflow-y: auto;
       background: $dark;
       border-radius: 10px;
-      padding: .5rem 1rem;
+      padding: 0.5rem 1rem;
       .tabs {
         display: flex;
         justify-content: center;
         gap: 1rem;
-        margin-top: .2rem;
-        margin-bottom: .5rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.5rem;
         .tab-item {
           cursor: pointer;
-          padding: .1rem .5rem;
+          padding: 0.1rem 0.5rem;
           border-bottom: 3px solid $light;
           &.active {
             font-weight: 700;
@@ -48,8 +48,6 @@
       flex-direction: column;
       padding: 1rem;
       gap: 1rem;
-<<<<<<< HEAD
-=======
       .spinner {
         .spinner-box {
           position: fixed;
@@ -139,80 +137,79 @@
               opacity: 0;
             }
           }
-          
+
           .spinner-svg {
-          width: 100px;
-          margin-bottom: 20px;
+            width: 100px;
+            margin-bottom: 20px;
           }
-          
+
           .path {
-          stroke-dasharray: 1000;
-          stroke-dashoffset: 0;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
             &.circle {
-            -webkit-animation: dash .9s ease-in-out;
-            animation: dash .9s ease-in-out;
+              -webkit-animation: dash 0.9s ease-in-out;
+              animation: dash 0.9s ease-in-out;
             }
             &.line {
-            stroke-dashoffset: 1000;
-            -webkit-animation: dash .9s .35s ease-in-out forwards;
-            animation: dash .9s .35s ease-in-out forwards;
+              stroke-dashoffset: 1000;
+              -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+              animation: dash 0.9s 0.35s ease-in-out forwards;
             }
             &.check {
-            stroke-dashoffset: -100;
-            -webkit-animation: dash-check .9s .35s ease-in-out forwards;
-            animation: dash-check .9s .35s ease-in-out forwards;
+              stroke-dashoffset: -100;
+              -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+              animation: dash-check 0.9s 0.35s ease-in-out forwards;
             }
           }
-          
+
           .spinner-span {
-          text-align: center;
-          font-size: 1.25em;
+            text-align: center;
+            font-size: 1.25em;
             &.spinner-success {
-            color: $white;
+              color: $white;
             }
             &.spinner-error {
-            color: $white;
+              color: $white;
             }
           }
-          
+
           @-webkit-keyframes dash {
             0% {
-            stroke-dashoffset: 1000;
+              stroke-dashoffset: 1000;
             }
             100% {
-            stroke-dashoffset: 0;
+              stroke-dashoffset: 0;
             }
           }
-          
+
           @keyframes dash {
             0% {
-            stroke-dashoffset: 1000;
+              stroke-dashoffset: 1000;
             }
             100% {
-            stroke-dashoffset: 0;
+              stroke-dashoffset: 0;
             }
           }
-          
+
           @-webkit-keyframes dash-check {
             0% {
-            stroke-dashoffset: -100;
+              stroke-dashoffset: -100;
             }
             100% {
-            stroke-dashoffset: 900;
+              stroke-dashoffset: 900;
             }
           }
-          
+
           @keyframes dash-check {
             0% {
-            stroke-dashoffset: -100;
+              stroke-dashoffset: -100;
             }
             100% {
-            stroke-dashoffset: 900;
+              stroke-dashoffset: 900;
             }
           }
         }
       }
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
       .default {
         flex: 1;
         display: flex;
@@ -221,7 +218,7 @@
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: .5rem;
+          gap: 0.5rem;
           .player {
             width: 100%;
             aspect-ratio: 16/9;
@@ -231,14 +228,15 @@
             flex: 1;
             display: flex;
             justify-content: space-around;
-            button, label {
+            button,
+            label {
               width: fit-content;
               height: fit-content;
               padding: 0.5rem 1rem;
               border-radius: 2rem;
               font-size: 0.875rem;
-              box-shadow: 2px 2px 4px rgba($black, .4);
-              font-family: 'Noto Sans KR', sans-serif;
+              box-shadow: 2px 2px 4px rgba($black, 0.4);
+              font-family: "Noto Sans KR", sans-serif;
               .btn-content {
                 display: flex;
                 gap: 0.5rem;
@@ -255,7 +253,7 @@
           width: 50%;
           display: flex;
           flex-direction: column;
-          gap: .5rem;
+          gap: 0.5rem;
           .data {
             position: relative;
             flex: 1;
@@ -266,20 +264,20 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: .2rem;
-            font-size: .875rem;
+            gap: 0.2rem;
+            font-size: 0.875rem;
             .info-row {
               span {
-                margin-right: .5rem;
+                margin-right: 0.5rem;
               }
               .key {
-                font-family: 'Montserrat', sans-serif;
+                font-family: "Montserrat", sans-serif;
                 font-style: italic;
                 color: $orange;
               }
             }
             .btns {
-              margin-top: .75rem;
+              margin-top: 0.75rem;
               display: flex;
               gap: 1rem;
               button {
@@ -289,7 +287,7 @@
                 border: 2px solid $orange;
                 border-radius: 2rem;
                 font-size: 0.875rem;
-                box-shadow: 2px 2px 4px rgba($black, .4);
+                box-shadow: 2px 2px 4px rgba($black, 0.4);
                 .btn-content {
                   display: flex;
                   gap: 0.5rem;
@@ -318,7 +316,7 @@
               display: flex;
               flex-direction: column;
               align-items: center;
-              font-family: 'Montserrat', sans-serif;
+              font-family: "Montserrat", sans-serif;
               font-style: italic;
               .val {
                 font-weight: 900;
@@ -345,9 +343,9 @@
           .info {
             display: flex;
             flex-direction: column;
-            gap: .2rem;
+            gap: 0.2rem;
             span {
-              font-size: .875rem;
+              font-size: 0.875rem;
               &.title {
                 font-weight: 700;
                 font-size: 1rem;
@@ -358,11 +356,11 @@
         button {
           font-size: 1.1rem;
           font-weight: 900;
-          padding: .4rem 1.5rem;
+          padding: 0.4rem 1.5rem;
           border-radius: 2rem;
-          margin-top: .5rem;
+          margin-top: 0.5rem;
           &:hover {
-            box-shadow: inset 2px 2px 4px rgba($dark, .4);
+            box-shadow: inset 2px 2px 4px rgba($dark, 0.4);
           }
         }
       }
@@ -371,42 +369,41 @@
         height: 120px;
         background: $black;
         border-radius: 10px;
-        padding: .5rem 2rem;
+        padding: 0.5rem 2rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: .5rem;
+        gap: 0.5rem;
         .award-row {
           display: flex;
           align-items: center;
           gap: 1rem;
           .title {
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Montserrat", sans-serif;
             font-style: italic;
             font-size: 1.5rem;
             font-weight: 700;
             i {
-              margin-right: .5rem;
+              margin-right: 0.5rem;
               color: $orange;
             }
           }
         }
       }
-
     }
     .rank-box {
       flex: 1;
       display: flex;
       gap: 1rem;
-      background: rgba($white, .2);
+      background: rgba($white, 0.2);
       border-radius: 2rem;
-      padding: .2rem 1rem;
+      padding: 0.2rem 1rem;
       .user {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: 0.5rem;
         .rank {
-          font-family: 'Montserrat', sans-serif;
+          font-family: "Montserrat", sans-serif;
           font-weight: 700;
           font-style: italic;
           color: $orange;
@@ -417,7 +414,7 @@
           border-radius: 100%;
         }
         .nickname {
-          font-size: .9rem;
+          font-size: 0.9rem;
         }
       }
     }
@@ -426,18 +423,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: .5rem;
+      gap: 0.5rem;
       .quiz-item {
         width: 95%;
         height: fit-content;
         background: $black;
         border-radius: 10px;
-        padding: .5rem 1rem;
+        padding: 0.5rem 1rem;
         .title {
           display: flex;
-          gap: .5rem;
+          gap: 0.5rem;
           .num {
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Montserrat", sans-serif;
             font-weight: 900;
             font-size: 1.2rem;
             font-style: italic;
@@ -457,12 +454,12 @@
             flex-direction: column;
             align-items: center;
             .val {
-              font-family: 'Montserrat', sans-serif;
+              font-family: "Montserrat", sans-serif;
               font-weight: 900;
               font-size: 1.5rem;
             }
             .label {
-              font-size: .7rem;
+              font-size: 0.7rem;
             }
           }
         }

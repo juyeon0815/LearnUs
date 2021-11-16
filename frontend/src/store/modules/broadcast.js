@@ -135,8 +135,6 @@ const actions = {
       console.log(err)
     }
   },
-<<<<<<< HEAD
-=======
   async getReplayList ({ commit }, ordinal) {
     try {
       const response = await broadcastApi.getReplayList(ordinal)
@@ -157,7 +155,6 @@ const actions = {
       console.log(err)
     }
   },
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   async getReplayDetail ({ commit }, id) {
     try {
       const response = await broadcastApi.getReplayInfo(id)
@@ -176,9 +173,6 @@ const actions = {
     commit('SET_QUIZ_RESULT', null)
     commit('SET_ACTIVE_STUDENTS', null)
     commit('SET_REPLAY_DETAIL', null)
-<<<<<<< HEAD
-  }
-=======
   },
   closeOnAirStudio ({ commit }) {
     commit('SET_BROADCAST_DETAIL', null)
@@ -207,7 +201,6 @@ const actions = {
       console.log(err)
     }
   },
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 }
 
 const mutations = {
@@ -243,10 +236,6 @@ const mutations = {
   SET_ACTIVE_STUDENTS (state, payload) {
     state.activeStudents = payload
   },
-<<<<<<< HEAD
-  SET_REPLAY_DETAIL (state, payload) {
-    state.replayDetail = payload
-=======
   SET_REPLAY_LIST (state, payload) {
     state.replayList = payload
   },
@@ -255,7 +244,6 @@ const mutations = {
   },
   SET_HISTORY_LIST (state, payload) {
     state.historyList = payload
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   }
 }
 
@@ -297,17 +285,10 @@ const getters = {
       const schedule = {}
       for (var i = 0; i < uniqueDates.length; i++) {
         schedule[`${uniqueDates[i]}`] = []
-<<<<<<< HEAD
       }
       for (var k = 0; k < state.broadcastList.length; k++) {
         schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
       }
-=======
-      }
-      for (var k = 0; k < state.broadcastList.length; k++) {
-        schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
-      }
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
       return schedule
     }
     return null
