@@ -38,9 +38,10 @@ export default {
         const response = await adminApi.changeCurrentSubject(this.selectedSubject.trackSubjectId)
         if (response.status === 200) {
           this.$store.dispatch('admin/setTrackInfo')
+          this.$emit('current', 1)
         }
       } catch (err) {
-        console.log(err)
+        this.$emit('current', 0)
       }
     }
   },
