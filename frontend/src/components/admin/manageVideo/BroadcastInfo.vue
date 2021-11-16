@@ -1,8 +1,9 @@
 <template>
   <div class="broadcast-info">
     <UploadSpinner 
-      v-if="onUploadSpinner" 
-      :spinnerStatus="spinnerStatus" 
+      v-show="onUploadSpinner" 
+      :spinnerStatus="spinnerStatus"
+      :failMessage="failMessage"
       @hideSpinner="onHideSpinner"/>
     <UpdateModal v-if="onUpdateModal" @hideModal="onUpdateModal = false"/>
     <DeleteConfirm v-if="onDeleteConfirm" @close="onDeleteConfirm = false"/>
@@ -22,7 +23,7 @@
           <input 
             id="video-input"
             type="file"
-            accept="video/*"
+            accept="video/mp4"
             style="display:none;"
             ref="inputVideo"
             @change="onUploadVideo"
@@ -73,6 +74,7 @@ export default {
       onDeleteConfirm: false,
       onUploadSpinner: false,
       spinnerStatus: 'loading',
+      failMessage: ['',''],
     }
   },
   components: {
@@ -86,9 +88,13 @@ export default {
   methods: {
     ...mapActions('broadcast', ['updateReplayInfo']),
     async onUploadVideo () {
+      // 빈 파일 분기
+      if (!this.$refs.inputVideo.files.length) {
+        return
+      }
       // 스피너 on
-      this.onUploadSpinner = true
       this.spinnerStatus = 'loading'
+      this.onUploadSpinner = true
       // 영상 소스 교체
       const albumBucketName = process.env.VUE_APP_REPLAY_S3_BUCKET
       const region = "ap-northeast-2"
@@ -109,6 +115,12 @@ export default {
       const file = this.$refs.inputVideo.files[0]
       const fileName = file.name
       const slice = fileName.split(".")
+      /* 파일 확장자 실패 분기 */
+      if (!slice[1] || slice[1] !== 'mp4') {
+        this.spinnerStatus = 'fail'
+        this.failMessage= ['.mp4 파일을', '등록해주세요.']
+        return
+      }
       const albumVideosKey = encodeURIComponent('replay') + "/"
       const videoKey = albumVideosKey + this.replayDetail.broadcastReplayId + "." + slice[1]
 
@@ -131,10 +143,12 @@ export default {
         .catch((err) => {
           console.log(err)
           this.spinnerStatus = 'fail'
+          this.failMessage = ['파일 저장에', '실패했습니다.']
         })
     },
     onHideSpinner() {
       this.onUploadSpinner = false
+      this.failMessage = ['', '']
       this.spinnerStatus = 'loading'
     }
   },
