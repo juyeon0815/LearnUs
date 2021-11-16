@@ -81,7 +81,6 @@ export default {
         {}, 
         this.quiz.quizId
       )
-      this.$store.dispatch('stomp/getQuizList', this.currentBroadcastId)
     }
   },
   computed: {
@@ -89,7 +88,7 @@ export default {
     ...mapGetters('broadcast', ['currentBroadcastId']),
     answer () {
       if (this.quiz.type === 'o') {
-        if (this.quiz.answer) {
+        if (this.quiz.answer === '1') {
           return 'O'
         }
         return 'X'

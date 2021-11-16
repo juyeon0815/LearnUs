@@ -158,7 +158,7 @@ const mutations = {
 const getters = {
   isAdmin (state) {
     if (state.userInfo) {
-      return state.userInfo.statusCode === 'A'
+      return state.userInfo.statusCode === 'A' ? 1 : 0
     }
     return 0
   }
