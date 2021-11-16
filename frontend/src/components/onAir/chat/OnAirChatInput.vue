@@ -1,7 +1,9 @@
 <template>
   <div id="chat-input" class="chat-input">
-    <div class="input-box">
-      <div class="profile"></div>
+    <div v-if="userInfo" class="input-box">
+      <div class="profile">
+        <img :src="userInfo.profileUrl" alt="">
+      </div>
       <div class="input-area">
         <div class="user-info">{{ userInfo.nickname }}</div>
         <textarea 
