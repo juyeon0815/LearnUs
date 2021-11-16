@@ -12,17 +12,10 @@ const state = {
   onairList: null,
   quizResult: null,
   replayList: null,
-<<<<<<< HEAD
-  replayListByTrack: null,
-  replayDetail: null,
-  selectedSubject: null,
-  activeStudents: null,
-=======
   replayDetail: null,
   selectedSubject: null,
   activeStudents: null,
   historyLiast: null,
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 }
 
 const actions = {

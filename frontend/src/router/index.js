@@ -54,11 +54,7 @@ const routes = [
     component: ManageVideo
   },
   {
-<<<<<<< HEAD
-    path: '/admin/create-live',
-=======
     path: '/admin/create/live',
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
     name: 'CreateLive',
     component: CreateLive
   },
