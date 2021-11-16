@@ -10,7 +10,7 @@ export default {
   name: 'WinnerListItem',
   props: {
     award: Object,
-    idx: String,
+    idx: Number,
   },
   computed: {
     nickName() {
