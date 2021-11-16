@@ -75,6 +75,7 @@ export default {
               if ( key === 'quiz') {
                 this.$store.commit('stomp/SET_CURRENT_QUIZ', payload.quiz)
               } else if (key === 'quizRank') {
+                this.$store.dispatch('stomp/getQuizList', this.currentBroadcastId)
                 this.$store.commit('stomp/SET_CURRENT_QUIZ', null)
                 this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', payload.quizRank)
               }
