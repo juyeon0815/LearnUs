@@ -185,7 +185,6 @@ public class BroadcastServiceImpl implements BroadcastService {
             User user = userDao.findUserByUserId(Integer.parseInt(userInfo.get(0)));
 
             List<Broadcast> broadcastList = new ArrayList<>();
-
             if (user.getStatusCode().equals("A")) {
                 broadcastList = broadcastDao.findBroadcastsByLiveCode(liveCode);
             } else {
@@ -361,13 +360,13 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
-    public boolean isAttend(int broadcastId) {
+    public int isAttend(int broadcastId) {
         try {
             String attend = redisService.getValue("attendance" + broadcastId);
-            if (attend != null) return true;
-            return false;
+            if (attend != null) return 1;
+            return 2;
         } catch (Exception e) {
-            return false;
+            return 0;
         }
     }
 

@@ -18,7 +18,7 @@ public interface BroadcastService {
     List<BroadcastInfo> getBroadcastAll(String liveCode, String accessToken);
     BroadcastInfo getBroadcast(int broadcastId);
     boolean start(int broadcastId);
-    boolean isAttend(int broadcastId);
+    int isAttend(int broadcastId);
     Map<String, List<Attendance>> end(int broadcastId);
     boolean endAttendance(int broadcastId);
     boolean endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
