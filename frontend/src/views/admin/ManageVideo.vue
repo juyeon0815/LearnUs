@@ -22,7 +22,10 @@
         >퀴즈 결과</span>
       </div>
       <BroadcastInfo v-if="!page"/>
-      <ControlStudent v-else-if="page === 1"/>
+      <div v-else-if="page === 1">
+        <BroadcastAttendance/>
+        <ControlStudent/>
+      </div>
       <QuizResult v-else-if="page === 2"/>
     </div>
   </div>
@@ -31,12 +34,14 @@
 <script>
 import './manageVideo.scss'
 import BroadcastInfo from '@/components/admin/manageVideo/BroadcastInfo'
+import BroadcastAttendance from '@/components/admin/manageVideo/BroadcastAttendance'
 import QuizResult from '@/components/admin/manageVideo/QuizResult'
 import ControlStudent from '@/components/onAir/studio/ControlStudent.vue'
 export default {
   name: 'ManageVideo',
   components: {
     BroadcastInfo,
+    BroadcastAttendance,
     ControlStudent,
     QuizResult
   },

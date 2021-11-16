@@ -68,6 +68,12 @@ export default {
         }
       } catch (err) {
         console.log(err.response)
+        if (err.response.data === 'same_name') {
+          this.$emit('at', 1)
+        } else {
+          this.offEditTrack()
+          this.$emit('at', 0)
+        }
       }
     },
     async deleteTrack() {

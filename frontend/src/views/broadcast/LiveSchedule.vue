@@ -17,7 +17,10 @@
         :scheduleList="value"
         @onCancel="onCancel"/>
     </div>
-    <div v-if="broadcastByDate && !Object.keys(broadcastByDate).length">
+    <div 
+      class="empty"
+      v-if="broadcastByDate && !Object.keys(broadcastByDate).length">
+      <img src="@/assets/image/logo/rocket-w500.svg" alt="">
       <span>예정된 방송이 없습니다.</span>
     </div>
   </div>

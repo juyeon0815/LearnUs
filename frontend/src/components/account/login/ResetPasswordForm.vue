@@ -16,6 +16,7 @@
           v-model="password"
           type="password"
           placeholder="새로운 비밀번호를 입력해 주세요."
+          maxlength="99"
           required
         />
         <label>Password</label>
@@ -29,6 +30,7 @@
           v-model="passwordConfirm"
           type="password"
           placeholder="비밀번호를 한 번 더 확인합니다."
+          maxlength="99"
           required
         />
         <label>Password Confirm</label>
