@@ -21,8 +21,6 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     private TrackSubjectDao trackSubjectDao;
     @Autowired
     private TrackDao trackDao;
-    @Autowired
-    private UserDao userDao;
 
     @Override
     public List<Integer> getOrdinalNo() {
@@ -52,6 +50,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Override
     public boolean insert(TrackSubjectInfo trackSubjectInfo) {
         try {
+            if (trackSubjectInfo.getSubjectName().length() == 0) return false;
             TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
 
             TrackSubject trackSubject = TrackSubject.builder().subjectName(trackSubjectInfo.getSubjectName())
@@ -67,6 +66,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Override
     public boolean update(TrackSubjectInfo trackSubjectInfo) {
         try {
+            if (trackSubjectInfo.getSubjectName().length() == 0) return false;
             TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectInfo.getTrackSubjectId());
             TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
             trackSubject.setSubjectName(trackSubjectInfo.getSubjectName());

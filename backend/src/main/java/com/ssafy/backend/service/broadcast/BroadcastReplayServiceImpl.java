@@ -4,6 +4,7 @@ import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.BroadcastReplayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +22,8 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     private BroadcastTrackDao broadcastTrackDao;
     @Autowired
     private BroadcastReplayOrdinalDao broadcastReplayOrdinalDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public boolean insert(BroadcastReplayInfo broadcastReplayInfo) {
@@ -195,4 +198,39 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
             return null;
         }
     }
+
+    @Override
+    public Integer getBroadcastReplayId(int broadcastId) {
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
+            return broadcastReplay.getBroadcastReplayId();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+//    @Override
+//    public List<BroadcastReplayInfo> getBroadcastReplayLimit3(int userId) {
+//        User user = userDao.findUserByUserId(userId);
+//        List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+//        Map<String, String> textbookMap = new HashMap<>();
+//        // 관리자면 최근 방송 3개 가져오기
+//        if (user.getTrack().equals("A")) {
+//            List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findBroadcastReplaysByLimit3();
+//
+//            // 관련 교재 가져오기
+//            for (int i=0;i<broadcastReplayList.size();i++) {
+//                Broadcast broadcast = broadcastReplayList.get(i).getBroadcast();
+//                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+//                for (int j=0;j<textbookList.size();j++) {
+//                    Textbook textbook = textbookList.get(j);
+//                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+//                }
+//            }
+//        } else {
+//
+//        }
+//        return null;
+//    }
 }

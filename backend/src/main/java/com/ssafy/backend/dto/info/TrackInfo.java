@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TrackInfo {
     private int trackId;
-    private String subjectName;
+    private int subjectId;
     private String trackName;
 }
