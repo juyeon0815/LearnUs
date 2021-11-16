@@ -41,10 +41,18 @@ public class BroadcastReplayController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/all/{ordinalNo}")
+    @GetMapping("/all")
     @ApiOperation(value = "방송 다시보기 전체 조회")
-    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll(@PathVariable("ordinalNo") int ordinalNo) {
-        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAll(ordinalNo);
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll() {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAll();
+        if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{ordinalNo}")
+    @ApiOperation(value = "방송 다시보기 기수별 전체 조회")
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAllOrdinalNo(@PathVariable("ordinalNo") int ordinalNo) {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAllOrdinalNo(ordinalNo);
         if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
     }

@@ -4,7 +4,6 @@ import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.BroadcastReplayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -89,7 +88,35 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     }
 
     @Override
-    public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo) {
+    public List<BroadcastReplayInfo> getBroadcastReplayAll() {
+        try {
+            List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+            List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findAllOrderByBroadcastDate();
+
+            for (int i=0;i<broadcastReplayList.size();i++) {
+                BroadcastReplay broadcastReplay = broadcastReplayList.get(i);
+                Broadcast broadcast = broadcastReplay.getBroadcast();
+                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                Map<String, String> textbookMap = new HashMap<>();
+                // 교재 저장
+                for (int j = 0; j < textbookList.size(); j++) {
+                    Textbook textbook = textbookList.get(j);
+                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                }
+                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                        .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
+                        .broadcast(broadcast).textbook(textbookMap).build();
+                broadcastReplayInfoList.add(broadcastReplayInfo);
+            }
+            return broadcastReplayInfoList;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<BroadcastReplayInfo> getBroadcastReplayAllOrdinalNo(int ordinalNo) {
         try {
             List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
 
