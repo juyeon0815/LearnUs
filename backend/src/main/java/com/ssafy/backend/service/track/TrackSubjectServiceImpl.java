@@ -21,6 +21,8 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     private TrackSubjectDao trackSubjectDao;
     @Autowired
     private TrackDao trackDao;
+    @Autowired
+    private TrackService trackService;
 
     @Override
     public List<Integer> getOrdinalNo() {
@@ -89,8 +91,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
 
             for (int i = 0; i < trackList.size(); i++) {
                 Track track = trackList.get(i);
-                track.setTrackSubject(updateTrackSubject);
-                trackDao.save(track);
+                trackService.delete(track.getTrackId());
             }
 
             trackSubjectDao.delete(trackSubject);
