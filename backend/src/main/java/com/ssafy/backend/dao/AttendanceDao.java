@@ -13,6 +13,9 @@ public interface AttendanceDao extends JpaRepository<Attendance, String> {
     List<Attendance> findAttendancesByBroadcast(Broadcast broadcast);
     List<Attendance> findAttendancesByBroadcastAndAttend(Broadcast broadcast, String attend);
 
+    @Query(nativeQuery = true, value = "select * from attendance where broadcast_id = :broadcastId order by user_id")
+    List<Attendance> findAttendancesByBroadcastOrderBy(int broadcastId);
+
     @Query(nativeQuery = true, value = "select * from attendance where quiz_score > 0 and broadcast_id = :broadcastId order by quiz_score desc Limit 3")
     List<Attendance> findQuizKing(int broadcastId);
     @Query(nativeQuery = true, value = "select * from attendance where chat_score > 0 and broadcast_id = :broadcastId order by chat_score desc Limit 3")
