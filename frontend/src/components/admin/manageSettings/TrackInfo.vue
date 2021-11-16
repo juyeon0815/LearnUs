@@ -174,10 +174,25 @@ export default {
       }
     },
     async addTrack() {
-      const response = await adminApi.addTrack(this.trackData)
-      if (response.status === 200) {
-        this.offAdd('track')
-        this.$store.dispatch('admin/getTrackAll')
+      try {
+        const response = await adminApi.addTrack(this.trackData)
+        if (response.status === 200) {
+          this.offAdd('track')
+          this.$store.dispatch('admin/getTrackAll')
+        }
+      } catch (err) {
+        console.log(err.response)
+        if (err.response.data === 'same_name') {
+          this.result = 0
+          this.msg = '같은 이름의 트랙은 등록할 수 없습니다.'
+        } else {
+          this.offAdd('track')
+          this.result = 0
+          this.msg = '트랙 추가에 실패했습니다.'
+        }
+        setTimeout(() => {
+          this.msg = false
+        }, 2000)
       }
     },
   },
