@@ -73,11 +73,11 @@ public class BroadcastReplayController {
         return new ResponseEntity<>(broadcastReplayId, HttpStatus.OK);
     }
 
-//    @GetMapping("/index/{userId}")
-//    @ApiOperation(value = "트랙 관련 방송 다시보기 3개 불러오기")
-//    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayLimit3(@PathVariable("userId") int userId) {
-//        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayLimit3(userId);
-//        if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
-//    }
+    @GetMapping("/index/{userId}")
+    @ApiOperation(value = "기수 관련 방송 다시보기 3개 불러오기")
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayLimit3(@PathVariable("userId") int userId) {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayLimit3(userId);
+        if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
+    }
 }

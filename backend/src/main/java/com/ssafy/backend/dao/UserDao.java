@@ -16,4 +16,7 @@ public interface UserDao extends JpaRepository<User, String> {
     List<User> findUserByOrdinalNoAndStatusCode(int ordinalNo, String statusCode);
     User findUserByUserIdAndPhone(int userId, String phone);
     User findUserByUserIdAndEmailAndPhone(int userId, String email, String phone);
+
+    @Query(nativeQuery = true, value = "select region from user group by region")
+    List<String> findRegions();
 }
