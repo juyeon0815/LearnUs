@@ -6,6 +6,7 @@ const state = {
   broadCastsByTrack: null,
   selectedSubject: null,
   broadCastInfo : null,
+  indexReplayList: null,
     
 }
 
@@ -34,6 +35,15 @@ const actions = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  async getIndexReplayList({ commit }, userId) {
+    try {
+      const response = await replayApi.getIndexReplayList(userId)
+      commit('SET_INDEX_REPLAY_LIST', response.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 }
 
@@ -50,6 +60,9 @@ const mutations = {
   },
   SET_BROADCAST(state, payload) {
     state.broadCastInfo = payload
+  },
+  SET_INDEX_REPLAY_LIST(state, payload) {
+    state.indexReplayList = payload
   }
 }
 

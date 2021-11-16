@@ -30,5 +30,12 @@ export default {
       url: `gifticon/all/${broadcastId}`,
       method: 'get'
     })
+  },
+  // award 조회
+  getAwardList() {
+    return _axios({
+      url: 'award',
+      method: 'get'
+    })
   }
 }

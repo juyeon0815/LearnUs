@@ -1,22 +1,32 @@
 <template>
   <div class="replay-item">
     <div class="info">
-      <div class="title">[{{ test.track }}] {{ test.title }}</div>
-      <div class="date">{{ test.datetime }}</div>
+      <div class="title" @click="$router.push({ 
+        name: 'ReplayDetail', 
+        params: { 
+          id: replay.broadcastReplayId
+        } 
+      })">{{ shorten }}</div>
+      <div class="date">{{ date }} · by {{ replay.broadcast.teacher }}</div>
     </div>
-    <i class="fi fi-rr-clip"></i>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ReplayListItem',
-  data () {
-    return {
-      test: {
-        track: '인공지능',
-        title: 'Project News: Firebase 활용하기',
-        datetime: '2021. 10. 17. 09:00 ~ 12:00'
+  props: {
+    replay: Object
+  },
+  computed: {
+    date() {
+      return this.replay.broadcast.broadcastDate.split('T')[0]
+    },
+    shorten() {
+      if (this.replay.broadcast.title.length > 25) {
+        return this.replay.broadcast.title.slice(0, 24) + '···'
+      } else {
+        return this.replay.broadcast.title
       }
     }
   }
