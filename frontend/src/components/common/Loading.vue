@@ -16,6 +16,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @use "sass:math";
   .loading {
     position: absolute;
     top: 50%;
@@ -48,7 +49,7 @@ export default {
         @for $i from 1 through 4 {
           &:nth-of-type(#{$i}) {
             animation-duration: 2s;
-            animation-delay: 0.8s - ($i / 4);
+            animation-delay: 0.8s - math.div($i, 4);
           }
         }
       }
