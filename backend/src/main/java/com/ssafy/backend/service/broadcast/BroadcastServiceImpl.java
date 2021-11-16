@@ -283,10 +283,9 @@ public class BroadcastServiceImpl implements BroadcastService {
     @Override
     public Map<String, List<Attendance>> getAttendance(int broadcastId) {
         try {
-            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
             Map<String, List<Attendance>> map = new HashMap<>();
 
-            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
+            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastOrderBy(broadcastId);
             for (int i = 0; i < attendanceList.size(); i++) {
                 List<Attendance> saveAttendanceList = new ArrayList<>();
                 User user = attendanceList.get(i).getUser();
