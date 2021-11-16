@@ -16,6 +16,7 @@
         <span v-if="!isAdmin" class="student-id">0{{ userInfo.userId }}</span>
       </div>
       <div class="department">
+        <span v-if="isAdmin" class="grade">관리자 계정</span>
         <span v-if="!isAdmin" class="grade">SSAFY {{ userInfo.ordinalNo }}기 교육생</span>
         <span v-if="!isAdmin" class="region-class">({{ userInfo.region }} {{ userInfo.classNo }}반)</span>
       </div>
