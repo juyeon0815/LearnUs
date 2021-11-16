@@ -1,12 +1,9 @@
 <template>
   <div class="broadcast-info">
-<<<<<<< HEAD
-=======
     <UploadSpinner 
       v-if="onUploadSpinner" 
       :spinnerStatus="spinnerStatus" 
       @hideSpinner="onHideSpinner"/>
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
     <UpdateModal v-if="onUpdateModal" @hideModal="onUpdateModal = false"/>
     <DeleteConfirm v-if="onDeleteConfirm" @close="onDeleteConfirm = false"/>
     <div class="default">
@@ -27,10 +24,7 @@
             type="file"
             accept="video/*"
             style="display:none;"
-<<<<<<< HEAD
-=======
             ref="inputVideo"
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
             @change="onUploadVideo"
           >
           <label 
@@ -60,51 +54,31 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 import AWS from "aws-sdk"
 
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 // import VideoPlayer from '@/components/replay/video/ReplayVideoPlayer'
 import VideoInfo from './BroadcastVideoInfo.vue'
 import DeleteConfirm from './BroadcastDeleteConfirm.vue'
 import Award from './BroadcastAward.vue'
-<<<<<<< HEAD
-import UpdateModal from '@/components/onAir/studio/VideoInfoUpdateModal'
-=======
 import UploadSpinner from './UploadSpinner.vue'
 import UpdateModal from '@/components/onAir/studio/VideoInfoUpdateModal'
 import { mapActions, mapState } from 'vuex'
 
 
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 export default {
   name: 'BroadcastInfo',
   data () {
     return {
       onUpdateModal: false,
-<<<<<<< HEAD
-      onDeleteConfirm: false
-=======
       onDeleteConfirm: false,
       onUploadSpinner: false,
       spinnerStatus: 'loading',
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
     }
   },
   components: {
     VideoInfo,
     Award,
     UpdateModal,
-<<<<<<< HEAD
-    DeleteConfirm
-    // VideoPlayer
-  },
-  methods: {
-    onUploadVideo () {
-      // 영상 소스 교체
-    }
-=======
     DeleteConfirm,
     UploadSpinner,
     // VideoPlayer
@@ -166,7 +140,6 @@ export default {
   },
   computed: {
     ...mapState('broadcast', ['replayDetail'])
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   }
 }
 </script>

@@ -153,6 +153,12 @@ export default {
       method : 'get',
     })
   },
+  getReplayList (ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/all/${ordinalNo}`,
+      method : 'get',
+    })
+  },
   getReplayByTrack (id, ordinalNo) {
     return _axios({
       url: `broadcastReplay/track/${id}/${ordinalNo}`,

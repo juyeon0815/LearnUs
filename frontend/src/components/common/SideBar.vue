@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bar">
+  <div v-if="userInfo" class="side-bar">
     <div class="logo" @click="$router.push('/')">
       <img class="logo-sm" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
       <span v-if="vw > 576" class="logo-text">LearnUs</span>
@@ -60,7 +60,7 @@
         <span><span class="t-orange">:</span>ADMIN</span>
         <div class="category">
           <span @click="$router.push({name: 'ManageStudent'})">‣ 교육생 관리</span>
-          <span>‣ 교육 영상 관리</span>
+          <span @click="$router.push({name: 'VideoHistory'})">‣ 교육 영상 관리</span>
           <span @click="$router.push({name: 'CreateLive'})">‣ 라이브 생성</span>
           <span @click="$router.push({name: 'ManageSettings'})">‣ 러너스 설정</span>
         </div>
@@ -139,13 +139,23 @@ export default {
       return this.userInfo && this.tracks && this.subjects
     }
   },
-  created () {
+  watch: {
+    userInfo (val) {
+      if (val) {
+        this.$store.dispatch('admin/getTrackAll')
+        this.$store.dispatch('admin/getSubjectAll')
+      }
+    }
+  },
+  mounted () {
     this.vw = window.innerWidth
     window.addEventListener('resize', () => {
       this.vw = window.innerWidth
     })
-    this.$store.dispatch('admin/getTrackAll')
-    this.$store.dispatch('admin/getSubjectAll')
+    if (this.userInfo) {
+      this.$store.dispatch('admin/getTrackAll')
+      this.$store.dispatch('admin/getSubjectAll')
+    }
   },
 }
 </script>
