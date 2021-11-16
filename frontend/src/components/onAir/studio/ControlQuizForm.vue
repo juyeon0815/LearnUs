@@ -5,7 +5,8 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
-      <h1>Create<span class="t-orange">:</span>Quiz</h1>
+      <h1 v-if="quizId">Update<span class="t-orange">:</span>Quiz</h1>
+      <h1 v-else>Create<span class="t-orange">:</span>Quiz</h1>
       <div class="quiz-form">
         <div class="input-box">
           <input
@@ -235,7 +236,7 @@ export default {
       return Object.values(this.quizData).every(data => {
         return data
       })
-    }
+    },
   },
   watch: {
     type () {
