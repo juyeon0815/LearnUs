@@ -16,6 +16,13 @@ export default {
       method: 'get',
     })
   },
+  //방송 종료된 영상 리스트
+  getHistoryList() {
+    return _axios({
+      url: 'broadcast/all/N',
+      method: 'get'
+    })
+  },
   // 방송 정보 관련
   getBroadcastDetail (id) {
     return _axios({
@@ -82,5 +89,100 @@ export default {
         'broadcastId': id
       }
     })
-  }
+  },
+  endBroadcast(data) {
+    return _axios({
+      url: 'broadcast/end/replay',
+      method: 'post',
+      params: data
+    })
+  },
+  sendAttendMM (id) {
+    return _axios({
+      url: 'broadcast/end/attendance',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadAttendance (id) {
+    return _axios({
+      url: 'broadcast/end/attendance/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      },
+      responseType: 'blob'
+    })
+  },
+  sendGifticonMM (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      }
+    })
+  },
+  downloadGifticon (id) {
+    return _axios({
+      url: 'broadcast/end/gifticon/download',
+      method: 'post',
+      params: {
+        'broadcastId': id
+      },
+      responseType: 'blob'
+    })
+  },
+  getBroadcastAfter (id) {
+    return _axios({
+      url: `/broadcast/after/${id}`,
+      method : 'get',
+    })
+  },
+  getBroadcastStudentCnt (id) {
+    return _axios({
+      url: `/broadcast/attendance/after/${id}`,
+      method : 'get',
+    })
+  },
+  getActiveStudent (id) {
+    return _axios({
+      url: `/broadcast/end/king/${id}`,
+      method : 'get',
+    })
+  },
+  getReplayList (ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/all/${ordinalNo}`,
+      method : 'get',
+    })
+  },
+  getReplayByTrack (id, ordinalNo) {
+    return _axios({
+      url: `broadcastReplay/track/${id}/${ordinalNo}`,
+      method : 'get'
+    })
+  },
+
+  getReplayInfo (id) {
+    return _axios({
+      url: `broadcastReplay/${id}`,
+      method : 'get'
+    })
+  },
+  isAttendCheck (id) {
+    return _axios({
+      url: `/broadcast/start/isAttend/${id}`,
+      method : 'get'
+    })
+  },
+  updateReplayInfo(replayInfo) {
+    return _axios({
+      url: 'broadcastReplay',
+      method: 'patch',
+      data: replayInfo
+    })
+  },
 }

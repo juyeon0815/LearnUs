@@ -1,5 +1,5 @@
 <template>
-  <div class="control-student">
+  <div v-if="studentList" class="control-student">
     <ControlStudentTable 
       v-if="studentTable"
       @close="offStudentTable"
@@ -10,6 +10,10 @@
       :className="name"
       @open="onStudentTable"
     />
+    <div v-if="!classList.length" class="empty">
+      수강 대상 교육생이 없습니다.<br/>
+      설정된 트랙을 확인해주세요.
+    </div>
   </div>
 </template>
 
@@ -42,7 +46,7 @@ export default {
   computed: {
     ...mapState('broadcast', ['studentList']),
     classList () {
-      return Object.keys(this.studentList)
+      return Object.keys(this.studentList).sort()
     }
   }
 }

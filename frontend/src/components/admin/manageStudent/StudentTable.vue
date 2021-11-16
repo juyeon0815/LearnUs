@@ -102,6 +102,13 @@ export default {
       }
       return null
     },
+  },
+  watch: {
+    searchWord(val) {
+      if (val.length) {
+        this.currentPage = 1
+      }
+    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="on-air-list">
+  <div class="on-air-list" v-if="onairList">
     <div class="chapter">ON<span class="t-orange">:</span>AIR</div>
-    <div ref="wrapper" class="wrapper" v-if="onairList">
+    <div ref="wrapper" class="wrapper" v-if="onairList && onairList.length >= 1">
       <div ref="carousel" class="carousel">
         <div ref="content" class="row">
           <OnAirListItem
@@ -12,7 +12,7 @@
           />
         </div>
       </div>
-      <div v-if="7 > 3">
+      <div v-if="onairList.length > 3">
         <i 
           ref="prev" 
           class="move left fi fi-rr-caret-left"
@@ -25,6 +25,9 @@
         ></i>
       </div>
       
+    </div>
+    <div v-if="onairList && !onairList.length">
+      <span>아직 시작된 방송이 없습니다. 방송 일정을 확인해주세요!</span>
     </div>
   </div>
 </template>

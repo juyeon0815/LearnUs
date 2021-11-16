@@ -1,18 +1,22 @@
 <template>
   <div class="replay">
-    <div class="row">
-      <span class="title">RE<span class="colon">:</span>PLAY</span>
-      <ReplaySelect v-if="this.$route.params.category != 'all'" />
-    </div>
+    <header class="header">
+      <div class="chapter">REPLAY<span class="t-orange">:</span></div>
+      <span class="subtitle">
+        선택 트랙
+      </span>
+    </header>
+
+    <!-- <ReplaySelect v-if="this.$route.params.category != 'all'" /> -->
     <ReplayList />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import "./replay.scss";
-
 import ReplayList from "@/components/replay/ReplayList";
-import ReplaySelect from "@/components/replay/ReplaySelect";
+// import ReplaySelect from "@/components/replay/ReplaySelect";
 
 export default {
   name: "Replay",
@@ -23,27 +27,40 @@ export default {
   },
   components: {
     ReplayList,
-    ReplaySelect,
+    // ReplaySelect,
+  },
+  computed: {
+    ...mapState('account', ['userInfo'])
   },
   watch: {
-    $route() {
-      if (this.$route.name === "Replay") {
-        const category = this.$route.params.category;
-        if (category === "all") {
-          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
-        }else
-          this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
+    '$route'() {
+      if (this.userInfo) {
+        const trackId = this.$route.params.track
+        if (!trackId || trackId === '0') {
+          this.$store.dispatch('broadcast/getReplayList', this.userInfo.ordinalNo)
+        } else {
+          const data = {
+            id: trackId,
+            ordinalNo: this.userInfo.ordinalNo
+          }
+          this.$store.dispatch('broadcast/getReplayTrackList', data)
+        }
       }
     },
   },
-  created(){
-    if (this.$route.name === "Replay") {
-      const category = this.$route.params.category;
-        if (category === "all") {
-          this.$store.commit("replay/SET_BROADCASTS_TRACK", null);
-        }else
-        this.$store.dispatch("replay/getBroadCasts", this.$store.state.account.userInfo.ordinalNo);
+  created () {
+    if (this.userInfo) {
+      const trackId = this.$route.params.track
+      if (!trackId || trackId === '0') {
+        this.$store.dispatch('broadcast/getReplayList', this.userInfo.ordinalNo)
+      } else {
+        const data = {
+          id: trackId,
+          ordinalNo: this.userInfo.ordinalNo
+        }
+        this.$store.dispatch('broadcast/getReplayTrackList', data)
       }
+    }
   }
 };
 </script>

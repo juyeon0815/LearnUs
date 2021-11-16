@@ -4,20 +4,26 @@
       <img :src="broadcast.thumbnailUrl" 
         alt="" 
         class="thumbnail-image"
-        @click="$router.push({ name: 'OnAirStudio', params: { id: broadcast.broadcastId }})">
+        @click="$router.push({ name: 'OnAir', params: { id: broadcast.broadcastId }})">
     </div>
     <div class="broadcast-info">
       <div class="info-first-box">
         <span 
-          class="info-title" 
-          @click="$router.push({ name: 'OnAirStudio', params: { id: broadcast.broadcastId }})">
-        {{ broadcast.title }}
+          class="info-title"
+          @click="$router.push({ name: 'OnAir', params: { id: broadcast.broadcastId }})">
+          {{ shorten }}
+          <span class="onair" v-if="broadcast.liveCode === 'Y'">ONAIR</span>
         </span>
-        <span 
-          class="cancle-broadcast" 
-          @click="$emit('onCancle')">
-          방송 취소
-        </span>
+        <div class="admin-btn" v-if="isAdmin">
+          <span 
+            @click="$router.push({ name: 'OnAirStudio', params: { id: broadcast.broadcastId }})">
+            방송 관리
+          </span>
+          <span 
+            @click="$emit('onCancel')">
+            방송 취소
+          </span>
+        </div>
       </div>
       <div class="info-instructor">
         <span><strong>진행자</strong> | {{ broadcast.teacher }}</span>
@@ -44,6 +50,13 @@ export default {
     broadcast: Object,
   },
   computed: {
+    shorten() {
+      if (this.broadcast.title.length > 15) {
+        return this.broadcast.title.slice(0,14) + '···'
+      } else {
+        return this.broadcast.title
+      }
+    },
     trackNames() {
       return this.broadcast.trackList.map(track => {
         return track.trackName + ' | ' + track.trackSubject.trackSetting.ordinalNo + '기 ' + track.trackSubject.subjectName
@@ -64,6 +77,9 @@ export default {
       const time = slice[1].split(':')
       let result = date.join('.') + ' ' + time[0] + ':' + time[1]
       return result
+    },
+    isAdmin() {
+      return this.$store.state.account.userInfo.statusCode === 'A'
     }
   }
 }
