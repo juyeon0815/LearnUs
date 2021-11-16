@@ -117,4 +117,13 @@ public class UserController {
         if (!userService.resetPW(resetPW.getUserId(), resetPW.getNewPW())) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @GetMapping("/region")
+    @ApiOperation(value = "지역 리스트")
+    public ResponseEntity<List<String>> getRegionList() {
+        List<String> regionList = userService.getRegionList();
+        if (regionList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(regionList, HttpStatus.OK);
+    }
+
 }

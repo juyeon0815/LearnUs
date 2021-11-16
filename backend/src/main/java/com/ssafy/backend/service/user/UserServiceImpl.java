@@ -13,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -288,6 +285,22 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public List<String> getRegionList() {
+        try {
+            List<String> regionList = userDao.findRegions();
+            Collections.sort(regionList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+            return regionList;
+        } catch (Exception e) {
+            return null;
         }
     }
 
