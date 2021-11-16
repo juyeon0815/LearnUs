@@ -39,7 +39,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: stretch;
-        padding: 0.5rem 1rem;
+        padding: 0rem 1rem 0.5rem 1rem;
         .info-first-box {
           display: flex;
           justify-content: space-between;
@@ -86,22 +86,21 @@
         }
         .info-open {
           margin-bottom: 0.2rem;
+          display: flex;
+          gap: 1rem;
           .info-open-text {
             .open-sticker {
               font-family: 'Montserrat', sans-serif;
               font-weight: 500;
               padding: 0 5px;
               border-radius: 20px;
+              cursor: pointer;
               &.open {
                 background: $orange;
               }
               &.close {
                 background: $light-grey;
               }
-            }
-            .alter {
-              margin-left: .5rem;
-              cursor: pointer;
             }
           }
         }

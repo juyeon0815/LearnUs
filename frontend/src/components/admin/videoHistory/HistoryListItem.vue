@@ -18,12 +18,15 @@
       <div class="info-open">
         <span class="info-open-text">
           <strong>공개 상태</strong> | 
-          <span :class="[ history.openYn === 'Y' ? 'open' : 'close', 'open-sticker']">{{ isOpen }}</span>
-          <span> <i class="fi fi-rr-refresh alter" @click="alterOpen"></i></span>
+          <span
+            @click="alterOpen" 
+            :class="[ history.openYn === 'Y' ? 'open' : 'close', 'open-sticker']">
+            {{ isOpen }}
+          </span>
         </span>
+        <span><strong>진행자</strong> | {{ history.broadcast.teacher }}</span>
       </div>
       <div class="info-instructor">
-        <span><strong>진행자</strong> | {{ history.broadcast.teacher }}</span>
         <span><strong>방송 시간</strong> | {{ broadcastDate }}</span>
       </div>
     </div>
@@ -51,11 +54,10 @@ export default {
   methods: {
     ...mapActions('broadcast', ['alterOpenStatus']),
     async alterOpen() {
-      const replayInfo = this.history
-      if (replayInfo.openYn === 'Y') {
-        replayInfo.openYn = 'N'
-      } else {
-        replayInfo.openYn = 'Y'
+      const newOpenYn = (this.history.openYn === 'Y') ? "N" : "Y"
+      const replayInfo = {
+        ...this.history,
+        openYn: newOpenYn
       }
       const result = await this.alterOpenStatus(replayInfo)
       if (result.status === 200) {
