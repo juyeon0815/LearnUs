@@ -4,10 +4,8 @@ import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.GifticonInfo;
 import com.ssafy.backend.dto.info.QuizAnswerInfo;
-import com.ssafy.backend.dto.info.QuizRateInfo;
 import com.ssafy.backend.service.GifticonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

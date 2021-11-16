@@ -27,7 +27,6 @@ public class User {
     private String profileUrl;
     private String nickname;
     private String phone;
-    private int type;
     private String statusCode;
 
     @ManyToOne(fetch = FetchType.EAGER)

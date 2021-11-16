@@ -186,7 +186,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
             List<Broadcast> broadcastList = new ArrayList<>();
             if (user.getStatusCode().equals("A")) {
-                broadcastList = broadcastDao.findBroadcastsByLiveCode(liveCode);
+                broadcastList = broadcastDao.findBroadcastsByLiveCodeOrderByBroadcastDateDesc(liveCode);
             } else {
                 // 객체에 연관된 방송만 보여주기
                 Track track = user.getTrack();
@@ -197,6 +197,11 @@ public class BroadcastServiceImpl implements BroadcastService {
                     Broadcast broadcast = broadcastTrack.getBroadcast();
                     if (broadcast.getLiveCode().equals(liveCode)) broadcastList.add(broadcast);
                 }
+
+                // 방송 정렬
+                Collections.sort(broadcastList, (o1, o2)-> {
+                    return o2.getBroadcastDate().compareTo(o1.getBroadcastDate());
+                });
             }
 
             List<BroadcastInfo> broadcastInfoList = new ArrayList<>();
@@ -230,14 +235,6 @@ public class BroadcastServiceImpl implements BroadcastService {
 
                 broadcastInfoList.add(broadcastInfo);
             }
-
-            // 방송 정렬
-            Collections.sort(broadcastInfoList, new Comparator<BroadcastInfo>() {
-                @Override
-                public int compare(BroadcastInfo o1, BroadcastInfo o2) {
-                    return o2.getBroadcastDate().compareTo(o1.getBroadcastDate());
-                }
-            });
 
             return broadcastInfoList;
         } catch (Exception e) {
@@ -285,7 +282,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         try {
             Map<String, List<Attendance>> map = new HashMap<>();
 
-            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastOrderBy(broadcastId);
+            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcastOrderByUserId(broadcastId);
             for (int i = 0; i < attendanceList.size(); i++) {
                 List<Attendance> saveAttendanceList = new ArrayList<>();
                 User user = attendanceList.get(i).getUser();
@@ -633,13 +630,9 @@ public class BroadcastServiceImpl implements BroadcastService {
     @Override
     public Map<String, Integer> getAttendanceAfter(int broadcastId) {
         try {
-            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
-            List<Attendance> attendanceList = attendanceDao.findAttendancesByBroadcast(broadcast);
-            List<Attendance> attendanceCompleteList = attendanceDao.findAttendancesByBroadcastAndAttend(broadcast, "Y");
-
             Map<String, Integer> map = new HashMap<>();
-            map.put("totalAttend", attendanceList.size());
-            map.put("attend", attendanceCompleteList.size());
+            map.put("totalAttend", attendanceDao.findTotalAttendCount(broadcastId));
+            map.put("attend", attendanceDao.findCompleteAttendCount(broadcastId));
 
             return map;
         } catch (Exception e) {

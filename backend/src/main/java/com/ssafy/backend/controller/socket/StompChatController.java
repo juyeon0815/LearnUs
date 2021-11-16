@@ -40,7 +40,7 @@ public class StompChatController {
         map.put("viewer", viewerCnt);
         rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, map);
     }
-    
+
     public void leave(int broadcastId) {
         String value = redisService.getValue("viewer"+broadcastId);
         int viewerCnt = 1;
@@ -53,8 +53,8 @@ public class StompChatController {
 
     @MessageMapping("chat.message.{broadcastId}")
     public void send(ChatInfo chat, @DestinationVariable int broadcastId) {
-        System.out.println("??찍히나요??@@:"+chat.toString());
-        userService.userChatSend(chat.getUserId(), broadcastId);
+        // 교육생일 때만 채팅 점수 추가
+        if (chat.getIsAdmin() == 0) userService.userChatSend(chat.getUserId(), broadcastId);
 
         chat.setRegDate(LocalDateTime.now());
         redisService.setChatInfoValue("chat"+broadcastId, chat);

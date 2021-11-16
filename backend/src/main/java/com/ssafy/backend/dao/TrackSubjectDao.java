@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface TrackSubjectDao extends JpaRepository<TrackSubject, String> {
     TrackSubject findTrackSubjectByTrackSubjectId(int trackSubjectId);
-    TrackSubject findTrackSubjectBySubjectName(String subjectName);
     TrackSubject findTrackSubjectByNowSubject(String nowSubject);
     List<TrackSubject> findTrackSubjectsByTrackSetting(TrackSetting trackSetting);
 }
