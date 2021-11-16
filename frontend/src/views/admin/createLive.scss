@@ -39,6 +39,26 @@
       justify-content: flex-start;
       align-items: flex-start;
     }
+    .alert {
+      position: fixed;
+      top: 50px;
+      padding: .5rem 2rem;
+      width: 70%;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 2px 3px rgba($dark, .4);
+      &.blue {
+        color: $light;
+        background-color: rgba($blue, .9);
+        border: 1px solid $blue;
+      }
+      &.yellow {
+        color: $dark;
+        background-color: rgba($yellow, .9);
+        border: 1px solid $yellow;
+      }
+    }
   }
 }
 .live-row {
