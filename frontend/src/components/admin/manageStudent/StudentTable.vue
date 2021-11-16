@@ -71,6 +71,7 @@ export default {
   computed: {
     ...mapState('admin', ['students', 'selectedOrd', 'searchWord']),
     currentResult () {
+      if (!this.students) { return [] }
       const entire = this.students[this.selectedOrd]
       if (this.searchWord.length) {
         const result = entire.filter(student => {

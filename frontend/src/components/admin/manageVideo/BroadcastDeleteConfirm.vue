@@ -5,7 +5,6 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
-      <!-- <div :class="[result ? 'blue' : 'yellow', 'alert']" v-if="msg">{{ msg }}</div> -->
       <h1>Delete<span class="t-orange">:</span>Broadcast</h1>
       <h3>해당 교육 영상과 정보를 완전히 삭제하시겠습니까?</h3>
       <div class="video-box">
@@ -55,7 +54,7 @@ export default {
       const response = await broadcastApi.deleteBroadcast(this.broadcastDetail.broadcastId)
       if (response.status === 200) {
         this.$emit('close')
-        this.$router.push('/')
+        this.$router.push({ name: 'VideoHistory' })
       }
     }
   },
