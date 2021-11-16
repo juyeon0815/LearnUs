@@ -116,6 +116,8 @@ export default {
         }
         if (httpStatus === 400) {
           alertInfo.message = '잘못된 이메일 혹은 비밀번호입니다.'
+        } else if (httpStatus === 403) {
+          alertInfo.message = '사용 정지된 계정입니다. 관리자에게 문의하세요.'
         } else if (httpStatus === 500) {
           alertInfo.message = '서버 오류입니다.'
         } else {

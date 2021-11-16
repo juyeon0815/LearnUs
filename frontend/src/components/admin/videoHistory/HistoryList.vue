@@ -1,9 +1,11 @@
 <template>
   <div class="schedule-list history-schedule">
+    <!-- 개별 방송정보 컴포넌트 -->
     <HistoryListItem
       v-for="(broadcast, idx) in paginatedArea"
       :key="idx"
       :broadcast="broadcast"/>
+    <!-- 페이지네이션 -->
     <ul class="pagination" v-if="totalPage && totalPage > 1">
       <li
         :class="{ disabled: currentPage === 1 }"

@@ -2,6 +2,7 @@ import gifticonApi from '@/api/gifticon'
 
 const state = {
   gifticonList: null,
+  awardList: null,
 }
 
 const actions = {
@@ -37,12 +38,26 @@ const actions = {
     catch(err) {
       console.log(err)
     }
+  },
+  async getAwardList({ commit }) {
+    try {
+      const response = await gifticonApi.getAwardList()
+      if (response.status === 200) {
+        commit('SET_AWARD_LIST', response.data)
+      }
+    }
+    catch(err) {
+      console.log(err)
+    }
   }
 }
 
 const mutations = {
   SET_GIFTICON_LIST(state, payload) {
     state.gifticonList = payload
+  },
+  SET_AWARD_LIST(state, payload) {
+    state.awardList = payload
   }
 }
 

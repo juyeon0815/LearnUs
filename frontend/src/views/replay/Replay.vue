@@ -2,13 +2,9 @@
   <div class="replay">
     <header class="header">
       <div class="chapter">REPLAY<span class="t-orange">:</span></div>
-      <span class="subtitle">
-        선택 트랙
-      </span>
+      <ReplaySelect v-if="this.$route.query.subject != '0'" />
     </header>
-
-    <!-- <ReplaySelect v-if="this.$route.params.category != 'all'" /> -->
-    <ReplayList />
+    <ReplayList/>
   </div>
 </template>
 
@@ -16,7 +12,7 @@
 import { mapState } from 'vuex'
 import "./replay.scss";
 import ReplayList from "@/components/replay/ReplayList";
-// import ReplaySelect from "@/components/replay/ReplaySelect";
+import ReplaySelect from "@/components/replay/ReplaySelect";
 
 export default {
   name: "Replay",
@@ -27,7 +23,7 @@ export default {
   },
   components: {
     ReplayList,
-    // ReplaySelect,
+    ReplaySelect,
   },
   computed: {
     ...mapState('account', ['userInfo'])
