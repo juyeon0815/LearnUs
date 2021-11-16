@@ -479,16 +479,11 @@
   }
 }
 .control-student {
-<<<<<<< HEAD
-=======
   position: relative;
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   padding: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
-<<<<<<< HEAD
-=======
   .empty {
     position: absolute;
     top: 70px;
@@ -496,7 +491,6 @@
     transform: translate(-50%);
     font-size: 1.1rem;
   }
->>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   .class {
     background: $orange;
     padding: .5rem 0;
