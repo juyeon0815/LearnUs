@@ -5,7 +5,7 @@
       alt="boradcast thumbnail"
       @click="$router.push({ name:'OnAir', params: { id: broadcast.broadcastId } })">
     <div class="content">
-      <img src="@/assets/image/test/ssafy-square.jpg" alt="" class="track">
+      <img src="@/assets/image/deco/ssafy-square.jpg" alt="" class="track">
       <div class="info">
         <div 
           class="title"
