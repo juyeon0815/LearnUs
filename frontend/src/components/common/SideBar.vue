@@ -25,19 +25,21 @@
         <span @click="moveToReplay(0, 0)">RE<span class="t-orange">:</span>PLAY</span>
         <div v-if="optionReady" class="category">
           <span @click="moveToReplay(0, 0)">‣ 전체 보기</span>
-          <span @click="changeReplayMenu(1)">‣ 1학기 과정</span>
-          <transition name="fade"
-            @before-enter="beforeEnter" @enter="enter"
-            @before-leave="beforeLeave" @leave="leave"
-          >
-            <div class="class-category" v-if="showTrack === 1">
-              <span
-                v-for="track in track1st"
-                :key="track.trackId"
-                @click="moveToReplay(track.trackId, track.trackSubject.trackSubjectId)"
-              >‣ {{ track.trackName }}</span>
-            </div>
-          </transition>
+          <div v-if="!isAdmin">
+            <span @click="changeReplayMenu(1)">‣ 1학기 과정</span>
+            <transition name="fade"
+              @before-enter="beforeEnter" @enter="enter"
+              @before-leave="beforeLeave" @leave="leave"
+            >
+              <div class="class-category" v-if="showTrack === 1">
+                <span
+                  v-for="track in track1st"
+                  :key="track.trackId"
+                  @click="moveToReplay(track.trackId, track.trackSubject.trackSubjectId)"
+                >‣ {{ track.trackName }}</span>
+              </div>
+            </transition>
+          </div>
           <div v-if="semester===2">
             <span @click="changeReplayMenu(2)">‣ 2학기 과정</span>
             <transition name="fade"
@@ -55,7 +57,7 @@
           </div>
         </div>
       </div>
-      <div class="menu-item">
+      <div v-if="isAdmin" class="menu-item">
         <i class="fi fi-rr-sunrise"></i>
         <span><span class="t-orange">:</span>ADMIN</span>
         <div class="category">
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'SideBar',
   data () {
@@ -112,6 +114,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('account', ['isAdmin']),
     ...mapState('account', ['userInfo']),
     ...mapState('admin', ['tracks', 'subjects']),
     semester () {
