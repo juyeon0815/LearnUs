@@ -4,7 +4,7 @@
     <div class="content" v-if="awardList">
       <div class="content-item">
         <div class="title">오늘의 퀴즈왕</div>
-        <div class="award">
+        <div class="award" v-if="awardList.quiz.length">
           <WinnerListItem
             v-for="(award, idx) in awardList.quiz"
             :award="award"
@@ -12,8 +12,13 @@
             :idx="idx"
           />
         </div>
+        <div class="award" v-if="!awardList.quiz.length">
+          <div class="winner-item">
+            <span>퀴즈 진행 후 공개됩니다</span>
+          </div>
+        </div>
       </div>
-      <div class="content-item">
+      <div class="content-item" v-if="awardList.chat.length">
         <div class="title">오늘의 참여왕</div>
         <div class="award">
           <WinnerListItem
@@ -22,6 +27,11 @@
             :key="idx"
             :idx="idx"
           />
+        </div>
+        <div class="award" v-if="!awardList.chat.length">
+          <div class="winner-item">
+            <span>수업 진행 후 공개됩니다</span>
+          </div>
         </div>
       </div>
     </div>
