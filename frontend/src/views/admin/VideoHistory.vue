@@ -7,9 +7,11 @@
           교육 영상 관리
         </span>
       </header>
-      <!-- <SearchBar/> -->
     </div>
     <HistoryList v-if="historyList" :historyList="historyList"/>
+    <div v-if="historyList && !historyList.length">
+      <span>교육 영상이 존재하지 않습니다.</span>
+    </div>
   </div>
 </template>
 

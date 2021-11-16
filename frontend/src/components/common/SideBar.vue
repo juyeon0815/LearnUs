@@ -21,10 +21,10 @@
       </div>
       
       <div class="menu-item">
-        <i class="fi fi-rr-film" @click="moveToReplay(0)"></i>
-        <span @click="moveToReplay(0)">RE<span class="t-orange">:</span>PLAY</span>
+        <i class="fi fi-rr-film" @click="moveToReplay(0, 0)"></i>
+        <span @click="moveToReplay(0, 0)">RE<span class="t-orange">:</span>PLAY</span>
         <div v-if="optionReady" class="category">
-          <span @click="moveToReplay(0)">‣ 전체 보기</span>
+          <span @click="moveToReplay(0, 0)">‣ 전체 보기</span>
           <span @click="changeReplayMenu(1)">‣ 1학기 과정</span>
           <transition name="fade"
             @before-enter="beforeEnter" @enter="enter"
@@ -34,7 +34,7 @@
               <span
                 v-for="track in track1st"
                 :key="track.trackId"
-                @click="moveToReplay(track.trackId)"
+                @click="moveToReplay(track.trackId, track.trackSubject.trackSubjectId)"
               >‣ {{ track.trackName }}</span>
             </div>
           </transition>
@@ -48,7 +48,7 @@
                 <span
                   v-for="subject in subject2nd"
                   :key="subject.trackSubjectId"
-                  @click="moveToReplay(track2nd[subject.trackSubjectId])"
+                  @click="moveToReplay(track2nd[subject.trackSubjectId], subject.trackSubjectId)"
                 >‣ {{ subject.subjectName }}</span>
               </div>
             </transition>
@@ -80,12 +80,14 @@ export default {
     }
   },
   methods: {
-    moveToReplay (track) {
-      console.log(track)
+    moveToReplay (track, subject) {
       this.$router.push({
         name: 'Replay', 
         params: {
           track: track
+        },
+        query: {
+          subject: subject
         }
       })
     },
