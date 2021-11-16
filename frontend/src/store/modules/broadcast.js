@@ -201,6 +201,17 @@ const actions = {
       console.log(err)
     }
   },
+  async alterOpenStatus({ dispatch }, replayInfo) {
+    try {
+      const response = await broadcastApi.updateReplayInfo(replayInfo)
+      if (response.status === 200) {
+        dispatch('getHistoryList')
+        return Promise.resolve(response)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
 }
 
 const mutations = {
@@ -244,7 +255,7 @@ const mutations = {
   },
   SET_HISTORY_LIST (state, payload) {
     state.historyList = payload
-  }
+  },
 }
 
 const getters = {

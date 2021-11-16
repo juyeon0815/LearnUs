@@ -19,7 +19,7 @@ export default {
   //방송 종료된 영상 리스트
   getHistoryList() {
     return _axios({
-      url: 'broadcast/all/N',
+      url: 'broadcastReplay/all',
       method: 'get'
     })
   },
