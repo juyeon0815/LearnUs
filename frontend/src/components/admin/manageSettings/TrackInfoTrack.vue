@@ -7,7 +7,10 @@
         @input="insertTrack"
       >
       <span>
-        <button @click="editTrack">수정</button>
+        <button 
+          :class="[data.trackName.trim().length ? '' : 'disabled']" 
+          @click="editTrack"
+        >수정</button>
         <button @click="offEditTrack">취소</button>
       </span>
     </div>
