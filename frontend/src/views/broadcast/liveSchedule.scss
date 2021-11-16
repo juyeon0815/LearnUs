@@ -84,6 +84,27 @@
             border-radius: 10px;
           }
         }
+        .info-open {
+          margin-bottom: 0.2rem;
+          .info-open-text {
+            .open-sticker {
+              font-family: 'Montserrat', sans-serif;
+              font-weight: 500;
+              padding: 0 5px;
+              border-radius: 20px;
+              &.open {
+                background: $orange;
+              }
+              &.close {
+                background: $light-grey;
+              }
+            }
+            .alter {
+              margin-left: .5rem;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
   }
