@@ -9,7 +9,9 @@
       <div class="create-live-form">
         <!-- 썸네일, 기초정보 인풋 -->
         <div class="live-row">
-          <ThumbnailUploader ref="thumbnailUploader"/>
+          <ThumbnailUploader 
+            @wrongExtension="onWrongExtension"
+            ref="thumbnailUploader"/>
           <div class="summary-col">
             <div class="input-box mb-2">
               <input 
@@ -115,6 +117,14 @@ export default {
       this.description = event.target.value
     },
     async onUpdate() {
+      if (this.title === '' || this.instructor === '' || !this.trackIds.length) {
+        const alertInfo = {
+          type: 'fail',
+          message: '제목, 진행자, 대상 트랙은 필수 입력 항목입니다.'
+        }
+        this.onAlert(alertInfo)
+        return
+      }
       this.thumbnail = await this.$refs.thumbnailUploader.saveThumbnail()
       let data = {
         ...this.broadcastDetail,
@@ -141,6 +151,9 @@ export default {
         }
         this.onAlert(alertInfo)
       }
+    },
+    onWrongExtension(alertInfo) {
+      this.onAlert(alertInfo)
     },
     onAlert(alertInfo) {
       this.alertInfo = alertInfo

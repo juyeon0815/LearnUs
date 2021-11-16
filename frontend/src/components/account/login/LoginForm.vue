@@ -32,6 +32,7 @@
           type="password"
           placeholder="비밀번호를 입력해 주세요."
           @keyup.enter="onLogin"
+          maxlength="99"
           required
         />
         <label>Password</label>

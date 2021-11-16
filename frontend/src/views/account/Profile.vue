@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <ProfileBox/>
+    <ProfileBox v-if="isLogin"/>
   </div>
 </template>
 
@@ -12,6 +12,11 @@ export default {
   name: 'Profile',
   components: {
     ProfileBox,
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.account.userInfo !== null
+    }
   }
 }
 </script>
