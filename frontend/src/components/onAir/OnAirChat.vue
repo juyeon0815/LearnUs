@@ -10,7 +10,10 @@
 </template>
 
 <script>
+import StompJs from 'stompjs';
+import SockJS from 'sockjs-client';
 import { mapState, mapActions, mapGetters } from 'vuex'
+
 import './onAirChat.scss'
 import AttendCheck from './chat/AttendCheck.vue'
 import AttendResult from './chat/AttendResult.vue'
@@ -18,6 +21,7 @@ import OnAirChatInput from './chat/OnAirChatInput.vue'
 import OnAirChatList from './chat/OnAirChatList.vue'
 import QuizResult from './chat/QuizResult.vue'
 import SolvingQuiz from './chat/SolvingQuiz.vue'
+
 export default {
   name: 'OnAirChat',
   components: {
@@ -40,6 +44,83 @@ export default {
       if (pb) {
         pb.style.bottom = chatInput.offsetHeight + 'px'
       }
+    },
+    connect () {
+      const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
+      const stomp = StompJs.over(sockJS);
+      this.$store.commit('stomp/SET_STOMP', stomp)
+
+      this.stomp.connect(
+        "admin", "admin",
+        () => {
+          const id = this.$route.params.id
+          this.stomp.subscribe(
+            `/exchange/chat.exchange/chat.${id}`,
+            (message) => {
+              const payload = JSON.parse(message.body);
+              const data = {
+                userId: payload.userId,
+                nickName: payload.nickName,
+                profileUrl: payload.profileUrl,
+                message: payload.message,
+                regDate: payload.regDate
+              }
+              this.$store.commit('stomp/ADD_CHAT_LIST', data)
+              this.autosize()
+            },
+            { "auto-delete": true, durable: false, exclusive: false }
+          );
+          this.stomp.send(
+            `/pub/chat.enter.${id}`,
+            {}
+          )
+          this.stomp.subscribe(
+            `/exchange/quiz.exchange/quiz.${id}`,
+            (message) => {
+              const payload = JSON.parse(message.body)
+              const key = Object.keys(payload)[0]
+              if ( key === 'quiz') {
+                this.$store.commit('stomp/SET_CURRENT_QUIZ', payload.quiz)
+              } else if (key === 'quizRank') {
+                this.$store.commit('stomp/SET_CURRENT_QUIZ', null)
+                this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', payload.quizRank)
+              }
+              setTimeout(() => {
+                this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', null)
+              }, 5000)
+            },
+            { "auto-delete": true, durable: false, exclusive: false }
+          )
+          this.stomp.subscribe(
+            `/exchange/attendance.exchange/attendance.${id}`, 
+            (message) => {
+              const payload = JSON.parse(message.body)
+              // console.log(payload);
+              if (payload === 'attendance start') {
+                this.$store.commit('stomp/SET_ATTEND_CHECK', true)
+              } else if (payload === 'attendance stop') {
+                this.$store.commit('stomp/SET_ATTEND_CHECK', false)
+              } else if (payload === 'broadcast start') {
+                this.getBroadcastDetail(id)
+              } else if (payload === 'broadcast stop') {
+                this.getBroadcastDetail(id)
+              }
+            },
+            {'auto-delete':true, 'durable':false, 'exclusive':false})
+          if (this.$route.name === 'OnAirStudio') {
+            this.stomp.subscribe(
+              `/exchange/admin.exchange/admin.${id}`,
+              (message) => {
+                const payload = JSON.parse(message.body)
+                this.$store.commit('stomp/SET_VIEWERS', payload.viewer)
+              },
+              { "auto-delete": true, durable: false, exclusive: false }
+            )
+          }
+        },
+        onerror,
+        "/"
+      )
     }
   },
   computed: {
@@ -50,83 +131,12 @@ export default {
   async created() {
     this.$store.dispatch('stomp/getChatList', this.$route.params.id)
     this.$store.dispatch('stomp/isAttendCheck', this.$route.params.id)
-
-    this.stomp.connect(
-      "admin",
-      "admin",
-      () => {
-        const id = this.$route.params.id
-        this.stomp.subscribe(
-          `/exchange/chat.exchange/chat.${id}`,
-          (message) => {
-            const payload = JSON.parse(message.body);
-            const data = {
-              userId: payload.userId,
-              nickName: payload.nickName,
-              profileUrl: payload.profileUrl,
-              message: payload.message,
-              regDate: payload.regDate
-            }
-            this.$store.commit('stomp/ADD_CHAT_LIST', data)
-            this.autosize()
-          },
-          { "auto-delete": true, durable: false, exclusive: false }
-        );
-        this.stomp.send(
-          `/pub/chat.enter.${id}`,
-          {}
-        )
-        this.stomp.subscribe(
-          `/exchange/quiz.exchange/quiz.${id}`,
-          (message) => {
-            const payload = JSON.parse(message.body)
-            const key = Object.keys(payload)[0]
-            if ( key === 'quiz') {
-              this.$store.commit('stomp/SET_CURRENT_QUIZ', payload.quiz)
-            } else if (key === 'quizRank') {
-              this.$store.commit('stomp/SET_CURRENT_QUIZ', null)
-              this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', payload.quizRank)
-            }
-            setTimeout(() => {
-              this.$store.commit('stomp/SET_CURRENT_QUIZ_RESULT', null)
-            }, 5000)
-          },
-          { "auto-delete": true, durable: false, exclusive: false }
-        )
-        this.stomp.subscribe(
-          `/exchange/attendance.exchange/attendance.${id}`, 
-          (message) => {
-            const payload = JSON.parse(message.body)
-            // console.log(payload);
-            if (payload === 'attendance start') {
-              this.$store.commit('stomp/SET_ATTEND_CHECK', true)
-            } else if (payload === 'attendance stop') {
-              this.$store.commit('stomp/SET_ATTEND_CHECK', false)
-            } else if (payload === 'broadcast start') {
-              this.getBroadcastDetail(id)
-            } else if (payload === 'broadcast stop') {
-              this.getBroadcastDetail(id)
-            }
-          },
-          {'auto-delete':true, 'durable':false, 'exclusive':false})
-        if (this.$route.name === 'OnAirStudio') {
-          this.stomp.subscribe(
-            `/exchange/admin.exchange/admin.${id}`,
-            (message) => {
-              const payload = JSON.parse(message.body)
-              this.$store.commit('stomp/SET_VIEWERS', payload.viewer)
-            },
-            { "auto-delete": true, durable: false, exclusive: false }
-          )
-        }
-      },
-      onerror,
-      "/"
-    );
+    this.connect()
   },
   mounted () {
     this.autosize()
     window.addEventListener('resize', this.autosize())
+    
   },
   unmounted () {
     this.stomp.disconnect()
