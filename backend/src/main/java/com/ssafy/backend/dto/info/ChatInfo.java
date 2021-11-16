@@ -20,6 +20,7 @@ public class ChatInfo {
     private String nickName;
     private String message;
     private String profileUrl;
+    private int isAdmin;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)

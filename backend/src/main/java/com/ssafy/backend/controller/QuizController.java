@@ -1,6 +1,5 @@
 package com.ssafy.backend.controller;
 
-import com.ssafy.backend.dto.info.QuizAnswerInfo;
 import com.ssafy.backend.dto.info.QuizInfo;
 import com.ssafy.backend.dto.info.QuizRankInfo;
 import com.ssafy.backend.service.quiz.QuizService;

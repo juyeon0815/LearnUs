@@ -12,6 +12,4 @@ public interface AwardDao extends JpaRepository<Award, String> {
     Award findAwardByUserAndTypeAndDate(User user, int type, LocalDate localDate);
     @Query(nativeQuery = true, value = "select * from award where date = :date and type = :type LIMIT 10")
     List<Award> findChatAwards(LocalDate date, int type);
-    @Query(nativeQuery = true, value = "select * from award where date = :date and type = :type LIMIT 10")
-    List<Award> findQuizAwards(LocalDate date, int type);
 }

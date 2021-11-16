@@ -147,7 +147,7 @@ public class BroadcastController {
     }
 
     @GetMapping("/attendance/after/{broadcastId}")
-    @ApiOperation(value = "방송 후 출석 관련 조회 (전체 출석 인원, 출석 완료한 인원")
+    @ApiOperation(value = "방송 후 출석 관련 조회 (전체 출석 인원, 출석 완료한 인원)")
     public ResponseEntity<Map<String, Integer>> getAttendanceAfter(@PathVariable("broadcastId") int broadcastId) {
         Map<String, Integer> map = broadcastService.getAttendanceAfter(broadcastId);
         if (map == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

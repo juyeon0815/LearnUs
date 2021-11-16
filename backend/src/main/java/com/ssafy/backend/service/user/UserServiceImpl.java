@@ -123,7 +123,6 @@ public class UserServiceImpl implements UserService {
                 user.setClassNo((int) row.getCell(6).getNumericCellValue());
                 user.setPhone(row.getCell(7).getStringCellValue());
                 user.setProfileUrl("https://mann-goofy.s3.ap-northeast-2.amazonaws.com/profiles/default.jpg");
-                user.setType(1);
                 user.setStatusCode("Y");
                 user.setTrack(nowTrack);
 
@@ -179,7 +178,8 @@ public class UserServiceImpl implements UserService {
             user.setPhone(updateUser.getPhone());
             user.setTrack(updateUser.getTrack());
             user.setStatusCode(updateUser.getStatusCode());
-            String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
+            String nickName = updateUser.getNickname();
+            if (user.getStatusCode().equals("Y")) nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
             Track track = trackDao.findTrackByTrackName(updateUser.getTrack().getTrackName());
             if (track != null) user.setTrack(track);

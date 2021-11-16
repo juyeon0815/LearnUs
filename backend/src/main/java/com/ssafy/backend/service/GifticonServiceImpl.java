@@ -1,9 +1,6 @@
 package com.ssafy.backend.service;
 
-import com.ssafy.backend.dao.AttendanceDao;
-import com.ssafy.backend.dao.BroadcastDao;
-import com.ssafy.backend.dao.GifticonDao;
-import com.ssafy.backend.dao.UserDao;
+import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.GifticonInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +67,7 @@ public class GifticonServiceImpl implements GifticonService{
 
             Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
             attendance.setGifticonYn("N");
+
             attendanceDao.save(attendance);
             gifticonDao.delete(gifticon);
             return true;

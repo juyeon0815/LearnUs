@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface BroadcastDao extends JpaRepository<Broadcast, String> {
     Broadcast findBroadcastByBroadcastId(int broadcastId);
-    List<Broadcast> findBroadcastsByLiveCode(String liveCode);
-
+    List<Broadcast> findBroadcastsByLiveCodeOrderByBroadcastDateDesc(String liveCode);
 }

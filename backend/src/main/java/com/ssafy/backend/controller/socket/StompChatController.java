@@ -53,7 +53,8 @@ public class StompChatController {
 
     @MessageMapping("chat.message.{broadcastId}")
     public void send(ChatInfo chat, @DestinationVariable int broadcastId) {
-        userService.userChatSend(chat.getUserId(), broadcastId);
+        // 교육생일 때만 채팅 점수 추가
+        if (chat.getIsAdmin() == 0) userService.userChatSend(chat.getUserId(), broadcastId);
 
         chat.setRegDate(LocalDateTime.now());
         redisService.setChatInfoValue("chat"+broadcastId, chat);

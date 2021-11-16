@@ -27,7 +27,6 @@ public class StompInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         if (StompCommand.SUBSCRIBE == accessor.getCommand()) { // 구독 요청
             String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidBroadcastId");
-            System.out.println("destination : "+destination);
             String[] arr = destination.split("/");
             String[] dest = arr[arr.length-1].split("\\.");
             String sessionId = (String) message.getHeaders().get("simpSessionId");
