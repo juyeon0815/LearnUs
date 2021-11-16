@@ -57,15 +57,8 @@ export default {
           this.stomp.subscribe(
             `/exchange/chat.exchange/chat.${id}`,
             (message) => {
-              const payload = JSON.parse(message.body);
-              const data = {
-                userId: payload.userId,
-                nickName: payload.nickName,
-                profileUrl: payload.profileUrl,
-                message: payload.message,
-                regDate: payload.regDate
-              }
-              this.$store.commit('stomp/ADD_CHAT_LIST', data)
+              const payload = JSON.parse(message.body)
+              this.$store.commit('stomp/ADD_CHAT_LIST', payload)
               this.autosize()
             },
             { "auto-delete": true, durable: false, exclusive: false }
