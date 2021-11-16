@@ -32,6 +32,7 @@
           class="info-input margin-between"
           placeholder="새로운 비밀번호를 입력하세요"
           v-model="newPW"
+          maxlength="99"
           required
         />
         <label>New Password</label>
@@ -44,6 +45,7 @@
           class="info-input"
           placeholder="비밀번호를 한 번 더 입력하세요"
           v-model="passwordConfirm"
+          maxlength="99"
           required
         />
         <label>New Password Confirm</label>
