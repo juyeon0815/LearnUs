@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface MattermostDao extends JpaRepository<Mattermost, String> {
     Mattermost findMattermostByMattermostId(int mattermostId);
-    Mattermost findMattermostByTrackSetting(TrackSetting trackSetting);
     List<Mattermost> findMattermostsByTrackSetting(TrackSetting trackSetting);
 }

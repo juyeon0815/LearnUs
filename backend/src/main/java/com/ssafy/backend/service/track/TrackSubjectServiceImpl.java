@@ -3,7 +3,6 @@ package com.ssafy.backend.service.track;
 import com.ssafy.backend.dao.TrackDao;
 import com.ssafy.backend.dao.TrackSettingDao;
 import com.ssafy.backend.dao.TrackSubjectDao;
-import com.ssafy.backend.dao.UserDao;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.TrackSubjectInfo;
 import org.springframework.beans.factory.annotation.Autowired;
