@@ -26,8 +26,13 @@
       </div>
       
     </div>
-    <div v-if="onairList && !onairList.length">
-      <span>아직 시작된 방송이 없습니다. 방송 일정을 확인해주세요!</span>
+    <div v-if="onairList && !onairList.length" class="empty">
+      <img src="@/assets/image/logo/mountain-w500.svg" alt="mountain">
+      <span>LIVE 중인 방송이 없습니다</span> 
+      <button 
+        class="btn orange"
+        @click="$router.push({ name: 'LiveSchedule' })"
+      >방송 일정 보기</button>
     </div>
   </div>
 </template>
