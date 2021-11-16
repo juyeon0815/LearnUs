@@ -348,9 +348,20 @@
                   pointer-events:none;
                 }
               }
+              .error-text {
+                margin-top: 3px;
+                padding-left: 10px;
+                color: $orange;
+                font-size: .8rem;
+                font-weight: 300;
+                font-family: 'Noto Sans KR', sans-serif;
+              }
               .multiselect {
                 height: fit-content;
                 padding: 5px 10px 5px 20px;
+                .multiselect-clear {
+                  display: none;
+                }
                 .multiselect-search {
                   background: none;
                   padding-left: 20px;

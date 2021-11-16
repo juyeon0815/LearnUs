@@ -8,6 +8,7 @@ const state = {
   instantUserId: null,
   httpStatus: null,
   photoKey: 0,
+  regionList: null,
 }
 
 const actions = {
@@ -115,6 +116,10 @@ const actions = {
         commit('SET_USER_INFO', res.data)
       })
   },
+  async getRegion ({ commit }) {
+    const response = await accountApi.getRegionList()
+    commit('SET_REGION', response.data)
+  }
 }
 
 const mutations = {
@@ -142,6 +147,9 @@ const mutations = {
   },
   UPDATE_PHOTO_KEY (state) {
     state.photoKey += 1
+  },
+  SET_REGION (state, payload) {
+    state.regionList = payload
   }
 }
 
