@@ -23,7 +23,6 @@ export default {
   components: {
     OnAirChatInput,
     OnAirChatList,
-    // popup
     AttendCheck,
     AttendResult,
     QuizResult,
@@ -98,7 +97,7 @@ export default {
           `/exchange/attendance.exchange/attendance.${this.currentBroadcastId}`, 
           (message) => {
             const payload = JSON.parse(message.body)
-            console.log(payload);
+            // console.log(payload);
             if (payload === 'attendance start') {
               this.$store.commit('stomp/SET_ATTEND_CHECK', true)
             } else if (payload === 'attendance stop') {

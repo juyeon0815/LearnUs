@@ -14,7 +14,7 @@ import CreateLive from '@/views/admin/CreateLive.vue'
 import ErrorPage from '@/views/Error.vue'
 
 import Replay from '@/views/replay/Replay.vue'
-import ReplayVideo from '@/views/replay/ReplayVideo.vue'
+import ReplayDetail from '@/views/replay/ReplayDetail.vue'
 
 const routes = [
   {
@@ -24,12 +24,12 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: '/on-air/:id',
+    path: '/live/:id',
     name: 'OnAir',
     component: OnAir
   },
   {
-    path: '/on-air/studio/:id',
+    path: '/live/studio/:id',
     name: 'OnAirStudio',
     component: OnAirStudio
   },
@@ -54,7 +54,11 @@ const routes = [
     component: ManageVideo
   },
   {
+<<<<<<< HEAD
     path: '/admin/create-live',
+=======
+    path: '/admin/create/live',
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
     name: 'CreateLive',
     component: CreateLive
   },
@@ -69,19 +73,19 @@ const routes = [
     component: Profile
   },
   {
-    path: '/broadcast/live-schedule',
+    path: '/broadcast/schedule',
     name: 'LiveSchedule',
     component: LiveSchedule
   },
   {
-    path: '/replay/:category',
+    path: '/replay/:track',
     name: 'Replay',
     component: Replay
   },
   {
-    path: '/replay/:id',
-    name: 'ReplayVideo',
-    component: ReplayVideo
+    path: '/replay/video/:id',
+    name: 'ReplayDetail',
+    component: ReplayDetail
   },
   { 
     path: '/:pathMatch(.*)*', 

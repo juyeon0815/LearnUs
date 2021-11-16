@@ -12,10 +12,17 @@ const state = {
   onairList: null,
   quizResult: null,
   replayList: null,
+<<<<<<< HEAD
   replayListByTrack: null,
   replayDetail: null,
   selectedSubject: null,
   activeStudents: null,
+=======
+  replayDetail: null,
+  selectedSubject: null,
+  activeStudents: null,
+  historyLiast: null,
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 }
 
 const actions = {
@@ -135,6 +142,29 @@ const actions = {
       console.log(err)
     }
   },
+<<<<<<< HEAD
+=======
+  async getReplayList ({ commit }, ordinal) {
+    try {
+      const response = await broadcastApi.getReplayList(ordinal)
+      if (response.status === 200) {
+        commit('SET_REPLAY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  async getReplayTrackList ({ commit }, data) {
+    try {
+      const response = await broadcastApi.getReplayByTrack(data.id, data.ordinalNo)
+      if (response.status === 200) {
+        commit('SET_REPLAY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   async getReplayDetail ({ commit }, id) {
     try {
       const response = await broadcastApi.getReplayInfo(id)
@@ -153,7 +183,38 @@ const actions = {
     commit('SET_QUIZ_RESULT', null)
     commit('SET_ACTIVE_STUDENTS', null)
     commit('SET_REPLAY_DETAIL', null)
+<<<<<<< HEAD
   }
+=======
+  },
+  closeOnAirStudio ({ commit }) {
+    commit('SET_BROADCAST_DETAIL', null)
+    commit('SET_STUDENT_LIST', null)
+    commit('SET_STUDENT_TARGET', null)
+    commit('SET_REPLAY_DETAIL', null)
+  },
+  async updateReplayInfo({ dispatch }, replayInfo) {
+    try {
+      const response = await broadcastApi.updateReplayInfo(replayInfo)
+      if (response.status === 200) {
+        dispatch('getReplayDetail', replayInfo.broadcastReplayId)
+        return Promise.resolve(response)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  async getHistoryList({ commit }) {
+    try {
+      const response = await broadcastApi.getHistoryList()
+      if (response.status === 200) {
+        commit('SET_HISTORY_LIST', response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
 }
 
 const mutations = {
@@ -189,8 +250,19 @@ const mutations = {
   SET_ACTIVE_STUDENTS (state, payload) {
     state.activeStudents = payload
   },
+<<<<<<< HEAD
   SET_REPLAY_DETAIL (state, payload) {
     state.replayDetail = payload
+=======
+  SET_REPLAY_LIST (state, payload) {
+    state.replayList = payload
+  },
+  SET_REPLAY_DETAIL (state, payload) {
+    state.replayDetail = payload
+  },
+  SET_HISTORY_LIST (state, payload) {
+    state.historyList = payload
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   }
 }
 
@@ -200,6 +272,15 @@ const getters = {
       return state.broadcastDetail.broadcastId
     }
     return null
+  },
+  isLive (state) {
+    if (state.broadcastDetail) {
+      return state.broadcastDetail.liveCode === 'Y'
+    }
+    return null
+  },
+  hasReplay (state) {
+    return state.replayDetail != null
   },
   studentData (state) {
     if (state.studentTarget) {
@@ -223,10 +304,17 @@ const getters = {
       const schedule = {}
       for (var i = 0; i < uniqueDates.length; i++) {
         schedule[`${uniqueDates[i]}`] = []
+<<<<<<< HEAD
       }
       for (var k = 0; k < state.broadcastList.length; k++) {
         schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
       }
+=======
+      }
+      for (var k = 0; k < state.broadcastList.length; k++) {
+        schedule[`${state.broadcastList[k].broadcastDate.split(' ')[0]}`].push(state.broadcastList[k])
+      }
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
       return schedule
     }
     return null

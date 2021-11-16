@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bar">
+  <div v-if="userInfo" class="side-bar">
     <div class="logo" @click="$router.push('/')">
       <img class="logo-sm" src="@/assets/image/logo/logo-mountain-only.svg" alt="">
       <span v-if="vw > 576" class="logo-text">LearnUs</span>
@@ -14,28 +14,44 @@
       </div>
       <div 
         class="menu-item"
+        @click="$router.push({ name: 'LiveSchedule' })"
       >
-        <!-- @click="$router.push({ name: 'OnAir' })" -->
         <i class="fi fi-rr-play-alt"></i>
-        <span>ON<span class="t-orange">:</span>AIR</span>
+        <span>Schedule<span class="t-orange">:</span></span>
       </div>
       
       <div class="menu-item">
-        <i class="fi fi-rr-film"></i>
-        <span>RE<span class="t-orange">:</span>PLAY</span>
-        <div class="category">
-          <span @click="$router.push({name: 'Replay', params: {category: 'all'}})">‣ 전체보기</span>
-          <span @click="semester1st = !semester1st">‣ 1학기 과정</span>
-            <div class="class-category" v-if="semester1st">
-              <span @click="$router.push({name: 'Replay', params: {category: '코딩집중교육'}})">‣ 코딩집중교육</span>
+        <i class="fi fi-rr-film" @click="moveToReplay(0)"></i>
+        <span @click="moveToReplay(0)">RE<span class="t-orange">:</span>PLAY</span>
+        <div v-if="optionReady" class="category">
+          <span @click="moveToReplay(0)">‣ 전체 보기</span>
+          <span @click="changeReplayMenu(1)">‣ 1학기 과정</span>
+          <transition name="fade"
+            @before-enter="beforeEnter" @enter="enter"
+            @before-leave="beforeLeave" @leave="leave"
+          >
+            <div class="class-category" v-if="showTrack === 1">
+              <span
+                v-for="track in track1st"
+                :key="track.trackId"
+                @click="moveToReplay(track.trackId)"
+              >‣ {{ track.trackName }}</span>
             </div>
-          <div v-if="semester==2">
-          <span @click="semester2nd = !semester2nd">‣ 2학기 과정</span>
-            <div class="class-category" v-if="semester2nd">
-              <span @click="$router.push({name: 'Replay', params: {category: '공통 PJT'}})">‣ 공통 PJT</span>
-              <span @click="$router.push({name: 'Replay', params: {category: '특화 PJT'}})">‣ 특화 PJT</span>
-              <span @click="$router.push({name: 'Replay', params: {category: '자율 PJT'}})">‣ 자율 PJT</span>
-            </div>
+          </transition>
+          <div v-if="semester===2">
+            <span @click="changeReplayMenu(2)">‣ 2학기 과정</span>
+            <transition name="fade"
+              @before-enter="beforeEnter" @enter="enter"
+              @before-leave="beforeLeave" @leave="leave"
+            >
+              <div class="class-category" v-if="showTrack === 2">
+                <span
+                  v-for="subject in subject2nd"
+                  :key="subject.trackSubjectId"
+                  @click="moveToReplay(track2nd[subject.trackSubjectId])"
+                >‣ {{ subject.subjectName }}</span>
+              </div>
+            </transition>
           </div>
         </div>
       </div>
@@ -45,7 +61,11 @@
         <div class="category">
           <span @click="$router.push({name: 'ManageStudent'})">‣ 교육생 관리</span>
           <span @click="$router.push({name: 'VideoHistory'})">‣ 교육 영상 관리</span>
+<<<<<<< HEAD
           <span>‣ 라이브 생성</span>
+=======
+          <span @click="$router.push({name: 'CreateLive'})">‣ 라이브 생성</span>
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
           <span @click="$router.push({name: 'ManageSettings'})">‣ 러너스 설정</span>
         </div>
       </div>
@@ -54,31 +74,93 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'SideBar',
   data () {
     return {
       vw: 0,
-      semester: '',
-      semester1st : false,
-      semester2nd : false,
-      userInfo: null,
+      showTrack : 0,
     }
   },
-  methods :{
+  methods: {
+    moveToReplay (track) {
+      console.log(track)
+      this.$router.push({
+        name: 'Replay', 
+        params: {
+          track: track
+        }
+      })
+    },
+    changeReplayMenu (num) {
+      if (this.showTrack === num) {
+        this.showTrack = 0
+      } else {
+        this.showTrack = num
+      }
+    },
+    beforeEnter: function(el) {
+      el.style.height = '0'
+    },
+    enter: function(el) {
+      el.style.height = el.scrollHeight + 'px'
+    },
+    beforeLeave: function(el) {
+      el.style.height = el.scrollHeight + 'px'
+    },
+    leave: function(el) {
+      el.style.height = '0'
+    }
   },
-  created () {
+  computed: {
+    ...mapState('account', ['userInfo']),
+    ...mapState('admin', ['tracks', 'subjects']),
+    semester () {
+      return this.userInfo.track.trackSubject.trackSetting.semester
+    },
+    track1st () {
+      return this.tracks.filter(track => {
+        return track.trackSubject.trackSetting.semester === 1
+      })
+    },
+    subject2nd () {
+      return this.subjects.filter(subject => {
+        return subject.trackSetting.semester === 2
+      })
+    },
+    track2nd () {
+      const result = {}
+      this.subject2nd.forEach(sub => {
+        let track = this.tracks.find(track => {
+          return track.trackSubject.trackSubjectId === sub.trackSubjectId
+        })
+        result[sub.trackSubjectId] = track.trackId
+      })
+      return result
+    },
+    optionReady () {
+      return this.userInfo && this.tracks && this.subjects
+    }
+  },
+  watch: {
+    userInfo (val) {
+      if (val) {
+        this.$store.dispatch('admin/getTrackAll')
+        this.$store.dispatch('admin/getSubjectAll')
+      }
+    }
+  },
+  mounted () {
     this.vw = window.innerWidth
     window.addEventListener('resize', () => {
       this.vw = window.innerWidth
     })
-  },
-  mounted () {
-    this.userInfo = this.$store.state.account.userInfo
     if (this.userInfo) {
-      this.semester = this.userInfo.track.trackSubject.trackSetting.semester
+      this.$store.dispatch('admin/getTrackAll')
+      this.$store.dispatch('admin/getSubjectAll')
     }
-  }
+  },
 }
 </script>
 

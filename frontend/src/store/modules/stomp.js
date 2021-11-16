@@ -32,6 +32,16 @@ const actions = {
       console.log(err)
     }
   },
+  async isAttendCheck ({ commit }, id) {
+    try {
+      const response = await broadcastApi.isAttendCheck(id)
+      if (response.status === 200) {
+        commit('SET_ATTEND_CHECK', true)
+      }
+    } catch (err) {
+      commit('SET_ATTEND_CHECK', false)
+    }
+  },
   async checkAttend ({ commit }, data) {
     commit('SET_ATTEND_CHECK', false)
     try {
@@ -92,6 +102,11 @@ const actions = {
     } catch (err) {
       console.log(err)
     }
+  },
+  resetStompData ({ commit }) {
+    commit('SET_CHAT_LIST', null)
+    commit('SET_VIEWERS', 0)
+    commit('SET_CURRENT_QUIZ', null)
   }
 }
 

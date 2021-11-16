@@ -1,46 +1,69 @@
 <template>
-  <div class="video-player">
-    <video id="my-video" ref="videoPlayer" class="video-js vjs-fluid"></video>
+  <div class="replay-player">
+    <video 
+      ref="videoPlayer" 
+      class="video-js vjs-fluid"
+    ></video>
+    <div v-if="replayDetail" class="replay-info">
+      <h3 class="title">
+        <span>[강의 다시보기]</span>
+        {{ replayDetail.broadcast.title }}
+      </h3>
+      <div class="date">{{ broadcastDate }}</div>
+      <div class="instructor">
+        <span>by. </span>
+        {{ replayDetail.broadcast.teacher }}
+      </div>
+    </div>
   </div>
-  {{ url }}
 </template>
 
 <script>
-import "./replayVideo.scss";
-
+import './replayVideo.scss'
+import { mapGetters, mapState } from "vuex";
+import moment from 'moment'
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
-import { mapState } from "vuex";
+
 export default {
-  name: "OnAirVideoPlayer",
-  props: {
-    broadcastId: String,
-  },
+  name: 'ReplayVideoPlayer',
   data() {
     return {
       player: null,
-      videoWidth: 0,
-      url: "",
-    };
+    }
   },
   computed: {
-    ...mapState("replay", ["broadCastInfo"]),
+    ...mapState('broadcast', ['replayDetail']),
+    ...mapGetters('broadcast', ['hasReplay']),
     options() {
       return {
-        autoplay: true,
+        autoplay: 'any',
         controls: true,
         fluid: true,
+        poster: this.replayDetail.broadcast.thumbnailUrl,
+        liveui: this.mediaType.startsWith('a') ? true : false,
         playbackRates: [0.5, 1, 1.5, 2],
         sources: [
           {
-            src: this.url,
-            // src: "https://d31f0osw72yf0h.cloudfront.net/qwe.m3u8",
-            type: "application/x-mpegURL",
+            src: this.replayDetail.replayUrl,
+            type: this.mediaType,
           },
         ],
-      };
+      }
     },
+    mediaType () {
+      const src = this.replayDetail.replayUrl.split('.')
+      const exte = src[src.length-1]
+      if (exte === 'm3u8') {
+        return 'application/x-mpegURL'
+      }
+      return 'video/mp4'
+    },
+    broadcastDate () {
+      return moment(this.replayDetail.broadcast.broadcastDate).locale('ko').format('LL');
+    }
   },
+<<<<<<< HEAD
   async mounted() {
     await this.$store.dispatch("replay/getBroadCastInfo", this.broadcastId); // broadcastId 업데이트 -> async await 걸어서 순서대로 처리되도록!
     this.url = this.broadCastInfo.replayUrl;
@@ -51,10 +74,41 @@ export default {
     });
     this.player.removeChild("BigPlayButton");
 
+=======
+  watch: {
+    hasReplay (val) {
+      if (val) {
+        this.player = videojs(
+          this.$refs.videoPlayer, 
+          this.options, 
+          function ready() {
+            this.currentTime(0);
+          }
+        )
+        this.player.removeChild("BigPlayButton")
+      } else {
+        if (this.player) {
+          this.player.dispose()
+        }
+      }
+    },
+  },
+  mounted() {
+    if (this.hasReplay) {
+      this.player = videojs(
+        this.$refs.videoPlayer, 
+        this.options, 
+        function ready() {
+          this.currentTime(0);
+        }
+      )
+      this.player.removeChild("BigPlayButton")
+    }
+>>>>>>> a6c28a5b99a6a47e6a28401a2d784a3ea23eca32
   },
   beforeUnmount() {
     if (this.player) {
-      this.player.dispose();
+      this.player.dispose()
     }
   },
 };

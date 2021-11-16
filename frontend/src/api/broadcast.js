@@ -16,6 +16,13 @@ export default {
       method: 'get',
     })
   },
+  //방송 종료된 영상 리스트
+  getHistoryList() {
+    return _axios({
+      url: 'broadcast/all/N',
+      method: 'get'
+    })
+  },
   // 방송 정보 관련
   getBroadcastDetail (id) {
     return _axios({
@@ -146,26 +153,30 @@ export default {
       method : 'get',
     })
   },
-  getReplayList(ordinalNo) {
+  getReplayByTrack (id, ordinalNo) {
     return _axios({
-      url: `broadcastReplay/all/${ordinalNo}`,
-      method : 'get',
-    })
-  },
-
-  getReplayByTrack(searchData) {
-    return _axios({
-      url: `broadcastReplay/track/${searchData.trackId}/${searchData.ordinalNo}`,
+      url: `broadcastReplay/track/${id}/${ordinalNo}`,
       method : 'get'
     })
   },
 
-  getReplayInfo(id) {
+  getReplayInfo (id) {
     return _axios({
       url: `broadcastReplay/${id}`,
       method : 'get'
     })
-  }
-  
-
+  },
+  isAttendCheck (id) {
+    return _axios({
+      url: `/broadcast/start/isAttend/${id}`,
+      method : 'get'
+    })
+  },
+  updateReplayInfo(replayInfo) {
+    return _axios({
+      url: 'broadcastReplay',
+      method: 'patch',
+      data: replayInfo
+    })
+  },
 }

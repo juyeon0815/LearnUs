@@ -7,12 +7,12 @@
           <span>라이브 방송 생성</span>
         </div>
       </button>
-      <button class="btn black" @click="$router.push({ name: 'LiveSchedule' })">
+      <!-- <button class="btn black" @click="$router.push({ name: 'LiveSchedule' })">
         <div class="btn-content">
           <i class="fi fi-rr-calendar"></i>
           <span>주간 일정 보기</span>
         </div>
-      </button>
+      </button> -->
     </div>
     <div class="user-menu">
       <div class="profile">
