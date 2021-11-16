@@ -40,10 +40,11 @@
       align-items: flex-start;
     }
     .alert {
-      position: fixed;
+      position: absolute;
       top: 50px;
+      right: 27%;
       padding: .5rem 2rem;
-      width: 70%;
+      max-width: 70%;
       border-radius: 10px;
       font-weight: 700;
       text-align: center;
