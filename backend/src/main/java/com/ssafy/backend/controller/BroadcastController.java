@@ -22,6 +22,7 @@ import java.util.Map;
 public class BroadcastController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
+    private static final String NO = "no";
 
     @Autowired
     private BroadcastService broadcastService;
@@ -88,7 +89,9 @@ public class BroadcastController {
     @GetMapping("/start/isAttend/{broadcastId}")
     @ApiOperation(value = "중간에 방송 들어왔을 때 출석중인지 아닌지 확인")
     public ResponseEntity<String> broadcastIsAttend(@PathVariable("broadcastId") int broadcastId) {
-        if (!broadcastService.isAttend(broadcastId)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        int code = broadcastService.isAttend(broadcastId);
+        if (code == 0) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+        else if (code == 2) return new ResponseEntity<>(NO, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
