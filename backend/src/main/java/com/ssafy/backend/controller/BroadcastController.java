@@ -91,7 +91,7 @@ public class BroadcastController {
     public ResponseEntity<String> broadcastIsAttend(@PathVariable("broadcastId") int broadcastId) {
         int code = broadcastService.isAttend(broadcastId);
         if (code == 0) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
-        else if (code == 2) return new ResponseEntity<>(NO, HttpStatus.ACCEPTED);
+        else if (code == 2) return new ResponseEntity<>(NO, HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
