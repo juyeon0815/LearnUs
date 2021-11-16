@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[ noSpace ? 'space' : '', isError ? 'light' : 'dark' ]">
+  <div :class="[ noSpace ? 'space' : '', isError ? 'light' : 'dark', 'app' ]">
     <SideBar
       v-if="needSideBar"
     />
@@ -50,6 +50,7 @@ export default {
       if (this.$route.name === "Account" ||
           this.$route.name === "OnAir" ||
           this.$route.name === "OnAirStudio" ||
+          this.$route.name === "ReplayDetail" ||
           this.$route.name === "Error"
       ) {
         return false
@@ -66,7 +67,8 @@ export default {
     },
     needTopLogo () {
       if (this.$route.name === "OnAir" ||
-          this.$route.name === "OnAirStudio"
+          this.$route.name === "OnAirStudio" ||
+          this.$route.name === "ReplayDetail"
       ) {
         return true
       }
