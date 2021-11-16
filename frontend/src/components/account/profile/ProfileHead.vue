@@ -21,7 +21,10 @@
       </div>
     </div>
     <!--  -->
-    <ProfileCrop v-if="isCropperShow" @hideCropper="onHideCropper"/>
+    <ProfileCrop 
+      v-if="isCropperShow" 
+      @hideCropper="onHideCropper" 
+      @wrongExtension="onWrongExtension"/>
   </div>
 </template>
 
@@ -80,6 +83,10 @@ export default {
         }
         this.$emit('alert', alertInfo)
       }
+    },
+    onWrongExtension(alertInfo) {
+      this.isCropperShow = false
+      this.$emit('alert', alertInfo)
     }
   },
   computed: {
