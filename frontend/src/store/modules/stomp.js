@@ -64,6 +64,7 @@ const actions = {
     try {
       const response = await quizApi.getQuizList(id)
       if (response.status === 200) {
+        console.log(response)
         commit('SET_QUIZ_LIST', response.data)
       }
     } catch (err) {
