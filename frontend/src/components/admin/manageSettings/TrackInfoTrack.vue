@@ -34,7 +34,7 @@ export default {
     return {
       isEditMode: false,
       data: {
-        subjectName: null,
+        subjectId: null,
         trackId: null,
         trackName: ''
       }
@@ -43,13 +43,13 @@ export default {
   methods: {
     onEditTrack() {
       this.isEditMode = true
-      this.data.subjectName = this.track.trackSubject.subjectName
+      this.data.subjectId = this.track.trackSubject.trackSubjectId
       this.data.trackId = this.track.trackId
       this.data.trackName = this.track.trackName
     },
     offEditTrack() {
       this.isEditMode = false
-      this.data.subjectName = null
+      this.data.subjectId = null
       this.data.trackId = null
       this.data.trackName = ''
     },
