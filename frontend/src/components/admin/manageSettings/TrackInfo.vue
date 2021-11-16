@@ -5,12 +5,14 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
+      <div :class="[result ? 'blue' : 'yellow', 'alert']" v-if="msg">{{ msg }}</div>
       <h1>Tracks<span class="t-orange">:</span></h1>
       <div class="track-current">
         <TrackCurrent
           v-for="(ordinal, idx) in ordinalNo"
           :key="idx"
           :ordinal="ordinal"
+          @current="alertCurrent"
         />
       </div>
       <div class="track-box">
@@ -40,7 +42,10 @@
                 placeholder="과정 이름"
               >
               <span>
-                <button @click="addSubject">추가</button>
+                <button 
+                  :class="[subjectData.subjectName.trim().length ? '' : 'disabled']" 
+                  @click="addSubject"
+                >추가</button>
                 <button @click="offAdd('subject')">취소</button>
               </span>
             </div>
@@ -62,7 +67,10 @@
                 placeholder="트랙 이름"
               >
               <span>
-                <button @click="addTrack">추가</button>
+                <button 
+                  :class="[trackData.trackName.trim().length ? '' : 'disabled']" 
+                  @click="addTrack"
+                >추가</button>
                 <button @click="offAdd('track')">취소</button>
               </span>
             </div>
@@ -99,9 +107,11 @@ export default {
         subjectName: '',
       },
       trackData: {
-        subjectName: null,
+        subjectId: null,
         trackName: ''
-      }
+      },
+      msg: false,
+      result: 0
     }
   },
   methods: {
@@ -114,6 +124,18 @@ export default {
       this.subjectId = id
       this.subjectName = name
     },
+    alertCurrent (success) {
+      if (success) {
+        this.result = 1
+        this.msg = '현재 진행 중인 교육 과정이 변경되었습니다.'
+      } else {
+        this.result = 0
+        this.msg = '교육 과정 변경에 실패했습니다.'
+      }
+      setTimeout(() => {
+        this.msg = false
+      }, 2000)
+    },
     onAdd(target) {
       const input = document.querySelector(`.add-${target} > .add-box`)
       const btn = document.querySelector(`.add-${target} > .add-btn`)
@@ -122,7 +144,7 @@ export default {
       if (target === 'subject') {
         this.subjectData.ordinalNo = this.ord
       } else if (target === 'track') {
-        this.trackData.subjectName = this.subjectName
+        this.trackData.subjectId = this.subjectId
       }
     },
     offAdd(target) {

@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     inputText (event) {
-      this.$store.commit('admin/SET_SEARCH_WORD', event.target.value)
+      this.$store.commit('admin/SET_SEARCH_WORD', event.target.value.trim())
     },
     changeOrdinal(event) {
       this.$store.commit('admin/SET_ORD', event.target.value)
@@ -47,7 +47,11 @@ export default {
       this.$store.commit('admin/SET_ORD', this.ordinalNo[0])
       this.ord = this.ordinalNo[0]
     } else {
-      this.ord = this.selectedOrd
+      if (this.ordinalNo.includes(this.selectedOrd)) {
+        this.ord = this.selectedOrd
+      } else {
+        this.ord = this.ordinalNo[0]
+      }
     }
     this.$store.commit('admin/SET_SEARCH_WORD', '')
   },

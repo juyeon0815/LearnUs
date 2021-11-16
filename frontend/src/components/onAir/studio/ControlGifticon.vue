@@ -1,6 +1,6 @@
 <template>
   <div class="control-gifticon">
-    <div class="student-table">
+    <div class="student-table" v-if="gifticonList">
         <table>
           <thead>
             <tr>
@@ -8,52 +8,32 @@
               <th>이름</th>
               <th>학번</th>
               <th>분반</th>
-              <th>출석 여부</th>
             </tr>
           </thead>
           <tbody>
-            <ControlStudentTableRow
-              v-for="(student, idx) in paginatedArea"
+            <ControlGifticonRow
+              v-for="(student, idx) in gifticonList"
               :key="idx"
               :student="student"
-              :idx="idx + (currentPage - 1) * 10"
+              :idx="idx"
             />
           </tbody>
         </table>
         <div v-if="!gifticonList.length" class="empty">
-          검색 결과가 없습니다.
+          기프티콘 목록이 없습니다.
         </div>
-
-        <ul class="pagination" v-if="totalPage && totalPage > 1">
-          <li
-            :class="{ disabled: currentPage === 1 }"
-            @click="changePage(currentPage - 1)"
-          >&laquo;</li>
-          <li
-            :class="{ active: page === currentPage }"
-            v-for="page in totalPage"
-            :key="page"
-            @click="changePage(page)"
-          >
-            {{ page }}
-          </li>
-          <li
-            :class="{ disabled: currentPage === totalPage }"
-            @click="changePage(currentPage + 1)"
-          >&raquo;</li>
-        </ul>
       </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import ControlStudentTableRow from './ControlStudentRow.vue'
+import ControlGifticonRow from './ControlGifticonRow.vue'
 
 export default {
   name: 'ControlGifticon',
   components: {
-    ControlStudentTableRow,
+    ControlGifticonRow,
   },
   data () {
     return {
@@ -68,15 +48,6 @@ export default {
   },
   computed: {
     ...mapState('gifticon', ['gifticonList']),
-    paginatedArea () {
-      let start = (this.currentPage - 1) * 10
-      let end = this.currentPage * 10
-      return this.gifticonList.slice(start, end)
-    },
-    totalPage () {
-      const total = this.gifticonList.length
-      return Math.ceil(total/10)
-    },
   }
 }
 </script>

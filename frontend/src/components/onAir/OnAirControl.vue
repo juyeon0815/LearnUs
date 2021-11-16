@@ -1,6 +1,9 @@
 <template>
   <div class="on-air-control">
-    <ControlStudentTable v-if="studentDetail"/>
+    <StudentSearchModal
+      v-if="isSearchModalOn" 
+      @close="isSearchModalOn = false"
+    />
     <div class="default">
       <VideoPreview/>
       <VideoInfo/>
@@ -15,10 +18,17 @@
           :class="[control === 1 ? 'active' : '', 'tab-item']" 
           @click="changeControl(1)"
         >퀴즈 관리</span>
-        <span 
-          :class="[control === 2 ? 'active' : '', 'tab-item']" 
-          @click="changeControl(2)"
-        >기프티콘</span>
+          <span 
+            :class="[control === 2 ? 'active' : '', 'tab-item']" 
+            @click="changeControl(2)"
+          >
+            기프티콘
+            <i 
+              v-if="control === 2"
+              class="fi fi-sr-add gifticon-add-btn"
+              @click="isSearchModalOn = true"
+            ></i>
+          </span>
       </div>
       <ControlStudent v-if="!control"/>
       <ControlQuiz v-else-if="control === 1"/>
@@ -32,9 +42,10 @@ import './onAirControl.scss'
 import VideoInfo from './studio/VideoInfo.vue'
 import VideoPreview from './studio/VideoPreview.vue'
 import ControlStudent from './studio/ControlStudent.vue'
-import ControlStudentTable from './studio/ControlStudentTable.vue'
 import ControlGifticon from './studio/ControlGifticon.vue'
 import ControlQuiz from './studio/ControlQuiz.vue'
+import StudentSearchModal from './studio/StudentSearchModal.vue'
+
 export default {
   name: 'OnAirControl',
   components: {
@@ -42,13 +53,13 @@ export default {
     VideoPreview,
     ControlGifticon,
     ControlStudent,
-    ControlStudentTable,
-    ControlQuiz
+    ControlQuiz,
+    StudentSearchModal,
   },
   data () {
     return {
       control: 0,
-      studentDetail: false,
+      isSearchModalOn: false,
     }
   },
   methods: {
