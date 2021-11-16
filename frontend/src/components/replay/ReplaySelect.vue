@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Multiselect from '@vueform/multiselect'
 export default {
   name: 'ReplaySelect',
@@ -26,8 +26,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('account', ['isAdmin']),
     ...mapState("account", ["userInfo"]),
-    ...mapState("admin", ["tracks"]),
+    ...mapState("admin", ["tracks", 'ordinalNo']),
   },
   watch: {
     '$route'() {
@@ -54,37 +55,48 @@ export default {
       }
     },
     selectTrackId () {
-      if (this.selectTrackId || this.selectTrackId != this.$route.params.track) {
-        const data = {
-          id: this.selectTrackId,
-          ordinalNo: this.userInfo.ordinalNo
-        }
-        this.$store.dispatch('broadcast/getReplayTrackList', data)
-        this.$router.push({
-          name: 'Replay', 
-          params: {
-            track: this.selectTrackId,
-          },
-          query: {
-            subject: this.$route.query.subject
+      if (this.isAdmin) {
+        this.$store.dispatch('broadcast/getReplayList', this.selectTrackId)
+      } else {
+        if (this.selectTrackId || this.selectTrackId != this.$route.params.track) {
+          const data = {
+            id: this.selectTrackId,
+            ordinalNo: this.userInfo.ordinalNo
           }
-        })
+          this.$store.dispatch('broadcast/getReplayTrackList', data)
+          this.$router.push({
+            name: 'Replay', 
+            params: {
+              track: this.selectTrackId,
+            },
+            query: {
+              subject: this.$route.query.subject
+            }
+          })
+        }
       }
     }
   },
   created() {
-    this.selectTrackId = Number(this.$route.params.track)
-    this.subjectId = Number(this.$route.query.subject)
-    if (this.subjectId != '0') {
-      this.tracks.forEach(track => {
-        if (track.trackSubject.trackSubjectId === this.subjectId) {
-          const option = {
-            value: track.trackId,
-            label: track.trackName
-          }
-          this.trackOptions.push(option)
-        }
+    if (this.isAdmin) {
+      this.selectTrackId = this.ordinalNo[0]
+      this.trackOptions = this.ordinalNo.map(ord => {
+        return {value: ord, label: ord+'기'}
       })
+    } else {
+      this.selectTrackId = Number(this.$route.params.track)
+      this.subjectId = Number(this.$route.query.subject)
+      if (this.subjectId != '0') {
+        this.tracks.forEach(track => {
+          if (track.trackSubject.trackSubjectId === this.subjectId) {
+            const option = {
+              value: track.trackId,
+              label: track.trackName
+            }
+            this.trackOptions.push(option)
+          }
+        })
+      }
     }
   },
 };

@@ -8,6 +8,7 @@ const state = {
   instantUserId: null,
   httpStatus: null,
   photoKey: 0,
+  regionList: null,
 }
 
 const actions = {
@@ -80,13 +81,15 @@ const actions = {
         commit('SET_HTTP_STATUS', err.response.status)
       })
   },
-  async onChangeUserPhone({ state, commit }, newPhoneNumber) {
-    const userData = state.userInfo
-    userData.phone = newPhoneNumber
+  async onChangeUserInfo({ state, commit }, userInfo) {
+    const userData = {
+      ...state.userInfo,
+      ...userInfo
+    }
     await accountApi.changeUserInfo(userData)
       .then((res) => {
         if (res.status === 200) {
-          commit('CHANGE_USER_PHONE', newPhoneNumber)
+          commit('CHANGE_USER_INFO', userData)
           commit('SET_HTTP_STATUS', res.status)
         }
       })
@@ -115,6 +118,10 @@ const actions = {
         commit('SET_USER_INFO', res.data)
       })
   },
+  async getRegion ({ commit }) {
+    const response = await accountApi.getRegionList()
+    commit('SET_REGION', response.data)
+  }
 }
 
 const mutations = {
@@ -131,8 +138,8 @@ const mutations = {
   SET_INSTANT_USER_ID (state, userId) {
     state.instantUserId = userId
   },
-  CHANGE_USER_PHONE (state, newPhoneNumber) {
-    state.userInfo.phone = newPhoneNumber
+  CHANGE_USER_INFO (state, userData) {
+    state.userInfo = userData
   },
   CHANGE_USER_PHOTO (state, newProfileUrl) {
     state.userInfo.profileUrl = newProfileUrl
@@ -142,11 +149,19 @@ const mutations = {
   },
   UPDATE_PHOTO_KEY (state) {
     state.photoKey += 1
+  },
+  SET_REGION (state, payload) {
+    state.regionList = payload
   }
 }
 
 const getters = {
-
+  isAdmin (state) {
+    if (state.userInfo) {
+      return state.userInfo.statusCode === 'A'
+    }
+    return 0
+  }
 }
 
 export default {

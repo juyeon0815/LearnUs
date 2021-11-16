@@ -29,11 +29,15 @@
         <div class="info-box">
           <div class="box-division">
             <div class="info-input-box">
-              <input 
+              <multiselect 
                 v-model="region"
-                type="text"
-                class="info-input">
+                class= "info-input"
+                :closeOnSelect="false"
+                :options=regionList
+                required
+              ></multiselect>
               <label>지역</label>
+              <div class="error-text" v-if="error.region">{{error.region}}</div>
             </div>
             <div class="info-input-box">
               <input 
@@ -42,6 +46,7 @@
                 placeholder="숫자만 입력 가능"
                 class="info-input">
               <label>분반</label>
+              <div class="error-text" v-if="error.classNo">{{error.classNo}}</div>
             </div>
             <div class="info-input-box">
               <multiselect 
@@ -51,13 +56,14 @@
                 :options=trackOptions
                 required
               ></multiselect>
-              <label>트랙</label> 
+              <label>트랙</label>
+              <div class="error-text" v-if="error.trackId">{{error.trackId}}</div> 
             </div>
           </div>
         </div>
         <div v-if="studentInfo.statusCode === 'Y'" class="row-info btns">
           <button 
-            class="submit-btn btn orange"
+            :class="[isSubmit ? 'orange' : 'disabled', 'submit-btn btn']"
             @click="onEditInfo"
           >정보 수정</button>
           <button 
@@ -85,11 +91,17 @@ export default {
   data () {
     return {
       trackOptions: [],
-      region: '',
-      classNo: '',
-      trackId: '',
+      region: null,
+      classNo: null,
+      trackId: null,
       msg: false,
-      result: 0
+      result: 0,
+      error: {
+        region: false,
+        classNo: false,
+        trackId: false,
+      },
+      isSubmit: false
     }
   },
   methods: {
@@ -145,10 +157,34 @@ export default {
         }, 2000)
       }
 
+    },
+    checkForm () {
+      if (isNaN(this.classNo) || this.classNo < 1) {
+        this.error.classNo = '1 이상 숫자를 입력하세요.'
+      } else {
+        this.error.classNo = false
+      }
+      if (!this.region) {
+        this.error.region = '지역을 입력해주세요.'
+      } else {
+        this.error.region = false
+      }
+      if (!this.trackId) {
+        this.error.trackId = '트랙을 선택해주세요.'
+      } else {
+        this.error.trackId = false
+      }
+      // submit 가능 여부 확인
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      })
+      this.isSubmit = isSubmit;
     }
   },
   computed: {
     ...mapState('admin', ['studentInfo', 'targetId', 'tracks']),
+    ...mapState('account', ['regionList']),
     studentId () {
       return String(this.studentInfo.userId).padStart(7, '0')
     },
@@ -156,6 +192,17 @@ export default {
       return this.tracks.find(track => {
         return track.trackId === this.trackId
       })
+    }
+  },
+  watch: {
+    classNo () {
+      this.checkForm()
+    },
+    region () {
+      this.checkForm()
+    },
+    trackId () {
+      this.checkForm()
     }
   },
   async created () {
@@ -169,6 +216,7 @@ export default {
         this.trackOptions.push({value: track.trackId, label: track.trackName})
       }
     })
+    this.$store.dispatch('account/getRegion')
   },
   unmounted () {
     this.$store.commit('admin/SET_TARGET_ID', null)

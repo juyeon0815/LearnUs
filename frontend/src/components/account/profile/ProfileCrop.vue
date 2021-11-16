@@ -55,6 +55,16 @@ export default {
   methods: {
     getImage() {
       const inputImage = this.$refs.inputImage.files[0]
+      /* 파일 확장자 실패 분기 */
+      const extension = inputImage.name.split(".")[1]
+      if (!extension || (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'png')) {
+        const alertInfo = {
+          type: 'fail',
+          message: 'jpg · jpeg · png 파일만 등록할 수 있습니다.'
+        }
+        this.$emit('wrongExtension',alertInfo)
+        return
+      }
       const fr = new FileReader()
       fr.onload = () => {
         this.jpegImage = fr.result

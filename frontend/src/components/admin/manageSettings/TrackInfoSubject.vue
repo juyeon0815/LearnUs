@@ -10,7 +10,10 @@
         @input="insertSubject"
       >
       <span>
-        <button @click="editSubject">수정</button>
+        <button 
+          :class="[data.subjectName.trim().length ? '' : 'disabled']" 
+          @click="editSubject"
+        >수정</button>
         <button @click="offEditSubject">취소</button>
       </span>
     </div>

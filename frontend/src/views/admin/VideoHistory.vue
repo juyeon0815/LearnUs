@@ -9,8 +9,11 @@
       </header>
     </div>
     <HistoryList v-if="historyList" :historyList="historyList"/>
-    <div v-if="historyList && !historyList.length">
-      <span>교육 영상이 존재하지 않습니다.</span>
+    <div
+      v-if="historyList && !historyList.length"
+      class="empty">
+      <img src="@/assets/image/logo/rocket-w500.svg" alt="">
+      <span>지난 교육 영상이 존재하지 않습니다.</span>
     </div>
   </div>
 </template>

@@ -46,5 +46,11 @@ export default {
       method: 'patch',
       data: userData
     })
+  },
+  getRegionList () {
+    return _axios({
+      url: 'user/region',
+      method: 'get'
+    })
   }
 }

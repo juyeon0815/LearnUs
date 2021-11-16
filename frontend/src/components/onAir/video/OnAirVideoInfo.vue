@@ -1,7 +1,7 @@
 <template>
   <div v-if="broadcastDetail" class="video-info">
     <h3 class="title">{{ broadcastDetail.title }}</h3>
-    <div class="info">
+    <div class="sub-info">
       <div class="date">{{ broadcastDate }}</div>
       <div class="instructor">
         <span>by. </span>

@@ -5,7 +5,8 @@
         class="exit-btn fi fi-rr-cross-small"
         @click="$emit('close')"  
       ></i>
-      <h1>Create<span class="t-orange">:</span>Quiz</h1>
+      <h1 v-if="quizId">Update<span class="t-orange">:</span>Quiz</h1>
+      <h1 v-else>Create<span class="t-orange">:</span>Quiz</h1>
       <div class="quiz-form">
         <div class="input-box">
           <input
@@ -37,7 +38,7 @@
               class= "quiz-input"
               :closeOnSelect="false"
               :options=answerOptions
-              placeholder="정답"
+              placeholder="정답을 입력해주세요."
               required
             ></multiselect>
             <div
@@ -50,7 +51,7 @@
               :value="answer"
               class= "quiz-input" 
               type="text"
-              placeholder="문제를 입력해주세요."
+              placeholder="정답을 입력해주세요."
               required
             >
             <label>Answer</label>
@@ -235,7 +236,7 @@ export default {
       return Object.values(this.quizData).every(data => {
         return data
       })
-    }
+    },
   },
   watch: {
     type () {
