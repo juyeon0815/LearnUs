@@ -92,12 +92,12 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo) {
         try {
             List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+
             List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
             Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
             for (int i = 0; i < broadcastReplayOrdinalList.size(); i++) {
-                BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
-                BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
+                BroadcastReplay broadcastReplay = broadcastReplayOrdinalList.get(i).getBroadcastReplay();
                 if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
             }
 
@@ -118,6 +118,10 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                 broadcastReplayInfoList.add(broadcastReplayInfo);
             }
 
+            Collections.sort(broadcastReplayInfoList, (o1, o2)-> {
+                return o2.getBroadcast().getBroadcastDate().compareTo(o1.getBroadcast().getBroadcastDate());
+            });
+
             return broadcastReplayInfoList;
         } catch (Exception e) {
             return null;
@@ -128,6 +132,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     public List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo) {
         try {
             List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+
             List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
             Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
@@ -168,6 +173,10 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                     broadcastReplayInfoList.add(broadcastReplayInfo);
                 }
             }
+
+            Collections.sort(broadcastReplayInfoList, (o1, o2)-> {
+                return o2.getBroadcast().getBroadcastDate().compareTo(o1.getBroadcast().getBroadcastDate());
+            });
 
             return broadcastReplayInfoList;
         } catch (Exception e) {

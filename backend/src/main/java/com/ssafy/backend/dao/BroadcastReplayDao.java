@@ -10,6 +10,10 @@ import java.util.List;
 public interface BroadcastReplayDao extends JpaRepository<BroadcastReplay, String> {
     BroadcastReplay findBroadcastReplayByBroadcastReplayId(int broadcastReplayId);
     BroadcastReplay findBroadcastReplayByBroadcast(Broadcast broadcast);
-    @Query(nativeQuery = true, value = "select * from broadcast_replay order by broadcast_replay_id desc limit 3")
+    @Query(nativeQuery = true, value = "select br.broadcast_replay_id, br.broadcast_id, br.replay_url, br.open_yn\n" +
+            "from broadcast as b join broadcast_replay as br\n" +
+            "on b.broadcast_id = br.broadcast_id\n" +
+            "order by b.broadcast_date desc\n" +
+            "limit 3;")
     List<BroadcastReplay> findBroadcastReplaysByLimit3();
 }
