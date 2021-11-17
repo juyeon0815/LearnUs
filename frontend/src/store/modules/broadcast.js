@@ -22,43 +22,29 @@ const state = {
 const actions = {
   // 방송 스케줄
   async getBroadcastList({ commit }) {
-    try {
-      const firstResponse = await broadcastApi.getBroadcastList()
-      const secondResponse = await broadcastApi.getOnAirList()
-      const broadcastList = firstResponse.data.concat(secondResponse.data)
-      broadcastList.sort(function (a, b) {
-        if (a.broadcastDate > b.broadcastDate) {
-          return 1
-        }
-        if (a.broadcastDate < b.broadcastDate) {
-          return -1
-        }
-        return 0;
-      })
-      commit('SET_BROADCAST_LIST', broadcastList)
-    }
-    catch (err) {
-      console.log(err)
-    }
+    const firstResponse = await broadcastApi.getBroadcastList()
+    const secondResponse = await broadcastApi.getOnAirList()
+    const broadcastList = firstResponse.data.concat(secondResponse.data)
+    broadcastList.sort(function (a, b) {
+      if (a.broadcastDate > b.broadcastDate) {
+        return 1
+      }
+      if (a.broadcastDate < b.broadcastDate) {
+        return -1
+      }
+      return 0;
+    })
+    commit('SET_BROADCAST_LIST', broadcastList)
   },
-  getOnairList({ commit }) {
-    broadcastApi.getOnairList()
-      .then((res) => {
-        commit('SET_ONAIR_LIST', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async getOnairList({ commit }) {
+    const response = await broadcastApi.getOnairList()
+    commit('SET_ONAIR_LIST', response.data)
   },
   // 방송 생성 
   async createBroadcast ({ commit }, data) {
-    try {
-      const response = await broadcastApi.createBroadcast(data)
-      commit('SET_HTTP_STATUS', response.status)
-      router.push({ name: 'LiveSchedule' })
-    } catch (err) {
-      commit('TEMP', 'test')
-    }
+    const response = await broadcastApi.createBroadcast(data)
+    commit('SET_HTTP_STATUS', response.status)
+    router.push({ name: 'LiveSchedule' })
   },
   async updateBroadcastInfo({commit}, broadcastInfo) {
     await broadcastApi.updateBroadcastInfo(broadcastInfo)
@@ -83,45 +69,28 @@ const actions = {
       })
   },
   async updateReplayInfo({ dispatch }, replayInfo) {
-    try {
-      const response = await broadcastApi.updateReplayInfo(replayInfo)
-      if (response.status === 200) {
-        dispatch('getReplayDetail', replayInfo.broadcastReplayId)
-        return Promise.resolve(response)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await broadcastApi.updateReplayInfo(replayInfo)
+    if (response.status === 200) {
+      dispatch('getReplayDetail', replayInfo.broadcastReplayId)
+      return Promise.resolve(response)
     }
   },
   async getHistoryList({ commit }) {
-    try {
-      const response = await broadcastApi.getHistoryList()
-      if (response.status === 200) {
-        commit('SET_HISTORY_LIST', response.data)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await broadcastApi.getHistoryList()
+    if (response.status === 200) {
+      commit('SET_HISTORY_LIST', response.data)
     }
   },
   async alterOpenStatus({ dispatch }, replayInfo) {
-    try {
-      const response = await broadcastApi.updateReplayInfo(replayInfo)
-      if (response.status === 200) {
-        dispatch('getHistoryList')
-        return Promise.resolve(response)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await broadcastApi.updateReplayInfo(replayInfo)
+    if (response.status === 200) {
+      dispatch('getHistoryList')
+      return Promise.resolve(response)
     }
   },
   async getIndexReplayList({ commit }, userId) {
-    try {
-      const response = await broadcastApi.getIndexReplayList(userId)
-      commit('SET_INDEX_REPLAY_LIST', response.data)
-    }
-    catch (err) {
-      console.log(err)
-    }
+    const response = await broadcastApi.getIndexReplayList(userId)
+    commit('SET_INDEX_REPLAY_LIST', response.data)
   },
   // 방송 상세 정보 조회 및 수정
   async getBroadcastDetail({ commit }, id) {
