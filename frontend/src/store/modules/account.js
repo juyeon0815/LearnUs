@@ -45,9 +45,7 @@ const actions = {
           commit('SET_INSTANT_USER_ID', userData.userId)
           commit('SET_HTTP_STATUS', res.status)
           router.push('/account/reset-password')
-        } else {
-          console.log(res)
-        }
+        } 
       })
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
