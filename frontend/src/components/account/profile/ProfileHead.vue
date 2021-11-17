@@ -18,7 +18,9 @@
       <div class="department">
         <span v-if="isAdmin" class="grade">관리자 계정</span>
         <span v-if="!isAdmin" class="grade">SSAFY {{ userInfo.ordinalNo }}기 교육생</span>
-        <span v-if="!isAdmin" class="region-class">({{ userInfo.region }} {{ userInfo.classNo }}반)</span>
+        <span v-if="!isAdmin" class="region-class">
+          ({{ userInfo.region }} {{ userInfo.classNo }}반 • {{ userInfo.track.trackSubject.subjectName }}-{{ userInfo.track.trackName }})
+        </span>
       </div>
     </div>
     <!--  -->

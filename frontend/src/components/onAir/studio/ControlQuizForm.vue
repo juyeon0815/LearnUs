@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import Multiselect from '@vueform/multiselect'
 export default {
   name: 'ControlQuizForm',
@@ -185,6 +185,7 @@ export default {
   computed: {
     ...mapState('stomp', ['quizOptions', 'quizTarget']),
     ...mapState('broadcast', ['broadcastDetail']),
+    ...mapGetters('broadcast', ['currentBroadcastId']),
     selectComplete () {
       if (this.type === 'c') {
         return this.quizData.quizSelectList.every(select => {
