@@ -16,6 +16,7 @@ const state = {
   selectedSubject: null,
   activeStudents: null,
   historyLiast: null,
+  indexReplayList: null,
 }
 
 const actions = {
@@ -212,6 +213,15 @@ const actions = {
       console.log(err)
     }
   },
+  async getIndexReplayList({ commit }, userId) {
+    try {
+      const response = await broadcastApi.getIndexReplayList(userId)
+      commit('SET_INDEX_REPLAY_LIST', response.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  },
 }
 
 const mutations = {
@@ -255,6 +265,9 @@ const mutations = {
   },
   SET_HISTORY_LIST (state, payload) {
     state.historyList = payload
+  },
+  SET_INDEX_REPLAY_LIST(state, payload) {
+    state.indexReplayList = payload
   },
 }
 

@@ -35,11 +35,11 @@ export default {
     ReplayListItem
   },
   methods: {
-    ...mapActions('replay', ['getIndexReplayList']),
-    ...mapMutations('replay', ['SET_INDEX_REPLAY_LIST']),
+    ...mapActions('broadcast', ['getIndexReplayList']),
+    ...mapMutations('broadcast', ['SET_INDEX_REPLAY_LIST']),
   },
   computed: {
-    ...mapState('replay', ['indexReplayList'])
+    ...mapState('broadcast', ['indexReplayList'])
   },
   created() {
     this.getIndexReplayList(this.$store.state.account.userInfo.userId)
