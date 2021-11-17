@@ -52,10 +52,18 @@ export default {
   },
   computed: {
     shorten() {
-      if (this.broadcast.title.length > 15) {
-        return this.broadcast.title.slice(0,14) + '···'
+      if (this.broadcast.liveCode === 'Y') {
+        if (this.broadcast.title.length > 20) {
+          return this.broadcast.title.slice(0,19) + '···'
+        } else {
+          return this.broadcast.title
+        }
       } else {
-        return this.broadcast.title
+        if (this.broadcast.title.length > 24) {
+          return this.broadcast.title.slice(0,23) + '···'
+        } else {
+          return this.broadcast.title
+        }
       }
     },
     trackNames() {
