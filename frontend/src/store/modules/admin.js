@@ -21,76 +21,43 @@ const state = {
 const actions = {
   // 교육생 관리
   async getStudents({ commit }) {
-    try {
-      const response = await adminApi.getStudents()
-      commit('SET_STUDENTS', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
+    const response = await adminApi.getStudents()
+    commit('SET_STUDENTS', response.data)
   },
   async getStudentDetail({ commit }, id) {
-    await adminApi.getStudentDetail(id)
-      .then((res) => {
-        commit('SET_STUDENT_DETAIL', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    const response = await adminApi.getStudentDetail(id)
+    commit('SET_STUDENT_DETAIL', response.data)
   },
   // 트랙 관리
   async setTrackInfo({ dispatch }) {
-    try {
-      // 기수 정보 저장
-      dispatch('getOrdinalAll')
-      // 과정 정보 저장
-      dispatch('getSubjectAll')
-      // 트랙 정보 저장
-      dispatch('getTrackAll')
-    } catch (err) {
-      console.log(err.response)
-    }
+    // 기수 정보 저장
+    dispatch('getOrdinalAll')
+    // 과정 정보 저장
+    dispatch('getSubjectAll')
+    // 트랙 정보 저장
+    dispatch('getTrackAll')
   },
   async getOrdinalAll ({ commit }) {
-    try {
-      const response = await adminApi.getOrdinalNo()
-      commit('SET_ORDINAL_NO', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
+    const response = await adminApi.getOrdinalNo()
+    commit('SET_ORDINAL_NO', response.data)
   },
   async getSubjectAll ({ commit }) {
-    try {
-      const response = await adminApi.getSubjectAll()
-      commit('SET_SUBJECTS', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
+    const response = await adminApi.getSubjectAll()
+    commit('SET_SUBJECTS', response.data)
   },
   async getTrackAll({ commit }) {
-    try {
-      const response = await adminApi.getTrackAll()
-      commit('SET_TRACKS', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
+    const response = await adminApi.getTrackAll()
+    commit('SET_TRACKS', response.data)
   },
   async getActiveTrack({ commit }) {
-    try {
-      const response = await adminApi.getActiveTrack()
-      commit('SET_ACTIVE_TRACK', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
+    const response = await adminApi.getActiveTrack()
+    commit('SET_ACTIVE_TRACK', response.data)
   },
   // MM 관리
   async getMMAll({ commit }) {
-    try {
-      const response = await adminApi.getMMList()
-      commit('SET_MM_LIST', response.data)
-    } catch (err) {
-      console.log(err.response)
-    }
-  }, 
+    const response = await adminApi.getMMList()
+    commit('SET_MM_LIST', response.data)
+  },
 }
 
 const mutations = {

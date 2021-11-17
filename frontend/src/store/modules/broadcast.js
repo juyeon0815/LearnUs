@@ -41,16 +41,14 @@ const actions = {
       console.log(err)
     }
   },
-  // 방송 상세 정보 조회 및 수정
-  async getBroadcastDetail({ commit }, id) {
-    try {
-      const response = await broadcastApi.getBroadcastDetail(id)
-      if (response.status === 200) {
-        commit('SET_BROADCAST_DETAIL', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
+  getOnairList({ commit }) {
+    broadcastApi.getOnairList()
+      .then((res) => {
+        commit('SET_ONAIR_LIST', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   // 방송 생성 
   async createBroadcast ({ commit }, data) {
@@ -74,15 +72,6 @@ const actions = {
         commit('SET_HTTP_STATUS', err.response.status)
       })
   },
-  async getBroadcastStudents ({ commit }, id) {
-    try {
-      const response = await broadcastApi.getBroadcastStudents(id)
-      commit('SET_STUDENT_LIST', response.data)
-      // console.log(response)
-    } catch (err) {
-      console.log(err)
-    }
-  },
   async deleteBroadcast({ commit }, id) {
     await broadcastApi.deleteBroadcast(id)
       .then((res) => {
@@ -92,94 +81,6 @@ const actions = {
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
       })
-  },
-  getOnairList({ commit }) {
-    broadcastApi.getOnairList()
-      .then((res) => {
-        commit('SET_ONAIR_LIST', res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
-  async getQuizResult ({ commit }, id) {
-    try {
-      const response = await quizApi.getQuizResult(id)
-      if (response.status === 200) {
-        commit('SET_QUIZ_RESULT', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  async getActiveStudent ({ commit }, id) {
-    try {
-      const response = await broadcastApi.getActiveStudent(id)
-      if (response.status === 200) {
-        commit('SET_ACTIVE_STUDENTS', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  async getBroadcastAfter ({ commit }, id) {
-    try {
-      const response = await broadcastApi.getBroadcastAfter(id)
-      if (response.status === 200) {
-        commit('SET_REPLAY_DETAIL', response.data.broadcastReplay)
-      }
-      const cnt = await broadcastApi.getBroadcastStudentCnt(id)
-      if (cnt.status === 200) {
-        commit('SET_BROADCAST_CNT', cnt.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  async getReplayList ({ commit }, ordinal) {
-    try {
-      const response = await broadcastApi.getReplayList(ordinal)
-      if (response.status === 200) {
-        commit('SET_REPLAY_LIST', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  async getReplayTrackList ({ commit }, data) {
-    try {
-      const response = await broadcastApi.getReplayByTrack(data.id, data.ordinalNo)
-      if (response.status === 200) {
-        commit('SET_REPLAY_LIST', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  async getReplayDetail ({ commit }, id) {
-    try {
-      const response = await broadcastApi.getReplayInfo(id)
-      if (response.status === 200) {
-        commit('SET_REPLAY_DETAIL', response.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  closeManageVideo ({ commit }) {
-    commit('SET_BROADCAST_DETAIL', null)
-    commit('SET_BROADCAST_CNT', null)
-    commit('SET_STUDENT_LIST', null)
-    commit('SET_STUDENT_TARGET', null)
-    commit('SET_QUIZ_RESULT', null)
-    commit('SET_ACTIVE_STUDENTS', null)
-    commit('SET_REPLAY_DETAIL', null)
-  },
-  closeOnAirStudio ({ commit }) {
-    commit('SET_BROADCAST_DETAIL', null)
-    commit('SET_STUDENT_LIST', null)
-    commit('SET_STUDENT_TARGET', null)
-    commit('SET_REPLAY_DETAIL', null)
   },
   async updateReplayInfo({ dispatch }, replayInfo) {
     try {
@@ -221,6 +122,81 @@ const actions = {
     catch (err) {
       console.log(err)
     }
+  },
+  // 방송 상세 정보 조회 및 수정
+  async getBroadcastDetail({ commit }, id) {
+    const response = await broadcastApi.getBroadcastDetail(id)
+    if (response.status === 200) {
+      commit('SET_BROADCAST_DETAIL', response.data)
+    }
+  },
+  // 수강 대상자 확인
+  async getBroadcastStudents ({ commit }, id) {
+    const response = await broadcastApi.getBroadcastStudents(id)
+    commit('SET_STUDENT_LIST', response.data)
+  },
+  // 방송 종료 후 데이터 
+  async getBroadcastAfter ({ commit }, id) {
+    const response = await broadcastApi.getBroadcastAfter(id)
+    if (response.status === 200) {
+      commit('SET_REPLAY_DETAIL', response.data.broadcastReplay)
+    }
+    const cnt = await broadcastApi.getBroadcastStudentCnt(id)
+    if (cnt.status === 200) {
+      commit('SET_BROADCAST_CNT', cnt.data)
+    }
+  },
+  // 퀴즈 진행 결과
+  async getQuizResult ({ commit }, id) {
+    const response = await quizApi.getQuizResult(id)
+    if (response.status === 200) {
+      commit('SET_QUIZ_RESULT', response.data)
+    }
+  },
+  // 참여 우수 교육생
+  async getActiveStudent ({ commit }, id) {
+    const response = await broadcastApi.getActiveStudent(id)
+    if (response.status === 200) {
+      commit('SET_ACTIVE_STUDENTS', response.data)
+    }
+  },
+  // 기수별 다시보기 목록
+  async getReplayList ({ commit }, ordinal) {
+    const response = await broadcastApi.getReplayList(ordinal)
+    if (response.status === 200) {
+      commit('SET_REPLAY_LIST', response.data)
+    }
+  },
+  // 트랙별 다시보기 목록
+  async getReplayTrackList ({ commit }, data) {
+    const response = await broadcastApi.getReplayByTrack(data.id, data.ordinalNo)
+    if (response.status === 200) {
+      commit('SET_REPLAY_LIST', response.data)
+    }
+  },
+  // 다시보기 상세 조회
+  async getReplayDetail ({ commit }, id) {
+    const response = await broadcastApi.getReplayInfo(id)
+    if (response.status === 200) {
+      commit('SET_REPLAY_DETAIL', response.data)
+    }
+  },
+  // 교육 영상 관리 데이터 초기화
+  closeManageVideo ({ commit }) {
+    commit('SET_BROADCAST_DETAIL', null)
+    commit('SET_BROADCAST_CNT', null)
+    commit('SET_STUDENT_LIST', null)
+    commit('SET_STUDENT_TARGET', null)
+    commit('SET_QUIZ_RESULT', null)
+    commit('SET_ACTIVE_STUDENTS', null)
+    commit('SET_REPLAY_DETAIL', null)
+  },
+  // 라이브 관리 데이터 초기화
+  closeOnAirStudio ({ commit }) {
+    commit('SET_BROADCAST_DETAIL', null)
+    commit('SET_STUDENT_LIST', null)
+    commit('SET_STUDENT_TARGET', null)
+    commit('SET_REPLAY_DETAIL', null)
   },
 }
 

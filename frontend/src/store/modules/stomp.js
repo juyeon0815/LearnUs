@@ -49,7 +49,6 @@ const actions = {
       }
     } catch (err) {
       commit('SET_CHECK_RESULT', 2)
-      console.log(err)
     }
     await setTimeout(() => {
       commit('SET_CHECK_RESULT', null)
@@ -69,7 +68,6 @@ const actions = {
         return Promise.resolve(response)
       }
     } catch (err) {
-      console.log(err)
       return Promise.reject(err)
     }
   },
@@ -81,7 +79,6 @@ const actions = {
         return Promise.resolve(response)
       }
     } catch (err) {
-      console.log(err)
       return Promise.reject(err)
     }
   },
@@ -92,7 +89,7 @@ const actions = {
         dispatch('getQuizList', data.broadcastId)
       }
     } catch (err) {
-      console.log(err)
+      dispatch('getQuizList', data.broadcastId)
     }
   },
   resetStompData ({ commit }) {
