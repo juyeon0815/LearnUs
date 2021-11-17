@@ -94,13 +94,9 @@ export default {
       this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
     },
     async startBroadcast() {
-      try {
-        const response = await broadcastApi.startBroadcast(this.currentBroadcastId)
-        if (response.status === 200) {
-          this.stomp.send(`/pub/broadcast.start.${this.currentBroadcastId}`, {})
-        }
-      } catch (err) {
-        console.log(err)
+      const response = await broadcastApi.startBroadcast(this.currentBroadcastId)
+      if (response.status === 200) {
+        this.stomp.send(`/pub/broadcast.start.${this.currentBroadcastId}`, {})
       }
     }
   },

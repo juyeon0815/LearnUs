@@ -5,8 +5,6 @@ import admin from './modules/admin'
 import broadcast from './modules/broadcast'
 import gifticon from './modules/gifticon'
 import stomp from './modules/stomp'
-import replay from './modules/replay'
-import video from './modules/video'
 
 const store = createStore({
   plugins: [createPersistedState()],
@@ -16,8 +14,6 @@ const store = createStore({
     broadcast,
     gifticon,
     stomp,
-    replay,
-    video,
   }
 })
 

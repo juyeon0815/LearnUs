@@ -67,7 +67,6 @@ export default {
           this.$store.dispatch('admin/getTrackAll')
         }
       } catch (err) {
-        console.log(err.response)
         if (err.response.data === 'same_name') {
           this.$emit('at', 1)
         } else {
@@ -79,12 +78,11 @@ export default {
     async deleteTrack() {
       try {
         const response = await adminApi.deleteTrack(this.track.trackId)
-        console.log(response)
         if (response.status === 200) {
           this.$store.dispatch('admin/getTrackAll')
         }
       } catch (err) {
-        console.log(err.response)
+        this.$store.dispatch('admin/getTrackAll')
       }
     },
   }

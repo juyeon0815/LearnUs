@@ -160,26 +160,18 @@ export default {
       }
     },
     async onAddQuiz () {
-      try {
-        const result = await this.addQuiz(this.quizData)
-        if (result.status === 200) {
-          this.$emit('close')
-        } 
-      } catch (err) {
-        console.log(err)
-      }
+      const result = await this.addQuiz(this.quizData)
+      if (result.status === 200) {
+        this.$emit('close')
+      } 
     },
     async onEditQuiz () {
       const updateData = this.quizData
       updateData['quizId'] = this.quizId
-      try {
-        const result = await this.editQuiz(updateData)
-        if (result.status === 200) {
-          this.$emit('close')
-        } 
-      } catch (err) {
-        console.log(err)
-      }
+      const result = await this.editQuiz(updateData)
+      if (result.status === 200) {
+        this.$emit('close')
+      } 
     },
   },
   computed: {

@@ -36,14 +36,10 @@ export default {
       } else {
         data.trackList = []
       }
-      try {
-        const response = await adminApi.addMatterMost(data)
-        if (response.status === 200) {
-          this.$store.dispatch('admin/getMMAll')
-          this.$emit('close-add')
-        }
-      } catch (err) {
-        console.log(err.response)
+      const response = await adminApi.addMatterMost(data)
+      if (response.status === 200) {
+        this.$store.dispatch('admin/getMMAll')
+        this.$emit('close-add')
       }
     }
   },

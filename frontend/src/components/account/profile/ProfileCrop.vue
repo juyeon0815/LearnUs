@@ -116,9 +116,6 @@ export default {
           await this.$store.dispatch('account/onChangeUserPhoto', newProfileUrl)
           this.$emit('hideCropper')
         })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   },
   computed: {

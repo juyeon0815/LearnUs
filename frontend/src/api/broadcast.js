@@ -190,4 +190,10 @@ export default {
       data: replayInfo
     })
   },
+  getIndexReplayList(userId) {
+    return _axios({
+      url: `broadcastReplay/index/${userId}`,
+      method: 'get'
+    })
+  },
 }

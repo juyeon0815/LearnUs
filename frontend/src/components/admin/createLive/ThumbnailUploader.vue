@@ -91,9 +91,6 @@ export default {
         .then((res) => {
           this.thumbnailPath = res.Location
         })
-        .catch((err) => {
-          console.log(err)
-        })
       return this.thumbnailPath
     },
     deleteThumbnail() {

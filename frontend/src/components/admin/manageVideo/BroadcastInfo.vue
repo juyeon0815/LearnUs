@@ -140,8 +140,7 @@ export default {
             this.spinnerStatus = 'success'
           }
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(() => {
           this.spinnerStatus = 'fail'
           this.failMessage = ['파일 저장에', '실패했습니다.']
         })
