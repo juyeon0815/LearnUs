@@ -5,7 +5,7 @@
         <span>Password</span>
       </div>
       <button 
-        :class="[isSubmit ? 'change-info-btn' : 'change-btn-disabled']"
+        :class="[isSubmit ? 'active-btn' : 'disabled-btn', 'btn change-info-btn']"
         @click="onChangePassword">
         비밀번호 변경
       </button>
