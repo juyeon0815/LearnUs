@@ -74,8 +74,6 @@ export default {
       setTimeout(() => {
         this.showAlert = false
         this.alertInfo.type = null
-        this.alertInfo.message = ''
-        this.SET_HTTP_STATUS(null)
       }, 2000)
     }
   },
