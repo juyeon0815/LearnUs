@@ -16,8 +16,8 @@
         </span>
       </div>
       <div class="info-instructor">
-        <span><strong>진행자</strong> {{ broadcast.teacher }}</span>
-        <span><strong>방송 시간</strong> {{ broadcastDate }}</span>
+        <span><strong>진행자</strong>{{ broadcast.teacher }}</span>
+        <span><strong>방송 시간</strong>{{ broadcastDate }}</span>
       </div>
       <div class="info-student">
         <span><strong>대상 교육생</strong></span>
