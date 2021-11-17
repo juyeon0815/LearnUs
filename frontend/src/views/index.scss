@@ -43,6 +43,7 @@
     }
     .empty {
       width: 100%;
+      min-width: calc(900px + 4rem);
       max-width: 972px;
       background: $dark;
       box-shadow: 0 4px 10px rgba($black, .4);
@@ -54,6 +55,7 @@
       gap: .5rem;
       img {
         width: 100px;
+        filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.4));
       }
       span {
         text-align: center;
@@ -62,7 +64,12 @@
         padding: .2rem 1rem;
         border-radius: 2rem;
         font-weight: 700;
+        border: 2px solid $orange;
         box-shadow: 0 4px 10px rgba($black, .4);
+        &:hover {
+          background: $orange;
+          color: $dark;
+        }
       }
     }
     .on-air-item {
@@ -124,10 +131,6 @@
     }
     .replay-item {
       background-color: $dark;
-      display: flex;
-      justify-content: flex-start;
-      gap: 1rem;
-      align-items: center;
       padding: .5rem 2rem;
       border-radius: 10px;
       width: 450px;
@@ -136,6 +139,7 @@
         .title {
           font-weight: 500;
           cursor: pointer;
+          margin-bottom: .1rem;
           &:hover {
             text-decoration: underline;
           }
@@ -190,12 +194,6 @@
           padding: .3rem .5rem;
           text-align: center;
           border-bottom: 5px solid rgba($orange, 0.8);
-        }
-        .grid-2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: .5rem 2rem;
-          margin: .5rem 0;
         }
         .award {
           display: flex;
