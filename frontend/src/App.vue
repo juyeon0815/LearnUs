@@ -1,5 +1,8 @@
 <template>
   <div :class="[ noSpace ? 'space' : '', isError ? 'light' : 'dark', 'app' ]">
+    <div v-if="tokenExpired" class="logout-alert">
+      로그인 유효 시간이 만료되어 자동 로그아웃되었습니다.
+    </div>
     <SideBar
       v-if="needSideBar"
     />
@@ -16,6 +19,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import "@/assets/style/index.scss";
 import SideBar from '@/components/common/SideBar'
 import TopBar from '@/components/common/TopBar'
@@ -29,6 +33,7 @@ export default {
     TopLogo
   },
   computed: {
+    ...mapState('account', ['tokenExpired']),
     noSpace () {
       if (
         this.$route.name === "Account" ||

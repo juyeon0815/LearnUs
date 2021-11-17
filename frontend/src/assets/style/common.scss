@@ -52,6 +52,22 @@ body {
 .space-top {
   padding-top: 50px;
 }
+.logout-alert {
+  position: absolute;
+  z-index: 1060;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%);
+  padding: .5rem 2rem;
+  width: 80%;
+  border-radius: 10px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 2px 3px rgba($dark, .4);
+  color: $light;
+  background-color: rgba($blue, .9);
+  border: 1px solid $blue;
+}
 header {
   display: flex;
   align-items: baseline;
