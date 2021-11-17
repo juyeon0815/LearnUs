@@ -113,7 +113,6 @@ export default {
 
       try {
         const response = await accountApi.changeUserInfo(studentData)
-        console.log(response)
         if (response.status === 200) {
           this.result = 1
           this.msg = '회원 정보 수정을 완료했습니다.'
@@ -139,7 +138,6 @@ export default {
 
       try {
         const response = await accountApi.changeUserInfo(studentData)
-        console.log(response)
         if (response.status === 200) {
           this.result = 1
           this.msg = `${this.studentInfo.name}님이 퇴소 처리되었습니다.`

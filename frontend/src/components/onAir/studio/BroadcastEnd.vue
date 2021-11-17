@@ -118,7 +118,7 @@ export default {
         }
         this.$router.push({ name: 'ManageVideo', params: { id: this.currentBroadcastId}})
       } catch (err) {
-        console.log(err)
+        this.$router.push({ name: 'ManageVideo', params: { id: this.currentBroadcastId}})
       }
     },
     async createGifticon(data) {
@@ -135,7 +135,6 @@ export default {
       el.style.height = '0'
     },
     enter: function(el) {
-      console.log(el.scrollHeight)
       el.style.height = el.scrollHeight + 16 + 'px'
     },
     beforeLeave: function(el) {

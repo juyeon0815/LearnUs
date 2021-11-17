@@ -65,25 +65,16 @@ export default {
       this.data.subjectName = event.target.value
     },
     async editSubject() {
-      try {
-        const response = await adminApi.editSubject(this.data)
-        if (response.status === 200) {
-          this.offEditSubject()
-          this.$store.dispatch('admin/getSubjectAll')
-        }
-      } catch (err) {
-        console.log(err.response)
+      const response = await adminApi.editSubject(this.data)
+      if (response.status === 200) {
+        this.offEditSubject()
+        this.$store.dispatch('admin/getSubjectAll')
       }
     },
     async deleteSubject() {
-      try {
-        const response = await adminApi.deleteSubject(this.subject.trackSubjectId)
-        console.log(response)
-        if (response.status === 200) {
-          this.$store.dispatch('admin/getSubjectAll')
-        }
-      } catch (err) {
-        console.log(err.response)
+      const response = await adminApi.deleteSubject(this.subject.trackSubjectId)
+      if (response.status === 200) {
+        this.$store.dispatch('admin/getSubjectAll')
       }
     },
   }

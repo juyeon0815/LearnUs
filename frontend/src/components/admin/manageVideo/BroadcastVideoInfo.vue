@@ -76,37 +76,27 @@ export default {
       return fileName[1];
     },
     async downloadAbsenceList () {
-      try {
-        const response = await broadcastApi.downloadAttendance(this.currentBroadcastId)
-        console.log(response)
-        if (response.status === 200) {
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
-          const fileName = `[${this.broadcastDetail.title}] 미출석자 명단(${this.date}).xlsx`
-          
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', fileName)
-          link.click()
-        }
-      } catch (err) {
-        console.log(err)
+      const response = await broadcastApi.downloadAttendance(this.currentBroadcastId)
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
+        const fileName = `[${this.broadcastDetail.title}] 미출석자 명단(${this.date}).xlsx`
+        
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName)
+        link.click()
       }
     },
     async downloadGifticonList () {
-      try {
-        const response = await broadcastApi.downloadGifticon(this.currentBroadcastId)
-        console.log(response)
-        if (response.status === 200) {
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
-          const fileName = `[${this.broadcastDetail.title}] 기프티콘 당첨자 명단(${this.date}).xlsx`
-          
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', fileName)
-          link.click()
-        }
-      } catch (err) {
-        console.log(err)
+      const response = await broadcastApi.downloadGifticon(this.currentBroadcastId)
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }))
+        const fileName = `[${this.broadcastDetail.title}] 기프티콘 당첨자 명단(${this.date}).xlsx`
+        
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName)
+        link.click()
       }
     },
     
