@@ -115,6 +115,7 @@ export default {
         onerror,
         "/"
       )
+      this.stomp.debug = null
     }
   },
   computed: {
