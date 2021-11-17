@@ -15,9 +15,10 @@ public interface BroadcastService {
     boolean delete(int broadcastId);
     boolean attend(int broadcastId, int userId);
     Map<String, List<Attendance>> getAttendance(int broadcastId);
-    List<BroadcastInfo> getBroadcastAll(String liveCode);
+    List<BroadcastInfo> getBroadcastAll(String liveCode, String accessToken);
     BroadcastInfo getBroadcast(int broadcastId);
     boolean start(int broadcastId);
+    int isAttend(int broadcastId);
     Map<String, List<Attendance>> end(int broadcastId);
     boolean endAttendance(int broadcastId);
     boolean endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
@@ -26,4 +27,7 @@ public interface BroadcastService {
     boolean endReplayInsert(int broadcastId, String autoUploadYn);
 
     List<ChatInfo> getChatInfoList(int broadcastId);
+
+    Map<String, Integer> getAttendanceAfter(int broadcastId);
+    Map<String, Object> getBroadcastAndBroadcastReplay(int broadcastId);
 }

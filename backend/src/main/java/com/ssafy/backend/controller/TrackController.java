@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/track")
+@RequestMapping("/api/track")
 @CrossOrigin("*")
 public class TrackController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
+    private static final String SAME_NAME = "same_name";
 
     @Autowired
     private TrackService trackService;
@@ -24,14 +25,18 @@ public class TrackController {
     @PostMapping
     @ApiOperation(value = "Track 추가")
     public ResponseEntity<String> insert(@RequestBody TrackInfo trackInfo) {
-        if (!trackService.insert(trackInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+        int code = trackService.insert(trackInfo);
+        if (code == 0) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+        else if (code == 2) return new ResponseEntity<>(SAME_NAME, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "Track 수정")
     public ResponseEntity<String> update(@RequestBody TrackInfo trackInfo) {
-        if (!trackService.update(trackInfo)) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+        int code = trackService.update(trackInfo);
+        if (code == 0) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+        else if (code == 2) return new ResponseEntity<>(SAME_NAME, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 

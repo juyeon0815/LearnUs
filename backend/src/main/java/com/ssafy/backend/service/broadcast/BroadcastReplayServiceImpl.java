@@ -21,6 +21,8 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     private BroadcastTrackDao broadcastTrackDao;
     @Autowired
     private BroadcastReplayOrdinalDao broadcastReplayOrdinalDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public boolean insert(BroadcastReplayInfo broadcastReplayInfo) {
@@ -86,15 +88,43 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     }
 
     @Override
-    public List<BroadcastReplayInfo> getBroadcastReplayAll(int ordinalNo) {
+    public List<BroadcastReplayInfo> getBroadcastReplayAll() {
         try {
             List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+            List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findAllOrderByBroadcastDate();
+
+            for (int i=0;i<broadcastReplayList.size();i++) {
+                BroadcastReplay broadcastReplay = broadcastReplayList.get(i);
+                Broadcast broadcast = broadcastReplay.getBroadcast();
+                List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                Map<String, String> textbookMap = new HashMap<>();
+                // 교재 저장
+                for (int j = 0; j < textbookList.size(); j++) {
+                    Textbook textbook = textbookList.get(j);
+                    textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                }
+                BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                        .replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn()).broadcastId(broadcast.getBroadcastId())
+                        .broadcast(broadcast).textbook(textbookMap).build();
+                broadcastReplayInfoList.add(broadcastReplayInfo);
+            }
+            return broadcastReplayInfoList;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<BroadcastReplayInfo> getBroadcastReplayAllOrdinalNo(int ordinalNo) {
+        try {
+            List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+
             List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
             Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
             for (int i = 0; i < broadcastReplayOrdinalList.size(); i++) {
-                BroadcastReplayOrdinal broadcastReplayOrdinal = broadcastReplayOrdinalList.get(i);
-                BroadcastReplay broadcastReplay = broadcastReplayOrdinal.getBroadcastReplay();
+                BroadcastReplay broadcastReplay = broadcastReplayOrdinalList.get(i).getBroadcastReplay();
                 if (!broadcastReplaySet.contains(broadcastReplay)) broadcastReplaySet.add(broadcastReplay);
             }
 
@@ -115,6 +145,10 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                 broadcastReplayInfoList.add(broadcastReplayInfo);
             }
 
+            Collections.sort(broadcastReplayInfoList, (o1, o2)-> {
+                return o2.getBroadcast().getBroadcastDate().compareTo(o1.getBroadcast().getBroadcastDate());
+            });
+
             return broadcastReplayInfoList;
         } catch (Exception e) {
             return null;
@@ -125,6 +159,7 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
     public List<BroadcastReplayInfo> getBroadcastReplayTrack(int trackId, int ordinalNo) {
         try {
             List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+
             List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNo(ordinalNo);
             Set<BroadcastReplay> broadcastReplaySet = new HashSet<>();
 
@@ -166,6 +201,10 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                 }
             }
 
+            Collections.sort(broadcastReplayInfoList, (o1, o2)-> {
+                return o2.getBroadcast().getBroadcastDate().compareTo(o1.getBroadcast().getBroadcastDate());
+            });
+
             return broadcastReplayInfoList;
         } catch (Exception e) {
             return null;
@@ -191,6 +230,66 @@ public class BroadcastReplayServiceImpl implements BroadcastReplayService {
                     .textbook(textbookMap).broadcast(broadcast).build();
 
             return broadcastReplayInfo;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer getBroadcastReplayId(int broadcastId) {
+        try {
+            Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(broadcastId);
+            BroadcastReplay broadcastReplay = broadcastReplayDao.findBroadcastReplayByBroadcast(broadcast);
+            return broadcastReplay.getBroadcastReplayId();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public List<BroadcastReplayInfo> getBroadcastReplayLimit3(int userId) {
+        try {
+            User user = userDao.findUserByUserId(userId);
+            List<BroadcastReplayInfo> broadcastReplayInfoList = new ArrayList<>();
+            Map<String, String> textbookMap = new HashMap<>();
+            // 관리자면 최근 방송 3개 가져오기
+            if (user.getStatusCode().equals("A")) {
+                List<BroadcastReplay> broadcastReplayList = broadcastReplayDao.findBroadcastReplaysByLimit3();
+
+                // 관련 교재 가져오기
+                for (int i = 0; i < broadcastReplayList.size(); i++) {
+                    BroadcastReplay broadcastReplay = broadcastReplayList.get(i);
+                    Broadcast broadcast = broadcastReplay.getBroadcast();
+                    List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                    for (int j = 0; j < textbookList.size(); j++) {
+                        Textbook textbook = textbookList.get(j);
+                        textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                    }
+                    BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                            .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                            .textbook(textbookMap).broadcast(broadcast).build();
+                    broadcastReplayInfoList.add(broadcastReplayInfo);
+                }
+            } else { // 교육생이면 관련 기수 최근 방송 3개 가져오기
+                int ordinalNo = user.getOrdinalNo();
+
+                List<BroadcastReplayOrdinal> broadcastReplayOrdinalList = broadcastReplayOrdinalDao.findBroadcastReplayOrdinalsByOrdinalNoLimit3(ordinalNo);
+                for (int i = 0; i < broadcastReplayOrdinalList.size(); i++) {
+                    BroadcastReplay broadcastReplay = broadcastReplayOrdinalList.get(i).getBroadcastReplay();
+                    Broadcast broadcast = broadcastReplay.getBroadcast();
+
+                    List<Textbook> textbookList = textbookDao.findTextbooksByBroadcast(broadcast);
+                    for (int j = 0; j < textbookList.size(); j++) {
+                        Textbook textbook = textbookList.get(j);
+                        textbookMap.put(textbook.getName(), textbook.getTextbookUrl());
+                    }
+                    BroadcastReplayInfo broadcastReplayInfo = BroadcastReplayInfo.builder().broadcastReplayId(broadcastReplay.getBroadcastReplayId())
+                            .broadcastId(broadcast.getBroadcastId()).replayUrl(broadcastReplay.getReplayUrl()).openYn(broadcastReplay.getOpenYn())
+                            .textbook(textbookMap).broadcast(broadcast).build();
+                    broadcastReplayInfoList.add(broadcastReplayInfo);
+                }
+            }
+            return broadcastReplayInfoList;
         } catch (Exception e) {
             return null;
         }

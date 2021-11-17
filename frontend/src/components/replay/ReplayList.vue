@@ -1,6 +1,6 @@
 <template>
   <div v-if="replayList" class="replay-list">
-    <div v-if="!replayList.length" class="empty">
+    <div v-if="!currentResult.length" class="empty">
       <img src="@/assets/image/logo/rocket-w500.svg" alt="">
       <span>해당 트랙에 공개된 영상이 없습니다.</span>
     </div>

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/broadcastReplay")
+@RequestMapping("/api/broadcastReplay")
 @CrossOrigin("*")
 public class BroadcastReplayController {
     private static final String SUCCESS = "success";
@@ -41,10 +41,18 @@ public class BroadcastReplayController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/all/{ordinalNo}")
+    @GetMapping("/all")
     @ApiOperation(value = "방송 다시보기 전체 조회")
-    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll(@PathVariable("ordinalNo") int ordinalNo) {
-        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAll(ordinalNo);
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAll() {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAll();
+        if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{ordinalNo}")
+    @ApiOperation(value = "방송 다시보기 기수별 전체 조회")
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayAllOrdinalNo(@PathVariable("ordinalNo") int ordinalNo) {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayAllOrdinalNo(ordinalNo);
         if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
     }
@@ -63,5 +71,21 @@ public class BroadcastReplayController {
         BroadcastReplayInfo broadcastReplayInfo = broadcastReplayService.getBroadcastReplay(broadcastReplayId);
         if (broadcastReplayInfo == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(broadcastReplayInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/getId/{broadcastId}")
+    @ApiOperation(value = "방송 아이디 넘겨주면 다시보기 아이디 조회")
+    public ResponseEntity<Integer> getBroadcastReplayId(@PathVariable("broadcastId") int broadcastId) {
+        int broadcastReplayId = broadcastReplayService.getBroadcastReplayId(broadcastId);
+        if (broadcastReplayId == 0) return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastReplayId, HttpStatus.OK);
+    }
+
+    @GetMapping("/index/{userId}")
+    @ApiOperation(value = "기수 관련 방송 다시보기 3개 불러오기")
+    public ResponseEntity<List<BroadcastReplayInfo>> getBroadcastReplayLimit3(@PathVariable("userId") int userId) {
+        List<BroadcastReplayInfo> broadcastReplayInfoList = broadcastReplayService.getBroadcastReplayLimit3(userId);
+        if (broadcastReplayInfoList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(broadcastReplayInfoList, HttpStatus.OK);
     }
 }

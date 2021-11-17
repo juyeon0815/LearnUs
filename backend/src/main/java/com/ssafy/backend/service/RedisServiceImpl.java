@@ -34,6 +34,12 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public void setValueExpire(String key, String value, Long expireMin) {
+        redisTemplate.opsForValue().set(key, value);
+        redisTemplate.expire(key, expireMin, TimeUnit.MINUTES);
+    }
+
+    @Override
     public void update(String key, String newKey) {
         redisTemplate.rename(key, newKey);
     }

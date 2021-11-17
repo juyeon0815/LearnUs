@@ -3,7 +3,6 @@ package com.ssafy.backend.service.track;
 import com.ssafy.backend.dao.TrackDao;
 import com.ssafy.backend.dao.TrackSettingDao;
 import com.ssafy.backend.dao.TrackSubjectDao;
-import com.ssafy.backend.dao.UserDao;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.TrackSubjectInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Autowired
     private TrackDao trackDao;
     @Autowired
-    private UserDao userDao;
+    private TrackService trackService;
 
     @Override
     public List<Integer> getOrdinalNo() {
@@ -52,6 +51,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Override
     public boolean insert(TrackSubjectInfo trackSubjectInfo) {
         try {
+            if (trackSubjectInfo.getSubjectName().length() == 0) return false;
             TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
 
             TrackSubject trackSubject = TrackSubject.builder().subjectName(trackSubjectInfo.getSubjectName())
@@ -67,6 +67,7 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     @Override
     public boolean update(TrackSubjectInfo trackSubjectInfo) {
         try {
+            if (trackSubjectInfo.getSubjectName().length() == 0) return false;
             TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectInfo.getTrackSubjectId());
             TrackSetting trackSetting = trackSettingDao.findTrackSettingByOrdinalNo(trackSubjectInfo.getOrdinalNo());
             trackSubject.setSubjectName(trackSubjectInfo.getSubjectName());
@@ -83,21 +84,13 @@ public class TrackSubjectServiceImpl implements TrackSubjectService{
     public boolean delete(int trackSubjectId) {
         try {
             TrackSubject trackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(trackSubjectId);
-
+            TrackSubject updateTrackSubject = trackSubjectDao.findTrackSubjectByTrackSubjectId(1);
             // 관련 트랙 가져오기
             List<Track> trackList = trackDao.findTracksByTrackSubject(trackSubject);
 
             for (int i = 0; i < trackList.size(); i++) {
                 Track track = trackList.get(i);
-                // 트랙과 관련된 유저 가져오기
-                List<User> userList = userDao.findUserByTrack(track);
-                for (int j = 0; j < userList.size(); j++) {
-                    User user = userList.get(j);
-                    Track saveTrack = trackDao.findTrackByTrackId(1);
-                    // 유저 연관 끊어주기
-                    user.setTrack(saveTrack);
-                    userDao.save(user);
-                }
+                trackService.delete(track.getTrackId());
             }
 
             trackSubjectDao.delete(trackSubject);

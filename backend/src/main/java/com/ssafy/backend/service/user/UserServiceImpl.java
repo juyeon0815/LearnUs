@@ -13,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,6 +42,10 @@ public class UserServiceImpl implements UserService {
 
             try {
                 User loginUser = userDao.findUserByEmail(email);
+                if (loginUser.getStatusCode().equals("N")) {
+                    resultMap.put("fail", 403);
+                    return resultMap;
+                }
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
                 if (loginUser != null && encoder.matches(password, loginUser.getPassword())) {
@@ -65,6 +66,31 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public boolean completion(int comOrdinalNo) {
+        try {
+            // 트랙 셋팅 +1
+            List<TrackSetting> trackSettingList = trackSettingDao.findAll();
+            for (int i = 1; i < trackSettingList.size(); i++) {
+                TrackSetting now = trackSettingList.get(i);
+                now.setOrdinalNo(now.getOrdinalNo() + 1);
+                trackSettingDao.save(now);
+            }
+
+            // 교육생 수료 처리
+            List<User> userList = userDao.findUserByOrdinalNoAndStatusCode(comOrdinalNo, "Y");
+            Track track = trackDao.findTrackByTrackId(1);
+            for (int i = 0; i < userList.size(); i++) {
+                User user = userList.get(i);
+                user.setStatusCode("N");
+                user.setTrack(track);
+                userDao.save(user);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
     public boolean insert(MultipartFile excelFile) throws IOException{
         try {
@@ -72,6 +98,7 @@ public class UserServiceImpl implements UserService {
 
             // 기존 1학기 기수 가져오기
             int originOrdinalNo = trackSettingDao.findTrackSettingBySemester(1).getOrdinalNo();
+            int originOrdinalNo2 = trackSettingDao.findTrackSettingBySemester(2).getOrdinalNo();
 
             for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
                 Row row = worksheet.getRow(i);
@@ -80,12 +107,7 @@ public class UserServiceImpl implements UserService {
                     int newOrdinalNo = (int) row.getCell(0).getNumericCellValue();
                     // 현재 1학기 기수보다 더 높은 기수가 들어오면 새로운 기수
                     if (newOrdinalNo > originOrdinalNo) {
-                        List<TrackSetting> trackSettingList = trackSettingDao.findAll();
-                        for (int j = 1; j < trackSettingList.size(); j++) {
-                            TrackSetting now = trackSettingList.get(j);
-                            now.setOrdinalNo(now.getOrdinalNo() + 1);
-                            trackSettingDao.save(now);
-                        }
+                        if (!completion(originOrdinalNo2)) return false;
                     }
                 }
 
@@ -101,7 +123,6 @@ public class UserServiceImpl implements UserService {
                 user.setClassNo((int) row.getCell(6).getNumericCellValue());
                 user.setPhone(row.getCell(7).getStringCellValue());
                 user.setProfileUrl("https://mann-goofy.s3.ap-northeast-2.amazonaws.com/profiles/default.jpg");
-                user.setType(1);
                 user.setStatusCode("Y");
                 user.setTrack(nowTrack);
 
@@ -157,7 +178,8 @@ public class UserServiceImpl implements UserService {
             user.setPhone(updateUser.getPhone());
             user.setTrack(updateUser.getTrack());
             user.setStatusCode(updateUser.getStatusCode());
-            String nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
+            String nickName = updateUser.getNickname();
+            if (user.getStatusCode().equals("Y")) nickName = user.getRegion() + "_" + user.getClassNo() + "반_" + user.getName();
             user.setNickname(nickName);
             Track track = trackDao.findTrackByTrackName(updateUser.getTrack().getTrackName());
             if (track != null) user.setTrack(track);
@@ -246,7 +268,9 @@ public class UserServiceImpl implements UserService {
     public boolean getPwCheck(String email, int userId, String phone) {
         try {
             User user = userDao.findUserByUserIdAndEmailAndPhone(userId, email, phone);
-            return false;
+            if (user != null) return true;
+            else return false;
+
         } catch (Exception e) {
             return false;
         }
@@ -261,6 +285,22 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public List<String> getRegionList() {
+        try {
+            List<String> regionList = userDao.findRegions();
+            Collections.sort(regionList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+            return regionList;
+        } catch (Exception e) {
+            return null;
         }
     }
 

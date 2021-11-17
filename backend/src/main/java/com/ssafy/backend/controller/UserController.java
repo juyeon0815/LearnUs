@@ -35,6 +35,7 @@ public class UserController {
         Map<String, Object> map = userService.login(login.getEmail(), login.getPassword(), res);
         if (map == null) entity = ResponseEntity.badRequest().body(null);
         else if (map.containsKey("msg")) entity = ResponseEntity.badRequest().body(map);
+        else if (map.containsKey("fail")) entity = ResponseEntity.status(403).body(map);
         else entity = ResponseEntity.ok().body(map);
 
         return entity;
@@ -116,4 +117,13 @@ public class UserController {
         if (!userService.resetPW(resetPW.getUserId(), resetPW.getNewPW())) return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
+    @GetMapping("/region")
+    @ApiOperation(value = "지역 리스트")
+    public ResponseEntity<List<String>> getRegionList() {
+        List<String> regionList = userService.getRegionList();
+        if (regionList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(regionList, HttpStatus.OK);
+    }
+
 }

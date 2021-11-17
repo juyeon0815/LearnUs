@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/trackSubject")
+@RequestMapping("/api/trackSubject")
 @CrossOrigin("*")
 public class TrackSubjectController {
     private static final String SUCCESS = "success";

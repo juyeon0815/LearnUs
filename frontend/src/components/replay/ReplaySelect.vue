@@ -56,9 +56,11 @@ export default {
     },
     selectTrackId () {
       if (this.isAdmin) {
-        this.$store.dispatch('broadcast/getReplayList', this.selectTrackId)
+        if (this.selectTrackId) {
+          this.$store.dispatch('broadcast/getReplayList', this.selectTrackId)
+        }
       } else {
-        if (this.selectTrackId || this.selectTrackId != this.$route.params.track) {
+        if (this.selectTrackId && this.selectTrackId != this.$route.params.track) {
           const data = {
             id: this.selectTrackId,
             ordinalNo: this.userInfo.ordinalNo

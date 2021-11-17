@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/award")
+@RequestMapping("/api/award")
 @CrossOrigin("*")
 public class AwardController {
     @Autowired
@@ -22,9 +23,9 @@ public class AwardController {
 
     @GetMapping
     @ApiOperation(value = "오늘의 award 조회")
-    public ResponseEntity<List<Award>> getAward() {
-        List<Award> awardList = awardService.getAward();
-        if (awardList == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(awardList, HttpStatus.OK);
+    public ResponseEntity<Map<String, List<Award>>> getAward() {
+        Map<String, List<Award>> map = awardService.getAward();
+        if (map == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

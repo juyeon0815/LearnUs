@@ -26,6 +26,7 @@ public class Attendance {
     private String attend;
     private int quizScore;
     private int chatScore;
+    private String gifticonYn;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")

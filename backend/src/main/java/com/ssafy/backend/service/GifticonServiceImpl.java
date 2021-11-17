@@ -1,9 +1,6 @@
 package com.ssafy.backend.service;
 
-import com.ssafy.backend.dao.AttendanceDao;
-import com.ssafy.backend.dao.BroadcastDao;
-import com.ssafy.backend.dao.GifticonDao;
-import com.ssafy.backend.dao.UserDao;
+import com.ssafy.backend.dao.*;
 import com.ssafy.backend.dto.*;
 import com.ssafy.backend.dto.info.GifticonInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,8 @@ public class GifticonServiceImpl implements GifticonService{
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
             User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
             Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+            attendance.setGifticonYn("Y");
+            attendanceDao.save(attendance);
 
             Gifticon gifticon = Gifticon.builder().user(user).broadcast(broadcast).build();
             gifticonDao.save(gifticon);
@@ -44,11 +43,15 @@ public class GifticonServiceImpl implements GifticonService{
             Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonInfo.getGifticonId());
             Broadcast broadcast = broadcastDao.findBroadcastByBroadcastId(gifticonInfo.getBroadcastId());
             User user = userDao.findUserByUserId(Integer.parseInt(gifticonInfo.getUserId()));
-            Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
 
             gifticon.setUser(user);
             gifticon.setBroadcast(broadcast);
             gifticonDao.save(gifticon);
+
+            Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+            String gifticonYn = gifticonDao.findGifticonByUserAndBroadcast(user, broadcast)==null?"N":"Y";
+            attendance.setGifticonYn(gifticonYn);
+            attendanceDao.save(attendance);
             return true;
         } catch (Exception e) {
             return false;
@@ -59,6 +62,13 @@ public class GifticonServiceImpl implements GifticonService{
     public boolean delete(int gifticonid) {
         try {
             Gifticon gifticon = gifticonDao.findGifticonByGifticonId(gifticonid);
+            User user = gifticon.getUser();
+            Broadcast broadcast = gifticon.getBroadcast();
+
+            Attendance attendance = attendanceDao.findAttendanceByBroadcastAndUser(broadcast, user);
+            attendance.setGifticonYn("N");
+
+            attendanceDao.save(attendance);
             gifticonDao.delete(gifticon);
             return true;
         } catch (Exception e) {
