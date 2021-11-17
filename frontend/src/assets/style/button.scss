@@ -30,4 +30,8 @@
     background-color: $purple;
     color: $white;
   }
+  &.grey {
+    background-color: $blank-grey;
+    color: $dark;
+  }
 }

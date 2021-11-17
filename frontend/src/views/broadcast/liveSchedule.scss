@@ -70,6 +70,9 @@
             border-radius: 10px;
           }
         }
+        strong {
+          margin-right: .5rem;
+        }
         .admin-btn {
           margin-top: .3rem;
           display: flex;
@@ -91,9 +94,13 @@
             .open-sticker {
               font-family: 'Montserrat', sans-serif;
               font-weight: 500;
-              padding: 0 5px;
-              border-radius: 20px;
+              padding: .2rem .5rem;
+              border-radius: 1rem;
               cursor: pointer;
+              font-size: .8rem;
+              i {
+                font-size: .6rem;
+              }
               &.open {
                 background: $orange;
               }
@@ -106,19 +113,27 @@
       }
     }
   }
-  .popup-btn-box {
-    margin-top: 1rem;
-    display: flex;
-    gap: 2rem;
-    .btn-popup {
-      border: solid 2px $orange;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 500;
+  .popup-box {
+    &.live-schedule {
+      width: fit-content;
+      height: fit-content;
+      min-width: 300px;
+      padding: 1.5rem 2rem;
+      .popup-btn-box {
+        margin-top: .5rem;
+        display: flex;
+        gap: 1rem;
+        .btn-popup {
+          padding: .4rem 1.5rem;
+          border-radius: 2rem;
+          font-weight: 500;
+        }
+      }
     }
   }
   .alert {
     position: fixed;
+    z-index: 1060;
     top: 20px;
     padding: .5rem 2rem;
     width: fit-content;

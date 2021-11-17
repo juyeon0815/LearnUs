@@ -16,18 +16,19 @@
         </span>
       </div>
       <div class="info-open">
+        <span><strong>진행자</strong>{{ history.broadcast.teacher }}</span>
         <span class="info-open-text">
-          <strong>공개 상태</strong> | 
+          <strong>공개 상태</strong>
           <span
             @click="alterOpen" 
             :class="[ history.openYn === 'Y' ? 'open' : 'close', 'open-sticker']">
             {{ isOpen }}
+            <i class="fi fi-rr-refresh"></i>
           </span>
         </span>
-        <span><strong>진행자</strong> | {{ history.broadcast.teacher }}</span>
       </div>
       <div class="info-instructor">
-        <span><strong>방송 시간</strong> | {{ broadcastDate }}</span>
+        <span><strong>방송 시간</strong>{{ broadcastDate }}</span>
       </div>
     </div>
   </div>
