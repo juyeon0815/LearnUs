@@ -65,6 +65,7 @@
               @input="insertDescription"
               :value="description"
               class="input description"
+              maxlength="255"
               placeholder="영상에 대한 간략한 소개 글을 적어주세요."
               cols="30" 
               rows="10"></textarea>

@@ -30,7 +30,7 @@
       <img src="@/assets/image/logo/mountain-w500.svg" alt="mountain">
       <span>LIVE 중인 방송이 없습니다</span> 
       <button 
-        class="btn orange"
+        class="btn dark-orange"
         @click="$router.push({ name: 'LiveSchedule' })"
       >방송 일정 보기</button>
     </div>

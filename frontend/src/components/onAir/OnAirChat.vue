@@ -89,7 +89,6 @@ export default {
             `/exchange/attendance.exchange/attendance.${id}`, 
             (message) => {
               const payload = JSON.parse(message.body)
-              // console.log(payload);
               if (payload === 'attendance start') {
                 this.$store.commit('stomp/SET_ATTEND_CHECK', true)
               } else if (payload === 'attendance stop') {
@@ -115,6 +114,7 @@ export default {
         onerror,
         "/"
       )
+      this.stomp.debug = null
     }
   },
   computed: {

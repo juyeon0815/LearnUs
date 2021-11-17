@@ -43,26 +43,17 @@ export default {
         data.trackList = []
       }
       data.mattermostId = this.targetChannel.mattermostId
-      try {
-        const response = await adminApi.editMatterMost(data)
-        if (response.status === 200) {
-          this.$store.dispatch('admin/getMMAll')
-          this.$emit('close-edit')
-        }
-      } catch (err) {
-        console.log(err.response)
+      const response = await adminApi.editMatterMost(data)
+      if (response.status === 200) {
+        this.$store.dispatch('admin/getMMAll')
+        this.$emit('close-edit')
       }
     },
     async deleteMM () {
-      try {
-        const response = await adminApi.deleteMatterMost(this.targetChannel.mattermostId)
-        console.log(response)
-        if (response.status === 200) {
-          this.$store.dispatch('admin/getMMAll')
-          this.$emit('close-edit')
-        }
-      } catch (err) {
-        console.log(err.response)
+      const response = await adminApi.deleteMatterMost(this.targetChannel.mattermostId)
+      if (response.status === 200) {
+        this.$store.dispatch('admin/getMMAll')
+        this.$emit('close-edit')
       }
     }
   },

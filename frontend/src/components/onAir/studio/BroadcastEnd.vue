@@ -12,13 +12,14 @@
             방송 참여 우수 교육생
             <i :class="[showRank ? 'fi-rr-caret-up' : 'fi-rr-caret-down', 'fi']"></i>
           </h3>
-          <transition name="fade"
+          <transition 
+            name="fade"
             v-on:before-enter="beforeEnter" v-on:enter="enter"
             v-on:before-leave="beforeLeave" v-on:leave="leave"
           >
-            <div v-show="showRank" ref="target" class="student">
+            <div v-if="activeStudents" v-show="showRank" ref="target" class="student">
               <div class="rank-row">
-                <div class="rank-box">
+                <div v-if="activeStudents.chat.length" class="rank-box">
                   <span class="title">Chat Rank</span>
                   <div 
                     v-for="(item, idx) in activeStudents.chat"
@@ -33,7 +34,7 @@
                       @click="createGifticon(item.user)"></i>
                   </div>
                 </div>
-                <div class="rank-box">
+                <div v-if="activeStudents.quiz.length" class="rank-box">
                   <span class="title">Quiz Rank</span>
                   <div 
                     v-for="(item, idx) in activeStudents.quiz"
@@ -118,7 +119,7 @@ export default {
         }
         this.$router.push({ name: 'ManageVideo', params: { id: this.currentBroadcastId}})
       } catch (err) {
-        console.log(err)
+        this.$router.push({ name: 'ManageVideo', params: { id: this.currentBroadcastId}})
       }
     },
     async createGifticon(data) {
@@ -135,7 +136,6 @@ export default {
       el.style.height = '0'
     },
     enter: function(el) {
-      console.log(el.scrollHeight)
       el.style.height = el.scrollHeight + 16 + 'px'
     },
     beforeLeave: function(el) {

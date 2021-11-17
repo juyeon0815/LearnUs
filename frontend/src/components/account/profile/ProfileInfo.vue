@@ -5,9 +5,9 @@
         <span>My Info</span>
       </div>
       <button 
-        :class="[isSubmit ? 'change-info-btn' : 'change-btn-disabled']"
+        :class="[isSubmit ? 'active-btn' : 'disabled-btn', 'btn change-info-btn']"
         @click="onChangeUserInfo">
-        정보수정
+        정보 수정
       </button>
     </div>
     <div class="info-inputs">

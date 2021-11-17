@@ -1,6 +1,7 @@
 @import "./_color.scss";
 
 .btn {
+  font-family: 'Noto Sans KR', sans-serif;
   border: none;
   outline: none;
   cursor: pointer;
@@ -28,5 +29,9 @@
   &.purple {
     background-color: $purple;
     color: $white;
+  }
+  &.grey {
+    background-color: $blank-grey;
+    color: $dark;
   }
 }

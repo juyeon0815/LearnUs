@@ -103,7 +103,7 @@
         font-size: 1rem;
       }
       .region-class {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         margin-left: 5px;
       }
     }
@@ -217,23 +217,21 @@
     }
     .change-info-btn {
       font-weight: 700;
-      border: solid $orange;
       border-radius: 25px;
       padding: 3px 15px;
+      &.active-btn {
+        border: 2px solid $orange;
+        color: $orange;
+      }
+      &.disabled-btn {
+        border: 2px solid $light-grey;
+        color: $light-grey;
+        pointer-events: none;
+      }
       &:hover {
         background: $orange;
         color: white;
       }
-    }
-    .change-btn-disabled {
-      background-color: $light-grey;
-      font-family: 'Noto Sans KR', sans-serif;
-      color: $white;
-      pointer-events: none;
-      border: none;
-      outline: none;
-      border-radius: 25px;
-      padding: 3px 15px;
     }
   }
 }

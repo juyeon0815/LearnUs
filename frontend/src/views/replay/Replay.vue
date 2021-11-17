@@ -68,6 +68,9 @@ export default {
         }
       }
     }
+  },
+  unmounted () {
+    this.$store.commit('broadcast/SET_REPLAY_LIST', null)
   }
 };
 </script>
