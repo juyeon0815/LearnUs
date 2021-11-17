@@ -4,7 +4,7 @@
       <button class="btn black" @click="$router.push({ name: 'CreateLive' })">
         <div class="btn-content">
           <i class="fi fi-rr-video-camera"></i>
-          <span>라이브 방송 생성</span>
+          <span>라이브 생성</span>
         </div>
       </button>
     </div>
