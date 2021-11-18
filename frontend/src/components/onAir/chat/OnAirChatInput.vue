@@ -50,6 +50,7 @@ export default {
           nickName: this.userInfo.nickname,
           userId: this.userInfo.userId,
           profileUrl: this.userInfo.profileUrl,
+          isAdmin: this.isAdmin,
           regDate: new Date(),
         })
       )
@@ -59,7 +60,11 @@ export default {
   computed: {
     ...mapState('stomp', ['stomp']),
     ...mapState('account', ['userInfo']),
-    ...mapGetters('broadcast', ['currentBroadcastId'])
+    ...mapGetters('account', ['isAdmin']),
+    ...mapGetters('broadcast', ['currentBroadcastId']),
+    checkAdmin () {
+      return this.isAdmin ? 1 : 0
+    }
   }
 }
 </script>

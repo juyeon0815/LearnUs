@@ -9,6 +9,7 @@ const state = {
   httpStatus: null,
   photoKey: 0,
   regionList: null,
+  tokenExpired: false,
 }
 
 const actions = {
@@ -17,6 +18,7 @@ const actions = {
       .then((res) => {
         dispatch('getUserInfo', res.data.userId)
         commit('SET_HTTP_STATUS', null)
+        commit('SET_EXPIRE', false)
       })
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
@@ -45,9 +47,7 @@ const actions = {
           commit('SET_INSTANT_USER_ID', userData.userId)
           commit('SET_HTTP_STATUS', res.status)
           router.push('/account/reset-password')
-        } else {
-          console.log(res)
-        }
+        } 
       })
       .catch((err) => {
         commit('SET_HTTP_STATUS', err.response.status)
@@ -121,6 +121,13 @@ const actions = {
   async getRegion ({ commit }) {
     const response = await accountApi.getRegionList()
     commit('SET_REGION', response.data)
+  },
+  async autoLogout({ commit, dispatch }) {
+    dispatch('onLogout')
+    commit('SET_EXPIRE', true)
+    setTimeout(() => {
+      commit('SET_EXPIRE', false)
+    }, 3000)
   }
 }
 
@@ -152,13 +159,16 @@ const mutations = {
   },
   SET_REGION (state, payload) {
     state.regionList = payload
+  },
+  SET_EXPIRE (state, payload) {
+    state.tokenExpired = payload
   }
 }
 
 const getters = {
   isAdmin (state) {
     if (state.userInfo) {
-      return state.userInfo.statusCode === 'A'
+      return state.userInfo.statusCode === 'A' ? 1 : 0
     }
     return 0
   }

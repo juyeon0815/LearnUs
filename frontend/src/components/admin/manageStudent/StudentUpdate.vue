@@ -69,13 +69,30 @@ export default {
   },
   methods: {
     onUpload(event) {
-      const file = event.target.files ? event.target.files[0] : null;
-      if (event.target.id === 'update-user') {
-        this.updateFile = file
-        this.updateFileName = file.name
-      } else if (event.target.id === 'create-user') {
-        this.createFile = file
-        this.createFileName = file.name
+      const file = event.target.files ? event.target.files[0] : null
+      const ext = file ? file.name.split('.').pop().toLowerCase() : null
+      if (ext === 'xlsx' || ext === 'xls') {
+        if (event.target.id === 'update-user') {
+          this.updateFile = file
+          this.updateFileName = file.name
+        } else if (event.target.id === 'create-user') {
+          this.createFile = file
+          this.createFileName = file.name
+        }
+      } else {
+        if (event.target.id === 'update-user') {
+          this.updateFile = null
+          this.updateFileName = null
+        } else if (event.target.id === 'create-user') {
+          this.createFile = null
+          this.createFileName = null
+        }
+        event.target.value = ''
+        this.result = 0
+        this.msg = '엑셀 파일만 등록이 가능합니다.'
+        setTimeout(() => {
+          this.msg = false
+        }, 2000)
       }
     },
     async onRegisterInfo() {
@@ -128,7 +145,6 @@ export default {
         setTimeout(() => {
           this.msg = false
         }, 2000)
-        // console.log(err.response)
       }
     }
   }

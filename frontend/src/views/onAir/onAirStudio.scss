@@ -88,6 +88,9 @@
                 }
               }
             }
+            .empty {
+              color: $dark;
+            }
           }
           .rank-box {
             display: flex;

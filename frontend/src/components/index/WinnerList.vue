@@ -18,9 +18,9 @@
           </div>
         </div>
       </div>
-      <div class="content-item" v-if="awardList.chat.length">
+      <div class="content-item">
         <div class="title">오늘의 참여왕</div>
-        <div class="award">
+        <div class="award" v-if="awardList.chat.length">
           <WinnerListItem
             v-for="(award, idx) in awardList.chat"
             :award="award"

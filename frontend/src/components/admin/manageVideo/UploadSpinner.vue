@@ -49,7 +49,6 @@ export default {
   watch: {
     spinnerStatus() {
       if (this.spinnerStatus === 'success' || this.spinnerStatus === 'fail') {
-        console.log('watching')
         setTimeout(() => {
           this.$emit('hideSpinner')
         }, 1500)

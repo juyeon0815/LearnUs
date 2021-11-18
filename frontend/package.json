@@ -18,7 +18,6 @@
     "password-validator": "^5.1.1",
     "sockjs-client": "^1.5.2",
     "stompjs": "^2.3.3",
-    "videojs-disable-progress-bar": "^0.1.0",
     "vue": "^3.0.0",
     "vue-advanced-cropper": "^2.6.3",
     "vue-router": "^4.0.0-0",

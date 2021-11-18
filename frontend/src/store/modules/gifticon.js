@@ -7,47 +7,29 @@ const state = {
 
 const actions = {
   async createGifticon({ dispatch }, gifticonData) {
-    try {
-      const response = await gifticonApi.createGifticon(gifticonData)
-      if (response.status === 200) {
-        dispatch('getGifticonList', gifticonData.broadcastId)
-        return Promise.resolve(response)
-      }
-    } catch (err) {
-      console.log(err);
+    const response = await gifticonApi.createGifticon(gifticonData)
+    if (response.status === 200) {
+      dispatch('getGifticonList', gifticonData.broadcastId)
+      return Promise.resolve(response)
     }
   },
   async getGifticonList({ commit }, broadcastId) {
-    try {
-      const response = await gifticonApi.getGifticonList(broadcastId)
-      if (response.status === 200) {
-        commit('SET_GIFTICON_LIST', response.data)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await gifticonApi.getGifticonList(broadcastId)
+    if (response.status === 200) {
+      commit('SET_GIFTICON_LIST', response.data)
     }
   },
   async deleteGifticon({ dispatch }, data) {
-    try {
-      const response = await gifticonApi.deleteGifticon(data.gifticonId)
-      if (response.status === 200) {
-        dispatch('getGifticonList', data.broadcastId)
-        return Promise.resolve(response)
-      }
-    }
-    catch(err) {
-      console.log(err)
+    const response = await gifticonApi.deleteGifticon(data.gifticonId)
+    if (response.status === 200) {
+      dispatch('getGifticonList', data.broadcastId)
+      return Promise.resolve(response)
     }
   },
   async getAwardList({ commit }) {
-    try {
-      const response = await gifticonApi.getAwardList()
-      if (response.status === 200) {
-        commit('SET_AWARD_LIST', response.data)
-      }
-    }
-    catch(err) {
-      console.log(err)
+    const response = await gifticonApi.getAwardList()
+    if (response.status === 200) {
+      commit('SET_AWARD_LIST', response.data)
     }
   }
 }

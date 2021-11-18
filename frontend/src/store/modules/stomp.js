@@ -29,20 +29,15 @@ const actions = {
         commit('SET_CHAT_LIST', response.data)
       }
     } catch (err) {
-      console.log(err)
+      commit('SET_CHAT_LIST', [])
     }
   },
   async isAttendCheck ({ commit }, id) {
-    try {
-      const response = await broadcastApi.isAttendCheck(id)
-      console.log(response)
-      if (response.status === 200) {
-        commit('SET_ATTEND_CHECK', true)
-      } else if (response.status === 204) {
-        commit('SET_ATTEND_CHECK', false)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await broadcastApi.isAttendCheck(id)
+    if (response.status === 200) {
+      commit('SET_ATTEND_CHECK', true)
+    } else if (response.status === 204) {
+      commit('SET_ATTEND_CHECK', false)
     }
   },
   async checkAttend ({ commit }, data) {
@@ -54,45 +49,36 @@ const actions = {
       }
     } catch (err) {
       commit('SET_CHECK_RESULT', 2)
-      console.log(err)
     }
     await setTimeout(() => {
       commit('SET_CHECK_RESULT', null)
     }, 3000)
   },
   async getQuizList ({ commit }, id) {
-    try {
-      const response = await quizApi.getQuizList(id)
-      if (response.status === 200) {
-        commit('SET_QUIZ_LIST', response.data)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await quizApi.getQuizList(id)
+    if (response.status === 200) {
+      commit('SET_QUIZ_LIST', response.data)
     }
   },
   async addQuiz ({ dispatch }, data) {
     try {
       const response = await quizApi.addQuiz(data)
-      console.log(response)
       if (response.status === 200) {
         dispatch('getQuizList', data.broadcastId)
         return Promise.resolve(response)
       }
     } catch (err) {
-      console.log(err)
       return Promise.reject(err)
     }
   },
   async editQuiz ({ dispatch }, data) {
     try {
       const response = await quizApi.editQuiz(data)
-      console.log(response)
       if (response.status === 200) {
         dispatch('getQuizList', data.broadcastId)
         return Promise.resolve(response)
       }
     } catch (err) {
-      console.log(err)
       return Promise.reject(err)
     }
   },
@@ -103,7 +89,7 @@ const actions = {
         dispatch('getQuizList', data.broadcastId)
       }
     } catch (err) {
-      console.log(err)
+      dispatch('getQuizList', data.broadcastId)
     }
   },
   resetStompData ({ commit }) {
