@@ -34,6 +34,8 @@ public class AwardServiceImpl implements AwardService{
                 if (award != null && award.getScore() < attendance.getChatScore()) {
                     // 더 높은 점수로 바꿔주기
                     award.setScore(attendance.getChatScore());
+                } else if (award == null) {
+                    award = Award.builder().type(1).score(attendance.getChatScore()).date(LocalDate.now()).user(attendance.getUser()).build();
                 }
                 awardDao.save(award);
             }
@@ -45,6 +47,8 @@ public class AwardServiceImpl implements AwardService{
                 if (award != null && award.getScore() < attendance.getQuizScore()) {
                     // 더 높은 점수로 바꿔주기
                     award.setScore(attendance.getQuizScore());
+                } else if (award == null) {
+                    award = Award.builder().type(0).score(attendance.getQuizScore()).date(LocalDate.now()).user(attendance.getUser()).build();
                 }
                 awardDao.save(award);
             }
