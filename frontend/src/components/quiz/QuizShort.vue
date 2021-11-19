@@ -1,11 +1,14 @@
 <template>
   <div class="quiz-short">
     <input 
+      id="short-input"
       type="text" 
       @input="insertAnswer"
       :value="answer" 
       :class="[isSolved ? 'solved': '']"
-      placeholder="정답을 입력해주세요!">
+      @keyup.enter="sendAnswer"
+      placeholder="정답을 입력해주세요!"
+    >
     <button v-if="!isSolved" @click="sendAnswer">GO</button>
   </div>
 </template>
@@ -44,6 +47,8 @@ export default {
         })
       )
       this.isSolved = true
+      let input = document.getElementById('short-input')
+      input.disabled = true
     },
   }
 }
