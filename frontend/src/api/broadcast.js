@@ -147,9 +147,9 @@ export default {
       method : 'get',
     })
   },
-  getActiveStudent (id) {
+  getActiveStudent (id, type) {
     return _axios({
-      url: `/broadcast/end/king/${id}`,
+      url: `/broadcast/end/king/${id}/${type}`,
       method : 'get',
     })
   },
