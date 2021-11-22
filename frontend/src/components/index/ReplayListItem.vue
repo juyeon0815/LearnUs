@@ -23,8 +23,8 @@ export default {
       return this.replay.broadcast.broadcastDate.split('T')[0]
     },
     shorten() {
-      if (this.replay.broadcast.title.length > 25) {
-        return this.replay.broadcast.title.slice(0, 24) + '···'
+      if (this.replay.broadcast.title.length > 30) {
+        return this.replay.broadcast.title.slice(0, 29) + '···'
       } else {
         return this.replay.broadcast.title
       }

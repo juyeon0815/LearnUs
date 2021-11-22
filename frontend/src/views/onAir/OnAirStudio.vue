@@ -109,7 +109,6 @@ export default {
     this.$store.dispatch('broadcast/getBroadcastDetail', this.$route.params.id)
     this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
     this.$store.dispatch('stomp/getQuizList', this.$route.params.id)
-    this.$store.commit('stomp/SET_ATTEND_PROCESS', 0)
   },
   unmounted () {
     this.$store.dispatch('broadcast/closeOnAirStudio')

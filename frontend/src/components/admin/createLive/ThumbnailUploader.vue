@@ -7,7 +7,12 @@
       alt="thumbnail image"
       class="image-preview">
     <!-- 파일 input -->
-    <input ref="inputImage" type="file" class="hide-input" @change="getImage">
+    <input 
+      ref="inputImage" 
+      type="file" 
+      class="hide-input"
+      accept="image/*"
+      @change="getImage">
     <label>Thumbnail</label>
     <div class="empty-box">
       <i class="fi fi-rr-add plus-icon" v-if="!thumbnailImage"></i>

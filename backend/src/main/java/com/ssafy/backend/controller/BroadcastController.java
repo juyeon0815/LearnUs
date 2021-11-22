@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/broadcast")
+@RequestMapping("/api/broadcast")
 @CrossOrigin("*")
 public class BroadcastController {
     private static final String SUCCESS = "success";

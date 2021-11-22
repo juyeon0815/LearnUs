@@ -29,7 +29,7 @@ export default {
     ...mapState('stomp', ['stomp']),
     ...mapGetters('broadcast', ['currentBroadcastId']),
     today() {
-      return moment().locale('ko').format("MMMM Do a");
+      return moment().locale('ko').format("MMMM Do");
     },
     attendData () {
       return {

@@ -80,8 +80,8 @@ export default {
   },
   computed: {
     shorten() {
-      if (this.history.broadcast.title.length > 20) {
-        return this.history.broadcast.title.slice(0,19) + '···'
+      if (this.history.broadcast.title.length > 28) {
+        return this.history.broadcast.title.slice(0,27) + '···'
       } else {
         return this.history.broadcast.title
       }
