@@ -66,7 +66,7 @@
 
 ---
 
-![Untitled](https://www.notion.so/731ef4f0897649259550ebc738670ce5#a6c3d02f031e4f65a902a8bebf521a4e)
+![Untitled](https://i.imgur.com/68nrAAP.png)
 
 ---
 
