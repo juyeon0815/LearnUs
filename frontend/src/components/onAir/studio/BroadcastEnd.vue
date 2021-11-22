@@ -129,7 +129,11 @@ export default {
       }
       const result = await this.$store.dispatch('gifticon/createGifticon', gifticonData)
       if (result.status === 200) {
-        this.$store.dispatch('broadcast/getActiveStudent', this.currentBroadcastId)
+        const data = {
+          id: this.currentBroadcastId,
+          type: 0
+        }
+        this.$store.dispatch('broadcast/getActiveStudent', data)
       }
     },
     beforeEnter: function(el) {
@@ -157,7 +161,11 @@ export default {
     },
   },
   created () {
-    this.$store.dispatch('broadcast/getActiveStudent', this.currentBroadcastId)
+    const data = {
+      id: this.currentBroadcastId,
+      type: 0
+    }
+    this.$store.dispatch('broadcast/getActiveStudent', data)
   },
 }
 </script>

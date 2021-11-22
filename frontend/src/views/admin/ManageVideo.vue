@@ -56,9 +56,13 @@ export default {
     }
   },
   created() {
+    const data = {
+      id: this.$route.params.id,
+      type: 1
+    }
     this.$store.dispatch('broadcast/getBroadcastDetail', this.$route.params.id)
     this.$store.dispatch('broadcast/getBroadcastAfter', this.$route.params.id)
-    this.$store.dispatch('broadcast/getActiveStudent', this.$route.params.id)
+    this.$store.dispatch('broadcast/getActiveStudent', data)
     this.$store.dispatch('broadcast/getQuizResult', this.$route.params.id)
     this.$store.dispatch('broadcast/getBroadcastStudents', this.$route.params.id)
   },

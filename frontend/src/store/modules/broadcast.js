@@ -123,8 +123,8 @@ const actions = {
     }
   },
   // 참여 우수 교육생
-  async getActiveStudent ({ commit }, id) {
-    const response = await broadcastApi.getActiveStudent(id)
+  async getActiveStudent ({ commit }, data) {
+    const response = await broadcastApi.getActiveStudent(data.id, data.type)
     if (response.status === 200) {
       commit('SET_ACTIVE_STUDENTS', response.data)
     }
