@@ -1,0 +1,343 @@
+@import "@/assets/style/_color.scss";
+@import "@/assets/style/_mixin.scss";
+
+.attend-check {
+  position: absolute;
+  top: .5rem;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%);
+  background: rgba($yellow, 0.95);
+  filter: drop-shadow(0 2px 2px rgba($black, 0.4));
+  width: 95%;
+  height: fit-content;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  padding: 1rem;
+  .title-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    width: 90%;
+    height: 2.4rem;
+    border-radius: 1.2rem;
+    background-color: $light;
+    position: relative;
+    padding-left: 3rem;
+    filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+    .deco {
+      position: absolute;
+      left: -.5rem;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 100%;
+      background-color: $grey;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+    .title {
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: $grey;
+    }
+    .date {
+      font-size: .7rem;
+      color: $white;
+      padding: .1rem .5rem;
+      width: fit-content;
+      height: fit-content;
+      border-radius: 1rem;
+      background: $orange;
+      display: none;
+    }
+  }
+  
+  .timer {
+    color: $dark;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    font-family: 'Montserrat', sans-serif;
+    .btn-attend {
+      font-family: 'Montserrat', sans-serif;
+      filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: .5rem 1rem;
+      height: fit-content;
+      width: fit-content;
+      border-radius: 2rem;
+    }
+    .rest {
+      font-weight: 700;
+      font-size: 2rem;
+    }
+  }
+}
+.attend-result {
+  position: absolute;
+  top: .5rem;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%);
+  background: rgba($yellow, 0.95);
+  filter: drop-shadow(0 2px 2px rgba($black, 0.4));
+  width: 95%;
+  height: fit-content;
+  border-radius: 10px;
+  display: flex;
+  gap: .5rem;
+  padding: .5rem .8rem;
+  .deco {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    background-color: $grey;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+  .text {
+    flex: 1;
+    font-size: .875rem;
+    color: $dark;
+    span {
+      font-weight: 700;
+    }
+  }
+}
+.solving-quiz {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: fit-content;
+  background: rgba($purple, 0.95);
+  border-radius: 10px 10px 0 0;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  .question {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    span {
+      flex: 1;
+      text-shadow: 1px 0 2px rgba($dark, 0.4);
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      filter: drop-shadow(1px 0 2px rgba($dark, 0.4));
+    }
+  }
+}
+.quiz-result {
+  position: absolute;
+  top: .5rem;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%);
+  background: rgba($purple, 0.95);
+  filter: drop-shadow(0 2px 2px rgba($black, 0.4));
+  width: 95%;
+  height: fit-content;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  .title-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    gap: .5rem;
+    width: 90%;
+    height: 2.4rem;
+    border-radius: 1.2rem;
+    background-color: $light;
+    position: relative;
+    filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+    .deco {
+      position: absolute;
+      left: -.5rem;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 100%;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .title {
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: $grey;
+    }
+  }
+  .winners {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    padding-left: 1rem;
+  }
+  .rank-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 1.5rem;
+    border-radius: 1.2rem;
+    background-color: $light;
+    position: relative;
+    filter: drop-shadow(0 2px 2px rgba($dark, 0.4));
+    .rank {
+      position: absolute;
+      left: -.5rem;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 100%;
+      text-align: center;
+      vertical-align: middle;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-style: italic;
+      background: $orange;
+      color: $light;
+    }
+    span {
+      color: $dark;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+  }
+}
+
+@include xxl {
+  .attend-check {
+    .title-box {
+      .date {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.chat-input {
+  .input-box {
+    display: flex;
+    justify-content: center;
+    padding:  1rem .5rem;
+    gap: 1rem;
+    .profile {
+      flex: 0 0 auto;
+      width: 20%;
+      max-width: 2.5rem;
+      max-height: 2.5rem;
+      border-radius: 100%;
+      background-color: $light;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .input-area {
+      flex: 0 0 auto;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      .user-info {
+        font-size: .9rem;
+        font-weight: 700;
+        color: $light;
+      }
+      textarea {
+        // Size
+        width: 100%;
+        height: 28px;
+        resize: none;
+        padding: 0 .3rem;
+        // initial
+        border: none;
+        outline: none;
+        // color
+        color: #fff;
+        background: none;
+        // background: rgba(#fff, .05);
+        border-bottom: 1px solid rgba(#fff, .5);
+        // font
+        font-size: .875rem;
+        letter-spacing: 1px;
+        word-wrap: break-word;
+        &:focus {
+          border-bottom: 2px solid $orange;
+        }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      i {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+.chat-item {
+  display: flex;
+  margin-bottom: .3rem;
+  gap: .7rem;
+  .profile {
+    position: relative;
+    img {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 100%;
+    }
+    .admin-mark {
+      position: absolute;
+      top: .9rem;
+      left: 1rem;
+      font-size: .6rem;
+      color: $yellow;
+    }
+  }
+  .chat-content {
+    flex: 1;
+    font-size: .8rem;
+    .user {
+      color: rgba($light, .8);
+      margin-right: .5rem;
+      &.admin {
+        color: rgba($blue, 1);
+        font-weight: 500;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "@/assets/style/_color.scss";
+
+.replay-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 83vh;
+  margin: 0 auto;
+  background: $black;
+  .video-js {
+    .vjs-control-bar {
+      background-color: rgba($dark, 0.4) !important;
+    }
+    .vjs-seek-to-live-control {
+      display: none;
+    }
+    .vjs-time-control {
+      display: block;
+    }
+  }
+  .replay-info {
+    position: absolute;
+    height: 40px;
+    bottom: -40px;
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    font-size: .9rem;
+    color: $light;
+    padding: .3rem;
+    h3 {
+      span {
+        color: $orange;
+      }
+    }
+    .date, .instructor {
+      color: $blank-grey;
+      span {
+        font-family: 'Montserrat', sans-serif;
+        font-style: italic;
+        font-weight: 700;
+      }
+    }
+  }
+}

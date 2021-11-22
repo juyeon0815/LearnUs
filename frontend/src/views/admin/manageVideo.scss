@@ -1,0 +1,469 @@
+@import "@/assets/style/_color.scss";
+
+.admin {
+  &.video {
+    width: 90%;
+    height: 100%;
+    .content {
+      width: 100%;
+      min-width: 950px;
+      height: 520px;
+      overflow-y: auto;
+      background: $dark;
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.5rem;
+        .tab-item {
+          cursor: pointer;
+          padding: 0.1rem 0.5rem;
+          border-bottom: 3px solid $light;
+          &.active {
+            font-weight: 700;
+            border-bottom: 3px solid $orange;
+            pointer-events: none;
+          }
+        }
+      }
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($orange, 0.5);
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $black;
+        border-radius: 10px;
+      }
+    }
+    .broadcast-info {
+      width: 100%;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      .spinner {
+        .spinner-box {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 150px;
+          height: 150px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .lds-spinner {
+            color: official;
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+          }
+          .lds-spinner div {
+            transform-origin: 40px 40px;
+            animation: lds-spinner 1.2s linear infinite;
+          }
+          .lds-spinner div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 3px;
+            left: 37px;
+            width: 6px;
+            height: 18px;
+            border-radius: 20%;
+            background: #fff;
+          }
+          .lds-spinner div:nth-child(1) {
+            transform: rotate(0deg);
+            animation-delay: -1.1s;
+          }
+          .lds-spinner div:nth-child(2) {
+            transform: rotate(30deg);
+            animation-delay: -1s;
+          }
+          .lds-spinner div:nth-child(3) {
+            transform: rotate(60deg);
+            animation-delay: -0.9s;
+          }
+          .lds-spinner div:nth-child(4) {
+            transform: rotate(90deg);
+            animation-delay: -0.8s;
+          }
+          .lds-spinner div:nth-child(5) {
+            transform: rotate(120deg);
+            animation-delay: -0.7s;
+          }
+          .lds-spinner div:nth-child(6) {
+            transform: rotate(150deg);
+            animation-delay: -0.6s;
+          }
+          .lds-spinner div:nth-child(7) {
+            transform: rotate(180deg);
+            animation-delay: -0.5s;
+          }
+          .lds-spinner div:nth-child(8) {
+            transform: rotate(210deg);
+            animation-delay: -0.4s;
+          }
+          .lds-spinner div:nth-child(9) {
+            transform: rotate(240deg);
+            animation-delay: -0.3s;
+          }
+          .lds-spinner div:nth-child(10) {
+            transform: rotate(270deg);
+            animation-delay: -0.2s;
+          }
+          .lds-spinner div:nth-child(11) {
+            transform: rotate(300deg);
+            animation-delay: -0.1s;
+          }
+          .lds-spinner div:nth-child(12) {
+            transform: rotate(330deg);
+            animation-delay: 0s;
+          }
+          @keyframes lds-spinner {
+            0% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+            }
+          }
+
+          .spinner-svg {
+            width: 100px;
+            margin-bottom: 20px;
+          }
+
+          .path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+            &.circle {
+              -webkit-animation: dash 0.9s ease-in-out;
+              animation: dash 0.9s ease-in-out;
+            }
+            &.line {
+              stroke-dashoffset: 1000;
+              -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+              animation: dash 0.9s 0.35s ease-in-out forwards;
+            }
+            &.check {
+              stroke-dashoffset: -100;
+              -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+              animation: dash-check 0.9s 0.35s ease-in-out forwards;
+            }
+          }
+
+          .spinner-span {
+            text-align: center;
+            font-size: 1.25em;
+            &.spinner-success {
+              color: $white;
+            }
+            &.spinner-error {
+              color: $white;
+            }
+          }
+
+          @-webkit-keyframes dash {
+            0% {
+              stroke-dashoffset: 1000;
+            }
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+
+          @keyframes dash {
+            0% {
+              stroke-dashoffset: 1000;
+            }
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+
+          @-webkit-keyframes dash-check {
+            0% {
+              stroke-dashoffset: -100;
+            }
+            100% {
+              stroke-dashoffset: 900;
+            }
+          }
+
+          @keyframes dash-check {
+            0% {
+              stroke-dashoffset: -100;
+            }
+            100% {
+              stroke-dashoffset: 900;
+            }
+          }
+        }
+      }
+      .default {
+        flex: 1;
+        display: flex;
+        gap: 1rem;
+        .video {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: .5rem;
+          .replay-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: $black;
+          }
+          .btns {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+            button,
+            label {
+              width: fit-content;
+              height: fit-content;
+              padding: 0.5rem 1rem;
+              border-radius: 2rem;
+              font-size: 0.875rem;
+              box-shadow: 2px 2px 4px rgba($black, 0.4);
+              font-family: "Noto Sans KR", sans-serif;
+              .btn-content {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                i {
+                  color: $orange;
+                  font-size: 1rem;
+                }
+              }
+            }
+          }
+        }
+        .video-info {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          .data {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            background: $black;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.2rem;
+            font-size: 0.875rem;
+            .info-row {
+              span {
+                margin-right: 0.5rem;
+              }
+              .key {
+                font-family: "Montserrat", sans-serif;
+                font-style: italic;
+                color: $orange;
+              }
+            }
+            .btns {
+              margin-top: 0.75rem;
+              display: flex;
+              gap: 1rem;
+              button {
+                width: fit-content;
+                height: fit-content;
+                padding: 0.3rem 1rem;
+                border: 2px solid $orange;
+                border-radius: 2rem;
+                font-size: 0.875rem;
+                box-shadow: 2px 2px 4px rgba($black, 0.4);
+                .btn-content {
+                  display: flex;
+                  gap: 0.5rem;
+                  align-items: center;
+                  i {
+                    color: $orange;
+                    font-size: 1rem;
+                  }
+                }
+                &:hover {
+                  background: $dark;
+                  font-weight: 700;
+                }
+              }
+            }
+          }
+          .brief {
+            height: 80px;
+            background: $black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 2rem;
+            .brief-col {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              font-family: "Montserrat", sans-serif;
+              font-style: italic;
+              .val {
+                font-weight: 900;
+                font-size: 2rem;
+              }
+              .label {
+                color: $orange;
+              }
+            }
+          }
+        }
+      }
+      .delete {
+        .video-box {
+          display: flex;
+          width: 90%;
+          background: $blank-grey;
+          border-radius: 10px;
+          padding: 1rem;
+          gap: 1rem;
+          img {
+            width: 30%;
+          }
+          .info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            span {
+              font-size: 0.875rem;
+              &.title {
+                font-weight: 700;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+        button {
+          font-size: 1.1rem;
+          font-weight: 700;
+          padding: .4rem 1.5rem;
+          border-radius: 2rem;
+          margin-top: 0.5rem;
+          &:hover {
+            box-shadow: inset 2px 2px 4px rgba($dark, 0.4);
+          }
+        }
+      }
+      .award {
+        width: 100%;
+        height: 120px;
+        background: $black;
+        border-radius: 10px;
+        padding: 0.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+        .award-row {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          .title {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            font-weight: 700;
+            i {
+              margin-right: 0.5rem;
+              color: $orange;
+            }
+          }
+        }
+      }
+    }
+    .rank-box {
+      flex: 1;
+      display: flex;
+      gap: 1rem;
+      background: rgba($white, 0.2);
+      border-radius: 2rem;
+      padding: 0.2rem 1rem;
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        .rank {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 700;
+          font-style: italic;
+          color: $orange;
+        }
+        .profile {
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 100%;
+        }
+        .nickname {
+          font-size: 0.9rem;
+        }
+      }
+    }
+    .quiz-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      .quiz-item {
+        width: 95%;
+        height: fit-content;
+        background: $black;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        .title {
+          display: flex;
+          gap: 0.5rem;
+          .num {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: $orange;
+          }
+          .question {
+            font-weight: 700;
+          }
+        }
+        .result {
+          display: flex;
+          padding: 1rem;
+          padding-left: 2rem;
+          gap: 1rem;
+          .count {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .val {
+              font-family: "Montserrat", sans-serif;
+              font-weight: 900;
+              font-size: 1.5rem;
+            }
+            .label {
+              font-size: 0.7rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

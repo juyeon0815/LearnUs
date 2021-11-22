@@ -1,0 +1,37 @@
+@import "./_color.scss";
+
+.btn {
+  font-family: 'Noto Sans KR', sans-serif;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  &.black {
+    background-color: $black;
+    color: $white;
+  }
+  &.disabled {
+    background-color: $light-grey;
+    color: $white;
+    pointer-events: none;
+  }
+  &.dark-yellow {
+    background-color: $dark;
+    color: $yellow;
+  }
+  &.dark-orange {
+    background-color: $dark;
+    color: $orange;
+  }
+  &.orange {
+    background-color: $orange;
+    color: $dark;
+  }
+  &.purple {
+    background-color: $purple;
+    color: $white;
+  }
+  &.grey {
+    background-color: $blank-grey;
+    color: $dark;
+  }
+}

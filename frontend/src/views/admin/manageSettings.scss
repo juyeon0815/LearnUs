@@ -1,0 +1,540 @@
+@import "@/assets/style/_color.scss";
+
+.admin {
+  &.setting {
+    width: 100%;
+    .title {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .5rem;
+      button {
+        width: fit-content;
+        height: fit-content;
+        padding: .05rem .5rem;
+        border-radius: 1rem;
+        font-size: .8rem;
+        color: $orange;
+        border: 2px solid $orange;
+        &:hover {
+          background: $dark;
+        }
+      }
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .track {
+      .track-list {
+        display: flex;
+        gap: 1rem;
+        .track-item {
+          background: $dark;
+          border-radius: 10px;
+          display: flex;
+          min-width: 300px;
+          flex-direction: column;
+          gap: .5rem;
+          padding: 1rem 1.5rem 1.5rem;
+          header {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            font-style: italic;
+            display: inline-block;
+            span {
+              color: $purple;
+              font-size: 1.5rem;
+            }
+          }
+          .course {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            .subject {
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
+            }
+          }
+          .names {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            span {
+              font-size: .8rem;
+              font-weight: 300;
+              padding: .05rem .5rem .1rem;
+              border-radius: 1rem;
+              background: $orange;
+              min-width: 3rem;
+              text-align: center;
+            }
+          }
+        }
+      }
+      .track-current {
+        width: 90%;
+        display: flex;
+        gap: 1rem;
+        .current-item {
+          width: 100%;
+          height: 40px;
+          background: $black;
+          color: $light;
+          padding: .2rem 1rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba($dark, 0.4);
+          display: flex;
+          align-items: center;
+          gap: .5rem;
+          .select-box {
+            width: fit-content;
+            min-width: 180px;
+            height: 1.8rem;
+            background: $dark;
+            color: $orange;
+            padding: 0 .5rem;
+            border-radius: 1rem;
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            select {
+              border: none;
+              outline: none;
+              width: fit-content;
+              min-width: 110px;
+              height: 1.8rem;
+              margin-left: .3rem;
+              padding: 0 .3rem;
+              background: $dark;
+              color: $orange;
+              font-weight: 500;
+              cursor: pointer;
+              font-size: .9rem;
+              option {
+                &:checked {
+                  background: $orange;
+                  color: $dark;
+                }
+              }
+            }
+          }
+          button {
+            margin-left: auto;
+            background: $orange;
+            color: $grey;
+            font-weight: 700;
+            font-size: .8rem;
+            padding: 0 .5rem 0;
+            border: 2px solid $orange;
+            height: 1.4rem;
+            border-radius: 1rem;
+          }
+        }
+      }
+      .track-box {
+        position: relative;
+        width: 90%;
+        height: 250px;
+        // background: $white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba($dark, 0.4);
+        padding: .5rem;
+        padding-left: 45%;
+        
+        .ordinal {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 15%;
+          height: 100%;
+          background: $dark;
+          border-radius: 10px 0 0 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: .5rem;
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: $light;
+          padding: 1rem .5rem;
+          span {
+            cursor: pointer;
+            // background: $black;
+            width: 100%;
+            text-align: center;
+            // border-radius: 1rem;
+            // padding: .1rem;
+            &.selected {
+              font-weight: 900;
+              color: $orange;
+            }
+          }
+        }
+        .subject {
+          position: absolute;
+          top: 0;
+          left: 15%;
+          width: 35%;
+          height: 100%;
+          background: $grey;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: .5rem;
+          padding: 1rem .5rem;
+          font-size: .9rem;
+          color: $light;
+          overflow-y: auto;
+          &::-webkit-scrollbar {
+            width: 10px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: rgba($orange, 0.5);
+            border-radius: 10px;
+          }
+          &::-webkit-scrollbar-track {
+            background-color: $dark;
+            border-radius: 10px;
+          }
+          .edit-box {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid $orange;
+            background-color: rgba($black, .7);
+            padding: 0 10px;
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+            input {
+              width: 60%;
+              border: none;
+              outline: none;
+              background: none;
+              color: $light;
+              font-size: .9rem;
+            }
+          }
+          .info {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: $dark;
+            border-radius: 5px;
+            padding: 0 10px;
+            .name {
+              width: 60%;
+              cursor: pointer;
+              font-size: .9rem;
+            }
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+          }
+          .selected {
+            .info {
+              border: 2px solid rgba($orange, .7);
+            }
+          }
+          .add-box {
+            width: 100%;
+            height: 30px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid $orange;
+            background-color: rgba($black, .7);
+            padding: 0 10px;
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+            input {
+              width: 60%;
+              border: none;
+              outline: none;
+              background: none;
+              color: $light;
+              font-size: .9rem;
+            }
+          }
+        }
+        .track-name {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: .5rem;
+          padding: .5rem;
+          padding-left: 1rem;
+          font-size: .9rem;
+          font-weight: 500;
+          color: $dark;
+          height: 100%;
+          overflow-y: auto;
+          &::-webkit-scrollbar {
+            width: 10px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: rgba($orange, 0.5);
+            border-radius: 10px;
+          }
+          &::-webkit-scrollbar-track {
+            background-color: $blank-grey;
+            border-radius: 10px;
+          }
+          .edit-box {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid $orange;
+            background-color: rgba($black, .1);
+            padding: 0 10px;
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+            input {
+              width: 60%;
+              border: none;
+              outline: none;
+              background: none;
+              color: $dark;
+              font-size: .9rem;
+            }
+          }
+          .info {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba($dark, .1);
+            border-radius: 5px;
+            padding: 0 10px;
+            .name {
+              width: 60%;
+              cursor: pointer;
+              font-size: .9rem;
+            }
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+          }
+          .add-box {
+            width: 100%;
+            height: 30px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid $orange;
+            background-color: rgba($black, .1);
+            padding: 0 10px;
+            button {
+              font-size: .8rem;
+              padding-left: .2rem;
+            }
+            input {
+              width: 60%;
+              border: none;
+              outline: none;
+              background: none;
+              color: $dark;
+              font-size: .9rem;
+            }
+          }
+        }
+        .track-empty {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        button {
+          color: $orange;
+          &.disabled {
+            display: none;
+            pointer-events: none;
+          }
+          &.add-btn {
+            font-size: 1.5rem;
+            font-weight: 500;
+            justify-content: center;
+            align-items: center;
+            padding-top: .1rem;
+            display: flex;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid $orange;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+    .mm {
+      table {
+        width: 90%;
+        min-width: 700px;
+        background: $dark;
+        color: $white;
+        margin-top: .8rem;
+        font-size: .9rem;
+        thead {
+          font-size: 1rem;
+          background-color: $orange;
+          border-bottom: 2px solid $light;
+        }
+        tr {
+          text-align: center;
+          font-weight: 300;
+          border-bottom: 1px solid #444444;
+        }
+        th, td {
+          padding: .4rem .8rem;
+        }
+        .mm-row {
+          .name {
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+        .track-list {
+          display: flex;
+          gap: .5rem;
+          flex-wrap: wrap;
+          .track-item {
+            padding: .1rem .5rem;
+            color: $white;
+            background: rgba($light, .2);
+            box-shadow: 1px 1px 2px rgba($dark, 0.4);
+            border-radius: 1rem;
+            font-size: .8rem;
+          }
+        }
+      }
+      .add-mm {
+        .form {
+          display: flex;
+          flex-direction: column;
+          width: 80%;
+          .half {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+          }
+          .input-box {
+            position: relative;
+            width: 100%;
+            margin: 1rem 0;
+            .mm-input {
+              width: 100%;
+              border: none;
+              outline: none;
+              height: 40px;
+              border-radius: 20px;
+              background-color: $white;
+              color: $dark;
+              font-weight: 700;
+              box-shadow:inset 0px 3px 3px rgba(0, 0, 0, .3);
+              padding-left: 20px;
+              padding-right: 10px;
+              font-size: 1rem;
+            }
+            input::placeholder {
+              color: $blank-grey;
+              font-weight: 500;
+            }
+            label {
+              position: absolute;
+              color: $grey;
+              font-weight: 500;
+              font-size: .875rem;
+              left: 20px;
+              top: -24px;
+            }
+            .multiselect {
+              height: fit-content;
+              padding: 5px 10px 5px 20px;
+              .multiselect-search {
+                background: none;
+                padding-left: 20px;
+              }
+              .multiselect-single-label, 
+              .multiselect-placeholder {
+                left: 10px;
+              }
+              .multiselect-placeholder {
+                color: $blank-grey;
+                font-weight: 400;
+              }
+              .multiselect-tag {
+                background: $grey;
+                border-radius: 1rem;
+                color: $orange;
+              }
+              .multiselect-dropdown {
+                .multiselect-options {
+                  font-weight: 400;
+                  .multiselect-option {
+                    &.is-selected {
+                      background: $orange;
+                    }
+                  }
+                }
+                &::-webkit-scrollbar {
+                  width: 10px;
+                }
+                &::-webkit-scrollbar-thumb {
+                  background-color: rgba($orange, 0.5);
+                  border-radius: 10px;
+                }
+                &::-webkit-scrollbar-track {
+                  background-color: $blank-grey;
+                }
+              }
+            }
+            .error-text {
+              margin-top: 1px;
+              padding-left: 20px;
+              color: $orange;
+              font-size: .8rem;
+              font-family: 'Noto Sans KR', sans-serif;
+            }
+          }
+        }
+        .btn-row {
+          display: flex;
+          gap: 1rem;
+        }
+        .submit {
+          padding: .5rem 2rem;
+          border-radius: 2rem;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
