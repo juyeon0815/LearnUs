@@ -36,8 +36,10 @@ const actions = {
     const response = await broadcastApi.isAttendCheck(id)
     if (response.status === 200) {
       commit('SET_ATTEND_CHECK', true)
+      commit('SET_ATTEND_PROCESS', 1)
     } else if (response.status === 204) {
       commit('SET_ATTEND_CHECK', false)
+      commit('SET_ATTEND_PROCESS', 0)
     }
   },
   async checkAttend ({ commit }, data) {

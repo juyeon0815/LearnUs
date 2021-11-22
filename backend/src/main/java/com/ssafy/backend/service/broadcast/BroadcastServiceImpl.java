@@ -367,7 +367,7 @@ public class BroadcastServiceImpl implements BroadcastService {
     }
 
     @Override
-    public Map<String, List<Attendance>> end(int broadcastId) {
+    public Map<String, List<Attendance>> end(int broadcastId, int type) {
         try {
             // 퀴즈왕
             List<Attendance> quizKingList = attendanceDao.findQuizKing(broadcastId);
@@ -377,10 +377,14 @@ public class BroadcastServiceImpl implements BroadcastService {
             Map<String, List<Attendance>> map = new HashMap<>();
             map.put("quiz", quizKingList);
             map.put("chat", chatKingList);
-            awardService.insert(broadcastId, chatKingList, quizKingList);
 
-            redisService.delete("viewer"+broadcastId);
-            redisService.delete("chat"+broadcastId);
+            if (type == 0) {
+                awardService.insert(broadcastId, chatKingList, quizKingList);
+
+                redisService.delete("viewer"+broadcastId);
+                redisService.delete("chat"+broadcastId);
+            }
+
             return map;
         } catch (Exception e) {
             return null;

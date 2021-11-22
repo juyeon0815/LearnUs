@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gifticon")
+@RequestMapping("/api/gifticon")
 @CrossOrigin("*")
 public class GifticonController {
     private static final String SUCCESS = "success";

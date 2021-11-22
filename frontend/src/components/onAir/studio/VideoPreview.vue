@@ -29,9 +29,9 @@ export default {
     ...mapGetters('broadcast', ['isLive']),
     options() {
       return {
-				autoplay: 'any',
+				autoplay: false,
 				controls: true,
-        poster: this.broadcastDetail.thumbnailUrl,
+        // poster: this.broadcastDetail.thumbnailUrl,
         fluid: true,
         liveui: true,
 				sources: [

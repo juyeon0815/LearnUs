@@ -27,14 +27,15 @@ export default {
     ...mapState('stomp', ['currentQuizResult']),
     answer () {
       if (this.currentQuizResult.quiz.type === 'o') {
-        if (this.currentQuizResult.quiz.answer) {
+        if (this.currentQuizResult.quiz.answer === '1') {
           return 'O'
         }
         return 'X'
       } 
-      // else if (this.currentQuizResult.quiz.type === 'c') {
-      //   return this.currentQuizResult.quiz.answer + '번 ' + this.currentQuizResult.quiz.quizSelectList[this.currentQuizResult.quiz.answer-1]
-      // }
+      else if (this.currentQuizResult.quiz.type === 'c') {
+        let answer = this.currentQuizResult.quiz.answer
+        return answer + '번 ' + this.currentQuizResult.quizSelectList[answer-1].view
+      }
       return this.currentQuizResult.quiz.answer
     }
   }

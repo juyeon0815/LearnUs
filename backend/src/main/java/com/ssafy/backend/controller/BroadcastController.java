@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/broadcast")
+@RequestMapping("/api/broadcast")
 @CrossOrigin("*")
 public class BroadcastController {
     private static final String SUCCESS = "success";
@@ -95,10 +95,10 @@ public class BroadcastController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/end/king/{broadcastId}")
+    @GetMapping("/end/king/{broadcastId}/{type}") // 0 : 찐 종료, 1 : 채팅왕 참여왕 조회
     @ApiOperation(value = "방송 종료 -> 방송 종료 창으로 이동")
-    public ResponseEntity<Map<String, List<Attendance>>> end(@PathVariable("broadcastId") int broadcastId) {
-        Map<String, List<Attendance>> map = broadcastService.end(broadcastId);
+    public ResponseEntity<Map<String, List<Attendance>>> end(@PathVariable("broadcastId") int broadcastId, @PathVariable("type") int type) {
+        Map<String, List<Attendance>> map = broadcastService.end(broadcastId, type);
         if (map == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

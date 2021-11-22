@@ -40,7 +40,7 @@ public class StompChatController {
         map.put("viewer", viewerCnt);
         rabbitTemplate.convertAndSend(ADMIN_EXCHANGE_NAME, "admin." + broadcastId, map);
     }
-    
+
     public void leave(int broadcastId) {
         String value = redisService.getValue("viewer"+broadcastId);
         int viewerCnt = 1;

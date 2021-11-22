@@ -1,6 +1,9 @@
 @import "@/assets/style/_color.scss";
 
 .studio {
+  .content {
+    height: calc(100vh - 120px);
+  }
   .btn-group {
     position: fixed;
     top: 1.05rem;

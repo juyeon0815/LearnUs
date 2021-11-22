@@ -19,7 +19,7 @@ public interface BroadcastService {
     BroadcastInfo getBroadcast(int broadcastId);
     boolean start(int broadcastId);
     int isAttend(int broadcastId);
-    Map<String, List<Attendance>> end(int broadcastId);
+    Map<String, List<Attendance>> end(int broadcastId, int type);
     boolean endAttendance(int broadcastId);
     boolean endAttendanceDownload(int broadcastId, HttpServletResponse response) throws IOException;
     boolean endGifticon(int broadcastId);
