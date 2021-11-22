@@ -66,7 +66,7 @@
 
 ---
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b8373f6-8894-4311-937b-e076cf899a36/Untitled.png)
+![Untitled](https://www.notion.so/731ef4f0897649259550ebc738670ce5#a6c3d02f031e4f65a902a8bebf521a4e)
 
 ---
 
