@@ -340,9 +340,9 @@ public class BroadcastServiceImpl implements BroadcastService {
             // 날짜 format
             String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
             // 메시지 작성
-            sb.append("### ").append(formatDate).append(" 방송 안내\n")
-                    .append(broadcast.getBroadcastDate().getHour() + "시 라이브 방송 [").append(broadcast.getTitle() + "]")
-                    .append("가 곧 시작합니다!\n모두 접속해주세요~ :ssafyface:");
+            sb.append("@here\n").append("### :learnus: ").append(formatDate).append(" 라이브 방송 안내 :learnus:\n")
+                    .append(broadcast.getBroadcastDate().getHour() + "시 라이브 방송 ```").append(broadcast.getTitle() + "```")
+                    .append("가 곧 시작합니다!\n모두 접속해주세요~ :breeze_san:");
 
             Iterator<Mattermost> iterator = mattermostSet.iterator();
             while (iterator.hasNext()) {
@@ -470,7 +470,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             // 날짜 format
             String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
-            sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 미참석 명단\n")
+            sb.append("### :breeze_shin: [").append(formatDate).append("] ```").append(broadcast.getTitle()).append("``` 방송 미참석 명단 :breeze_shin: \n")
                     .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
 
             for (int i = 0; i < attendanceList.size(); i++) {
@@ -538,7 +538,7 @@ public class BroadcastServiceImpl implements BroadcastService {
             // 날짜 format
             String formatDate = broadcast.getBroadcastDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
-            sb.append("### [").append(formatDate).append("] ").append(broadcast.getTitle()).append(" 방송 기프티콘 당첨자 명단\n")
+            sb.append("### :breeze_flower: [").append(formatDate).append("] ```").append(broadcast.getTitle()).append("``` 방송 기프티콘 당첨자 명단 :breeze_flower:\n")
                     .append("|기수|학번|이름|지역|반\n").append("|---|------|-----|----|---|\n");
 
             for (int i = 0; i < gifticonList.size(); i++) {
