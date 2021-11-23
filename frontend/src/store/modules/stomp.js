@@ -138,7 +138,9 @@ const mutations = {
 }
 
 const getters = {
-
+  chatLength (state) {
+    return state.chatList.length
+  }
 }
 
 export default {

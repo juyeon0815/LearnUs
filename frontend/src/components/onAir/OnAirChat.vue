@@ -40,10 +40,14 @@ export default {
       const chatInput = document.getElementById('chat-input')
       const pb = document.getElementById('popup-b')
       chatList.style.height = (chat.offsetHeight - chatInput.offsetHeight) + "px"
-      chatList.scrollTop = chatList.scrollHeight
+      this.autoscroll()
       if (pb) {
         pb.style.bottom = chatInput.offsetHeight + 'px'
       }
+    },
+    autoscroll () {
+      const chatList = document.getElementById('chat-list')
+      chatList.scrollTo({ top: chatList.scrollHeight, behavior: 'smooth' })
     },
     connect () {
       const sockJS = new SockJS(process.env.VUE_APP_STOMP_SERVER);
@@ -59,7 +63,6 @@ export default {
             (message) => {
               const payload = JSON.parse(message.body)
               this.$store.commit('stomp/ADD_CHAT_LIST', payload)
-              this.autosize()
             },
             { "auto-delete": true, durable: false, exclusive: false }
           );
@@ -120,7 +123,15 @@ export default {
   computed: {
     ...mapState('account', ['userInfo']),
     ...mapState('stomp', ['stomp', 'currentQuiz', 'currentQuizResult', 'attendCheck', 'attendResult']),
-    ...mapGetters('broadcast', ['currentBroadcastId'])
+    ...mapGetters('broadcast', ['currentBroadcastId']),
+    ...mapGetters('stomp', ['chatLength'])
+  },
+  watch: {
+    chatLength () {
+      this.$nextTick(() => {
+        this.autosize()
+      })
+    }
   },
   async created() {
     this.$store.dispatch('stomp/getChatList', this.$route.params.id)

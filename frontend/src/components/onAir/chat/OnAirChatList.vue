@@ -20,14 +20,6 @@ export default {
   computed: {
     ...mapState('stomp', ['chatList'])
   },
-  methods: {
-    autoscroll () {
-      const target = document.getElementById('chat-list')
-      if (target.scrollTop + target.clientHeight != target.scrollHeight) {
-        target.scrollTop = target.scrollHeight
-      }
-    }
-  },
 }
 </script>
 
