@@ -36,10 +36,11 @@ export default {
       const textarea = this.$refs.chatInputArea
       if (!this.content.length) {
         textarea.style.height = "28px"
+      } else {
+        textarea.style.height = "1px"
+        textarea.style.height = (textarea.scrollHeight + 6) + "px"
       }
-      textarea.style.height = "1px"
-      textarea.style.height = (textarea.scrollHeight + 6) + "px"
-      this.$emit('autosize', textarea.style.height)
+      this.$emit('autosize')
     },
     send() {
       this.stomp.send(
@@ -55,6 +56,7 @@ export default {
         })
       )
       this.content = ''
+      this.autosizeInput()
     },
   },
   computed: {

@@ -3,7 +3,7 @@
 .on-air {
   .content {
     width: 100%;
-    height: fit-content;
+    height: calc(100vh - 120px);
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -32,7 +32,7 @@
     flex: 0 0 auto;
     width: 25%;
     min-width: 300px;
-    max-height: calc(100vh - 120px);
+    height: 100%;
     background: $dark;
     position: relative;
     border-radius: 10px;
