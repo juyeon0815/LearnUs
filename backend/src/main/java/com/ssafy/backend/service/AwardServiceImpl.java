@@ -61,8 +61,8 @@ public class AwardServiceImpl implements AwardService{
     public Map<String, List<Award>> getAward() {
         try {
             Map<String, List<Award>> map = new HashMap<>();
-            List<Award> chatAwardList = awardDao.findChatAwards(LocalDate.now(), 0);
-            List<Award> quizAwardList = awardDao.findChatAwards(LocalDate.now(), 1);
+            List<Award> chatAwardList = awardDao.findChatAwards(LocalDate.now(), 1);
+            List<Award> quizAwardList = awardDao.findChatAwards(LocalDate.now(), 0);
 
             List<Award> saveChatAwardList = new ArrayList<>();
             List<Award> saveQuizAwardList = new ArrayList<>();
