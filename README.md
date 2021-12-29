@@ -208,14 +208,4 @@
 
 ## 팀 소개
 
-
-### **Frontend**
-
-- **이세라**
-- **우만승**
-
-### **Backend**
-
-- **김주연**
-- **류희영 (Team Leader)**
-- **조의상**
+![stun](/exec/시연시나리오.assets/Untitled16.png)
